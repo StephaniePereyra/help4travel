@@ -1,9 +1,10 @@
 package uy.edu.cure.servidor.web;
 
-/**
- * Hello world!
- *
- */
+import javax.annotation.ManagedBean;
+import javax.faces.bean.SessionScoped;
+
+@ManagedBean
+@SessionScoped
 public class App {
 	
 	public static void main(String[] args) {

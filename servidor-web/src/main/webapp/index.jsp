@@ -13,6 +13,5 @@
     </head>
     <body>
         <h1>Hello World!</h1>
-        <h2><%= 2 + 2%></h2>
     </body>
 </html>
