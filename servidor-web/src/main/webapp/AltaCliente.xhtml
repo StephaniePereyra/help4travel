@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+    
+    <h:head>
+        <title>Crear Cliente</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <h:body>
+        <h2>Crear Cliente</h2>
+        <h:form>
+            <h:outputLabel value="NickName:" ></h:outputLabel>
+            <h:inputText value="#{datosCliente.nickName}"></h:inputText> <br/> <br/>
+            <h:outputLabel value="Nombre----" ></h:outputLabel>
+            <h:inputText value="#{datosCliente.nombre}"></h:inputText> <br/> <br/>
+            <h:outputLabel value="Apellido--" ></h:outputLabel>
+            <h:inputText value="#{datosCliente.apellido}"></h:inputText> <br/> <br/>
+            <h:outputLabel value="Correo----" ></h:outputLabel>
+            <h:inputText value="#{datosCliente.correo}"></h:inputText> <br/> <br/>
+            <h:outputLabel value="Dia-------" ></h:outputLabel>
+            <h:inputText value="#{datosCliente.dia}"></h:inputText> <br/> <br/>
+            <h:outputLabel value="Mes-------" ></h:outputLabel>
+            <h:inputText value="#{datosCliente.mes}"></h:inputText> <br/> <br/>
+            <h:outputLabel value="Año-------" ></h:outputLabel>
+            <h:inputText value="#{datosCliente.anio}"></h:inputText> <br/> <br/>
+            
+            <h:commandButton value="Agregar" action="#{datosCliente.action}"></h:commandButton>
+            <h:outputText value="#{datosCliente.mensaje}"
+                rendered="#{datosCliente.mensajeboolean == true}"></h:outputText> 
+        
+        </h:form>
+    </h:body>
+</html>
