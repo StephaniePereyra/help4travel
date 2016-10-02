@@ -1,0 +1,40 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package uy.edu.cure.servidor.web;
+
+/**
+ *
+ * @author SCN
+ */
+public class MensajeDatosUsuario {
+    
+    public String retornoMensajeUsuario (int retorno){
+        String mensaje = "";
+        if(retorno == 1)
+        {
+            mensaje = "El Nick-Name ingresado ya existe";
+        }
+         if(retorno == 2)
+        {
+            mensaje = "La direccion de correo ingresada ya existe";
+        }
+          if(retorno == 3)
+        {
+            mensaje = "La direccion de correo ingresada es invalida";
+        }
+           if(retorno == 4)
+        {
+           mensaje = "La fecha de nacimiento ingresada es invalida"; 
+        }
+            if(retorno == -1)
+        {
+            mensaje = "Cliente creado";
+        }
+      
+        return mensaje;
+    }
+    
+}

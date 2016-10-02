@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+    
+    <h:head>
+        <title>Crear Proveedor</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <h:body>
+        <h2>Crear Cliente</h2>
+        <h:form>
+            <p> NickName </p> 
+            <h:inputText value="#{datosProveedor.nickName}"></h:inputText> <br/> <br/>
+            <p> Nombre </p> 
+            <h:inputText value="#{datosProveedor.nombre}"></h:inputText> <br/> <br/>
+            <p> Apellido </p> 
+            <h:inputText value="#{datosProveedor.apellido}"></h:inputText> <br/> <br/>
+            <p> Correo </p> 
+            <h:inputText value="#{datosProveedor.correo}"></h:inputText> <br/> <br/>
+            <p> Nombre Empresa </p> 
+            <h:inputText value="#{datosProveedor.nombreEmpresa}"></h:inputText> <br/> <br/>
+            <p> Link Empresa </p>
+            <h:inputText value="#{datosProveedor.linkEmpresa}"></h:inputText> <br/> <br/>
+            <p> Dia </p> 
+            <h:inputText value="#{datosProveedor.dia}"></h:inputText> <br/> <br/>
+            <p> Mes </p> 
+            <h:inputText value="#{datosProveedor.mes}"></h:inputText> <br/> <br/>
+            <p> Año </p> 
+            <h:inputText value="#{datosProveedor.anio}"></h:inputText> <br/> <br/>
+            
+            <h:outputText value="#{datosProveedor.mensaje}"
+                          rendered="#{datosProveedor.mostrarMensaje == true}"></h:outputText> <br/> <br/>
+            
+            <h:commandButton value="Agregar" action="#{datosProveedor.action}"></h:commandButton>
+             
+        
+        </h:form>
+    </h:body>
+</html>

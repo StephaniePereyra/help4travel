@@ -17,24 +17,26 @@ and open the template in the editor.
     <h:body>
         <h2>Crear Cliente</h2>
         <h:form>
-            <h:outputLabel value="NickName:" ></h:outputLabel>
+            <p> NickName </p> 
             <h:inputText value="#{datosCliente.nickName}"></h:inputText> <br/> <br/>
-            <h:outputLabel value="Nombre----" ></h:outputLabel>
+            <p> Nombre </p> 
             <h:inputText value="#{datosCliente.nombre}"></h:inputText> <br/> <br/>
-            <h:outputLabel value="Apellido--" ></h:outputLabel>
+            <p> Apellido </p> 
             <h:inputText value="#{datosCliente.apellido}"></h:inputText> <br/> <br/>
-            <h:outputLabel value="Correo----" ></h:outputLabel>
+            <p> Correo </p> 
             <h:inputText value="#{datosCliente.correo}"></h:inputText> <br/> <br/>
-            <h:outputLabel value="Dia-------" ></h:outputLabel>
+            <p> Dia </p> 
             <h:inputText value="#{datosCliente.dia}"></h:inputText> <br/> <br/>
-            <h:outputLabel value="Mes-------" ></h:outputLabel>
+            <p> Mes </p> 
             <h:inputText value="#{datosCliente.mes}"></h:inputText> <br/> <br/>
-            <h:outputLabel value="Año-------" ></h:outputLabel>
+            <p> Año </p> 
             <h:inputText value="#{datosCliente.anio}"></h:inputText> <br/> <br/>
             
-            <h:commandButton value="Agregar" action="#{datosCliente.action}"></h:commandButton>
             <h:outputText value="#{datosCliente.mensaje}"
-                rendered="#{datosCliente.mensajeboolean == true}"></h:outputText> 
+                          rendered="#{datosCliente.mostrarMensaje == true}"></h:outputText> <br/> <br/>
+            
+            <h:commandButton value="Agregar" action="#{datosCliente.action}"></h:commandButton>
+             
         
         </h:form>
     </h:body>

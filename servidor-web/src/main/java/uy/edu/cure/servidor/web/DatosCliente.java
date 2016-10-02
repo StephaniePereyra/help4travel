@@ -6,9 +6,12 @@
 package uy.edu.cure.servidor.web;
 
 
+import java.lang.reflect.InvocationTargetException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import uy.edu.cure.servidor.central.lib.UsuarioController;
+import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
+import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
 
 /**
  *
@@ -18,10 +21,29 @@ import uy.edu.cure.servidor.central.lib.UsuarioController;
 @SessionScoped
 public class DatosCliente {
     
-    
-private String nickName,nombre,apellido,correo,ruta,mensaje;
+private MensajeDatosUsuario datosusuarioMnsj = new MensajeDatosUsuario();
+private String nickName,nombre,apellido,correo,ruta,mensaje,mensajeDefault = "*No pueden existir campos vacios*";
 private int dia,mes,anio;
-private boolean mensajeboolean = false;
+private boolean mostrarMensaje = false;
+//@Jeringa (value = "usuariocontroller")
+private UsuarioController usuariocontroller = new UsuarioController();
+
+
+  /*  public DatosCliente(){
+        try {
+            JeringaInjector.getInstance().inyectar(this);
+        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+    }*/
+
+    public boolean isMostrarMensaje() {
+        return mostrarMensaje;
+    }
+
+    public void setMostrarMensaje(boolean mostrarMensaje) {
+        this.mostrarMensaje = mostrarMensaje;
+    }
 
     public String getMensaje() {
         return mensaje;
@@ -30,16 +52,6 @@ private boolean mensajeboolean = false;
     public void setMensaje(String mensaje) {
         this.mensaje = mensaje;
     }
-
-    public boolean isMensajeboolean() {
-        return mensajeboolean;
-    }
-
-    public void setMensajeboolean(boolean mensajeboolean) {
-        this.mensajeboolean = mensajeboolean;
-    }
-
-
 
     public String getNickName() {
         return nickName;
@@ -106,17 +118,16 @@ private boolean mensajeboolean = false;
     }
 
 public void action(){
-    UsuarioController usuariocontroller = new UsuarioController();
     int resultado = usuariocontroller.crearCliente(nickName, nombre, apellido, correo, dia, mes, anio, apellido);
     
-    if(resultado == 1){
-        this.setMensajeboolean(true);
-        this.setMensaje("NickName Ya existe");
+    mostrarMensaje = true;
+    if(nickName.equals("") || nombre.equals("") || apellido.equals("") || correo.equals("")){
+        mensaje = mensajeDefault;
+    }else{
+        mensaje = datosusuarioMnsj.retornoMensajeUsuario(resultado);
     }
-    if(resultado == -1){
-        this.setMensajeboolean(true);
-        this.setMensaje("SE CREO CORRECTAMENTE");
-    }
+    
+
 }
 
 }
