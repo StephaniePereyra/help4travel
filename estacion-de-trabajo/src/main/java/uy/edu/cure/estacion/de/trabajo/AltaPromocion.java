@@ -6,10 +6,13 @@
 package uy.edu.cure.estacion.de.trabajo;
 
 import java.awt.event.KeyEvent;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import uy.edu.cure.servidor.central.lib.*;
+import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
+import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
 
 /**
  *
@@ -17,8 +20,11 @@ import uy.edu.cure.servidor.central.lib.*;
  */
 public class AltaPromocion extends javax.swing.JFrame {
 
+    @Jeringa (value = "usuariocontroller")
     private UsuarioController usuarioController;
+    @Jeringa (value = "serviciocontroller")
     private ServicioController servicioController;
+    @Jeringa (value = "promocioncontroller")
     private PromocionController promocionController;
 
     /**
@@ -27,9 +33,13 @@ public class AltaPromocion extends javax.swing.JFrame {
     public AltaPromocion() {
         initComponents();
         setLocationRelativeTo(null);
-        usuarioController = new UsuarioController();
-        servicioController = new ServicioController();
-        promocionController = new PromocionController();
+
+          try {
+            JeringaInjector.getInstance().inyectar(this);
+        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        
         DefaultListModel listaProveedores = new DefaultListModel();
         for (int i = 0; i < usuarioController.obtenerProveedores().size(); i++) {
             listaProveedores.addElement(usuarioController.obtenerProveedores().get(i).getNickName());

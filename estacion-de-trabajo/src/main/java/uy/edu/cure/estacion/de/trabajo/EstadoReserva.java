@@ -5,10 +5,13 @@
  */
 package uy.edu.cure.estacion.de.trabajo;
 
+import java.lang.reflect.InvocationTargetException;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import uy.edu.cure.servidor.central.lib.ReservaController;
 import uy.edu.cure.servidor.central.lib.UsuarioController;
+import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
+import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
 
 /**
  *
@@ -22,16 +25,24 @@ public class EstadoReserva extends javax.swing.JFrame {
     DefaultListModel listReserva;
     DefaultListModel listServicio;
     DefaultListModel listPromocion;
-
+    @Jeringa (value = "reservacontroller")
+    private ReservaController reservaController;
+    
     public EstadoReserva() {
         listReserva = new DefaultListModel();
         listServicio = new DefaultListModel();
         listPromocion = new DefaultListModel();
         initComponents();
         setLocationRelativeTo(null);
-        ReservaController reservaControllerForm = new ReservaController();
-        for (int i = 0; i < reservaControllerForm.obtenerTodasReservas().size(); i++) {
-            listReserva.add(i, reservaControllerForm.obtenerTodasReservas().get(i).getNumero());
+        
+          try {
+            JeringaInjector.getInstance().inyectar(this);
+        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        
+        for (int i = 0; i < reservaController.obtenerTodasReservas().size(); i++) {
+            listReserva.add(i, reservaController.obtenerTodasReservas().get(i).getNumero());
         }
         listaReservas.setModel(listReserva);
     }
@@ -211,7 +222,6 @@ public class EstadoReserva extends javax.swing.JFrame {
     private void pagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pagarActionPerformed
          if (!listaReservas.getSelectedValuesList().isEmpty()) {
             int index = listaReservas.getSelectedIndex();
-            ReservaController reservaController = new ReservaController();
             if (reservaController.cambiarEstado(reservaController.obtenerTodasReservas().get(index), "Paga")) {
                 JOptionPane.showMessageDialog(null, "Paga");
                 this.dispose();
@@ -227,7 +237,6 @@ public class EstadoReserva extends javax.swing.JFrame {
 
     private void listaReservasValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaReservasValueChanged
         int indice = listaReservas.getSelectedIndex();
-        ReservaController reservaController = new ReservaController();
         Numero.setText(Integer.toString(reservaController.obtenerTodasReservas().get(indice).getNumero()));
         int mes = reservaController.obtenerTodasReservas().get(indice).getFechaCreacion().getMonth() + 1;
         int año = reservaController.obtenerTodasReservas().get(indice).getFechaCreacion().getYear() + 1900;
@@ -249,7 +258,6 @@ public class EstadoReserva extends javax.swing.JFrame {
     private void facturarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_facturarActionPerformed
          if (!listaReservas.getSelectedValuesList().isEmpty()) {
             int index = listaReservas.getSelectedIndex();
-            ReservaController reservaController = new ReservaController();
             if (reservaController.cambiarEstado(reservaController.obtenerTodasReservas().get(index), "Facturada")) {
                 JOptionPane.showMessageDialog(null, "Facturada");
                 this.dispose();
@@ -266,7 +274,6 @@ public class EstadoReserva extends javax.swing.JFrame {
     private void cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarActionPerformed
         if (!listaReservas.getSelectedValuesList().isEmpty()) {
             int index = listaReservas.getSelectedIndex();
-            ReservaController reservaController = new ReservaController();
             if (reservaController.cambiarEstado(reservaController.obtenerTodasReservas().get(index), "Cancelar")) {
                 JOptionPane.showMessageDialog(null, "Cancelada");
                 this.dispose();

@@ -10,6 +10,7 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.util.Date;
 import java.util.Properties;
@@ -19,6 +20,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import uy.edu.cure.servidor.central.lib.UsuarioController;
+import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
+import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
 
 /**
  *
@@ -27,6 +30,7 @@ import uy.edu.cure.servidor.central.lib.UsuarioController;
 public class AltaProveedor extends javax.swing.JFrame {
 
     private FileNameExtensionFilter filtro;
+    @Jeringa (value = "usuariocontroller")
     private UsuarioController usuariocontrollerForm;
     private String rutaImagen;
     private String rutaArchivo;
@@ -49,7 +53,13 @@ public class AltaProveedor extends javax.swing.JFrame {
         }
         initComponents();
         filtro = new FileNameExtensionFilter("Formato Imagen", "png", "jpg");
-        usuariocontrollerForm = new UsuarioController();
+        
+          try {
+            JeringaInjector.getInstance().inyectar(this);
+        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        
         rutaImagen = "";
         rutaArchivo = "";
         validez = "";

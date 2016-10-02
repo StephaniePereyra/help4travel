@@ -6,6 +6,7 @@
 package uy.edu.cure.estacion.de.trabajo;
 
 import java.awt.Image;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Iterator;
@@ -17,6 +18,8 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import uy.edu.cure.servidor.central.dto.*;
 import uy.edu.cure.servidor.central.lib.*;
+import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
+import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
 
 /**
  *
@@ -25,7 +28,9 @@ import uy.edu.cure.servidor.central.lib.*;
 public class VerInfoServicio extends javax.swing.JFrame {
 
     private List<JLabel> labels;
+    @Jeringa (value = "categoriacontroller")
     private CategoriaController categoriaController;
+    @Jeringa (value = "serviciocontroller")
     private ServicioController servicioController;
 
     /**
@@ -33,9 +38,14 @@ public class VerInfoServicio extends javax.swing.JFrame {
      */
     public VerInfoServicio() {
         initComponents();
+        
+          try {
+            JeringaInjector.getInstance().inyectar(this);
+        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        
         setLocationRelativeTo(null);
-        categoriaController = new CategoriaController();
-        servicioController = new ServicioController();
         labels = new ArrayList<JLabel>();
         labels.add(labelImage1);
         labels.add(labelImage2);

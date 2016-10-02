@@ -10,6 +10,7 @@ import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Date;
@@ -28,6 +29,8 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import uy.edu.cure.servidor.central.dto.*;
 import uy.edu.cure.servidor.central.lib.*;
+import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
+import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
 
 /**
  *
@@ -36,8 +39,11 @@ import uy.edu.cure.servidor.central.lib.*;
 public class ActualizarServicio extends javax.swing.JFrame {
 
     private List<JLabel> imagenes;
+    @Jeringa(value = "serviciocontroller")
     private ServicioController servicioController;
+    @Jeringa(value = "categoriacontroller")
     private CategoriaController categoriaController;
+    @Jeringa(value = "ciudadcontroller")
     private CiudadController ciudadController;
     private Properties progappProperties;
     private InputStream input = null;
@@ -47,14 +53,18 @@ public class ActualizarServicio extends javax.swing.JFrame {
      */
     public ActualizarServicio() throws IOException {
         initComponents();
+        
+          try {
+            JeringaInjector.getInstance().inyectar(this);
+        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        
         setLocationRelativeTo(null);
         this.progappProperties = new Properties();
         input = this.getClass().getClassLoader().getResourceAsStream("progapp.properties");
         progappProperties.load(input);
         setLocationRelativeTo(null);
-        servicioController = new ServicioController();
-        categoriaController = new CategoriaController();
-        ciudadController = new CiudadController();
         imagenes = new ArrayList<JLabel>();
         imagenes.add(labelImage1);
         imagenes.add(labelImage2);

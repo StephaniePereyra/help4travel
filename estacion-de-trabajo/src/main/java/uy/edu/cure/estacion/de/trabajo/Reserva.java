@@ -5,6 +5,7 @@
  */
 package uy.edu.cure.estacion.de.trabajo;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
@@ -15,6 +16,8 @@ import uy.edu.cure.servidor.central.lib.PromocionController;
 import uy.edu.cure.servidor.central.lib.ReservaController;
 import uy.edu.cure.servidor.central.lib.ServicioController;
 import uy.edu.cure.servidor.central.lib.UsuarioController;
+import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
+import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
 
 /**
  *
@@ -32,8 +35,15 @@ public class Reserva extends javax.swing.JFrame {
     DefaultListModel listReserva;
     DefaultListModel listServiciosDePromo;
     DefaultListModel listClientes;
-    ReservaController reservaController;
-
+    @Jeringa (value = "reservacontroller")
+    private ReservaController reservaController;
+    @Jeringa (value = "serviciocontroller")
+    private ServicioController servicioController;
+    @Jeringa (value = "promocioncontroller")
+    private PromocionController promocionController;
+    @Jeringa (value = "usuariocontroller")
+    private  UsuarioController usuarioController;
+    
     public Reserva() {
         reservaServicios = new ArrayList<Servicio>();
         reservaPromocion = new ArrayList<>();
@@ -42,22 +52,25 @@ public class Reserva extends javax.swing.JFrame {
         listReserva = new DefaultListModel();
         listServiciosDePromo = new DefaultListModel();
         listClientes = new DefaultListModel();
-        reservaController = new ReservaController();
+        
+          try {
+            JeringaInjector.getInstance().inyectar(this);
+        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        
         initComponents();
         setLocationRelativeTo(null);
-        ServicioController servicioControllerForm = new ServicioController();
-        for (int i = 0; i < servicioControllerForm.obtenerTodosServicios().size(); i++) {
-            listServicios.add(i, servicioControllerForm.obtenerTodosServicios().get(i).getNombre());
+        for (int i = 0; i < servicioController.obtenerTodosServicios().size(); i++) {
+            listServicios.add(i, servicioController.obtenerTodosServicios().get(i).getNombre());
         }
         listaServicio.setModel(listServicios);
-        PromocionController promocionControllerForm = new PromocionController();
-        for (int i = 0; i < promocionControllerForm.obtenerTodasPromociones().size(); i++) {
-            listPromocion.add(i, promocionControllerForm.obtenerTodasPromociones().get(i).getNombre());
+        for (int i = 0; i < promocionController.obtenerTodasPromociones().size(); i++) {
+            listPromocion.add(i, promocionController.obtenerTodasPromociones().get(i).getNombre());
         }
         listaPromocion.setModel(listPromocion);
-        UsuarioController usuarioControllerForm = new UsuarioController();
-        for (int i = 0; i < usuarioControllerForm.obtenerCientes().size(); i++) {
-            listClientes.addElement(usuarioControllerForm.obtenerCientes().get(i).getNickName());
+        for (int i = 0; i < usuarioController.obtenerCientes().size(); i++) {
+            listClientes.addElement(usuarioController.obtenerCientes().get(i).getNickName());
         }
         listaClientes.setModel(listClientes);
         listaReserva.setModel(listReserva);
@@ -356,7 +369,6 @@ public class Reserva extends javax.swing.JFrame {
 
     private void listaServicioValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaServicioValueChanged
         int indice = listaServicio.getSelectedIndex();
-        ServicioController servicioController = new ServicioController();
         lblNombreServicio.setText(servicioController.obtenerTodosServicios().get(indice).getNombre());
         lblDescripcioServicio.setText(servicioController.obtenerTodosServicios().get(indice).getDescripcion());
         lblPrecioServicio.setText(String.valueOf(servicioController.obtenerTodosServicios().get(indice).getPrecio()));
@@ -367,7 +379,6 @@ public class Reserva extends javax.swing.JFrame {
 
     private void listaPromocionValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaPromocionValueChanged
         int index = listaPromocion.getSelectedIndex();
-        PromocionController promocionController = new PromocionController();
         lblNombrePromocion.setText(promocionController.obtenerTodasPromociones().get(index).getNombre());
         lblDocPromocion.setText(String.valueOf(promocionController.obtenerTodasPromociones().get(index).getDescuento()));
         lblPrecioPromocion.setText(String.valueOf(promocionController.obtenerTodasPromociones().get(index).getPrecioTotal()));
@@ -384,7 +395,6 @@ public class Reserva extends javax.swing.JFrame {
     private void reservaServicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reservaServicioActionPerformed
         if (listaServicio.getSelectedValue() != null) {
             int index = listaServicio.getSelectedIndex();
-            ServicioController servicioController = new ServicioController();
             reservaServicios.add(servicioController.obtenerTodosServicios().get(index));
             listReserva.addElement(lblNombreServicio.getText());
             listaReserva.setModel(listReserva);
@@ -396,7 +406,6 @@ public class Reserva extends javax.swing.JFrame {
     private void reservarPromocionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reservarPromocionActionPerformed
         if (listaPromocion.getSelectedValue() != null) {
             int index = listaPromocion.getSelectedIndex();
-            PromocionController promocionController = new PromocionController();
             reservaPromocion.add(promocionController.obtenerTodasPromociones().get(index));
             listReserva.addElement(lblNombrePromocion.getText());
             listaReserva.setModel(listReserva);
@@ -408,9 +417,8 @@ public class Reserva extends javax.swing.JFrame {
     private void ConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConfirmarActionPerformed
         // TODO add your handling code here:
         if (listaClientes.getSelectedValue() != null) {
-            int indiceUsuario = listaClientes.getSelectedIndex();
-            UsuarioController usuarioControllerForm = new UsuarioController();                        
-            int crearReserva = reservaController.crearReserva(reservaPromocion, reservaServicios,usuarioControllerForm.obtenerCientes().get(indiceUsuario));
+            int indiceUsuario = listaClientes.getSelectedIndex();                       
+            int crearReserva = reservaController.crearReserva(reservaPromocion, reservaServicios,usuarioController.obtenerCientes().get(indiceUsuario));
             switch (crearReserva){
                 case 1:
                     JOptionPane.showMessageDialog(null, "Reserva creada");

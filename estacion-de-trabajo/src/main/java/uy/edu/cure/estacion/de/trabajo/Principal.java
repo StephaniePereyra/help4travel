@@ -11,21 +11,30 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 import java.awt.Image;
 import java.awt.Graphics;
+import java.lang.reflect.InvocationTargetException;
 import javax.swing.ImageIcon;
+import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
 import uy.edu.cure.servidor.central.lib.*;
+import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
 
 /**
  *
  * @author SCN
  */
 public class Principal extends javax.swing.JFrame {
-
+    @Jeringa (value = "usuariocontroller")
     private UsuarioController usuarioController;
+    @Jeringa (value = "serviciocontroller")
     private ServicioController servicioController;
+    @Jeringa (value = "reservacontroller")
     private ReservaController reservaController;
+    @Jeringa (value = "promocioncontroller")
     private PromocionController promocionController;
+    @Jeringa (value = "paiscontroller")
     private PaisController paisController;
+    @Jeringa (value = "ciudadcontroller")
     private CiudadController ciudadController;
+    @Jeringa (value = "categoriacontroller")
     private CategoriaController categoriaController;
 
     /**
@@ -34,13 +43,11 @@ public class Principal extends javax.swing.JFrame {
     public Principal() {
         initComponents();
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        usuarioController = new UsuarioController();
-        servicioController = new ServicioController();
-        reservaController = new ReservaController();
-        promocionController = new PromocionController();
-        paisController = new PaisController();
-        ciudadController = new CiudadController();
-        categoriaController = new CategoriaController();
+        try {
+            JeringaInjector.getInstance().inyectar(this);
+        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
 
         /*/ Clientes de prueba
         usuarioController.crearCliente("nicknameUsuario1", "nombreUsuario1", "apellidoUsuario1", "correo@correo1", 10, 10, 1995, null);

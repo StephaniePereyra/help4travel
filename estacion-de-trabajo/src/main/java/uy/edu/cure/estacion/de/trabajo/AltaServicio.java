@@ -10,6 +10,7 @@ import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Date;
@@ -28,6 +29,8 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import uy.edu.cure.servidor.central.dto.*;
 import uy.edu.cure.servidor.central.lib.*;
+import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
+import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
 
 /**
  *
@@ -37,10 +40,15 @@ public class AltaServicio extends javax.swing.JFrame {
 
     private List<String> rutasImagenes;
     private List<JLabel> imagenes;
+    @Jeringa (value = "usuariocontroller")
     private UsuarioController usuarioController;
+    @Jeringa (value = "paiscontroller")
     private PaisController paisController;
+    @Jeringa (value = "ciudadcontroller")
     private CiudadController ciudadController;
+    @Jeringa (value = "categoriacontroller")
     private CategoriaController categoriaController;
+    @Jeringa (value = "serviciocontroller")
     private ServicioController servicioController;
     private Properties progappProperties;
     private InputStream input = null;
@@ -54,11 +62,13 @@ public class AltaServicio extends javax.swing.JFrame {
         this.progappProperties = new Properties();
         input = this.getClass().getClassLoader().getResourceAsStream("progapp.properties");
         progappProperties.load(input);
-        usuarioController = new UsuarioController();
-        paisController = new PaisController();
-        ciudadController = new CiudadController();
-        categoriaController = new CategoriaController();
-        servicioController = new ServicioController();
+ 
+          try {
+            JeringaInjector.getInstance().inyectar(this);
+        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        
         rutasImagenes = new ArrayList<String>();
         imagenes = new ArrayList<JLabel>();
         imagenes.add(labelImage1);

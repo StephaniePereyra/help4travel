@@ -6,10 +6,13 @@
 package uy.edu.cure.estacion.de.trabajo;
 
 import java.awt.Image;
+import java.lang.reflect.InvocationTargetException;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import uy.edu.cure.servidor.central.lib.ReservaController;
 import uy.edu.cure.servidor.central.lib.UsuarioController;
+import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
+import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
 
 /**
  *
@@ -17,18 +20,26 @@ import uy.edu.cure.servidor.central.lib.UsuarioController;
  */
 public class VerInfoCliente extends javax.swing.JFrame {
 
-    private ReservaController reservaControllerForm;
+    @Jeringa (value = "reservacontroller")
+    private ReservaController reservaController;
+    @Jeringa (value = "usuariocontroller")
+    private UsuarioController usuariocontroller;
     /**
      * Creates new form VerInfoCliente
      */
     public VerInfoCliente() {
         initComponents();
+        
+          try {
+            JeringaInjector.getInstance().inyectar(this);
+        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        
         setLocationRelativeTo(null);
-        reservaControllerForm = new ReservaController();
         DefaultListModel listaclientes = new DefaultListModel();
-        UsuarioController usuariocontrollerForm = new UsuarioController();
-        for (int i = 0; i < usuariocontrollerForm.obtenerCientes().size(); i++) {
-            listaclientes.add(i, usuariocontrollerForm.obtenerCientes().get(i).getNickName());
+        for (int i = 0; i < usuariocontroller.obtenerCientes().size(); i++) {
+            listaclientes.add(i, usuariocontroller.obtenerCientes().get(i).getNickName());
         }
         ListaClientes.setModel(listaclientes);
     }
@@ -204,7 +215,6 @@ public class VerInfoCliente extends javax.swing.JFrame {
         precioReservaALlenar.setText(" ");
         estadoReservaALlenar.setText(" ");
         int indice = ListaClientes.getSelectedIndex();
-        UsuarioController usuariocontroller = new UsuarioController();
         NombreAllenar.setText(usuariocontroller.obtenerCientes().get(indice).getNombre());
         ApellidoAllenar.setText(usuariocontroller.obtenerCientes().get(indice).getApellido());
         CorreoAllenar.setText(usuariocontroller.obtenerCientes().get(indice).getCorreo());
@@ -232,7 +242,6 @@ public class VerInfoCliente extends javax.swing.JFrame {
     private void listaReservaValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaReservaValueChanged
         int indice = listaReserva.getSelectedIndex();
         int indiceCliente = ListaClientes.getSelectedIndex();
-        UsuarioController usuariocontroller = new UsuarioController();
         fechaReservaALlenar.setText(String.valueOf(usuariocontroller.obtenerCientes().get(indiceCliente).getReservas().get(indice).getFechaCreacion().getDay()) + "/"
                 + String.valueOf(usuariocontroller.obtenerCientes().get(indiceCliente).getReservas().get(indice).getFechaCreacion().getMonth()) + "/"
                 + String.valueOf(usuariocontroller.obtenerCientes().get(indiceCliente).getReservas().get(indice).getFechaCreacion().getYear()));

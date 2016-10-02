@@ -6,6 +6,7 @@
 package uy.edu.cure.estacion.de.trabajo;
 
 import java.awt.Image;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
@@ -13,6 +14,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import uy.edu.cure.servidor.central.dto.Servicio;
 import uy.edu.cure.servidor.central.lib.*;
+import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
+import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
 
 /**
  *
@@ -20,7 +23,9 @@ import uy.edu.cure.servidor.central.lib.*;
  */
 public class VerInfoPromocion extends javax.swing.JFrame {
 
+    @Jeringa (value = "promocioncontroller")
     PromocionController promocionController;
+    @Jeringa (value = "serviciocontroller")
     ServicioController servicioController;
     List<JLabel> imagenes;
 
@@ -29,9 +34,14 @@ public class VerInfoPromocion extends javax.swing.JFrame {
      */
     public VerInfoPromocion() {
         initComponents();
+        
+          try {
+            JeringaInjector.getInstance().inyectar(this);
+        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        
         setLocationRelativeTo(null);
-        promocionController = new PromocionController();
-        servicioController = new ServicioController();
         imagenes = new ArrayList<JLabel>();
         imagenes.add(labelServicioImage1);
         imagenes.add(labelServicioImage2);

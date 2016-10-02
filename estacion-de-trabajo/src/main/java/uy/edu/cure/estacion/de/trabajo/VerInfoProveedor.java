@@ -6,10 +6,13 @@
 package uy.edu.cure.estacion.de.trabajo;
 
 import java.awt.Image;
+import java.lang.reflect.InvocationTargetException;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import uy.edu.cure.servidor.central.lib.ServicioController;
 import uy.edu.cure.servidor.central.lib.UsuarioController;
+import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
+import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
 
 /**
  *
@@ -20,13 +23,21 @@ public class VerInfoProveedor extends javax.swing.JFrame {
     /**
      * Creates new form VerInfoProveedor
      */
+    @Jeringa (value = "usuariocontroller")
     private  UsuarioController usuariocontroller; 
     private int indiceProv;
+    
     public VerInfoProveedor() {
         initComponents();
+        
+          try {
+            JeringaInjector.getInstance().inyectar(this);
+        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        
         setLocationRelativeTo(null);
         DefaultListModel listaproveedores = new DefaultListModel();
-        usuariocontroller = new UsuarioController();
         for (int i = 0; i < usuariocontroller.obtenerProveedores().size(); i++) {
             listaproveedores.add(i, usuariocontroller.obtenerProveedores().get(i).getNickName());
         }

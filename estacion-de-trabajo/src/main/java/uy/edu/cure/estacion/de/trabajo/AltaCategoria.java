@@ -1,24 +1,33 @@
 package uy.edu.cure.estacion.de.trabajo;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Enumeration;
 import java.util.Iterator;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import uy.edu.cure.servidor.central.dto.Categoria;
 import uy.edu.cure.servidor.central.lib.CategoriaController;
+import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
+import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
 
 /**
  *
  * @author Stephanie
  */
 public class AltaCategoria extends javax.swing.JFrame {
-
+    @Jeringa(value="categoriacontroller")
     private CategoriaController categoriaControllerForm;
 
     public AltaCategoria() {
         initComponents();
         setLocationRelativeTo(null);
-        categoriaControllerForm = new CategoriaController();
+        
+          try {
+            JeringaInjector.getInstance().inyectar(this);
+        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        
         DefaultTreeModel model = (DefaultTreeModel) treeCategorias.getModel();
         DefaultMutableTreeNode root = (DefaultMutableTreeNode) model.getRoot();
         Iterator<Categoria> iteratorCategorias = categoriaControllerForm.obtenerTodosCategorias().iterator();

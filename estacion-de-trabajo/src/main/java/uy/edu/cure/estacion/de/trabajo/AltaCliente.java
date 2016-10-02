@@ -10,6 +10,7 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.util.Date;
 import java.util.Properties;
@@ -19,6 +20,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import uy.edu.cure.servidor.central.lib.UsuarioController;
+import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
+import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
 
 /**
  *
@@ -32,6 +35,7 @@ public class AltaCliente extends javax.swing.JFrame {
     private String validez;
     private int dia, mes, anio;
     private boolean user, nombre, apellido, correo, fechad, fecham, fechaA;
+    @Jeringa(value = "usuariocontroller")
     private UsuarioController usuariocontrollerForm;
     private Properties progappProperties;
     private InputStream input = null;
@@ -44,7 +48,13 @@ public class AltaCliente extends javax.swing.JFrame {
         input = this.getClass().getClassLoader().getResourceAsStream("progapp.properties");
         progappProperties.load(input);
         initComponents();
-        usuariocontrollerForm = new UsuarioController();
+        
+          try {
+            JeringaInjector.getInstance().inyectar(this);
+        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        
         //inicializo TextFields
         UserNameForm.setText("");
         NombreForm.setText("");
