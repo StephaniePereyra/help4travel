@@ -53,6 +53,7 @@ public class ActualizarServicio extends javax.swing.JFrame {
      */
     public ActualizarServicio() throws IOException {
         initComponents();
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         
           try {
             JeringaInjector.getInstance().inyectar(this);

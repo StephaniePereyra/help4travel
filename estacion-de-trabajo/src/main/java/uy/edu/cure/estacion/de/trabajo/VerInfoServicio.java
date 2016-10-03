@@ -38,6 +38,7 @@ public class VerInfoServicio extends javax.swing.JFrame {
      */
     public VerInfoServicio() {
         initComponents();
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         
           try {
             JeringaInjector.getInstance().inyectar(this);

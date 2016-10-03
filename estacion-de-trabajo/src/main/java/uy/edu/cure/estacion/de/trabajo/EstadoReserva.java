@@ -32,6 +32,7 @@ public class EstadoReserva extends javax.swing.JFrame {
         listServicio = new DefaultListModel();
         listPromocion = new DefaultListModel();
         initComponents();
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         
           try {

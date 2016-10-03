@@ -20,6 +20,7 @@ public class AltaCategoria extends javax.swing.JFrame {
 
     public AltaCategoria() {
         initComponents();
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         
           try {

@@ -32,6 +32,7 @@ public class AltaPromocion extends javax.swing.JFrame {
      */
     public AltaPromocion() {
         initComponents();
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
           try {

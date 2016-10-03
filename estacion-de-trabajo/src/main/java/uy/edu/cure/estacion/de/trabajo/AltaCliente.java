@@ -48,6 +48,7 @@ public class AltaCliente extends javax.swing.JFrame {
         input = this.getClass().getClassLoader().getResourceAsStream("progapp.properties");
         progappProperties.load(input);
         initComponents();
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         
           try {
             JeringaInjector.getInstance().inyectar(this);

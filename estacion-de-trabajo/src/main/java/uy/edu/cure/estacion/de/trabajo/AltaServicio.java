@@ -58,6 +58,7 @@ public class AltaServicio extends javax.swing.JFrame {
      */
     public AltaServicio() throws IOException {
         initComponents();
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         this.progappProperties = new Properties();
         input = this.getClass().getClassLoader().getResourceAsStream("progapp.properties");

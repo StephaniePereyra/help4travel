@@ -60,6 +60,7 @@ public class Reserva extends javax.swing.JFrame {
         }
         
         initComponents();
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         for (int i = 0; i < servicioController.obtenerTodosServicios().size(); i++) {
             listServicios.add(i, servicioController.obtenerTodosServicios().get(i).getNombre());

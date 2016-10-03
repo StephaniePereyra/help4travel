@@ -29,6 +29,7 @@ public class VerInfoCliente extends javax.swing.JFrame {
      */
     public VerInfoCliente() {
         initComponents();
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         
           try {
             JeringaInjector.getInstance().inyectar(this);

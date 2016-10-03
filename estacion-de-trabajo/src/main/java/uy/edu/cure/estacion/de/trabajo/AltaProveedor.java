@@ -52,6 +52,7 @@ public class AltaProveedor extends javax.swing.JFrame {
             Logger.getLogger(AltaProveedor.class.getName()).log(Level.SEVERE, null, ex);
         }
         initComponents();
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         filtro = new FileNameExtensionFilter("Formato Imagen", "png", "jpg");
         
           try {

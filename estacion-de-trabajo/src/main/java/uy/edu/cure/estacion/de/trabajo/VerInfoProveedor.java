@@ -28,6 +28,7 @@ public class VerInfoProveedor extends javax.swing.JFrame {
     
     public VerInfoProveedor() {
         initComponents();
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         
           try {
             JeringaInjector.getInstance().inyectar(this);

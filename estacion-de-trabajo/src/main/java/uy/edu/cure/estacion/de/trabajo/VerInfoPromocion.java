@@ -34,6 +34,7 @@ public class VerInfoPromocion extends javax.swing.JFrame {
      */
     public VerInfoPromocion() {
         initComponents();
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         
           try {
             JeringaInjector.getInstance().inyectar(this);
