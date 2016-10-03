@@ -5,9 +5,12 @@
  */
 package uy.edu.cure.servidor.web;
 
+import java.lang.reflect.InvocationTargetException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import uy.edu.cure.servidor.central.lib.UsuarioController;
+import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
+import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
 
 /**
  *
@@ -20,7 +23,16 @@ public class DatosProveedor {
     private String nickName,nombre,apellido,correo,nombreEmpresa,linkEmpresa,mensaje,mensajeDefault = "*No pueden existir campos vacios*";
     private int dia,mes,anio;
     private boolean mostrarMensaje;
-    private UsuarioController usuariocontroller = new UsuarioController();
+    @Jeringa (value = "usuariocontroller")
+    private UsuarioController usuariocontroller;
+    
+    public DatosProveedor(){
+        try {
+            JeringaInjector.getInstance().inyectar(this);
+        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+    }
 
     public String getNickName() {
         return nickName;

@@ -25,17 +25,17 @@ private MensajeDatosUsuario datosusuarioMnsj = new MensajeDatosUsuario();
 private String nickName,nombre,apellido,correo,ruta,mensaje,mensajeDefault = "*No pueden existir campos vacios*";
 private int dia,mes,anio;
 private boolean mostrarMensaje = false;
-//@Jeringa (value = "usuariocontroller")
-private UsuarioController usuariocontroller = new UsuarioController();
+@Jeringa (value = "usuariocontroller")
+private UsuarioController usuariocontroller;
 
 
-  /*  public DatosCliente(){
+    public DatosCliente(){
         try {
             JeringaInjector.getInstance().inyectar(this);
         } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
             e.printStackTrace();
         }
-    }*/
+    }
 
     public boolean isMostrarMensaje() {
         return mostrarMensaje;
