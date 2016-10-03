@@ -23,9 +23,9 @@ import uy.edu.cure.servidor.central.dto.Servicio;
  *
  * @author Stephanie
  */
-public class ServicioServiceTest {
+public class ServicioServiceImplTest {
 
-    public ServicioServiceTest() {
+    public ServicioServiceImplTest() {
     }
 
     @BeforeClass
@@ -45,12 +45,12 @@ public class ServicioServiceTest {
     }
 
     /**
-     * Test of guardarServicio method, of class ServicioService.
+     * Test of guardarServicio method, of class ServicioServiceImpl.
      */
     @Test
     public void testGuardarServicioTrue() {
         System.out.println("guardarServicio");
-        ServicioService instance = new ServicioService();
+        ServicioServiceImpl instance = new ServicioServiceImpl();
         Servicio result = null;
         Servicio expResult = null;
         Pais pais = new Pais("Uruguay");
@@ -67,7 +67,7 @@ public class ServicioServiceTest {
     }
 
     /**
-     * Test of existeServicio method, of class ServicioService.
+     * Test of existeServicio method, of class ServicioServiceImpl.
      */
     @Test
     public void testExisteServicioTrue() {
@@ -77,7 +77,7 @@ public class ServicioServiceTest {
         Ciudad ciudad = new Ciudad("California ", pais);
         pais.setCiudades(ciudad);
         Date date = new Date();
-        ServicioService instance = new ServicioService();
+        ServicioServiceImpl instance = new ServicioServiceImpl();
         Proveedor proveedor = new Proveedor("Pepe", "Bartolome", "Perez ", "elToloBienTurrix@aol.co.uk", date, " Postres helados", "www.postresHelados.com", "postercampeoes.png");
         Servicio servicio = new Servicio("Le fitness", "Aceptamos personas que crean ser mujeres", 750.00, ciudad, ciudad, proveedor);
         instance.guardarServicio(servicio);
@@ -87,7 +87,7 @@ public class ServicioServiceTest {
     }
 
     /**
-     * Test of existeServicio method, of class ServicioService.
+     * Test of existeServicio method, of class ServicioServiceImpl.
      */
     @Test
     public void testExisteServicioFalse() {
@@ -97,7 +97,7 @@ public class ServicioServiceTest {
         Ciudad ciudad = new Ciudad("Los Angeles", pais);
         pais.setCiudades(ciudad);
         Date date = new Date();
-        ServicioService instance = new ServicioService();
+        ServicioServiceImpl instance = new ServicioServiceImpl();
         Proveedor proveedor = new Proveedor("Pepe", "Bartolome", "Perez ", "elToloBienTurrix@aol.co.uk", date, " Postres helados", "www.postresHelados.com", "postercampeoes.png");
         Servicio servicio = new Servicio("Le fitness", "Aceptamos personas que crean ser mujeres", 750.00, ciudad, ciudad, proveedor);
         instance.guardarServicio(servicio);
@@ -107,7 +107,7 @@ public class ServicioServiceTest {
     }
 
     /**
-     * Test of obtenerServicio method, of class ServicioService.
+     * Test of obtenerServicio method, of class ServicioServiceImpl.
      */
     @Test
     public void testObtenerServicioTrue() {
@@ -116,7 +116,7 @@ public class ServicioServiceTest {
         Ciudad ciudad = new Ciudad("Escocia", pais);
         pais.setCiudades(ciudad);
         Date date = new Date();
-        ServicioService instance = new ServicioService();
+        ServicioServiceImpl instance = new ServicioServiceImpl();
         Proveedor proveedor = new Proveedor("Charlie", "Urretavizcaya ", "Martinuccio ", "elale@gmail.com", date, " Aprende a jugar al Futbol ", "www.futbolparatodos.com", "postercampeoes.png");
         Servicio servicio = new Servicio("Entrenamiento pre-temporada", "Estimulamos el potencial de todas las personas interesadas en jugar la futbol", 250.00, ciudad, ciudad, proveedor);
         instance.guardarServicio(servicio);
@@ -127,7 +127,7 @@ public class ServicioServiceTest {
     }
 
     /**
-     * Test of obtenerServicio method, of class ServicioService.
+     * Test of obtenerServicio method, of class ServicioServiceImpl.
      */
     @Test
     public void testObtenerServicioFalse() {
@@ -136,7 +136,7 @@ public class ServicioServiceTest {
         Ciudad ciudad = new Ciudad("Porto Seguro", pais);
         pais.setCiudades(ciudad);
         Date date = new Date();
-        ServicioService instance = new ServicioService();
+        ServicioServiceImpl instance = new ServicioServiceImpl();
         Proveedor proveedor = new Proveedor("Charlie", "Urretavizcaya ", "Martinuccio ", "elale@gmail.com", date, " Aprende a jugar al Futbol ", "www.futbolparatodos.com", "postercampeoes.png");
         Servicio servicio = new Servicio("Entrenamiento pre-temporada", "Estimulamos el potencial de todas las personas interesadas en jugar la futbol", 250.00, ciudad, ciudad, proveedor);
         instance.guardarServicio(servicio);
@@ -147,7 +147,7 @@ public class ServicioServiceTest {
     }
 
     /**
-     * Test of obtenerTodosServicios method, of class ServicioService.
+     * Test of obtenerTodosServicios method, of class ServicioServiceImpl.
      */
     @Test
     public void testObtenerTodosServicios() {
@@ -157,7 +157,7 @@ public class ServicioServiceTest {
         Ciudad ciudad = new Ciudad("Ireland", pais);
         pais.setCiudades(ciudad);
         Date date = new Date();
-        ServicioService instance = new ServicioService();
+        ServicioServiceImpl instance = new ServicioServiceImpl();
         Proveedor proveedor = new Proveedor("Charlie", "Urretavizcaya ", "Martinuccio ", "elale@gmail.com", date, " Aprende a jugar al Futbol ", "www.futbolparatodos.com", "postercampeoes.png");
         Servicio servicio = new Servicio("Entrenamiento pre-temporada", "Estimulamos el potencial de todas las personas interesadas en jugar la futbol", 250.00, ciudad, ciudad, proveedor);
         Proveedor proveedor2 = new Proveedor("Pepe", "Bartolome", "Perez ", "elToloBienTurrix@aol.co.uk", date, " Postres helados", "www.postresHelados.com", "postercampeoes.png");
@@ -172,7 +172,7 @@ public class ServicioServiceTest {
     }
 
     /**
-     * Test of cantidadServicios method, of class ServicioService.
+     * Test of cantidadServicios method, of class ServicioServiceImpl.
      */
     @Test
     public void testCantidadServicios() {
@@ -181,7 +181,7 @@ public class ServicioServiceTest {
         Ciudad ciudad = new Ciudad("Irlanda", pais);
         pais.setCiudades(ciudad);
         Date date = new Date();
-        ServicioService instance = new ServicioService();
+        ServicioServiceImpl instance = new ServicioServiceImpl();
         Proveedor proveedor = new Proveedor("Charlie", "Urretavizcaya ", "Martinuccio ", "elale@gmail.com", date, " Aprende a jugar al Futbol ", "www.futbolparatodos.com", "postercampeoes.png");
         Servicio servicio = new Servicio("Entrenamiento pre-temporada", "Estimulamos el potencial de todas las personas interesadas en jugar la futbol", 250.00, ciudad, ciudad, proveedor);
         Proveedor proveedor2 = new Proveedor("Pepe", "Bartolome", "Perez ", "elToloBienTurrix@aol.co.uk", date, " Postres helados", "www.postresHelados.com", "postercampeoes.png");
@@ -195,12 +195,12 @@ public class ServicioServiceTest {
     }
 
     /**
-     * Test of vaciarPersistenciaServicio method, of class ServicioService.
+     * Test of vaciarPersistenciaServicio method, of class ServicioServiceImpl.
      */
     @Test
     public void testVaciarPersistenciaServicio() {
         System.out.println("vaciarPersistenciaServicio");
-        ServicioService instance = new ServicioService();
+        ServicioServiceImpl instance = new ServicioServiceImpl();
         Pais pais = new Pais("Gran Bretaña");
         Ciudad ciudad = new Ciudad("Irlanda", pais);
         pais.setCiudades(ciudad);

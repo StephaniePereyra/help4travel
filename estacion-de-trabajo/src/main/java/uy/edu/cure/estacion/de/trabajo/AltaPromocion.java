@@ -21,11 +21,11 @@ import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
 public class AltaPromocion extends javax.swing.JFrame {
 
     @Jeringa (value = "usuariocontroller")
-    private UsuarioController usuarioController;
+    private UsuarioControllerImpl usuarioController;
     @Jeringa (value = "serviciocontroller")
-    private ServicioController servicioController;
+    private ServicioControllerImpl servicioController;
     @Jeringa (value = "promocioncontroller")
-    private PromocionController promocionController;
+    private PromocionControllerImpl promocionController;
 
     /**
      * Creates new form AltaPromocion

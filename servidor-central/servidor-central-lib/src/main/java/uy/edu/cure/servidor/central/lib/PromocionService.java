@@ -5,8 +5,6 @@
  */
 package uy.edu.cure.servidor.central.lib;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import uy.edu.cure.servidor.central.dto.Promocion;
 
@@ -14,50 +12,14 @@ import uy.edu.cure.servidor.central.dto.Promocion;
  *
  * @author SCN
  */
-public class PromocionService implements PromocionServiceInterface {
+public interface PromocionService {
 
-    private static List<Promocion> promociones = new ArrayList<>();
+    public boolean guardarPromocion(Promocion promocion);
 
-    public PromocionService() {
+    public boolean existePromocion(String nombre, String nickNameProveedor);
 
-    }
+    public Promocion obtenerPromocion(String nombrem, String nickNameProveedor);
 
-    @Override
-    public boolean guardarPromocion(Promocion promocion) {
-        if (promocion != null) {
-            promociones.add(promocion);
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public boolean existePromocion(String nombre, String nickNameProveedor) {
-        Iterator<Promocion> iteratorPromociones = promociones.iterator();
-        while (iteratorPromociones.hasNext()) {
-            Promocion promocionAuxiliar = iteratorPromociones.next();
-            if (promocionAuxiliar.getNombre().equals(nombre) && promocionAuxiliar.getProveedor().getNickName().equals(nickNameProveedor)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @Override
-    public Promocion obtenerPromocion(String nombre, String nickNameProveedor) {
-        Iterator<Promocion> iteratorPromociones = promociones.iterator();
-        while (iteratorPromociones.hasNext()) {
-            Promocion promocionAuxiliar = iteratorPromociones.next();
-            if (promocionAuxiliar.getNombre().equals(nombre) && promocionAuxiliar.getProveedor().getNickName().equals(nickNameProveedor)) {
-                return promocionAuxiliar;
-            }
-        }
-        return null;
-    }
-
-    @Override
-    public List<Promocion> obtenerTodasPromociones() {
-        return promociones;
-    }
+    public List<Promocion> obtenerTodasPromociones();
 
 }

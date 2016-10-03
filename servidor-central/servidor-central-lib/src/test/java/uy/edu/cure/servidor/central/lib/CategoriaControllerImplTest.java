@@ -19,9 +19,9 @@ import uy.edu.cure.servidor.central.dto.Categoria;
  *
  * @author Stephanie
  */
-public class CategoriaControllerTest {
+public class CategoriaControllerImplTest {
 
-    public CategoriaControllerTest() {
+    public CategoriaControllerImplTest() {
     }
 
     @BeforeClass
@@ -41,14 +41,14 @@ public class CategoriaControllerTest {
     }
 
     /**
-     * Test of darAltaCategoria method, of class CategoriaController.
+     * Test of darAltaCategoria method, of class CategoriaControllerImpl.
      */
     @Test
     public void testDarAltaCategoriaTrue() {
         System.out.println("darAltaCategoria");
         boolean expResult = true;
         boolean result = true;
-        CategoriaController instance = new CategoriaController();
+        CategoriaControllerImpl instance = new CategoriaControllerImpl();
         Categoria categoria = new Categoria("Peluqueria");
         instance.guardarCategoria(categoria);
         result = instance.darAltaCategoria("Pedicuria", "Peluqueria");
@@ -62,7 +62,7 @@ public class CategoriaControllerTest {
         boolean expResult = false;
         boolean result = false;
         boolean prueba = false;
-        CategoriaController instance = new CategoriaController();
+        CategoriaControllerImpl instance = new CategoriaControllerImpl();
         prueba = instance.darAltaCategoria("Pedicuria", " ");
         result = instance.darAltaCategoria("Pedicuria", " ");
         assertEquals(expResult, result);
@@ -70,7 +70,7 @@ public class CategoriaControllerTest {
     }
 
     /**
-     * Test of guardarCategoria method, of class CategoriaController.
+     * Test of guardarCategoria method, of class CategoriaControllerImpl.
      */
     @Test
     public void testGuardarCategoriaTrue() {
@@ -78,7 +78,7 @@ public class CategoriaControllerTest {
         boolean result = true;
         boolean expResult = true;
         Categoria categoria = new Categoria("Fitness");
-        CategoriaController instance = new CategoriaController();
+        CategoriaControllerImpl instance = new CategoriaControllerImpl();
         instance.guardarCategoria(categoria);
         result = instance.existeCategoria("Fitness");
         assertEquals(expResult, result);
@@ -86,7 +86,7 @@ public class CategoriaControllerTest {
     }
 
     /**
-     * Test of existeCategoria method, of class CategoriaController.
+     * Test of existeCategoria method, of class CategoriaControllerImpl.
      */
     @Test
     public void testExisteCategoria() {
@@ -94,7 +94,7 @@ public class CategoriaControllerTest {
         boolean result = true;
         boolean expResult = true;
         Categoria categoria = new Categoria("Atencion medica");
-        CategoriaController instance = new CategoriaController();
+        CategoriaControllerImpl instance = new CategoriaControllerImpl();
         instance.guardarCategoria(categoria);
         result = instance.existeCategoria("Atencion medica");
         assertEquals(expResult, result);
@@ -102,14 +102,14 @@ public class CategoriaControllerTest {
     }
 
     /**
-     * Test of obtenerCategoria method, of class CategoriaController.
+     * Test of obtenerCategoria method, of class CategoriaControllerImpl.
      */
     @Test
     public void testObtenerCategoriaTrue() {
         System.out.println("obtenerCategoria True");
         Categoria expResult = null;
         Categoria result = null;
-        CategoriaController instance = new CategoriaController();
+        CategoriaControllerImpl instance = new CategoriaControllerImpl();
         Categoria categoria = new Categoria("Vuelo");
         expResult = categoria;
         instance.guardarCategoria(categoria);
@@ -123,19 +123,19 @@ public class CategoriaControllerTest {
         System.out.println("obtenerCategoria false");
         Categoria expResult = null;
         Categoria result = null;
-        CategoriaController instance = new CategoriaController();
+        CategoriaControllerImpl instance = new CategoriaControllerImpl();
         result = instance.obtenerCategoria("Vuelo");
         assertEquals(expResult, result);
         instance.vaciarPersistenciaCategoria();
     }
 
     /**
-     * Test of obtenerTodosCategorias method, of class CategoriaController.
+     * Test of obtenerTodosCategorias method, of class CategoriaControllerImpl.
      */
     @Test
     public void testObtenerTodosCategorias() {
         System.out.println("obtenerTodosCategorias");
-        CategoriaController instance = new CategoriaController();
+        CategoriaControllerImpl instance = new CategoriaControllerImpl();
         List<Categoria> expResult = new ArrayList<Categoria>();
         Categoria categoria1 = new Categoria("Viaje");
         Categoria categoria2 = new Categoria("Tipo Locomocion");
@@ -160,7 +160,7 @@ public class CategoriaControllerTest {
     @Test
     public void testVaciarPersistenciaCategoriaController() {
         System.out.println("vaciarPersistenciaCategorias");
-        CategoriaController instance = new CategoriaController();
+        CategoriaControllerImpl instance = new CategoriaControllerImpl();
         boolean expResult = true;
         boolean result = false;
         Categoria categoria1 = new Categoria("Viaje");

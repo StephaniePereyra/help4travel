@@ -19,9 +19,9 @@ import uy.edu.cure.servidor.central.dto.Categoria;
  *
  * @author Stephanie
  */
-public class CategoriaServiceTest {
+public class CategoriaServiceImplTest {
 
-    public CategoriaServiceTest() {
+    public CategoriaServiceImplTest() {
     }
 
     @BeforeClass
@@ -41,26 +41,26 @@ public class CategoriaServiceTest {
     }
 
     /**
-     * Test of guardarCategoria method, of class CategoriaService.
+     * Test of guardarCategoria method, of class CategoriaServiceImpl.
      */
     @Test
     public void testGuardarCategoria() {
         System.out.println("guardarCategoria");
         Categoria categoria = new Categoria("Vuelo");
-        CategoriaService instance = new CategoriaService();
+        CategoriaServiceImpl instance = new CategoriaServiceImpl();
         instance.guardarCategoria(categoria);
         assertEquals(categoria, instance.obtenerCategoria("Vuelo"));
         instance.vaciarPersistenciaCategoria();
     }
 
     /**
-     * Test of existeCategoria method, of class CategoriaService.
+     * Test of existeCategoria method, of class CategoriaServiceImpl.
      */
     @Test
     public void testExisteCategoria_String() {
         System.out.println("existeCategoria");
         Categoria categoria = new Categoria("Auto");
-        CategoriaService instance = new CategoriaService();
+        CategoriaServiceImpl instance = new CategoriaServiceImpl();
         instance.guardarCategoria(categoria);
         boolean expResult = true;
         boolean result = instance.existeCategoria("Auto");
@@ -69,13 +69,13 @@ public class CategoriaServiceTest {
     }
 
     /**
-     * Test of obtenerCategoria method, of class CategoriaService.
+     * Test of obtenerCategoria method, of class CategoriaServiceImpl.
      */
     @Test
     public void testObtenerCategoria() {
         System.out.println("obtenerCategoria");
         Categoria categoria = new Categoria("Moto");
-        CategoriaService instance = new CategoriaService();
+        CategoriaServiceImpl instance = new CategoriaServiceImpl();
         instance.guardarCategoria(categoria);
         Categoria expResult = categoria;
         Categoria result = instance.obtenerCategoria("Moto");
@@ -84,14 +84,14 @@ public class CategoriaServiceTest {
     }
 
     /**
-     * Test of obtenerTodosCategorias method, of class CategoriaService.
+     * Test of obtenerTodosCategorias method, of class CategoriaServiceImpl.
      */
     @Test
     public void testObtenerTodosCategorias() {
         System.out.println("obtenerTodosCategorias");
         Categoria categoria1 = new Categoria("Viaje");
         Categoria categoria2 = new Categoria("Hospedaje");
-        CategoriaService instance = new CategoriaService();
+        CategoriaServiceImpl instance = new CategoriaServiceImpl();
         instance.guardarCategoria(categoria1);
         instance.guardarCategoria(categoria2);
         List<Categoria> expResult = new ArrayList<Categoria>();
@@ -106,7 +106,7 @@ public class CategoriaServiceTest {
     @Test
     public void testVaciarPersistenciaCategoriaService() {
         System.out.println("vaciarPersistenciaCategorias");
-        CategoriaService instance = new CategoriaService();
+        CategoriaServiceImpl instance = new CategoriaServiceImpl();
         boolean expResult = true;
         boolean result = false;
         Categoria categoria1 = new Categoria("Viaje");

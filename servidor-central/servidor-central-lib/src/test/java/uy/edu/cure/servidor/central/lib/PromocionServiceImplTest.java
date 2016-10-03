@@ -18,9 +18,9 @@ import uy.edu.cure.servidor.central.dto.Proveedor;
  *
  * @author Rodrigo "Lobo Plateado" Pérez
  */
-public class PromocionServiceTest {
+public class PromocionServiceImplTest {
 
-    public PromocionServiceTest() {
+    public PromocionServiceImplTest() {
     }
 
     @BeforeClass
@@ -40,13 +40,13 @@ public class PromocionServiceTest {
     }
 
     /**
-     * Test of guardarPromocion method, of class PromocionService.
+     * Test of guardarPromocion method, of class PromocionServiceImpl.
      */
     @Test
     public void testGuardarPromocionNull() {
         System.out.println("guardarPromocionNull");
         Promocion promocion = null;
-        PromocionService instance = new PromocionService();
+        PromocionServiceImpl instance = new PromocionServiceImpl();
         boolean expResult = false;
         boolean result = instance.guardarPromocion(promocion);
         assertEquals(expResult, result);
@@ -54,13 +54,13 @@ public class PromocionServiceTest {
     }
 
     /**
-     * Test of guardarPromocion method, of class PromocionService.
+     * Test of guardarPromocion method, of class PromocionServiceImpl.
      */
     @Test
     public void testGuardarPromocionTrue() {
         System.out.println("guardarPromocionNullTrue");
         Promocion promocion = new Promocion("nombre", 10, 100, null);
-        PromocionService instance = new PromocionService();
+        PromocionServiceImpl instance = new PromocionServiceImpl();
         boolean expResult = true;
         boolean result = instance.guardarPromocion(promocion);
         assertEquals(expResult, result);
@@ -68,14 +68,14 @@ public class PromocionServiceTest {
     }
 
     /**
-     * Test of existePromocion method, of class PromocionService.
+     * Test of existePromocion method, of class PromocionServiceImpl.
      */
     @Test
     public void testExistePromocionNull() {
         System.out.println("existePromocionNull");
         String nombre = "";
         String nickNameProveedor = "";
-        PromocionService instance = new PromocionService();
+        PromocionServiceImpl instance = new PromocionServiceImpl();
         boolean expResult = false;
         boolean result = instance.existePromocion(nombre, nickNameProveedor);
         assertEquals(expResult, result);
@@ -83,14 +83,14 @@ public class PromocionServiceTest {
     }
 
     /**
-     * Test of existePromocion method, of class PromocionService.
+     * Test of existePromocion method, of class PromocionServiceImpl.
      */
     @Test
     public void testExistePromocionTrue() {
         System.out.println("existePromocionTrue");
         Proveedor proveedor = new Proveedor("nickname", "nombre", "apellido", "correo", null, "nombreEmpresa", "linkEmpresa", "Imagen");
         Promocion promocion = new Promocion("nombre", 10, 100, proveedor);
-        PromocionService instance = new PromocionService();
+        PromocionServiceImpl instance = new PromocionServiceImpl();
         instance.guardarPromocion(promocion);
         boolean expResult = true;
         boolean result = instance.existePromocion("nombre", "nickname");
@@ -99,14 +99,14 @@ public class PromocionServiceTest {
     }
 
     /**
-     * Test of existePromocion method, of class PromocionService.
+     * Test of existePromocion method, of class PromocionServiceImpl.
      */
     @Test
     public void testExistePromocionTrueFalse() {
         System.out.println("existePromocionTrueFalse");
         Proveedor proveedor = new Proveedor("nickname", "nombre", "apellido", "correo", null, "nombreEmpresa", "linkEmpresa", "Imagen");
         Promocion promocion = new Promocion("nombre", 10, 100, proveedor);
-        PromocionService instance = new PromocionService();
+        PromocionServiceImpl instance = new PromocionServiceImpl();
         instance.guardarPromocion(promocion);
         boolean expResult = false;
         boolean result = instance.existePromocion("nombre", "nickname2");
@@ -115,14 +115,14 @@ public class PromocionServiceTest {
     }
 
     /**
-     * Test of existePromocion method, of class PromocionService.
+     * Test of existePromocion method, of class PromocionServiceImpl.
      */
     @Test
     public void testExistePromocionFalseTrue() {
         System.out.println("existePromocionFalseTrue");
         Proveedor proveedor = new Proveedor("nickname", "nombre", "apellido", "correo", null, "nombreEmpresa", "linkEmpresa", "Imagen");
         Promocion promocion = new Promocion("nombre", 10, 100, proveedor);
-        PromocionService instance = new PromocionService();
+        PromocionServiceImpl instance = new PromocionServiceImpl();
         instance.guardarPromocion(promocion);
         boolean expResult = false;
         boolean result = instance.existePromocion("nombre2", "nickname2");
@@ -131,14 +131,14 @@ public class PromocionServiceTest {
     }
 
     /**
-     * Test of obtenerPromocion method, of class PromocionService.
+     * Test of obtenerPromocion method, of class PromocionServiceImpl.
      */
     @Test
     public void testObtenerPromocionNull() {
         System.out.println("obtenerPromocionNull");
         String nombre = "";
         String nickNameProveedor = "";
-        PromocionService instance = new PromocionService();
+        PromocionServiceImpl instance = new PromocionServiceImpl();
         Promocion expResult = null;
         Promocion result = instance.obtenerPromocion(nombre, nickNameProveedor);
         assertEquals(expResult, result);
@@ -146,14 +146,14 @@ public class PromocionServiceTest {
     }
 
     /**
-     * Test of obtenerPromocion method, of class PromocionService.
+     * Test of obtenerPromocion method, of class PromocionServiceImpl.
      */
     @Test
     public void testObtenerPromocionTrue() {
         System.out.println("obtenerPromocionTrue");
         Proveedor proveedor = new Proveedor("nickname", "nombre", "apellido", "correo", null, "nombreEmpresa", "linkEmpresa", "Imagen");
         Promocion promocion = new Promocion("nombre", 10, 100, proveedor);
-        PromocionService instance = new PromocionService();
+        PromocionServiceImpl instance = new PromocionServiceImpl();
         instance.guardarPromocion(promocion);
         Promocion expResult = promocion;
         Promocion result = instance.obtenerPromocion("nombre", "nickname");
@@ -162,14 +162,14 @@ public class PromocionServiceTest {
     }
 
     /**
-     * Test of obtenerPromocion method, of class PromocionService.
+     * Test of obtenerPromocion method, of class PromocionServiceImpl.
      */
     @Test
     public void testObtenerPromocionTrueFalse() {
         System.out.println("obtenerPromocionTrueFlase");
         Proveedor proveedor = new Proveedor("nickname", "nombre", "apellido", "correo", null, "nombreEmpresa", "linkEmpresa", "Imagen");
         Promocion promocion = new Promocion("nombre", 10, 100, proveedor);
-        PromocionService instance = new PromocionService();
+        PromocionServiceImpl instance = new PromocionServiceImpl();
         instance.guardarPromocion(promocion);
         Promocion expResult = null;
         Promocion result = instance.obtenerPromocion("nombre", "nickname2");
@@ -178,14 +178,14 @@ public class PromocionServiceTest {
     }
 
     /**
-     * Test of obtenerPromocion method, of class PromocionService.
+     * Test of obtenerPromocion method, of class PromocionServiceImpl.
      */
     @Test
     public void testObtenerPromocionFalseTrue() {
         System.out.println("obtenerPromocionFalseTrue");
         Proveedor proveedor = new Proveedor("nickname", "nombre", "apellido", "correo", null, "nombreEmpresa", "linkEmpresa", "Imagen");
         Promocion promocion = new Promocion("nombre", 10, 100, proveedor);
-        PromocionService instance = new PromocionService();
+        PromocionServiceImpl instance = new PromocionServiceImpl();
         instance.guardarPromocion(promocion);
         Promocion expResult = null;
         Promocion result = instance.obtenerPromocion("nombre2", "nickname");
@@ -194,12 +194,12 @@ public class PromocionServiceTest {
     }
 
     /**
-     * Test of obtenerTodasPromociones method, of class PromocionService.
+     * Test of obtenerTodasPromociones method, of class PromocionServiceImpl.
      */
     @Test
     public void testObtenerTodasPromociones() {
         System.out.println("obtenerTodasPromociones");
-        PromocionService instance = new PromocionService();
+        PromocionServiceImpl instance = new PromocionServiceImpl();
         int expResult = 0;
         int result = instance.obtenerTodasPromociones().size();
         assertEquals(expResult, result);

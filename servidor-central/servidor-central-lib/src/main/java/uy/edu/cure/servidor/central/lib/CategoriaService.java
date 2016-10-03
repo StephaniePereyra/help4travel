@@ -1,7 +1,10 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package uy.edu.cure.servidor.central.lib;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import uy.edu.cure.servidor.central.dto.Categoria;
 
@@ -9,50 +12,15 @@ import uy.edu.cure.servidor.central.dto.Categoria;
  *
  * @author guido
  */
-public class CategoriaService implements CategoriaServiceInterface {
+public interface CategoriaService {
 
-    private static List<Categoria> categorias = new ArrayList<Categoria>();
+    public void guardarCategoria(Categoria categoria);
 
-    public CategoriaService() {
-    }
+    public boolean existeCategoria(String nombre);
 
-    @Override
-    public void guardarCategoria(Categoria categoria) {
-        categorias.add(categoria);
-    }
+    public Categoria obtenerCategoria(String nombre);
 
-    @Override
-    public boolean existeCategoria(String nombre) {
-        Iterator<Categoria> iteratorCategorias = categorias.iterator();
-        while (iteratorCategorias.hasNext()) {
-            Categoria categoriaAuxiliar = iteratorCategorias.next();
-            if (categoriaAuxiliar.getNombre().equals(nombre)) {
-                return true;
-            }
-        }
-        return false;
-    }
+    public List<Categoria> obtenerTodosCategorias();
 
-    @Override
-    public Categoria obtenerCategoria(String nombre) {
-        Iterator<Categoria> iteratorCategorias = categorias.iterator();
-        while (iteratorCategorias.hasNext()) {
-            Categoria categoriaAuxiliar = iteratorCategorias.next();
-            if (categoriaAuxiliar.getNombre().equals(nombre)) {
-                return categoriaAuxiliar;
-            }
-        }
-        return null;
-    }
-
-    @Override
-    public List<Categoria> obtenerTodosCategorias() {
-        return categorias;
-    }
-
-    @Override
-    public void vaciarPersistenciaCategoria() {
-        categorias.clear();
-    }
-
+    public void vaciarPersistenciaCategoria();
 }

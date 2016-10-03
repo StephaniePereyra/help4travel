@@ -8,8 +8,7 @@ package uy.edu.cure.estacion.de.trabajo;
 import java.lang.reflect.InvocationTargetException;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
-import uy.edu.cure.servidor.central.lib.ReservaController;
-import uy.edu.cure.servidor.central.lib.UsuarioController;
+import uy.edu.cure.servidor.central.lib.ReservaControllerImpl;
 import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
 import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
 
@@ -26,7 +25,7 @@ public class EstadoReserva extends javax.swing.JFrame {
     DefaultListModel listServicio;
     DefaultListModel listPromocion;
     @Jeringa (value = "reservacontroller")
-    private ReservaController reservaController;
+    private ReservaControllerImpl reservaController;
     
     public EstadoReserva() {
         listReserva = new DefaultListModel();

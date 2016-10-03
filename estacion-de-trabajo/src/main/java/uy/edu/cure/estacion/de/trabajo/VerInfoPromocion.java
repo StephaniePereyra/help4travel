@@ -24,9 +24,9 @@ import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
 public class VerInfoPromocion extends javax.swing.JFrame {
 
     @Jeringa (value = "promocioncontroller")
-    PromocionController promocionController;
+    PromocionControllerImpl promocionController;
     @Jeringa (value = "serviciocontroller")
-    ServicioController servicioController;
+    ServicioControllerImpl servicioController;
     List<JLabel> imagenes;
 
     /**

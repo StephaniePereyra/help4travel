@@ -6,7 +6,7 @@ import java.util.Iterator;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import uy.edu.cure.servidor.central.dto.Categoria;
-import uy.edu.cure.servidor.central.lib.CategoriaController;
+import uy.edu.cure.servidor.central.lib.CategoriaControllerImpl;
 import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
 import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
 
@@ -16,7 +16,7 @@ import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
  */
 public class AltaCategoria extends javax.swing.JFrame {
     @Jeringa(value="categoriacontroller")
-    private CategoriaController categoriaControllerForm;
+    private CategoriaControllerImpl categoriaControllerForm;
 
     public AltaCategoria() {
         initComponents();

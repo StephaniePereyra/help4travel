@@ -22,9 +22,9 @@ import uy.edu.cure.servidor.central.dto.Servicio;
  *
  * @author juan
  */
-public class ReservaServiceTest {
+public class ReservaServiceImplTest {
 
-    public ReservaServiceTest() {
+    public ReservaServiceImplTest() {
     }
 
     @BeforeClass
@@ -44,19 +44,19 @@ public class ReservaServiceTest {
     }
 
     /**
-     * Test of guardarReserva method, of class ReservaService.
+     * Test of guardarReserva method, of class ReservaServiceImpl.
      */
     @Test
     public void testGuardarReserva() {
         System.out.println("guardarReserva");
         Reserva reserva = null;
-        ReservaService instance = new ReservaService();
+        ReservaServiceImpl instance = new ReservaServiceImpl();
         instance.guardarReserva(reserva);
         instance.vaciarPersistencia();
     }
 
     /**
-     * Test of eliminarReserva method, of class ReservaService.
+     * Test of eliminarReserva method, of class ReservaServiceImpl.
      */
     @Test
     public void testEliminarReserva() {
@@ -64,7 +64,7 @@ public class ReservaServiceTest {
          * Resultado 1/2 
          */
         System.out.println("eliminarReserva");
-        ReservaService instance = new ReservaService();
+        ReservaServiceImpl instance = new ReservaServiceImpl();
         Date date = new Date();
         List<Promocion> promociones = new ArrayList<Promocion>();
         List<Servicio> servicios = new ArrayList<Servicio>();
@@ -78,7 +78,7 @@ public class ReservaServiceTest {
     }
 
     /**
-     * Test of existeReserva method, of class ReservaService.
+     * Test of existeReserva method, of class ReservaServiceImpl.
      */
     @Test
     public void testExisteReserva() {
@@ -86,7 +86,7 @@ public class ReservaServiceTest {
          * Resultado 1/2 
          */
         System.out.println("existeReserva");
-        ReservaService instance = new ReservaService();
+        ReservaServiceImpl instance = new ReservaServiceImpl();
         boolean expResult = false;
         boolean result = instance.existeReserva(10);
         assertEquals(expResult, result);// para el false
@@ -105,7 +105,7 @@ public class ReservaServiceTest {
     }
 
     /**
-     * Test of obtenerReserva method, of class ReservaService.
+     * Test of obtenerReserva method, of class ReservaServiceImpl.
      */
     @Test
     public void testObtenerReserva() {
@@ -113,7 +113,7 @@ public class ReservaServiceTest {
          * Resultado 1/2 
          */
         System.out.println("obtenerReserva");
-        ReservaService instance = new ReservaService();
+        ReservaServiceImpl instance = new ReservaServiceImpl();
         Reserva expResult = null;
         Reserva result = instance.obtenerReserva(10);
         assertEquals(expResult, result);
@@ -145,12 +145,12 @@ public class ReservaServiceTest {
     }
 
     /**
-     * Test of obtenerTodasReservas method, of class ReservaService.
+     * Test of obtenerTodasReservas method, of class ReservaServiceImpl.
      */
     @Test
     public void testObtenerTodasReservas() {
         System.out.println("obtenerTodasReservas");
-        ReservaService instance = new ReservaService();
+        ReservaServiceImpl instance = new ReservaServiceImpl();
         List<Reserva> expResult = new ArrayList<>();
         List<Reserva> result = instance.obtenerTodasReservas();
         assertEquals(expResult, result);

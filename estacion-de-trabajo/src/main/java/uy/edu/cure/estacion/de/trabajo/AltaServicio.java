@@ -41,15 +41,15 @@ public class AltaServicio extends javax.swing.JFrame {
     private List<String> rutasImagenes;
     private List<JLabel> imagenes;
     @Jeringa (value = "usuariocontroller")
-    private UsuarioController usuarioController;
+    private UsuarioControllerImpl usuarioController;
     @Jeringa (value = "paiscontroller")
-    private PaisController paisController;
+    private PaisControllerImpl paisController;
     @Jeringa (value = "ciudadcontroller")
-    private CiudadController ciudadController;
+    private CiudadControllerImpl ciudadController;
     @Jeringa (value = "categoriacontroller")
-    private CategoriaController categoriaController;
+    private CategoriaControllerImpl categoriaController;
     @Jeringa (value = "serviciocontroller")
-    private ServicioController servicioController;
+    private ServicioControllerImpl servicioController;
     private Properties progappProperties;
     private InputStream input = null;
 

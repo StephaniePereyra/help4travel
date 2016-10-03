@@ -40,11 +40,11 @@ public class ActualizarServicio extends javax.swing.JFrame {
 
     private List<JLabel> imagenes;
     @Jeringa(value = "serviciocontroller")
-    private ServicioController servicioController;
+    private ServicioControllerImpl servicioController;
     @Jeringa(value = "categoriacontroller")
-    private CategoriaController categoriaController;
+    private CategoriaControllerImpl categoriaController;
     @Jeringa(value = "ciudadcontroller")
-    private CiudadController ciudadController;
+    private CiudadControllerImpl ciudadController;
     private Properties progappProperties;
     private InputStream input = null;
 

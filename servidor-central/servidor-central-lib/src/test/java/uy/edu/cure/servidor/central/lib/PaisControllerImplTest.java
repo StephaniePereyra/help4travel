@@ -18,9 +18,9 @@ import uy.edu.cure.servidor.central.dto.Pais;
  *
  * @author SCN
  */
-public class PaisControllerTest {
+public class PaisControllerImplTest {
 
-    public PaisControllerTest() {
+    public PaisControllerImplTest() {
     }
 
     @BeforeClass
@@ -40,13 +40,13 @@ public class PaisControllerTest {
     }
 
     /**
-     * Test of crearPais method, of class PaisController.
+     * Test of crearPais method, of class PaisControllerImpl.
      */
     @Test
     public void testCrearPaisFalse() {
         System.out.println("crearPaisFalse");
         String nombre = "Uruguay";
-        PaisController instance = new PaisController();
+        PaisControllerImpl instance = new PaisControllerImpl();
         instance.crearPais("Uruguay");
         boolean expResult = false;
         boolean result = instance.crearPais(nombre);
@@ -58,7 +58,7 @@ public class PaisControllerTest {
     public void testCrearPais() {
         System.out.println("crearPais");
         String nombre = "Uruguay";
-        PaisController instance = new PaisController();
+        PaisControllerImpl instance = new PaisControllerImpl();
         boolean expResult = true;
         boolean result = instance.crearPais(nombre);
         assertEquals(expResult, result);
@@ -66,13 +66,13 @@ public class PaisControllerTest {
     }
 
     /**
-     * Test of existePais method, of class PaisController.
+     * Test of existePais method, of class PaisControllerImpl.
      */
     @Test
     public void testExistePaisFalse() {
         System.out.println("existePaisFalse");
         String nombre = "Uruguay";
-        PaisController instance = new PaisController();
+        PaisControllerImpl instance = new PaisControllerImpl();
         boolean expResult = false;
         boolean result = instance.existePais(nombre);
         assertEquals(expResult, result);
@@ -83,7 +83,7 @@ public class PaisControllerTest {
     public void testExistePais() {
         System.out.println("existePais");
         String nombre = "Uruguay";
-        PaisController instance = new PaisController();
+        PaisControllerImpl instance = new PaisControllerImpl();
         instance.crearPais("Uruguay");
         boolean expResult = true;
         boolean result = instance.existePais(nombre);
@@ -92,13 +92,13 @@ public class PaisControllerTest {
     }
 
     /**
-     * Test of obtenerPais method, of class PaisController.
+     * Test of obtenerPais method, of class PaisControllerImpl.
      */
     @Test
     public void testObtenerPaisNull() {
         System.out.println("obtenerPaisNull");
         String nombre = "Uruguay";
-        PaisController instance = new PaisController();
+        PaisControllerImpl instance = new PaisControllerImpl();
         Pais expResult = null;
         Pais result = instance.obtenerPais(nombre);
         assertEquals(expResult, result);
@@ -109,7 +109,7 @@ public class PaisControllerTest {
     public void testObtenerPais() {
         System.out.println("obtenerPais");
         String nombre = "Uruguay";
-        PaisController instance = new PaisController();
+        PaisControllerImpl instance = new PaisControllerImpl();
         instance.crearPais("Uruguay");
         String expResult = "Uruguay";
         Pais result = instance.obtenerPais(nombre);
@@ -118,12 +118,12 @@ public class PaisControllerTest {
     }
 
     /**
-     * Test of obtenerTodosPaises method, of class PaisController.
+     * Test of obtenerTodosPaises method, of class PaisControllerImpl.
      */
     @Test
     public void testObtenerTodosPaisesEmpty() {
         System.out.println("obtenerTodosPaises");
-        PaisController instance = new PaisController();
+        PaisControllerImpl instance = new PaisControllerImpl();
         int expResult = 0;
         List<Pais> result = instance.obtenerTodosPaises();
         assertEquals(expResult, result.size());
@@ -133,7 +133,7 @@ public class PaisControllerTest {
     @Test
     public void testObtenerTodosPaises() {
         System.out.println("obtenerTodosPaises");
-        PaisController instance = new PaisController();
+        PaisControllerImpl instance = new PaisControllerImpl();
         instance.crearPais("Uruguay");
         int expResult = 1;
         List<Pais> result = instance.obtenerTodosPaises();
@@ -142,12 +142,12 @@ public class PaisControllerTest {
     }
 
     /**
-     * Test of vaciarPersistenciaPais method, of class PaisController.
+     * Test of vaciarPersistenciaPais method, of class PaisControllerImpl.
      */
     @Test
     public void testVaciarPersistenciaPais() {
         System.out.println("vaciarPersistenciaPais");
-        PaisController instance = new PaisController();
+        PaisControllerImpl instance = new PaisControllerImpl();
         instance.crearPais("Uruguay");
         instance.vaciarPersistenciaPais();
         int expResult = 0;

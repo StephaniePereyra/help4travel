@@ -5,8 +5,6 @@
  */
 package uy.edu.cure.servidor.central.lib;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import uy.edu.cure.servidor.central.dto.Servicio;
 
@@ -14,54 +12,18 @@ import uy.edu.cure.servidor.central.dto.Servicio;
  *
  * @author Rodrigo "Lobo Plateado" Pérez
  */
-public class ServicioService implements ServicioServiceInterface {
+public interface ServicioService {
 
-    private static List<Servicio> servicios = new ArrayList<Servicio>();
+    public void guardarServicio(Servicio servicio);
 
-    public ServicioService() {
-    }
+    public boolean existeServicio(String nombreServicio, String nickNameProveedor);
 
-    @Override
-    public void guardarServicio(Servicio servicio) {
-        servicios.add(servicio);
-    }
+    public Servicio obtenerServicio(String nombreServicio, String nickNameProveedor);
 
-    @Override
-    public boolean existeServicio(String nombreServicio, String nickNameProveedor) {
-        Iterator<Servicio> iteratorServicio = servicios.iterator();
-        while (iteratorServicio.hasNext()) {
-            Servicio servicioAuxiliar = iteratorServicio.next();
-            if (servicioAuxiliar.getNombre().equals(nombreServicio) && (servicioAuxiliar.getProveedor().getNickName()).equals(nickNameProveedor)) {
-                return true;
-            }
-        }
-        return false;
-    }
+    public List<Servicio> obtenerTodosServicios();
 
-    @Override
-    public Servicio obtenerServicio(String nombreServicio, String nickNameProveedor) {
-        Iterator<Servicio> iteratorServicio = servicios.iterator();
-        while (iteratorServicio.hasNext()) {
-            Servicio servicioAuxiliar = iteratorServicio.next();
-            if (servicioAuxiliar.getNombre().equals(nombreServicio) && (servicioAuxiliar.getProveedor().getNickName()).equals(nickNameProveedor)) {
-                return servicioAuxiliar;
-            }
-        }
-        return null;
-    }
+    public int cantidadServicios();
 
-    @Override
-    public List<Servicio> obtenerTodosServicios() {
-        return servicios;
-    }
+    public void vaciarPersistenciaServicio();
 
-    @Override
-    public int cantidadServicios() {
-        return servicios.size();
-    }
-
-    @Override
-    public void vaciarPersistenciaServicio() {
-        servicios.clear();
-    }
 }

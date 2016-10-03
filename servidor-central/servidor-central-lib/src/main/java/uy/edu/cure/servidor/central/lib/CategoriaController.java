@@ -1,64 +1,29 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package uy.edu.cure.servidor.central.lib;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import uy.edu.cure.servidor.central.dto.Categoria;
-import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
-import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
 
-public class CategoriaController implements CategoriaControllerInterface {
+/**
+ *
+ * @author guido
+ */
+public interface CategoriaController {
 
-    @Jeringa(value = "categoriaservice")
-    private CategoriaServiceInterface categoriaService;
+    public boolean darAltaCategoria(String nombre, String nombrePadre);
 
-    public CategoriaController() {
-        try {
-            JeringaInjector.getInstance().inyectar(this);
-        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            e.printStackTrace();
-        }
-    }
+    public void guardarCategoria(Categoria categoria);
 
-    @Override
-    public boolean darAltaCategoria(String nombre, String nombrePadre) {
-        Categoria categoria = new Categoria(nombre);
-        Categoria categoriaPadre = categoriaService.obtenerCategoria(nombrePadre);
-        if (!categoriaService.existeCategoria(nombre)) {
-            if (categoriaPadre == null) {
-                categoria.setPadre(null);
-            } else {
-                categoriaPadre.setHijos(categoria);
-                categoria.setPadre(categoriaPadre);
-            }
-            guardarCategoria(categoria);
-            return true;
-        }
-        return false;
-    }
+    public boolean existeCategoria(String nombre);
 
-    @Override
-    public void guardarCategoria(Categoria categoria) {
-        categoriaService.guardarCategoria(categoria);
-    }
+    public Categoria obtenerCategoria(String nombre);
 
-    @Override
-    public boolean existeCategoria(String nombre) {
-        return categoriaService.existeCategoria(nombre);
-    }
+    public List<Categoria> obtenerTodosCategorias();
 
-    @Override
-    public Categoria obtenerCategoria(String nombre) {
-        return categoriaService.obtenerCategoria(nombre);
-    }
-
-    @Override
-    public List<Categoria> obtenerTodosCategorias() {
-        return categoriaService.obtenerTodosCategorias();
-    }
-
-    @Override
-    public void vaciarPersistenciaCategoria() {
-        categoriaService.vaciarPersistenciaCategoria();
-    }
+    public void vaciarPersistenciaCategoria();
 
 }

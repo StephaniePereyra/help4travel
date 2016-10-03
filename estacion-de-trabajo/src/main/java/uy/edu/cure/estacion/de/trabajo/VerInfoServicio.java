@@ -29,9 +29,9 @@ public class VerInfoServicio extends javax.swing.JFrame {
 
     private List<JLabel> labels;
     @Jeringa (value = "categoriacontroller")
-    private CategoriaController categoriaController;
+    private CategoriaControllerImpl categoriaController;
     @Jeringa (value = "serviciocontroller")
-    private ServicioController servicioController;
+    private ServicioControllerImpl servicioController;
 
     /**
      * Creates new form VerInfoServicio

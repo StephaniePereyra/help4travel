@@ -5,63 +5,23 @@
  */
 package uy.edu.cure.servidor.central.lib;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import uy.edu.cure.servidor.central.dto.Ciudad;
-import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
-import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
 
 /**
  *
  * @author Rodrigo "Lobo Plateado" Pérez
  */
-public class CiudadController implements CiudadControllerInterface {
+public interface CiudadController {
 
-    @Jeringa(value = "ciudadservice")
-    private CiudadServiceInterface ciudadService;
-    @Jeringa(value = "paisservice")
-    private PaisServiceInterface paisService;
+    public boolean crearCiudad(String nombreCiudad, String nombrePais);
 
-    public CiudadController() {
-        try {
-            JeringaInjector.getInstance().inyectar(this);
-        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            e.printStackTrace();
-        }
-    }
+    public boolean existeCiudad(String nombre);
 
-    @Override
-    public boolean crearCiudad(String nombreCiudad, String nombrePais) {
-        if (paisService.existePais(nombrePais) && !ciudadService.existeCiudad(nombreCiudad)) {
-            Ciudad ciudad = new Ciudad(nombreCiudad, paisService.obtenerPais(nombrePais));
-            ciudadService.guardarCiudad(ciudad);
-            paisService.obtenerPais(nombrePais).setCiudades(ciudad);
-            return true;
-        }
-        return false;
-    }
+    public Ciudad obtenerCiudad(String nombre);
 
-    @Override
-    public boolean existeCiudad(String nombre) {
-        return ciudadService.existeCiudad(nombre);
-    }
+    public List<Ciudad> obtenerTodosCiudades();
 
-    @Override
-    public Ciudad obtenerCiudad(String nombre) {
-        if (ciudadService.existeCiudad(nombre)) {
-            return ciudadService.obtenerCiudad(nombre);
-        }
-        return null;
-    }
-
-    @Override
-    public List<Ciudad> obtenerTodosCiudades() {
-        return ciudadService.obtenerTodosCiudades();
-    }
-
-    @Override
-    public void vaciarPersistenciaCiudad() {
-        ciudadService.vaciarPersistenciaCiudad();
-    }
+    public void vaciarPersistenciaCiudad();
 
 }

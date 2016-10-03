@@ -27,9 +27,9 @@ import uy.edu.cure.servidor.central.dto.Servicio;
  *
  * @author juan
  */
-public class ReservaControllerTest {
+public class ReservaControllerImplTest {
 
-    public ReservaControllerTest() {
+    public ReservaControllerImplTest() {
     }
 
     @BeforeClass
@@ -49,7 +49,7 @@ public class ReservaControllerTest {
     }
     
     /**
-     * Test of eliminarReserva method, of class ReservaController.
+     * Test of eliminarReserva method, of class ReservaControllerImpl.
      */
     @Test
     public void testEliminarReserva() {
@@ -58,7 +58,7 @@ public class ReservaControllerTest {
          */
         System.out.println("eliminarReserva");
         int numero = 0;
-        ReservaController instance = new ReservaController();
+        ReservaControllerImpl instance = new ReservaControllerImpl();
         boolean expResult = false;
         boolean result = instance.eliminarReserva(numero);
         assertEquals(expResult, result);
@@ -86,7 +86,7 @@ public class ReservaControllerTest {
     }
 
     /**
-     * Test of crearReserva method, of class ReservaController.
+     * Test of crearReserva method, of class ReservaControllerImpl.
      */
     @Test
     public void testCrearReserva() {
@@ -96,7 +96,7 @@ public class ReservaControllerTest {
         System.out.println("crearReserva");
         List<Promocion> promociones = new ArrayList<Promocion>();
         List<Servicio> servicios = new ArrayList<Servicio>();
-        ReservaController instance = new ReservaController();
+        ReservaControllerImpl instance = new ReservaControllerImpl();
         Date date = new Date();
          Cliente cliente = new Cliente("nickName", "nombre", "apellido", "correo@correo", date, "imagenPerfil");
         int expResult = 3;
@@ -148,32 +148,32 @@ public class ReservaControllerTest {
 
 
     /**
-     * Test of existeReserva method, of class ReservaController.
+     * Test of existeReserva method, of class ReservaControllerImpl.
      */
     @Test
     public void testExisteReserva() {
         System.out.println("existeReserva");
         int numero = 0;
-        ReservaController instance = new ReservaController();
+        ReservaControllerImpl instance = new ReservaControllerImpl();
         boolean expResult = false;
         boolean result = instance.existeReserva(numero);
         assertEquals(expResult, result);
     }
 
     /**
-     * Test of obtenerReserva method, of class ReservaController.
+     * Test of obtenerReserva method, of class ReservaControllerImpl.
      */
     @Test
     public void testObtenerReserva() {
         System.out.println("obtenerReserva");
-        ReservaController instance = new ReservaController();
+        ReservaControllerImpl instance = new ReservaControllerImpl();
         Reserva expResult = null;
         Reserva result = instance.obtenerReserva(1);
         assertEquals(expResult, result);
     }
 
     /**
-     * Test of obtenerTodasReservas method, of class ReservaController.
+     * Test of obtenerTodasReservas method, of class ReservaControllerImpl.
      */
     @Test
     public void testObtenerTodasReservas() {
@@ -181,7 +181,7 @@ public class ReservaControllerTest {
          * Resultado 1/2 
          */
         System.out.println("obtenerTodasReservas");
-        ReservaController instance = new ReservaController();
+        ReservaControllerImpl instance = new ReservaControllerImpl();
         List<Reserva> result = instance.obtenerTodasReservas();
         assertEquals(0, result.size());
         /*
@@ -204,7 +204,7 @@ public class ReservaControllerTest {
     }
     
     /**
-     * Test of cambiarEstado method, of class ReservaController.
+     * Test of cambiarEstado method, of class ReservaControllerImpl.
      */
     @Test
     public void cambiarEstado() {
@@ -212,7 +212,7 @@ public class ReservaControllerTest {
         /*
          * Resultado 1/4 
          */
-        ReservaController instance = new ReservaController();
+        ReservaControllerImpl instance = new ReservaControllerImpl();
         List<Promocion> promociones = new ArrayList<Promocion>();
         List<Servicio> servicios = new ArrayList<Servicio>();
         Date date = new Date();

@@ -20,9 +20,9 @@ import uy.edu.cure.servidor.central.dto.Proveedor;
  *
  * @author SCN
  */
-public class UsuarioServiceTest {
+public class UsuarioServiceImplTest {
 
-    public UsuarioServiceTest() {
+    public UsuarioServiceImplTest() {
     }
 
     @BeforeClass
@@ -42,13 +42,13 @@ public class UsuarioServiceTest {
     }
 
     /**
-     * Test of guardarCliente method, of class UsuarioService.
+     * Test of guardarCliente method, of class UsuarioServiceImpl.
      */
     @Test
     public void testGuardarClienteNull() {
         System.out.println("guardarClienteNull");
         Cliente cliente = null;
-        UsuarioService instance = new UsuarioService();
+        UsuarioServiceImpl instance = new UsuarioServiceImpl();
         boolean expResult = false;
         boolean result = instance.guardarCliente(cliente);
         assertEquals(expResult, result);
@@ -60,7 +60,7 @@ public class UsuarioServiceTest {
         System.out.println("guardarCliente");
         Date d = new Date();
         Cliente cliente = new Cliente("UserNameX", "NombreX", "ApellidoX", "correoX@gmailcom", d, "rutaX");
-        UsuarioService instance = new UsuarioService();
+        UsuarioServiceImpl instance = new UsuarioServiceImpl();
         boolean expResult = true;
         boolean result = instance.guardarCliente(cliente);
         assertEquals(expResult, result);
@@ -68,13 +68,13 @@ public class UsuarioServiceTest {
     }
 
     /**
-     * Test of guardarProveedor method, of class UsuarioService.
+     * Test of guardarProveedor method, of class UsuarioServiceImpl.
      */
     @Test
     public void testGuardarProveedorNull() {
         System.out.println("guardarProveedorNull");
         Proveedor proveedor = null;
-        UsuarioService instance = new UsuarioService();
+        UsuarioServiceImpl instance = new UsuarioServiceImpl();
         boolean expResult = false;
         boolean result = instance.guardarProveedor(proveedor);
         assertEquals(expResult, result);
@@ -86,7 +86,7 @@ public class UsuarioServiceTest {
         System.out.println("guardarProveedorNull");
         Date f = new Date();
         Proveedor proveedor = new Proveedor("UserNameZ", "NombreZ", "ApellidoZ", "correoZ@gmailcom", f, "rutaZ", "EmpresaZ", "www.empresaZ.com");
-        UsuarioService instance = new UsuarioService();
+        UsuarioServiceImpl instance = new UsuarioServiceImpl();
         boolean expResult = true;
         boolean result = instance.guardarProveedor(proveedor);
         assertEquals(expResult, result);
@@ -94,13 +94,13 @@ public class UsuarioServiceTest {
     }
 
     /**
-     * Test of existeCliente method, of class UsuarioService.
+     * Test of existeCliente method, of class UsuarioServiceImpl.
      */
     @Test
     public void testExisteClienteFalse() {
         System.out.println("existeClienteFalse");
         String nickName = "Username";
-        UsuarioService instance = new UsuarioService();
+        UsuarioServiceImpl instance = new UsuarioServiceImpl();
         boolean expResult = false;
         boolean result = instance.existeCliente(nickName);
         assertEquals(expResult, result);
@@ -111,7 +111,7 @@ public class UsuarioServiceTest {
     public void testExisteCliente() {
         System.out.println("existeCliente");
         String nickName = "Username";
-        UsuarioService instance = new UsuarioService();
+        UsuarioServiceImpl instance = new UsuarioServiceImpl();
         Date d = new Date();
         Cliente cliente = new Cliente("Username", "nombre", "apellido", "correo@correo", d, "ruta");
         instance.guardarCliente(cliente);
@@ -122,13 +122,13 @@ public class UsuarioServiceTest {
     }
 
     /**
-     * Test of existeProveedor method, of class UsuarioService.
+     * Test of existeProveedor method, of class UsuarioServiceImpl.
      */
     @Test
     public void testExisteProveedorFalse() {
         System.out.println("existeProveedorFalse");
         String nickName = "UserName";
-        UsuarioService instance = new UsuarioService();
+        UsuarioServiceImpl instance = new UsuarioServiceImpl();
         boolean expResult = false;
         boolean result = instance.existeProveedor(nickName);
         assertEquals(expResult, result);
@@ -139,7 +139,7 @@ public class UsuarioServiceTest {
     public void testExisteProveedor() {
         System.out.println("existeProveedor");
         String nickName = "UserName";
-        UsuarioService instance = new UsuarioService();
+        UsuarioServiceImpl instance = new UsuarioServiceImpl();
         Date d = new Date();
         Proveedor proveedor = new Proveedor("UserName", "nombre", "apellido", "correo@correo", d, "empresa", "linkempresa", "ruta");
         instance.guardarProveedor(proveedor);
@@ -150,13 +150,13 @@ public class UsuarioServiceTest {
     }
 
     /**
-     * Test of obtenerCliente method, of class UsuarioService.
+     * Test of obtenerCliente method, of class UsuarioServiceImpl.
      */
     @Test
     public void testObtenerClienteNull() {
         System.out.println("obtenerClienteNull");
         String nickName = "UserName";
-        UsuarioService instance = new UsuarioService();
+        UsuarioServiceImpl instance = new UsuarioServiceImpl();
         Cliente expResult = null;
         Cliente result = instance.obtenerCliente(nickName);
         assertEquals(expResult, result);
@@ -167,7 +167,7 @@ public class UsuarioServiceTest {
     public void testObtenerCliente() {
         System.out.println("obtenerCliente");
         String nickName = "UserName";
-        UsuarioService instance = new UsuarioService();
+        UsuarioServiceImpl instance = new UsuarioServiceImpl();
         Date d = new Date();
         Cliente cliente = new Cliente("UserName", "nombre", "apellido", "correo@correo", d, "ruta");
         instance.guardarCliente(cliente);
@@ -178,13 +178,13 @@ public class UsuarioServiceTest {
     }
 
     /**
-     * Test of obtenerProveedor method, of class UsuarioService.
+     * Test of obtenerProveedor method, of class UsuarioServiceImpl.
      */
     @Test
     public void testObtenerProveedorNull() {
         System.out.println("obtenerProveedorNull");
         String nickName = "UserName";
-        UsuarioService instance = new UsuarioService();
+        UsuarioServiceImpl instance = new UsuarioServiceImpl();
         Proveedor expResult = null;
         Proveedor result = instance.obtenerProveedor(nickName);
         assertEquals(expResult, result);
@@ -195,7 +195,7 @@ public class UsuarioServiceTest {
     public void testObtenerProveedor() {
         System.out.println("obtenerProveedor");
         String nickName = "UserName";
-        UsuarioService instance = new UsuarioService();
+        UsuarioServiceImpl instance = new UsuarioServiceImpl();
         Date d = new Date();
         Proveedor proveedor = new Proveedor("UserName", "nombre", "apellido", "correo@correo", d, "empresa", "linkempresa", "ruta");
         instance.guardarProveedor(proveedor);
@@ -206,13 +206,13 @@ public class UsuarioServiceTest {
     }
 
     /**
-     * Test of existeCorreo method, of class UsuarioService.
+     * Test of existeCorreo method, of class UsuarioServiceImpl.
      */
     @Test
     public void testExisteCorreoFalse() {
         System.out.println("existeCorreoFalse");
         String correo = "correo@correo.com";
-        UsuarioService instance = new UsuarioService();
+        UsuarioServiceImpl instance = new UsuarioServiceImpl();
         boolean expResult = false;
         boolean result = instance.existeCorreo(correo);
         assertEquals(expResult, result);
@@ -224,7 +224,7 @@ public class UsuarioServiceTest {
     public void testExisteCorreo() {
         System.out.println("existeCorreo");
         String correo = "correo@correo.com";
-        UsuarioService instance = new UsuarioService();
+        UsuarioServiceImpl instance = new UsuarioServiceImpl();
         Date d = new Date();
         Proveedor proveedor = new Proveedor("UserName", "nombre", "apellido", "correo@correo.com", d, "empresa", "linkempresa", "ruta");
         instance.guardarProveedor(proveedor);
@@ -236,12 +236,12 @@ public class UsuarioServiceTest {
     }
 
     /**
-     * Test of obtenerProveedores method, of class UsuarioService.
+     * Test of obtenerProveedores method, of class UsuarioServiceImpl.
      */
     @Test
     public void testObtenerProveedoresEmpty() {
         System.out.println("obtenerProveedoresEmpty");
-        UsuarioService instance = new UsuarioService();
+        UsuarioServiceImpl instance = new UsuarioServiceImpl();
         int expResult = 0;
         List<Proveedor> result = instance.obtenerProveedores();
         assertEquals(expResult, result.size());
@@ -251,7 +251,7 @@ public class UsuarioServiceTest {
     @Test
     public void testObtenerProveedores() {
         System.out.println("obtenerProveedores");
-        UsuarioService instance = new UsuarioService();
+        UsuarioServiceImpl instance = new UsuarioServiceImpl();
         Date d = new Date();
         Proveedor proveedor = new Proveedor("UserName", "nombre", "apellido", "correo@correo.com", d, "empresa", "linkempresa", "ruta");
         instance.guardarProveedor(proveedor);
@@ -262,12 +262,12 @@ public class UsuarioServiceTest {
     }
 
     /**
-     * Test of obtenerCientes method, of class UsuarioService.
+     * Test of obtenerCientes method, of class UsuarioServiceImpl.
      */
     @Test
     public void testObtenerCientesEmpty() {
         System.out.println("obtenerCientesEmpty");
-        UsuarioService instance = new UsuarioService();
+        UsuarioServiceImpl instance = new UsuarioServiceImpl();
         int expResult = 0;
         List<Cliente> result = instance.obtenerCientes();
         assertEquals(expResult, result.size());
@@ -278,7 +278,7 @@ public class UsuarioServiceTest {
     @Test
     public void testObtenerCientes() {
         System.out.println("obtenerCientes");
-        UsuarioService instance = new UsuarioService();
+        UsuarioServiceImpl instance = new UsuarioServiceImpl();
         Date d = new Date();
         Cliente cliente = new Cliente("UserName", "nombre", "apellido", "correo@correo", d, "ruta");
         instance.guardarCliente(cliente);
@@ -292,7 +292,7 @@ public class UsuarioServiceTest {
     @Test
     public void testvaciarPeristenciaP() {
         System.out.println("vaciarPeristenciaP");
-        UsuarioService instance = new UsuarioService();
+        UsuarioServiceImpl instance = new UsuarioServiceImpl();
         Date d = new Date();
         Proveedor proveedor = new Proveedor("UserName", "nombre", "apellido", "correo@correo.com", d, "empresa", "linkempresa", "ruta");
         instance.guardarProveedor(proveedor);
@@ -306,7 +306,7 @@ public class UsuarioServiceTest {
     @Test
     public void testvaciarPeristenciaC() {
         System.out.println("vaciarPeristenciaC");
-        UsuarioService instance = new UsuarioService();
+        UsuarioServiceImpl instance = new UsuarioServiceImpl();
         Date d = new Date();
         Cliente cliente = new Cliente("UserName", "nombre", "apellido", "correo@correo", d, "ruta");
         instance.guardarCliente(cliente);

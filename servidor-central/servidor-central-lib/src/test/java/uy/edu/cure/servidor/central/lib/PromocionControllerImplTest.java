@@ -19,9 +19,9 @@ import uy.edu.cure.servidor.central.dto.*;
  *
  * @author Rodrigo "Lobo Plateado" Pérez
  */
-public class PromocionControllerTest {
+public class PromocionControllerImplTest {
     
-    public PromocionControllerTest() {
+    public PromocionControllerImplTest() {
     }
     
     @BeforeClass
@@ -41,7 +41,7 @@ public class PromocionControllerTest {
     }
 
     /**
-     * Test of crearPromocion method, of class PromocionController.
+     * Test of crearPromocion method, of class PromocionControllerImpl.
      */
     @Test
     public void testCrearPromocionNombreVacio() {
@@ -50,7 +50,7 @@ public class PromocionControllerTest {
         int descuento = 0;
         String nickProveedor = "";
         List<String> servicios = new ArrayList<String>();
-        PromocionController instance = new PromocionController();
+        PromocionControllerImpl instance = new PromocionControllerImpl();
         String expResult = "Nombre no puede quedar en blanco";
         String result = instance.crearPromocion(nombre, descuento, nickProveedor, servicios);
         assertEquals(expResult, result);
@@ -58,7 +58,7 @@ public class PromocionControllerTest {
     }
 
     /**
-     * Test of crearPromocion method, of class PromocionController.
+     * Test of crearPromocion method, of class PromocionControllerImpl.
      */
     @Test
     public void testCrearPromocionNoProveedor() {
@@ -67,7 +67,7 @@ public class PromocionControllerTest {
         int descuento = 0;
         String nickProveedor = "";
         List<String> servicios = new ArrayList<String>();
-        PromocionController instance = new PromocionController();
+        PromocionControllerImpl instance = new PromocionControllerImpl();
         String expResult = "No existe proveedor";
         String result = instance.crearPromocion(nombre, descuento, nickProveedor, servicios);
         assertEquals(expResult, result);
@@ -75,7 +75,7 @@ public class PromocionControllerTest {
     }
 
     /**
-     * Test of crearPromocion method, of class PromocionController.
+     * Test of crearPromocion method, of class PromocionControllerImpl.
      */
     @Test
     public void testCrearPromocionExistePromocion() {
@@ -84,9 +84,9 @@ public class PromocionControllerTest {
         int descuento = 0;
         String nickProveedor = "nickName";
         List<String> servicios = new ArrayList<String>();
-        PromocionController instanceController = new PromocionController();
-        PromocionService instanceService = new PromocionService();
-        UsuarioService usuarioService = new UsuarioService();
+        PromocionControllerImpl instanceController = new PromocionControllerImpl();
+        PromocionServiceImpl instanceService = new PromocionServiceImpl();
+        UsuarioServiceImpl usuarioService = new UsuarioServiceImpl();
         Proveedor proveedor = new Proveedor(nickProveedor, "nombre", "apellido", "correo@c", null, "empresa", "link", null);
         Promocion promo = new Promocion(nombre, descuento, 0, proveedor);
         instanceService.guardarPromocion(promo);
@@ -99,7 +99,7 @@ public class PromocionControllerTest {
     }
 
     /**
-     * Test of crearPromocion method, of class PromocionController.
+     * Test of crearPromocion method, of class PromocionControllerImpl.
      */
     @Test
     public void testCrearPromocionDescuentoMenor() {
@@ -108,8 +108,8 @@ public class PromocionControllerTest {
         int descuento = -1;
         String nickProveedor = "nickName";
         List<String> servicios = new ArrayList<String>();
-        PromocionController instance = new PromocionController();
-        UsuarioService usuarioService = new UsuarioService();
+        PromocionControllerImpl instance = new PromocionControllerImpl();
+        UsuarioServiceImpl usuarioService = new UsuarioServiceImpl();
         Proveedor proveedor = new Proveedor(nickProveedor, "nombre", "apellido", "correo@c", null, "empresa", "link", null);
         usuarioService.guardarProveedor(proveedor);
         String expResult = "Descuento invalido";
@@ -120,7 +120,7 @@ public class PromocionControllerTest {
     }
 
     /**
-     * Test of crearPromocion method, of class PromocionController.
+     * Test of crearPromocion method, of class PromocionControllerImpl.
      */
     @Test
     public void testCrearPromocionDescuentoMayor() {
@@ -129,8 +129,8 @@ public class PromocionControllerTest {
         int descuento = 101;
         String nickProveedor = "nickName";
         List<String> servicios = new ArrayList<String>();
-        PromocionController instance = new PromocionController();
-        UsuarioService usuarioService = new UsuarioService();
+        PromocionControllerImpl instance = new PromocionControllerImpl();
+        UsuarioServiceImpl usuarioService = new UsuarioServiceImpl();
         Proveedor proveedor = new Proveedor(nickProveedor, "nombre", "apellido", "correo@c", null, "empresa", "link", null);
         usuarioService.guardarProveedor(proveedor);
         String expResult = "Descuento invalido";
@@ -141,7 +141,7 @@ public class PromocionControllerTest {
     }
 
     /**
-     * Test of crearPromocion method, of class PromocionController.
+     * Test of crearPromocion method, of class PromocionControllerImpl.
      */
     @Test
     public void testCrearPromocionNoServicios() {
@@ -150,8 +150,8 @@ public class PromocionControllerTest {
         int descuento = 25;
         String nickProveedor = "nickName";
         List<String> servicios = new ArrayList<String>();
-        PromocionController instance = new PromocionController();
-        UsuarioService usuarioService = new UsuarioService();
+        PromocionControllerImpl instance = new PromocionControllerImpl();
+        UsuarioServiceImpl usuarioService = new UsuarioServiceImpl();
         Proveedor proveedor = new Proveedor(nickProveedor, "nombre", "apellido", "correo@c", null, "empresa", "link", null);
         usuarioService.guardarProveedor(proveedor);
         String expResult = "Debe agregar servicios";
@@ -162,7 +162,7 @@ public class PromocionControllerTest {
     }
 
     /**
-     * Test of crearPromocion method, of class PromocionController.
+     * Test of crearPromocion method, of class PromocionControllerImpl.
      */
     @Test
     public void testCrearPromocionTrue() {
@@ -171,11 +171,11 @@ public class PromocionControllerTest {
         int descuento = 25;
         String nickProveedor = "nickName";
         List<String> servicios = new ArrayList<String>();
-        PromocionController instance = new PromocionController();
-        UsuarioService usuarioService = new UsuarioService();
+        PromocionControllerImpl instance = new PromocionControllerImpl();
+        UsuarioServiceImpl usuarioService = new UsuarioServiceImpl();
         Proveedor proveedor = new Proveedor(nickProveedor, "nombre", "apellido", "correo@c", null, "empresa", "link", null);
         usuarioService.guardarProveedor(proveedor);
-        ServicioService servicioService = new ServicioService();
+        ServicioServiceImpl servicioService = new ServicioServiceImpl();
         Servicio servicio = new Servicio("servicio", "descripcion", 100, null, null, proveedor);
         servicioService.guardarServicio(servicio);
         servicios.add("servicio");
@@ -188,14 +188,14 @@ public class PromocionControllerTest {
     }
 
     /**
-     * Test of existePromocion method, of class PromocionController.
+     * Test of existePromocion method, of class PromocionControllerImpl.
      */
     @Test
     public void testExistePromocion() {
         System.out.println("existePromocion");
         String nombre = "";
         String nickNameProveedor = "";
-        PromocionController instance = new PromocionController();
+        PromocionControllerImpl instance = new PromocionControllerImpl();
         boolean expResult = false;
         boolean result = instance.existePromocion(nombre, nickNameProveedor);
         assertEquals(expResult, result);
@@ -203,14 +203,14 @@ public class PromocionControllerTest {
     }
 
     /**
-     * Test of obtenerPromocion method, of class PromocionController.
+     * Test of obtenerPromocion method, of class PromocionControllerImpl.
      */
     @Test
     public void testObtenerPromocion() {
         System.out.println("obtenerPromocion");
         String Nombre = "";
         String nickNameProveedor = "";
-        PromocionController instance = new PromocionController();
+        PromocionControllerImpl instance = new PromocionControllerImpl();
         Promocion expResult = null;
         Promocion result = instance.obtenerPromocion(Nombre, nickNameProveedor);
         assertEquals(expResult, result);
@@ -218,12 +218,12 @@ public class PromocionControllerTest {
     }
 
     /**
-     * Test of obtenerTodasPromociones method, of class PromocionController.
+     * Test of obtenerTodasPromociones method, of class PromocionControllerImpl.
      */
     @Test
     public void testObtenerTodasPromociones() {
         System.out.println("obtenerTodasPromociones");
-        PromocionController instance = new PromocionController();
+        PromocionControllerImpl instance = new PromocionControllerImpl();
         int expResult = 0;
         int result = instance.obtenerTodasPromociones().size();
         assertEquals(expResult, result);

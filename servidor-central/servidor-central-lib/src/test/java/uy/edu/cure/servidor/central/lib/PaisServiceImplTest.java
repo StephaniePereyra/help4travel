@@ -18,9 +18,9 @@ import uy.edu.cure.servidor.central.dto.Pais;
  *
  * @author SCN
  */
-public class PaisServiceTest {
+public class PaisServiceImplTest {
 
-    public PaisServiceTest() {
+    public PaisServiceImplTest() {
     }
 
     @BeforeClass
@@ -40,13 +40,13 @@ public class PaisServiceTest {
     }
 
     /**
-     * Test of guardarPais method, of class PaisService.
+     * Test of guardarPais method, of class PaisServiceImpl.
      */
     @Test
     public void testGuardarPaisNull() {
         System.out.println("guardarPaisNull");
         Pais pais = null;
-        PaisService instance = new PaisService();
+        PaisServiceImpl instance = new PaisServiceImpl();
         boolean expResult = false;
         boolean result = instance.guardarPais(pais);
         assertEquals(expResult, result);
@@ -57,7 +57,7 @@ public class PaisServiceTest {
     public void testGuardarPais() {
         System.out.println("guardarPais");
         Pais pais = new Pais("NombrePais");
-        PaisService instance = new PaisService();
+        PaisServiceImpl instance = new PaisServiceImpl();
         boolean expResult = true;
         boolean result = instance.guardarPais(pais);
         assertEquals(expResult, result);
@@ -65,13 +65,13 @@ public class PaisServiceTest {
     }
 
     /**
-     * Test of existePais method, of class PaisService.
+     * Test of existePais method, of class PaisServiceImpl.
      */
     @Test
     public void testExistePaisFalse() {
         System.out.println("existePaisFalse");
         String nombre = "NombrePais";
-        PaisService instance = new PaisService();
+        PaisServiceImpl instance = new PaisServiceImpl();
         boolean expResult = false;
         boolean result = instance.existePais(nombre);
         assertEquals(expResult, result);
@@ -82,7 +82,7 @@ public class PaisServiceTest {
     public void testExistePais() {
         System.out.println("existePais");
         String nombre = "NombrePais";
-        PaisService instance = new PaisService();
+        PaisServiceImpl instance = new PaisServiceImpl();
         Pais pais = new Pais("NombrePais");
         instance.guardarPais(pais);
         boolean expResult = true;
@@ -92,13 +92,13 @@ public class PaisServiceTest {
     }
 
     /**
-     * Test of obtenerPais method, of class PaisService.
+     * Test of obtenerPais method, of class PaisServiceImpl.
      */
     @Test
     public void testObtenerPaisNull() {
         System.out.println("obtenerPaisNull");
         String nombre = "NombrePais";
-        PaisService instance = new PaisService();
+        PaisServiceImpl instance = new PaisServiceImpl();
         Pais expResult = null;
         Pais result = instance.obtenerPais(nombre);
         assertEquals(expResult, result);
@@ -109,7 +109,7 @@ public class PaisServiceTest {
     public void testObtenerPais() {
         System.out.println("obtenerPais");
         String nombre = "NombrePais";
-        PaisService instance = new PaisService();
+        PaisServiceImpl instance = new PaisServiceImpl();
         Pais pais = new Pais("NombrePais");
         instance.guardarPais(pais);
         String expResult = "NombrePais";
@@ -119,12 +119,12 @@ public class PaisServiceTest {
     }
 
     /**
-     * Test of obtenerTodosPaises method, of class PaisService.
+     * Test of obtenerTodosPaises method, of class PaisServiceImpl.
      */
     @Test
     public void testObtenerTodosPaisesEmpty() {
         System.out.println("obtenerTodosPaisesEmpty");
-        PaisService instance = new PaisService();
+        PaisServiceImpl instance = new PaisServiceImpl();
         int expResult = 0;
         List<Pais> result = instance.obtenerTodosPaises();
         assertEquals(expResult, result.size());
@@ -134,7 +134,7 @@ public class PaisServiceTest {
     @Test
     public void testObtenerTodosPaises() {
         System.out.println("obtenerTodosPaises");
-        PaisService instance = new PaisService();
+        PaisServiceImpl instance = new PaisServiceImpl();
         Pais pais = new Pais("NombrePais");
         instance.guardarPais(pais);
         int expResult = 1;
@@ -144,12 +144,12 @@ public class PaisServiceTest {
     }
 
     /**
-     * Test of vaciarPersistenciaPais method, of class PaisService.
+     * Test of vaciarPersistenciaPais method, of class PaisServiceImpl.
      */
     @Test
     public void testVaciarPersistenciaPais() {
         System.out.println("vaciarPersistenciaPais");
-        PaisService instance = new PaisService();
+        PaisServiceImpl instance = new PaisServiceImpl();
         Pais pais = new Pais("NombrePais");
         instance.guardarPais(pais);
         instance.vaciarPersistenciaPais();

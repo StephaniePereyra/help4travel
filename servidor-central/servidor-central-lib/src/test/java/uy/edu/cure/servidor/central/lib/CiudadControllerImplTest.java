@@ -18,9 +18,9 @@ import uy.edu.cure.servidor.central.dto.Ciudad;
  *
  * @author SCN
  */
-public class CiudadControllerTest {
+public class CiudadControllerImplTest {
 
-    public CiudadControllerTest() {
+    public CiudadControllerImplTest() {
     }
 
     @BeforeClass
@@ -40,15 +40,15 @@ public class CiudadControllerTest {
     }
 
     /**
-     * Test of crearCiudad method, of class CiudadController.
+     * Test of crearCiudad method, of class CiudadControllerImpl.
      */
     @Test
     public void testCrearCiudad() {
         System.out.println("crearCiudad");
         String nombreCiudad = "Maldonado";
         String nombrePais = "Uruguay";
-        CiudadController instance = new CiudadController();
-        PaisController p = new PaisController();
+        CiudadControllerImpl instance = new CiudadControllerImpl();
+        PaisControllerImpl p = new PaisControllerImpl();
         p.crearPais("Uruguay");
         boolean expResult = true;
         boolean result = instance.crearCiudad(nombreCiudad, nombrePais);
@@ -62,7 +62,7 @@ public class CiudadControllerTest {
         System.out.println("crearCiudadPaisNoExiste");
         String nombreCiudad = "Maldonado";
         String nombrePais = "Uruguay";
-        CiudadController instance = new CiudadController();
+        CiudadControllerImpl instance = new CiudadControllerImpl();
         boolean expResult = false;
         boolean result = instance.crearCiudad(nombreCiudad, nombrePais);
         assertEquals(expResult, result);
@@ -74,8 +74,8 @@ public class CiudadControllerTest {
         System.out.println("crearCiudadYaExistente");
         String nombreCiudad = "Maldonado";
         String nombrePais = "Uruguay";
-        CiudadController instance = new CiudadController();
-        PaisController p = new PaisController();
+        CiudadControllerImpl instance = new CiudadControllerImpl();
+        PaisControllerImpl p = new PaisControllerImpl();
         p.crearPais("Uruguay");
         boolean expResult = false;
         instance.crearCiudad(nombreCiudad, nombrePais);
@@ -86,13 +86,13 @@ public class CiudadControllerTest {
     }
 
     /**
-     * Test of existeCiudad method, of class CiudadController.
+     * Test of existeCiudad method, of class CiudadControllerImpl.
      */
     @Test
     public void testExisteCiudadFalse() {
         System.out.println("existeCiudadFalse");
         String nombre = "Maldonado";
-        CiudadController instance = new CiudadController();
+        CiudadControllerImpl instance = new CiudadControllerImpl();
         boolean expResult = false;
         boolean result = instance.existeCiudad(nombre);
         assertEquals(expResult, result);
@@ -103,8 +103,8 @@ public class CiudadControllerTest {
     public void testExisteCiudad() {
         System.out.println("existeCiudad");
         String nombre = "Maldonado";
-        CiudadController instance = new CiudadController();
-        PaisController p = new PaisController();
+        CiudadControllerImpl instance = new CiudadControllerImpl();
+        PaisControllerImpl p = new PaisControllerImpl();
         p.crearPais("Uruguay");
         instance.crearCiudad(nombre, "Uruguay");
         boolean expResult = true;
@@ -115,13 +115,13 @@ public class CiudadControllerTest {
     }
 
     /**
-     * Test of obtenerCiudad method, of class CiudadController.
+     * Test of obtenerCiudad method, of class CiudadControllerImpl.
      */
     @Test
     public void testObtenerCiudadNull() {
         System.out.println("obtenerCiudadNull");
         String nombre = "Maldonado";
-        CiudadController instance = new CiudadController();
+        CiudadControllerImpl instance = new CiudadControllerImpl();
         Ciudad expResult = null;
         Ciudad result = instance.obtenerCiudad(nombre);
         assertEquals(expResult, result);
@@ -132,8 +132,8 @@ public class CiudadControllerTest {
     public void testObtenerCiudad() {
         System.out.println("obtenerCiudad");
         String nombre = "Maldonado";
-        CiudadController instance = new CiudadController();
-        PaisController p = new PaisController();
+        CiudadControllerImpl instance = new CiudadControllerImpl();
+        PaisControllerImpl p = new PaisControllerImpl();
         p.crearPais("Uruguay");
         instance.crearCiudad(nombre, "Uruguay");
         String expResult = "Maldonado";
@@ -144,12 +144,12 @@ public class CiudadControllerTest {
     }
 
     /**
-     * Test of obtenerTodosCiudades method, of class CiudadController.
+     * Test of obtenerTodosCiudades method, of class CiudadControllerImpl.
      */
     @Test
     public void testObtenerTodosCiudadesEmpty() {
         System.out.println("obtenerTodosCiudadesEmpty");
-        CiudadController instance = new CiudadController();
+        CiudadControllerImpl instance = new CiudadControllerImpl();
         int expResult = 0;
         List<Ciudad> result = instance.obtenerTodosCiudades();
         assertEquals(expResult, result.size());
@@ -159,8 +159,8 @@ public class CiudadControllerTest {
     @Test
     public void testObtenerTodosCiudades() {
         System.out.println("obtenerTodosCiudades");
-        CiudadController instance = new CiudadController();
-        PaisController p = new PaisController();
+        CiudadControllerImpl instance = new CiudadControllerImpl();
+        PaisControllerImpl p = new PaisControllerImpl();
         p.crearPais("Uruguay");
         instance.crearCiudad("Maldonado", "Uruguay");
         int expResult = 1;
@@ -171,13 +171,13 @@ public class CiudadControllerTest {
     }
 
     /**
-     * Test of vaciarPersistenciaCiudad method, of class CiudadController.
+     * Test of vaciarPersistenciaCiudad method, of class CiudadControllerImpl.
      */
     @Test
     public void testVaciarPersistenciaCiudad() {
         System.out.println("vaciarPersistenciaCiudad");
-        CiudadController instance = new CiudadController();
-        PaisController p = new PaisController();
+        CiudadControllerImpl instance = new CiudadControllerImpl();
+        PaisControllerImpl p = new PaisControllerImpl();
         p.crearPais("Uruguay");
         instance.crearCiudad("Maldonado", "Uruguay");
         instance.vaciarPersistenciaCiudad();

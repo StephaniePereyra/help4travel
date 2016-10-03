@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import uy.edu.cure.servidor.central.lib.UsuarioController;
+import uy.edu.cure.servidor.central.lib.UsuarioControllerImpl;
 import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
 import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
 
@@ -31,7 +31,7 @@ public class AltaProveedor extends javax.swing.JFrame {
 
     private FileNameExtensionFilter filtro;
     @Jeringa (value = "usuariocontroller")
-    private UsuarioController usuariocontrollerForm;
+    private UsuarioControllerImpl usuariocontrollerForm;
     private String rutaImagen;
     private String rutaArchivo;
     private String validez;

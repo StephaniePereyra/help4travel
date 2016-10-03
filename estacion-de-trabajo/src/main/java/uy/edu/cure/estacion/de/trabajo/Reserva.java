@@ -12,10 +12,10 @@ import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import uy.edu.cure.servidor.central.dto.Promocion;
 import uy.edu.cure.servidor.central.dto.Servicio;
-import uy.edu.cure.servidor.central.lib.PromocionController;
-import uy.edu.cure.servidor.central.lib.ReservaController;
-import uy.edu.cure.servidor.central.lib.ServicioController;
-import uy.edu.cure.servidor.central.lib.UsuarioController;
+import uy.edu.cure.servidor.central.lib.PromocionControllerImpl;
+import uy.edu.cure.servidor.central.lib.ReservaControllerImpl;
+import uy.edu.cure.servidor.central.lib.ServicioControllerImpl;
+import uy.edu.cure.servidor.central.lib.UsuarioControllerImpl;
 import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
 import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
 
@@ -36,13 +36,13 @@ public class Reserva extends javax.swing.JFrame {
     DefaultListModel listServiciosDePromo;
     DefaultListModel listClientes;
     @Jeringa (value = "reservacontroller")
-    private ReservaController reservaController;
+    private ReservaControllerImpl reservaController;
     @Jeringa (value = "serviciocontroller")
-    private ServicioController servicioController;
+    private ServicioControllerImpl servicioController;
     @Jeringa (value = "promocioncontroller")
-    private PromocionController promocionController;
+    private PromocionControllerImpl promocionController;
     @Jeringa (value = "usuariocontroller")
-    private  UsuarioController usuarioController;
+    private  UsuarioControllerImpl usuarioController;
     
     public Reserva() {
         reservaServicios = new ArrayList<Servicio>();

@@ -19,9 +19,9 @@ import uy.edu.cure.servidor.central.dto.Proveedor;
  *
  * @author SCN
  */
-public class UsuarioControllerTest {
+public class UsuarioControllerImplTest {
 
-    public UsuarioControllerTest() {
+    public UsuarioControllerImplTest() {
     }
 
     @BeforeClass
@@ -41,7 +41,7 @@ public class UsuarioControllerTest {
     }
 
     /**
-     * Test of crearCliente method, of class UsuarioController.
+     * Test of crearCliente method, of class UsuarioControllerImpl.
      */
     @Test
     public void testCrearCliente() {
@@ -54,7 +54,7 @@ public class UsuarioControllerTest {
         int mes = 2;
         int anio = 1995;
         String imagenPerfil = "reutaX";
-        UsuarioController instance = new UsuarioController();
+        UsuarioControllerImpl instance = new UsuarioControllerImpl();
         int expResult = -1;
         int result = instance.crearCliente(nickName, nombre, apellido, correo, dia, mes, anio, imagenPerfil);
         assertEquals(expResult, result);
@@ -72,7 +72,7 @@ public class UsuarioControllerTest {
         int mes = 2;
         int anio = 1995;
         String imagenPerfil = "reutaX";
-        UsuarioController instance = new UsuarioController();
+        UsuarioControllerImpl instance = new UsuarioControllerImpl();
         instance.crearCliente("ClienteX", "Nombre", "Apellido", "correo@correo.com", 1, 2, 1995, "ruta");
         int expResult = 1;
         int result = instance.crearCliente(nickName, nombre, apellido, correo, dia, mes, anio, imagenPerfil);
@@ -91,7 +91,7 @@ public class UsuarioControllerTest {
         int mes = 2;
         int anio = 1995;
         String imagenPerfil = "reutaX";
-        UsuarioController instance = new UsuarioController();
+        UsuarioControllerImpl instance = new UsuarioControllerImpl();
         instance.crearCliente("ClienteXX", "Nombre", "Apellido", "correoX@correo.com", 1, 2, 1995, "ruta");
         int expResult = 2;
         int result = instance.crearCliente(nickName, nombre, apellido, correo, dia, mes, anio, imagenPerfil);
@@ -110,7 +110,7 @@ public class UsuarioControllerTest {
         int mes = 2;
         int anio = 1995;
         String imagenPerfil = "reutaX";
-        UsuarioController instance = new UsuarioController();
+        UsuarioControllerImpl instance = new UsuarioControllerImpl();
         int expResult = 3;
         int result = instance.crearCliente(nickName, nombre, apellido, correo, dia, mes, anio, imagenPerfil);
         assertEquals(expResult, result);
@@ -128,7 +128,7 @@ public class UsuarioControllerTest {
         int mes = 2;
         int anio = 1995;
         String imagenPerfil = "reutaX";
-        UsuarioController instance = new UsuarioController();
+        UsuarioControllerImpl instance = new UsuarioControllerImpl();
         int expResult = 3;
         int result = instance.crearCliente(nickName, nombre, apellido, correo, dia, mes, anio, imagenPerfil);
         assertEquals(expResult, result);
@@ -146,7 +146,7 @@ public class UsuarioControllerTest {
         int mes = 2;
         int anio = 1995;
         String imagenPerfil = "reutaX";
-        UsuarioController instance = new UsuarioController();
+        UsuarioControllerImpl instance = new UsuarioControllerImpl();
         int expResult = 3;
         int result = instance.crearCliente(nickName, nombre, apellido, correo, dia, mes, anio, imagenPerfil);
         assertEquals(expResult, result);
@@ -164,7 +164,7 @@ public class UsuarioControllerTest {
         int mes = 2;
         int anio = 1995;
         String imagenPerfil = "reutaX";
-        UsuarioController instance = new UsuarioController();
+        UsuarioControllerImpl instance = new UsuarioControllerImpl();
         int expResult = 3;
         int result = instance.crearCliente(nickName, nombre, apellido, correo, dia, mes, anio, imagenPerfil);
         assertEquals(expResult, result);
@@ -182,7 +182,7 @@ public class UsuarioControllerTest {
         int mes = 2;
         int anio = -1;
         String imagenPerfil = "reutaX";
-        UsuarioController instance = new UsuarioController();
+        UsuarioControllerImpl instance = new UsuarioControllerImpl();
         int expResult = 4;
         int result = instance.crearCliente(nickName, nombre, apellido, correo, dia, mes, anio, imagenPerfil);
         assertEquals(expResult, result);
@@ -200,7 +200,7 @@ public class UsuarioControllerTest {
         int mes = 2;
         int anio = 2018;
         String imagenPerfil = "reutaX";
-        UsuarioController instance = new UsuarioController();
+        UsuarioControllerImpl instance = new UsuarioControllerImpl();
         int expResult = 4;
         int result = instance.crearCliente(nickName, nombre, apellido, correo, dia, mes, anio, imagenPerfil);
         assertEquals(expResult, result);
@@ -218,7 +218,7 @@ public class UsuarioControllerTest {
         int mes = -1;
         int anio = 1995;
         String imagenPerfil = "reutaX";
-        UsuarioController instance = new UsuarioController();
+        UsuarioControllerImpl instance = new UsuarioControllerImpl();
         int expResult = 4;
         int result = instance.crearCliente(nickName, nombre, apellido, correo, dia, mes, anio, imagenPerfil);
         assertEquals(expResult, result);
@@ -236,7 +236,7 @@ public class UsuarioControllerTest {
         int mes = 14;
         int anio = 1995;
         String imagenPerfil = "reutaX";
-        UsuarioController instance = new UsuarioController();
+        UsuarioControllerImpl instance = new UsuarioControllerImpl();
         int expResult = 4;
         int result = instance.crearCliente(nickName, nombre, apellido, correo, dia, mes, anio, imagenPerfil);
         assertEquals(expResult, result);
@@ -254,7 +254,7 @@ public class UsuarioControllerTest {
         int mes = 1;
         int anio = 1995;
         String imagenPerfil = "reutaX";
-        UsuarioController instance = new UsuarioController();
+        UsuarioControllerImpl instance = new UsuarioControllerImpl();
         int expResult = 4;
         int result = instance.crearCliente(nickName, nombre, apellido, correo, dia, mes, anio, imagenPerfil);
         assertEquals(expResult, result);
@@ -272,7 +272,7 @@ public class UsuarioControllerTest {
         int mes = 1;
         int anio = 1995;
         String imagenPerfil = "reutaX";
-        UsuarioController instance = new UsuarioController();
+        UsuarioControllerImpl instance = new UsuarioControllerImpl();
         int expResult = 4;
         int result = instance.crearCliente(nickName, nombre, apellido, correo, dia, mes, anio, imagenPerfil);
         assertEquals(expResult, result);
@@ -290,7 +290,7 @@ public class UsuarioControllerTest {
         int mes = 4;
         int anio = 1995;
         String imagenPerfil = "reutaX";
-        UsuarioController instance = new UsuarioController();
+        UsuarioControllerImpl instance = new UsuarioControllerImpl();
         int expResult = 4;
         int result = instance.crearCliente(nickName, nombre, apellido, correo, dia, mes, anio, imagenPerfil);
         assertEquals(expResult, result);
@@ -308,7 +308,7 @@ public class UsuarioControllerTest {
         int mes = 4;
         int anio = 1995;
         String imagenPerfil = "reutaX";
-        UsuarioController instance = new UsuarioController();
+        UsuarioControllerImpl instance = new UsuarioControllerImpl();
         int expResult = 4;
         int result = instance.crearCliente(nickName, nombre, apellido, correo, dia, mes, anio, imagenPerfil);
         assertEquals(expResult, result);
@@ -326,7 +326,7 @@ public class UsuarioControllerTest {
         int mes = 2;
         int anio = 2012;
         String imagenPerfil = "reutaX";
-        UsuarioController instance = new UsuarioController();
+        UsuarioControllerImpl instance = new UsuarioControllerImpl();
         int expResult = 4;
         int result = instance.crearCliente(nickName, nombre, apellido, correo, dia, mes, anio, imagenPerfil);
         assertEquals(expResult, result);
@@ -344,7 +344,7 @@ public class UsuarioControllerTest {
         int mes = 2;
         int anio = 2012;
         String imagenPerfil = "reutaX";
-        UsuarioController instance = new UsuarioController();
+        UsuarioControllerImpl instance = new UsuarioControllerImpl();
         int expResult = 4;
         int result = instance.crearCliente(nickName, nombre, apellido, correo, dia, mes, anio, imagenPerfil);
         assertEquals(expResult, result);
@@ -352,7 +352,7 @@ public class UsuarioControllerTest {
     }
 
     /**
-     * Test of crearProveedor method, of class UsuarioController.
+     * Test of crearProveedor method, of class UsuarioControllerImpl.
      */
     @Test
     public void testCrearProveedor() {
@@ -367,7 +367,7 @@ public class UsuarioControllerTest {
         String nombreEmpresa = "EmpresaZ";
         String linkEmpresa = "www.emprezaZ.com";
         String imagenPerfil = "rutaZ";
-        UsuarioController instance = new UsuarioController();
+        UsuarioControllerImpl instance = new UsuarioControllerImpl();
         int expResult = -1;
         int result = instance.crearProveedor(nickName, nombre, apellido, correo, dia, mes, anio, nombreEmpresa, linkEmpresa, imagenPerfil);
         assertEquals(expResult, result);
@@ -387,7 +387,7 @@ public class UsuarioControllerTest {
         String nombreEmpresa = "EmpresaZ";
         String linkEmpresa = "www.emprezaZ.com";
         String imagenPerfil = "rutaZ";
-        UsuarioController instance = new UsuarioController();
+        UsuarioControllerImpl instance = new UsuarioControllerImpl();
         instance.crearProveedor("UserNameZ", "nombre", "apellido", "correo@correo.com", 1, 2, 1950, "nombreEmpresa", "linkEmpresa", "imagenPerfil");
         int expResult = 1;
         int result = instance.crearProveedor(nickName, nombre, apellido, correo, dia, mes, anio, nombreEmpresa, linkEmpresa, imagenPerfil);
@@ -408,7 +408,7 @@ public class UsuarioControllerTest {
         String nombreEmpresa = "EmpresaZ";
         String linkEmpresa = "www.emprezaZ.com";
         String imagenPerfil = "rutaZ";
-        UsuarioController instance = new UsuarioController();
+        UsuarioControllerImpl instance = new UsuarioControllerImpl();
         instance.crearProveedor("UserNameZZZ", "nombre", "apellido", "correoZ@correo.com", 1, 2, 1950, "nombreEmpresa", "linkEmpresa", "imagenPerfil");
         int expResult = 2;
         int result = instance.crearProveedor(nickName, nombre, apellido, correo, dia, mes, anio, nombreEmpresa, linkEmpresa, imagenPerfil);
@@ -429,7 +429,7 @@ public class UsuarioControllerTest {
         String nombreEmpresa = "EmpresaZ";
         String linkEmpresa = "www.emprezaZ.com";
         String imagenPerfil = "rutaZ";
-        UsuarioController instance = new UsuarioController();
+        UsuarioControllerImpl instance = new UsuarioControllerImpl();
         int expResult = 3;
         int result = instance.crearProveedor(nickName, nombre, apellido, correo, dia, mes, anio, nombreEmpresa, linkEmpresa, imagenPerfil);
         assertEquals(expResult, result);
@@ -449,7 +449,7 @@ public class UsuarioControllerTest {
         String nombreEmpresa = "EmpresaZ";
         String linkEmpresa = "www.emprezaZ.com";
         String imagenPerfil = "rutaZ";
-        UsuarioController instance = new UsuarioController();
+        UsuarioControllerImpl instance = new UsuarioControllerImpl();
         int expResult = 3;
         int result = instance.crearProveedor(nickName, nombre, apellido, correo, dia, mes, anio, nombreEmpresa, linkEmpresa, imagenPerfil);
         assertEquals(expResult, result);
@@ -469,7 +469,7 @@ public class UsuarioControllerTest {
         String nombreEmpresa = "EmpresaZ";
         String linkEmpresa = "www.emprezaZ.com";
         String imagenPerfil = "rutaZ";
-        UsuarioController instance = new UsuarioController();
+        UsuarioControllerImpl instance = new UsuarioControllerImpl();
         int expResult = 3;
         int result = instance.crearProveedor(nickName, nombre, apellido, correo, dia, mes, anio, nombreEmpresa, linkEmpresa, imagenPerfil);
         assertEquals(expResult, result);
@@ -489,7 +489,7 @@ public class UsuarioControllerTest {
         String nombreEmpresa = "EmpresaZ";
         String linkEmpresa = "www.emprezaZ.com";
         String imagenPerfil = "rutaZ";
-        UsuarioController instance = new UsuarioController();
+        UsuarioControllerImpl instance = new UsuarioControllerImpl();
         int expResult = 3;
         int result = instance.crearProveedor(nickName, nombre, apellido, correo, dia, mes, anio, nombreEmpresa, linkEmpresa, imagenPerfil);
         assertEquals(expResult, result);
@@ -509,7 +509,7 @@ public class UsuarioControllerTest {
         String nombreEmpresa = "EmpresaZ";
         String linkEmpresa = "www.emprezaZ.com";
         String imagenPerfil = "rutaZ";
-        UsuarioController instance = new UsuarioController();
+        UsuarioControllerImpl instance = new UsuarioControllerImpl();
         int expResult = 4;
         int result = instance.crearProveedor(nickName, nombre, apellido, correo, dia, mes, anio, nombreEmpresa, linkEmpresa, imagenPerfil);
         assertEquals(expResult, result);
@@ -529,7 +529,7 @@ public class UsuarioControllerTest {
         String nombreEmpresa = "EmpresaZ";
         String linkEmpresa = "www.emprezaZ.com";
         String imagenPerfil = "rutaZ";
-        UsuarioController instance = new UsuarioController();
+        UsuarioControllerImpl instance = new UsuarioControllerImpl();
         int expResult = 4;
         int result = instance.crearProveedor(nickName, nombre, apellido, correo, dia, mes, anio, nombreEmpresa, linkEmpresa, imagenPerfil);
         assertEquals(expResult, result);
@@ -549,7 +549,7 @@ public class UsuarioControllerTest {
         String nombreEmpresa = "EmpresaZ";
         String linkEmpresa = "www.emprezaZ.com";
         String imagenPerfil = "rutaZ";
-        UsuarioController instance = new UsuarioController();
+        UsuarioControllerImpl instance = new UsuarioControllerImpl();
         int expResult = 4;
         int result = instance.crearProveedor(nickName, nombre, apellido, correo, dia, mes, anio, nombreEmpresa, linkEmpresa, imagenPerfil);
         assertEquals(expResult, result);
@@ -569,7 +569,7 @@ public class UsuarioControllerTest {
         String nombreEmpresa = "EmpresaZ";
         String linkEmpresa = "www.emprezaZ.com";
         String imagenPerfil = "rutaZ";
-        UsuarioController instance = new UsuarioController();
+        UsuarioControllerImpl instance = new UsuarioControllerImpl();
         int expResult = 4;
         int result = instance.crearProveedor(nickName, nombre, apellido, correo, dia, mes, anio, nombreEmpresa, linkEmpresa, imagenPerfil);
         assertEquals(expResult, result);
@@ -577,13 +577,13 @@ public class UsuarioControllerTest {
     }
 
     /**
-     * Test of existeCliente method, of class UsuarioController.
+     * Test of existeCliente method, of class UsuarioControllerImpl.
      */
     @Test
     public void testExisteClienteFalse() {
         System.out.println("existeClienteFalse");
         String nickName = "ClienteH";
-        UsuarioController instance = new UsuarioController();
+        UsuarioControllerImpl instance = new UsuarioControllerImpl();
         boolean expResult = false;
         boolean result = instance.existeCliente(nickName);
         assertEquals(expResult, result);
@@ -594,7 +594,7 @@ public class UsuarioControllerTest {
     public void testExisteCliente() {
         System.out.println("existeCliente");
         String nickName = "ClienteH";
-        UsuarioController instance = new UsuarioController();
+        UsuarioControllerImpl instance = new UsuarioControllerImpl();
         instance.crearCliente("ClienteH", "nombre", "apellido", "correo@correo", 1, 2, 1995, "ruta");
         boolean expResult = true;
         boolean result = instance.existeCliente(nickName);
@@ -603,13 +603,13 @@ public class UsuarioControllerTest {
     }
 
     /**
-     * Test of existeProveedor method, of class UsuarioController.
+     * Test of existeProveedor method, of class UsuarioControllerImpl.
      */
     @Test
     public void testExisteProveedorFalse() {
         System.out.println("existeProveedorFalse");
         String nickName = "ProveedorH";
-        UsuarioController instance = new UsuarioController();
+        UsuarioControllerImpl instance = new UsuarioControllerImpl();
         boolean expResult = false;
         boolean result = instance.existeProveedor(nickName);
         assertEquals(expResult, result);
@@ -620,7 +620,7 @@ public class UsuarioControllerTest {
     public void testExisteProveedor() {
         System.out.println("existeProveedor");
         String nickName = "ProveedorH";
-        UsuarioController instance = new UsuarioController();
+        UsuarioControllerImpl instance = new UsuarioControllerImpl();
         instance.crearProveedor("ProveedorH", "nombre", "apellido", "correo@correo", 7, 10, 1995, "empresa", "linkempresa", "ruta");
         boolean expResult = true;
         boolean result = instance.existeProveedor(nickName);
@@ -629,13 +629,13 @@ public class UsuarioControllerTest {
     }
 
     /**
-     * Test of obtenerCliente method, of class UsuarioController.
+     * Test of obtenerCliente method, of class UsuarioControllerImpl.
      */
     @Test
     public void testObtenerClienteNull() {
         System.out.println("obtenerClienteNull");
         String nickName = "ClienteH";
-        UsuarioController instance = new UsuarioController();
+        UsuarioControllerImpl instance = new UsuarioControllerImpl();
         Cliente expResult = null;
         Cliente result = instance.obtenerCliente(nickName);
         assertEquals(expResult, result);
@@ -646,7 +646,7 @@ public class UsuarioControllerTest {
     public void testObtenerCliente() {
         System.out.println("obtenerCliente");
         String nickName = "ClienteH";
-        UsuarioController instance = new UsuarioController();
+        UsuarioControllerImpl instance = new UsuarioControllerImpl();
         instance.crearCliente("ClienteH", "nombre", "apellido", "correo@correo", 1, 2, 1995, "ruta");
         String expResult = "ClienteH";
         String result = instance.obtenerCliente(nickName).getNickName();
@@ -655,13 +655,13 @@ public class UsuarioControllerTest {
     }
 
     /**
-     * Test of obtenerProveedor method, of class UsuarioController.
+     * Test of obtenerProveedor method, of class UsuarioControllerImpl.
      */
     @Test
     public void testObtenerProveedorNull() {
         System.out.println("obtenerProveedorNull");
         String nickName = "ProveedorH";
-        UsuarioController instance = new UsuarioController();
+        UsuarioControllerImpl instance = new UsuarioControllerImpl();
         Proveedor expResult = null;
         Proveedor result = instance.obtenerProveedor(nickName);
         assertEquals(expResult, result);
@@ -672,7 +672,7 @@ public class UsuarioControllerTest {
     public void testObtenerProveedor() {
         System.out.println("obtenerProveedor");
         String nickName = "ProveedorH";
-        UsuarioController instance = new UsuarioController();
+        UsuarioControllerImpl instance = new UsuarioControllerImpl();
         instance.crearProveedor("ProveedorH", "nombre", "apellido", "correo@correo", 7, 10, 1995, "empresa", "linkempresa", "ruta");
         String expResult = "ProveedorH";
         String result = instance.obtenerProveedor(nickName).getNickName();
@@ -681,12 +681,12 @@ public class UsuarioControllerTest {
     }
 
     /**
-     * Test of obtenerProveedores method, of class UsuarioController.
+     * Test of obtenerProveedores method, of class UsuarioControllerImpl.
      */
     @Test
     public void testObtenerProveedoresEmpty() {
         System.out.println("obtenerProveedoresEmpty");
-        UsuarioController instance = new UsuarioController();
+        UsuarioControllerImpl instance = new UsuarioControllerImpl();
         int expResult = 0;
         List<Proveedor> result = instance.obtenerProveedores();
         assertEquals(expResult, result.size());
@@ -696,7 +696,7 @@ public class UsuarioControllerTest {
     @Test
     public void testObtenerProveedores() {
         System.out.println("obtenerProveedores");
-        UsuarioController instance = new UsuarioController();
+        UsuarioControllerImpl instance = new UsuarioControllerImpl();
         instance.crearProveedor("ProveedorH", "nombre", "apellido", "correo@correo", 7, 10, 1995, "empresa", "linkempresa", "ruta");
         int expResult = 1;
         List<Proveedor> result = instance.obtenerProveedores();
@@ -705,12 +705,12 @@ public class UsuarioControllerTest {
     }
 
     /**
-     * Test of obtenerCientes method, of class UsuarioController.
+     * Test of obtenerCientes method, of class UsuarioControllerImpl.
      */
     @Test
     public void testObtenerCientesEmpty() {
         System.out.println("obtenerCientesEmpty");
-        UsuarioController instance = new UsuarioController();
+        UsuarioControllerImpl instance = new UsuarioControllerImpl();
         int expResult = 0;
         List<Cliente> result = instance.obtenerCientes();
         assertEquals(expResult, result.size());
@@ -720,7 +720,7 @@ public class UsuarioControllerTest {
     @Test
     public void testObtenerCientes() {
         System.out.println("obtenerCientes");
-        UsuarioController instance = new UsuarioController();
+        UsuarioControllerImpl instance = new UsuarioControllerImpl();
         instance.crearCliente("ClienteH", "nombre", "apellido", "correo@correo", 1, 2, 1995, "ruta");
         int expResult = 1;
         List<Cliente> result = instance.obtenerCientes();
@@ -731,7 +731,7 @@ public class UsuarioControllerTest {
     @Test
     public void vaciarPeristenciaP() {
         System.out.println("vaciarPeristenciaP");
-        UsuarioController instance = new UsuarioController();
+        UsuarioControllerImpl instance = new UsuarioControllerImpl();
         instance.crearProveedor("ProveedorH", "nombre", "apellido", "correo@correo", 7, 10, 1995, "empresa", "linkempresa", "ruta");
         instance.vaciarPeristenciaP();
         int expResult = 0;
@@ -743,7 +743,7 @@ public class UsuarioControllerTest {
     @Test
     public void vaciarPeristenciaC() {
         System.out.println("vaciarPeristenciaC");
-        UsuarioController instance = new UsuarioController();
+        UsuarioControllerImpl instance = new UsuarioControllerImpl();
         instance.crearCliente("ClienteH", "nombre", "apellido", "correo@correo", 1, 2, 1995, "ruta");
         instance.vaciarPeristenciaC();
         int expResult = 0;

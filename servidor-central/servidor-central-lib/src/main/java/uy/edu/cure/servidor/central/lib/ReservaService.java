@@ -5,8 +5,6 @@
  */
 package uy.edu.cure.servidor.central.lib;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import uy.edu.cure.servidor.central.dto.Reserva;
 
@@ -14,60 +12,18 @@ import uy.edu.cure.servidor.central.dto.Reserva;
  *
  * @author juan
  */
-public class ReservaService implements ReservaServiceInterface {
+public interface ReservaService {
 
-    private static List<Reserva> reservas = new ArrayList<Reserva>();
+    public void guardarReserva(Reserva reserva);
 
-    public ReservaService() {
-    }
+    public void eliminarReserva(int numero);
 
-    @Override
-    public void guardarReserva(Reserva reserva) {
-        reservas.add(reserva);
-    }
+    public boolean existeReserva(int numero);
 
-    @Override
-    public void eliminarReserva(int numero) {
-        Iterator<Reserva> iteratorReserva = reservas.iterator();
-        while (iteratorReserva.hasNext()) {
-            Reserva reservaAuxiliar = iteratorReserva.next();
-            if (reservaAuxiliar.getNumero() == (numero)) {
-                iteratorReserva.remove();
-            }
-        }
-    }
+    public Reserva obtenerReserva(int numero);
 
-    @Override
-    public boolean existeReserva(int numero) {
-        Iterator<Reserva> iteratorReserva = reservas.iterator();
-        while (iteratorReserva.hasNext()) {
-            Reserva reservaAuxiliar = iteratorReserva.next();
-            if (reservaAuxiliar.getNumero() == (numero)) {
-                return true;
-            }
-        }
-        return false;
-    }
+    public List<Reserva> obtenerTodasReservas();
 
-    @Override
-    public Reserva obtenerReserva(int numero) {
-        Iterator<Reserva> iteratorReserva = reservas.iterator();
-        while (iteratorReserva.hasNext()) {
-            Reserva reservaAuxiliar = iteratorReserva.next();
-            if (reservaAuxiliar.getNumero() == (numero)) {
-                return reservaAuxiliar;
-            }
-        }
-        return null;
-    }
+    public void vaciarPersistencia();
 
-    @Override
-    public List<Reserva> obtenerTodasReservas() {
-        return reservas;
-    }
-
-    @Override
-    public void vaciarPersistencia() {
-        reservas.clear();
-    }
 }

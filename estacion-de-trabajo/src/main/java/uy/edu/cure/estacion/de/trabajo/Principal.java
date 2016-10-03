@@ -23,19 +23,19 @@ import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
  */
 public class Principal extends javax.swing.JFrame {
     @Jeringa (value = "usuariocontroller")
-    private UsuarioController usuarioController;
+    private UsuarioControllerImpl usuarioController;
     @Jeringa (value = "serviciocontroller")
-    private ServicioController servicioController;
+    private ServicioControllerImpl servicioController;
     @Jeringa (value = "reservacontroller")
-    private ReservaController reservaController;
+    private ReservaControllerImpl reservaController;
     @Jeringa (value = "promocioncontroller")
-    private PromocionController promocionController;
+    private PromocionControllerImpl promocionController;
     @Jeringa (value = "paiscontroller")
-    private PaisController paisController;
+    private PaisControllerImpl paisController;
     @Jeringa (value = "ciudadcontroller")
-    private CiudadController ciudadController;
+    private CiudadControllerImpl ciudadController;
     @Jeringa (value = "categoriacontroller")
-    private CategoriaController categoriaController;
+    private CategoriaControllerImpl categoriaController;
 
     /**
      * Creates new form Principal

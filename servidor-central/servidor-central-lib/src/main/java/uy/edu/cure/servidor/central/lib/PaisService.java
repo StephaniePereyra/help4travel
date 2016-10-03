@@ -5,8 +5,6 @@
  */
 package uy.edu.cure.servidor.central.lib;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import uy.edu.cure.servidor.central.dto.Pais;
 
@@ -14,54 +12,16 @@ import uy.edu.cure.servidor.central.dto.Pais;
  *
  * @author Rodrigo "Lobo Plateado" Pérez
  */
-public class PaisService implements PaisServiceInterface {
+public interface PaisService {
 
-    private static List<Pais> paises = new ArrayList<Pais>();
+    public boolean guardarPais(Pais pais);
 
-    public PaisService() {
-    }
+    public boolean existePais(String nombre);
 
-    @Override
-    public boolean guardarPais(Pais pais) {
-        if (pais != null) {
-            paises.add(pais);
-            return true;
-        }
-        return false;
-    }
+    public Pais obtenerPais(String nombre);
 
-    @Override
-    public boolean existePais(String nombre) {
-        Iterator<Pais> iteratorPaises = paises.iterator();
-        while (iteratorPaises.hasNext()) {
-            Pais paisAuxiliar = iteratorPaises.next();
-            if (paisAuxiliar.getNombre().equals(nombre)) {
-                return true;
-            }
-        }
-        return false;
-    }
+    public List<Pais> obtenerTodosPaises();
 
-    @Override
-    public Pais obtenerPais(String nombre) {
-        Iterator<Pais> iteratorPaises = paises.iterator();
-        while (iteratorPaises.hasNext()) {
-            Pais paisAuxiliar = iteratorPaises.next();
-            if (paisAuxiliar.getNombre().equals(nombre)) {
-                return paisAuxiliar;
-            }
-        }
-        return null;
-    }
-
-    @Override
-    public List<Pais> obtenerTodosPaises() {
-        return paises;
-    }
-
-    @Override
-    public void vaciarPersistenciaPais() {
-        paises.clear();
-    }
+    public void vaciarPersistenciaPais();
 
 }

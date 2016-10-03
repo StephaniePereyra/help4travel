@@ -9,8 +9,8 @@ import java.awt.Image;
 import java.lang.reflect.InvocationTargetException;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
-import uy.edu.cure.servidor.central.lib.ReservaController;
-import uy.edu.cure.servidor.central.lib.UsuarioController;
+import uy.edu.cure.servidor.central.lib.ReservaControllerImpl;
+import uy.edu.cure.servidor.central.lib.UsuarioControllerImpl;
 import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
 import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
 
@@ -21,9 +21,9 @@ import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
 public class VerInfoCliente extends javax.swing.JFrame {
 
     @Jeringa (value = "reservacontroller")
-    private ReservaController reservaController;
+    private ReservaControllerImpl reservaController;
     @Jeringa (value = "usuariocontroller")
-    private UsuarioController usuariocontroller;
+    private UsuarioControllerImpl usuariocontroller;
     /**
      * Creates new form VerInfoCliente
      */

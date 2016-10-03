@@ -5,8 +5,6 @@
  */
 package uy.edu.cure.servidor.central.lib;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import uy.edu.cure.servidor.central.dto.Ciudad;
 
@@ -14,54 +12,16 @@ import uy.edu.cure.servidor.central.dto.Ciudad;
  *
  * @author Rodrigo "Lobo Plateado" Pérez
  */
-public class CiudadService implements CiudadServiceInterface {
+public interface CiudadService {
 
-    private static List<Ciudad> ciudades = new ArrayList<Ciudad>();
+    public boolean guardarCiudad(Ciudad ciudad);
 
-    public CiudadService() {
-    }
+    public boolean existeCiudad(String nombre);
 
-    @Override
-    public boolean guardarCiudad(Ciudad ciudad) {
-        if (ciudad != null) {
-            ciudades.add(ciudad);
-            return true;
-        }
-        return false;
-    }
+    public Ciudad obtenerCiudad(String nombre);
 
-    @Override
-    public boolean existeCiudad(String nombre) {
-        Iterator<Ciudad> iteratorCiudades = ciudades.iterator();
-        while (iteratorCiudades.hasNext()) {
-            Ciudad ciudadAuxiliar = iteratorCiudades.next();
-            if (ciudadAuxiliar.getNombre().equals(nombre)) {
-                return true;
-            }
-        }
-        return false;
-    }
+    public List<Ciudad> obtenerTodosCiudades();
 
-    @Override
-    public Ciudad obtenerCiudad(String nombre) {
-        Iterator<Ciudad> iteratorCiudades = ciudades.iterator();
-        while (iteratorCiudades.hasNext()) {
-            Ciudad ciudadAuxiliar = iteratorCiudades.next();
-            if (ciudadAuxiliar.getNombre().equals(nombre)) {
-                return ciudadAuxiliar;
-            }
-        }
-        return null;
-    }
-
-    @Override
-    public List<Ciudad> obtenerTodosCiudades() {
-        return ciudades;
-    }
-
-    @Override
-    public void vaciarPersistenciaCiudad() {
-        ciudades.clear();
-    }
+    public void vaciarPersistenciaCiudad();
 
 }
