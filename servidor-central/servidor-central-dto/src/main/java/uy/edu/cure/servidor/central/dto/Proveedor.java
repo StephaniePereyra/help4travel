@@ -20,8 +20,8 @@ public class Proveedor extends Usuario {
     private List<Servicio> servicios;
     private String imagenPerfil;
 
-    public Proveedor(String nickName, String nombre, String apellido, String correo, Date fechanacimiento, String nombreEmpresa, String linkEmpresa, String imagenPerfil) {
-        super(nickName, nombre, apellido, correo, fechanacimiento);
+    public Proveedor(String nickName, String nombre, String apellido, String correo, Date fechanacimiento, String nombreEmpresa, String linkEmpresa, String imagenPerfil,String passWord) {
+        super(nickName, nombre, apellido, correo, fechanacimiento,passWord);
         this.nombreEmpresa = nombreEmpresa;
         this.linkEmpresa = linkEmpresa;
         servicios = new ArrayList<Servicio>();

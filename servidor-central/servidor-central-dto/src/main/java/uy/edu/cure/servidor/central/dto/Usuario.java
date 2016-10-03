@@ -20,12 +20,13 @@ public class Usuario {
     private Date fechanacimiento;
     private String passWord;
 
-    public Usuario(String nickName, String nombre, String apellido, String correo, Date fechanacimiento) {
+    public Usuario(String nickName, String nombre, String apellido, String correo, Date fechanacimiento,String passWord) {
         this.nickName = nickName;
         this.nombre = nombre;
         this.apellido = apellido;
         this.correo = correo;
         this.fechanacimiento = fechanacimiento;
+        this.passWord = passWord;
     }
 
     public String getNickName() {

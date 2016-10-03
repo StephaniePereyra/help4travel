@@ -31,7 +31,7 @@ public class UsuarioControllerImpl implements UsuarioController {
     }
 
     @Override
-    public int crearCliente(String nickName, String nombre, String apellido, String correo, int dia, int mes, int anio, String imagenPerfil) {
+    public int crearCliente(String nickName, String nombre, String apellido, String correo, int dia, int mes, int anio, String imagenPerfil,String passWord) {
         if (!usuarioService.existeCliente(nickName) && !usuarioService.existeProveedor(nickName)) {
             if (!usuarioService.existeCorreo(correo)) {
                 if (correo.contains("@")) {
@@ -41,7 +41,7 @@ public class UsuarioControllerImpl implements UsuarioController {
                             fechanacimiento.setDate(dia);
                             fechanacimiento.setMonth(mes);
                             fechanacimiento.setYear(anio);
-                            Cliente cliente = new Cliente(nickName, nombre, apellido, correo, fechanacimiento, imagenPerfil);
+                            Cliente cliente = new Cliente(nickName, nombre, apellido, correo, fechanacimiento, imagenPerfil,passWord);
                             usuarioService.guardarCliente(cliente);
 
                         } else {
@@ -64,7 +64,7 @@ public class UsuarioControllerImpl implements UsuarioController {
     }
 
     @Override
-    public int crearProveedor(String nickName, String nombre, String apellido, String correo, int dia, int mes, int anio, String nombreEmpresa, String linkEmpresa, String imagenPerfil) {
+    public int crearProveedor(String nickName, String nombre, String apellido, String correo, int dia, int mes, int anio, String nombreEmpresa, String linkEmpresa, String imagenPerfil,String passWord) {
         if (!usuarioService.existeCliente(nickName) && !usuarioService.existeProveedor(nickName)) {
             if (!usuarioService.existeCorreo(correo)) {
                 if (correo.contains("@")) {
@@ -74,7 +74,7 @@ public class UsuarioControllerImpl implements UsuarioController {
                             fechanacimiento.setDate(dia);
                             fechanacimiento.setMonth(mes);
                             fechanacimiento.setYear(anio);
-                            Proveedor proveedor = new Proveedor(nickName, nombre, apellido, correo, fechanacimiento, nombreEmpresa, linkEmpresa, imagenPerfil);
+                            Proveedor proveedor = new Proveedor(nickName, nombre, apellido, correo, fechanacimiento, nombreEmpresa, linkEmpresa, imagenPerfil,passWord);
                             usuarioService.guardarProveedor(proveedor);
                         } else {
                             return 4;
