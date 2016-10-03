@@ -9,13 +9,15 @@ and open the template in the editor.
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html">
     <head>
-        <title>INICIO</title>
+        <title>LogIn</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </head>
     <body>
-        <div>INICIO HD</div> <br/> <br/>
-        <a href="LogIn.xhtml">LogIN</a> <br/> <br/> <br/> <br/>
-        <a href="AltaCliente.xhtml">SingUp as Client</a> <br/> <br/>
-        <a href="AltaProveedor.xhtml">SingUp as Provider</a> <br/> <br/>
+        <div>LogIn</div> <br/>
+        <p> UserName </p>
+        <h:inputText value="#{datosUser.nickName}"></h:inputText> <br/><br/>
+        <p> PassWord </p> 
+        <h:inputText value="#{datosUser.passWord}"></h:inputText> <br/><br/>
+        
     </body>
 </html>

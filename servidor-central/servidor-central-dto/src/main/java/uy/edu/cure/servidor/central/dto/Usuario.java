@@ -18,6 +18,7 @@ public class Usuario {
     private String apellido;
     private String correo;
     private Date fechanacimiento;
+    private String passWord;
 
     public Usuario(String nickName, String nombre, String apellido, String correo, Date fechanacimiento) {
         this.nickName = nickName;
@@ -29,6 +30,14 @@ public class Usuario {
 
     public String getNickName() {
         return nickName;
+    }
+
+    public String getPassWord() {
+        return passWord;
+    }
+
+    public void setPassWord(String passWord) {
+        this.passWord = passWord;
     }
 
     public void setNickName(String nickName) {
