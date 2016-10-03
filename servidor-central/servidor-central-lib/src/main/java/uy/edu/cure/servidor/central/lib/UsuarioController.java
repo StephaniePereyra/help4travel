@@ -22,6 +22,10 @@ public interface UsuarioController {
     public boolean existeCliente(String nickName);
 
     public boolean existeProveedor(String nickName);
+    
+    public boolean LogInCliente (String nickName,String passWord);
+    
+    public boolean LogInProveedor (String nickName,String passWord);
 
     public Cliente obtenerCliente(String nickName);
 

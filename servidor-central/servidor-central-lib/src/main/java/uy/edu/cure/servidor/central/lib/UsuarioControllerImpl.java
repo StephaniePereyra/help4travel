@@ -135,7 +135,39 @@ public class UsuarioControllerImpl implements UsuarioController {
     public void vaciarPeristenciaC() {
         usuarioService.vaciarPersistenciaC();
     }
-
+    
+    @Override
+    public boolean LogInCliente (String nickName,String passWord){
+        boolean resultado;
+        if(existeCliente(nickName)){
+            Cliente clienteAux = obtenerCliente(nickName);
+            if(clienteAux.getPassWord().equals(passWord)){
+                resultado = true;
+            }else{
+                resultado = false;
+            }
+        }else{
+            resultado = false;
+        }
+      return resultado;   
+    }
+    
+    @Override
+    public boolean LogInProveedor (String nickName,String passWord){
+        boolean resultado;
+        if(existeProveedor(nickName)){
+            Proveedor proveedorAux = obtenerProveedor(nickName);
+            if(proveedorAux.getPassWord().equals(passWord)){
+                resultado = true;
+            }else{
+                resultado = false;
+            }
+        }else{
+            resultado = false;
+        }
+      return resultado;   
+    }
+    
     private boolean validarFecha(int dia, int mes, int anio) {
 
         if (anio > 0 && anio < 2017) {
