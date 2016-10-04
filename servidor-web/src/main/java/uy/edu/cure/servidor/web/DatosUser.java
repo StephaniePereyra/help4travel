@@ -66,8 +66,8 @@ public class DatosUser {
     }
     
     
-    
     public String action(){
+        
     boolean resultadoCliente = usuariocontroller.LogInCliente(nickName, passWord);
     boolean resultadoProveedor = usuariocontroller.LogInProveedor(nickName, passWord);
     
