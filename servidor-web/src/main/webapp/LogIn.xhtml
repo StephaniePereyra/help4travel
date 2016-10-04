@@ -13,11 +13,18 @@ and open the template in the editor.
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </head>
     <body>
+        <h:outputText value="#{datosUser.mnsjError}"
+                      rendered="#{datosCliente.mostrarMensaje == true}"></h:outputText> <br/> <br/>
         <div>LogIn</div> <br/>
         <p> UserName </p>
         <h:inputText value="#{datosUser.nickName}"></h:inputText> <br/><br/>
         <p> PassWord </p> 
-        <h:inputText value="#{datosUser.passWord}"></h:inputText> <br/><br/>
+        <h:inputText value="#{datosUser.passWord}"></h:inputText> <br/><br/><br/>
+        
+        <h:commandButton value="Log In" action="#{datosUser.action}"></h:commandButton>
+        
+        
+        
         
     </body>
 </html>

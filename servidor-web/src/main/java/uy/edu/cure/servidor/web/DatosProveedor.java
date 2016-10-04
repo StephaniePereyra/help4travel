@@ -20,7 +20,7 @@ import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
 @SessionScoped
 public class DatosProveedor {
     private MensajeDatosUsuario datosusuarioMnsj = new MensajeDatosUsuario();
-    private String nickName,nombre,apellido,correo,nombreEmpresa,linkEmpresa,mensaje,mensajeDefault = "*No pueden existir campos vacios*";
+    private String nickName,nombre,apellido,correo,nombreEmpresa,linkEmpresa,passWord,mensaje,mensajeDefault = "*No pueden existir campos vacios*";
     private int dia,mes,anio;
     private boolean mostrarMensaje;
     @Jeringa (value = "usuariocontroller")
@@ -145,9 +145,19 @@ public class DatosProveedor {
     public void setUsuariocontroller(UsuarioController usuariocontroller) {
         this.usuariocontroller = usuariocontroller;
     }
+
+    public String getPassWord() {
+        return passWord;
+    }
+
+    public void setPassWord(String passWord) {
+        this.passWord = passWord;
+    }
+    
+    
     
     public void action() {
-        int resultado = usuariocontroller.crearProveedor(nickName, nombre, apellido, correo, dia, mes, anio, nombreEmpresa, linkEmpresa, "");
+        int resultado = usuariocontroller.crearProveedor(nickName, nombre, apellido, correo, dia, mes, anio, nombreEmpresa, linkEmpresa, "",passWord);
         mostrarMensaje = true;
         if (nickName.equals("") || nombre.equals("") || apellido.equals("") || correo.equals("") || nombreEmpresa.equals("") || linkEmpresa.equals("")) {
             mensaje = mensajeDefault;

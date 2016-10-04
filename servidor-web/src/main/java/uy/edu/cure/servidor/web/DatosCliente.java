@@ -22,7 +22,7 @@ import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
 public class DatosCliente {
     
 private MensajeDatosUsuario datosusuarioMnsj = new MensajeDatosUsuario();
-private String nickName,nombre,apellido,correo,ruta,mensaje,mensajeDefault = "*No pueden existir campos vacios*";
+private String nickName,nombre,apellido,correo,ruta,passWord,mensaje,mensajeDefault = "*No pueden existir campos vacios*";
 private int dia,mes,anio;
 private boolean mostrarMensaje = false;
 @Jeringa (value = "usuariocontroller")
@@ -117,8 +117,18 @@ private UsuarioController usuariocontroller;
         this.anio = anio;
     }
 
+    public String getPassWord() {
+        return passWord;
+    }
+
+    public void setPassWord(String passWord) {
+        this.passWord = passWord;
+    }
+    
+    
+
 public void action(){
-    int resultado = usuariocontroller.crearCliente(nickName, nombre, apellido, correo, dia, mes, anio, apellido);
+    int resultado = usuariocontroller.crearCliente(nickName, nombre, apellido, correo, dia, mes, anio, apellido,passWord);
     
     mostrarMensaje = true;
     if(nickName.equals("") || nombre.equals("") || apellido.equals("") || correo.equals("")){

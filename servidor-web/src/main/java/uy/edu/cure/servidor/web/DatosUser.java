@@ -5,8 +5,12 @@
  */
 package uy.edu.cure.servidor.web;
 
+import java.lang.reflect.InvocationTargetException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import uy.edu.cure.servidor.central.lib.UsuarioController;
+import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
+import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
 
 /**
  *
@@ -16,10 +20,17 @@ import javax.faces.bean.SessionScoped;
 @SessionScoped
 public class DatosUser {
     
-    private String nickName,passWord;
+    private String nickName,passWord,mnsjError;
+    @Jeringa (value = "usuariocontroller")
+    private UsuarioController usuariocontroller;
+    private boolean mostrarError = false;
     
     public DatosUser(){
-        
+        try {
+            JeringaInjector.getInstance().inyectar(this);
+        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+            e.printStackTrace();
+        }  
     }
 
     public String getNickName() {
@@ -37,8 +48,44 @@ public class DatosUser {
     public void setPassWord(String passWord) {
         this.passWord = passWord;
     }
+
+    public String getMnsjError() {
+        return mnsjError;
+    }
+
+    public void setMnsjError(String mnsjError) {
+        this.mnsjError = mnsjError;
+    }
+
+    public boolean isMostrarError() {
+        return mostrarError;
+    }
+
+    public void setMostrarError(boolean mostrarError) {
+        this.mostrarError = mostrarError;
+    }
     
     
+    
+    public String action(){
+    boolean resultadoCliente = usuariocontroller.LogInCliente(nickName, passWord);
+    boolean resultadoProveedor = usuariocontroller.LogInProveedor(nickName, passWord);
+    
+    String retorno;
+    
+    if(resultadoCliente){
+        retorno = "Cliente";
+    }else{
+        if(resultadoProveedor){
+            retorno = "Proveedor";
+        }else{
+            mostrarError = true;
+            mnsjError = "*NickName o Password incorrectas*";
+            retorno = "LogIn";
+        }
+    }
+    return retorno;
+}
     
     
 }
