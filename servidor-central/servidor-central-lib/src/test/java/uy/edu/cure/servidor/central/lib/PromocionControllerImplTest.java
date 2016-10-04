@@ -20,22 +20,22 @@ import uy.edu.cure.servidor.central.dto.*;
  * @author Rodrigo "Lobo Plateado" Pérez
  */
 public class PromocionControllerImplTest {
-    
+
     public PromocionControllerImplTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -87,7 +87,7 @@ public class PromocionControllerImplTest {
         PromocionControllerImpl instanceController = new PromocionControllerImpl();
         PromocionServiceImpl instanceService = new PromocionServiceImpl();
         UsuarioServiceImpl usuarioService = new UsuarioServiceImpl();
-        Proveedor proveedor = new Proveedor(nickProveedor, "nombre", "apellido", "correo@c", null, "empresa", "link", null);
+        Proveedor proveedor = new Proveedor(nickProveedor, "nombre", "apellido", "correo@c", null, "empresa", "link", null, "Password");
         Promocion promo = new Promocion(nombre, descuento, 0, proveedor);
         instanceService.guardarPromocion(promo);
         usuarioService.guardarProveedor(proveedor);
@@ -110,7 +110,7 @@ public class PromocionControllerImplTest {
         List<String> servicios = new ArrayList<String>();
         PromocionControllerImpl instance = new PromocionControllerImpl();
         UsuarioServiceImpl usuarioService = new UsuarioServiceImpl();
-        Proveedor proveedor = new Proveedor(nickProveedor, "nombre", "apellido", "correo@c", null, "empresa", "link", null);
+        Proveedor proveedor = new Proveedor(nickProveedor, "nombre", "apellido", "correo@c", null, "empresa", "link", null, "Password");
         usuarioService.guardarProveedor(proveedor);
         String expResult = "Descuento invalido";
         String result = instance.crearPromocion(nombre, descuento, nickProveedor, servicios);
@@ -131,7 +131,7 @@ public class PromocionControllerImplTest {
         List<String> servicios = new ArrayList<String>();
         PromocionControllerImpl instance = new PromocionControllerImpl();
         UsuarioServiceImpl usuarioService = new UsuarioServiceImpl();
-        Proveedor proveedor = new Proveedor(nickProveedor, "nombre", "apellido", "correo@c", null, "empresa", "link", null);
+        Proveedor proveedor = new Proveedor(nickProveedor, "nombre", "apellido", "correo@c", null, "empresa", "link", null, "Password");
         usuarioService.guardarProveedor(proveedor);
         String expResult = "Descuento invalido";
         String result = instance.crearPromocion(nombre, descuento, nickProveedor, servicios);
@@ -152,7 +152,7 @@ public class PromocionControllerImplTest {
         List<String> servicios = new ArrayList<String>();
         PromocionControllerImpl instance = new PromocionControllerImpl();
         UsuarioServiceImpl usuarioService = new UsuarioServiceImpl();
-        Proveedor proveedor = new Proveedor(nickProveedor, "nombre", "apellido", "correo@c", null, "empresa", "link", null);
+        Proveedor proveedor = new Proveedor(nickProveedor, "nombre", "apellido", "correo@c", null, "empresa", "link", null, "Password");
         usuarioService.guardarProveedor(proveedor);
         String expResult = "Debe agregar servicios";
         String result = instance.crearPromocion(nombre, descuento, nickProveedor, servicios);
@@ -173,7 +173,7 @@ public class PromocionControllerImplTest {
         List<String> servicios = new ArrayList<String>();
         PromocionControllerImpl instance = new PromocionControllerImpl();
         UsuarioServiceImpl usuarioService = new UsuarioServiceImpl();
-        Proveedor proveedor = new Proveedor(nickProveedor, "nombre", "apellido", "correo@c", null, "empresa", "link", null);
+        Proveedor proveedor = new Proveedor(nickProveedor, "nombre", "apellido", "correo@c", null, "empresa", "link", null, "Password");
         usuarioService.guardarProveedor(proveedor);
         ServicioServiceImpl servicioService = new ServicioServiceImpl();
         Servicio servicio = new Servicio("servicio", "descripcion", 100, null, null, proveedor);
@@ -229,5 +229,5 @@ public class PromocionControllerImplTest {
         assertEquals(expResult, result);
         instance.obtenerTodasPromociones().clear();
     }
-    
+
 }

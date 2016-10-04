@@ -22,7 +22,6 @@ import uy.edu.cure.servidor.central.dto.Proveedor;
 import uy.edu.cure.servidor.central.dto.Reserva;
 import uy.edu.cure.servidor.central.dto.Servicio;
 
-
 /**
  *
  * @author juan
@@ -47,7 +46,7 @@ public class ReservaControllerImplTest {
     @After
     public void tearDown() {
     }
-    
+
     /**
      * Test of eliminarReserva method, of class ReservaControllerImpl.
      */
@@ -65,24 +64,24 @@ public class ReservaControllerImplTest {
         /*
          * Resultado 2/2
          */
-         System.out.println("crearReserva");
+        System.out.println("crearReserva");
         List<Promocion> promociones = new ArrayList<Promocion>();
         List<Servicio> servicios = new ArrayList<Servicio>();
         Date date = new Date();
-         Cliente cliente = new Cliente("nickName", "nombre", "apellido", "correo@correo", date, "imagenPerfil");
+        Cliente cliente = new Cliente("nickName", "nombre", "apellido", "correo@correo", date, "imagenPerfil", "Password");
         assertEquals(expResult, result);
         Pais pais = new Pais("nombrePais");
         Ciudad origen = new Ciudad("ciudad1", pais);
         Ciudad destino = new Ciudad("ciudad2", pais);
-        Proveedor proveedor = new Proveedor("nickName", "nombre", "apellido", "correo@proveedor", date, "nombreEmpresa", "linkEmpresa", "imagenPerfil");
+        Proveedor proveedor = new Proveedor("nickName", "nombre", "apellido", "correo@proveedor", date, "nombreEmpresa", "linkEmpresa", "imagenPerfil", "Password");
         Servicio servicio = new Servicio("servicioNombre", "esto es unadescripcion", 40, origen, destino, proveedor);
         servicios.add(servicio);
-        instance.crearReserva(promociones, servicios,cliente);
-        expResult = true;        
+        instance.crearReserva(promociones, servicios, cliente);
+        expResult = true;
         result = instance.eliminarReserva(instance.obtenerTodasReservas().get(0).getNumero());
         assertEquals(expResult, result);
         instance.vaciarPersistencia();
-        
+
     }
 
     /**
@@ -98,9 +97,9 @@ public class ReservaControllerImplTest {
         List<Servicio> servicios = new ArrayList<Servicio>();
         ReservaControllerImpl instance = new ReservaControllerImpl();
         Date date = new Date();
-         Cliente cliente = new Cliente("nickName", "nombre", "apellido", "correo@correo", date, "imagenPerfil");
+        Cliente cliente = new Cliente("nickName", "nombre", "apellido", "correo@correo", date, "imagenPerfil", "Password");
         int expResult = 3;
-        int result = instance.crearReserva(promociones, servicios,cliente);
+        int result = instance.crearReserva(promociones, servicios, cliente);
         assertEquals(expResult, result);
         /*
          * Resultado 2/5
@@ -108,11 +107,11 @@ public class ReservaControllerImplTest {
         Pais pais = new Pais("nombrePais");
         Ciudad origen = new Ciudad("ciudad1", pais);
         Ciudad destino = new Ciudad("ciudad2", pais);
-        Proveedor proveedor = new Proveedor("nickName", "nombre", "apellido", "correo@proveedor", date, "nombreEmpresa", "linkEmpresa", "imagenPerfil");
+        Proveedor proveedor = new Proveedor("nickName", "nombre", "apellido", "correo@proveedor", date, "nombreEmpresa", "linkEmpresa", "imagenPerfil", "Password");
         Servicio servicio = new Servicio("servicioNombre", "esto es unadescripcion", 40, origen, destino, proveedor);
         servicios.add(servicio);
         expResult = 1;
-        result = instance.crearReserva(promociones, servicios,cliente);
+        result = instance.crearReserva(promociones, servicios, cliente);
         assertEquals(expResult, result);
         instance.vaciarPersistencia();
         /*
@@ -121,7 +120,7 @@ public class ReservaControllerImplTest {
         Promocion promocion = new Promocion("promo1", 10, 5000, proveedor);
         promociones.add(promocion);
         expResult = 1;
-        result = instance.crearReserva(promociones, servicios,cliente);
+        result = instance.crearReserva(promociones, servicios, cliente);
         assertEquals(expResult, result);
         instance.vaciarPersistencia();
         instance.vaciarPersistencia();
@@ -131,21 +130,20 @@ public class ReservaControllerImplTest {
         servicios = new ArrayList<Servicio>();
         promociones.add(promocion);
         expResult = 1;
-        result = instance.crearReserva(promociones, servicios,cliente);
+        result = instance.crearReserva(promociones, servicios, cliente);
         assertEquals(expResult, result);
         instance.vaciarPersistencia();
         /*
          * Resultado 5/5 
          */
-        Proveedor proveedor1 = new Proveedor("nickName1", "nombre1", "apellido1", "correo@proveedor", date, "nombreEmpresa", "linkEmpresa", "imagenPerfil");
+        Proveedor proveedor1 = new Proveedor("nickName1", "nombre1", "apellido1", "correo@proveedor", date, "nombreEmpresa", "linkEmpresa", "imagenPerfil", "Password");
         promocion = new Promocion("promo1", 10, 5000, proveedor1);
         promociones.add(promocion);
         expResult = 2;
-        result = instance.crearReserva(promociones, servicios,cliente);
+        result = instance.crearReserva(promociones, servicios, cliente);
         assertEquals(expResult, result);
         instance.vaciarPersistencia();
     }
-
 
     /**
      * Test of existeReserva method, of class ReservaControllerImpl.
@@ -190,19 +188,19 @@ public class ReservaControllerImplTest {
         List<Promocion> promociones = new ArrayList<Promocion>();
         List<Servicio> servicios = new ArrayList<Servicio>();
         Date date = new Date();
-        Cliente cliente = new Cliente("nickName", "nombre", "apellido", "correo@correo", date, "imagenPerfil");
+        Cliente cliente = new Cliente("nickName", "nombre", "apellido", "correo@correo", date, "imagenPerfil", "Password");
         Pais pais = new Pais("nombrePais");
         Ciudad origen = new Ciudad("ciudad1", pais);
         Ciudad destino = new Ciudad("ciudad2", pais);
-        Proveedor proveedor = new Proveedor("nickName", "nombre", "apellido", "correo@proveedor", date, "nombreEmpresa", "linkEmpresa", "imagenPerfil");
+        Proveedor proveedor = new Proveedor("nickName", "nombre", "apellido", "correo@proveedor", date, "nombreEmpresa", "linkEmpresa", "imagenPerfil", "Password");
         Servicio servicio = new Servicio("servicioNombre", "esto es unadescripcion", 40, origen, destino, proveedor);
         servicios.add(servicio);
-        instance.crearReserva(promociones, servicios,cliente);
+        instance.crearReserva(promociones, servicios, cliente);
         result = instance.obtenerTodasReservas();
         assertEquals(1, result.size());
         instance.vaciarPersistencia();
     }
-    
+
     /**
      * Test of cambiarEstado method, of class ReservaControllerImpl.
      */
@@ -216,36 +214,36 @@ public class ReservaControllerImplTest {
         List<Promocion> promociones = new ArrayList<Promocion>();
         List<Servicio> servicios = new ArrayList<Servicio>();
         Date date = new Date();
-        Cliente cliente = new Cliente("nickName", "nombre", "apellido", "correo@correo", date, "imagenPerfil");
+        Cliente cliente = new Cliente("nickName", "nombre", "apellido", "correo@correo", date, "imagenPerfil", "Password");
         Pais pais = new Pais("nombrePais");
         Ciudad origen = new Ciudad("ciudad1", pais);
         Ciudad destino = new Ciudad("ciudad2", pais);
-        Proveedor proveedor = new Proveedor("nickName", "nombre", "apellido", "correo@proveedor", date, "nombreEmpresa", "linkEmpresa", "imagenPerfil");
+        Proveedor proveedor = new Proveedor("nickName", "nombre", "apellido", "correo@proveedor", date, "nombreEmpresa", "linkEmpresa", "imagenPerfil", "Password");
         Servicio servicio = new Servicio("servicioNombre", "esto es unadescripcion", 40, origen, destino, proveedor);
         servicios.add(servicio);
-        instance.crearReserva(promociones, servicios,cliente);
+        instance.crearReserva(promociones, servicios, cliente);
         boolean expResult = true;
-        boolean result = instance.cambiarEstado(instance.obtenerTodasReservas().get(0),"Pagar");
+        boolean result = instance.cambiarEstado(instance.obtenerTodasReservas().get(0), "Pagar");
         assertEquals(expResult, result);
         /*
          * Resultado 2/4
          */
-        instance.crearReserva(promociones, servicios,cliente);
+        instance.crearReserva(promociones, servicios, cliente);
         expResult = true;
-        result = instance.cambiarEstado(instance.obtenerTodasReservas().get(1),"Cancelar");
+        result = instance.cambiarEstado(instance.obtenerTodasReservas().get(1), "Cancelar");
         assertEquals(expResult, result);
         /*
          * Resultado 3/4 
          */
         expResult = true;
-        result = instance.cambiarEstado(instance.obtenerTodasReservas().get(0),"Pagar");
+        result = instance.cambiarEstado(instance.obtenerTodasReservas().get(0), "Pagar");
         assertEquals(expResult, result);
         /*
          * Resultado 4/4
-         */         
+         */
         expResult = false;
-        result = instance.cambiarEstado(instance.obtenerTodasReservas().get(0),"Facturar");
-        assertEquals(expResult, result);         
+        result = instance.cambiarEstado(instance.obtenerTodasReservas().get(0), "Facturar");
+        assertEquals(expResult, result);
         instance.vaciarPersistencia();
     }
 

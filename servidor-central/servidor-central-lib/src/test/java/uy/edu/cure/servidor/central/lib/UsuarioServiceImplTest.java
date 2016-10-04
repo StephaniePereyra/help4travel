@@ -59,7 +59,7 @@ public class UsuarioServiceImplTest {
     public void testGuardarCliente() {
         System.out.println("guardarCliente");
         Date d = new Date();
-        Cliente cliente = new Cliente("UserNameX", "NombreX", "ApellidoX", "correoX@gmailcom", d, "rutaX");
+        Cliente cliente = new Cliente("UserNameX", "NombreX", "ApellidoX", "correoX@gmailcom", d, "rutaX", "Password");
         UsuarioServiceImpl instance = new UsuarioServiceImpl();
         boolean expResult = true;
         boolean result = instance.guardarCliente(cliente);
@@ -85,7 +85,7 @@ public class UsuarioServiceImplTest {
     public void testGuardarProveedor() {
         System.out.println("guardarProveedorNull");
         Date f = new Date();
-        Proveedor proveedor = new Proveedor("UserNameZ", "NombreZ", "ApellidoZ", "correoZ@gmailcom", f, "rutaZ", "EmpresaZ", "www.empresaZ.com");
+        Proveedor proveedor = new Proveedor("UserNameZ", "NombreZ", "ApellidoZ", "correoZ@gmailcom", f, "rutaZ", "EmpresaZ", "www.empresaZ.com", "Password");
         UsuarioServiceImpl instance = new UsuarioServiceImpl();
         boolean expResult = true;
         boolean result = instance.guardarProveedor(proveedor);
@@ -113,7 +113,7 @@ public class UsuarioServiceImplTest {
         String nickName = "Username";
         UsuarioServiceImpl instance = new UsuarioServiceImpl();
         Date d = new Date();
-        Cliente cliente = new Cliente("Username", "nombre", "apellido", "correo@correo", d, "ruta");
+        Cliente cliente = new Cliente("Username", "nombre", "apellido", "correo@correo", d, "ruta", "Password");
         instance.guardarCliente(cliente);
         boolean expResult = true;
         boolean result = instance.existeCliente(nickName);
@@ -141,7 +141,7 @@ public class UsuarioServiceImplTest {
         String nickName = "UserName";
         UsuarioServiceImpl instance = new UsuarioServiceImpl();
         Date d = new Date();
-        Proveedor proveedor = new Proveedor("UserName", "nombre", "apellido", "correo@correo", d, "empresa", "linkempresa", "ruta");
+        Proveedor proveedor = new Proveedor("UserName", "nombre", "apellido", "correo@correo", d, "empresa", "linkempresa", "ruta", "Password");
         instance.guardarProveedor(proveedor);
         boolean expResult = true;
         boolean result = instance.existeProveedor(nickName);
@@ -169,7 +169,7 @@ public class UsuarioServiceImplTest {
         String nickName = "UserName";
         UsuarioServiceImpl instance = new UsuarioServiceImpl();
         Date d = new Date();
-        Cliente cliente = new Cliente("UserName", "nombre", "apellido", "correo@correo", d, "ruta");
+        Cliente cliente = new Cliente("UserName", "nombre", "apellido", "correo@correo", d, "ruta", "Password");
         instance.guardarCliente(cliente);
         String expResult = "UserName";
         String result = instance.obtenerCliente(nickName).getNickName();
@@ -197,7 +197,7 @@ public class UsuarioServiceImplTest {
         String nickName = "UserName";
         UsuarioServiceImpl instance = new UsuarioServiceImpl();
         Date d = new Date();
-        Proveedor proveedor = new Proveedor("UserName", "nombre", "apellido", "correo@correo", d, "empresa", "linkempresa", "ruta");
+        Proveedor proveedor = new Proveedor("UserName", "nombre", "apellido", "correo@correo", d, "empresa", "linkempresa", "ruta", "Password");
         instance.guardarProveedor(proveedor);
         String expResult = nickName;
         String result = instance.obtenerProveedor(nickName).getNickName();
@@ -226,7 +226,7 @@ public class UsuarioServiceImplTest {
         String correo = "correo@correo.com";
         UsuarioServiceImpl instance = new UsuarioServiceImpl();
         Date d = new Date();
-        Proveedor proveedor = new Proveedor("UserName", "nombre", "apellido", "correo@correo.com", d, "empresa", "linkempresa", "ruta");
+        Proveedor proveedor = new Proveedor("UserName", "nombre", "apellido", "correo@correo.com", d, "empresa", "linkempresa", "ruta", "Password");
         instance.guardarProveedor(proveedor);
         boolean expResult = true;
         boolean result = instance.existeCorreo(correo);
@@ -253,7 +253,7 @@ public class UsuarioServiceImplTest {
         System.out.println("obtenerProveedores");
         UsuarioServiceImpl instance = new UsuarioServiceImpl();
         Date d = new Date();
-        Proveedor proveedor = new Proveedor("UserName", "nombre", "apellido", "correo@correo.com", d, "empresa", "linkempresa", "ruta");
+        Proveedor proveedor = new Proveedor("UserName", "nombre", "apellido", "correo@correo.com", d, "empresa", "linkempresa", "ruta", "Password");
         instance.guardarProveedor(proveedor);
         int expResult = 1;
         List<Proveedor> result = instance.obtenerProveedores();
@@ -280,7 +280,7 @@ public class UsuarioServiceImplTest {
         System.out.println("obtenerCientes");
         UsuarioServiceImpl instance = new UsuarioServiceImpl();
         Date d = new Date();
-        Cliente cliente = new Cliente("UserName", "nombre", "apellido", "correo@correo", d, "ruta");
+        Cliente cliente = new Cliente("UserName", "nombre", "apellido", "correo@correo", d, "ruta", "Password");
         instance.guardarCliente(cliente);
         int expResult = 1;
         List<Cliente> result = instance.obtenerCientes();
@@ -294,7 +294,7 @@ public class UsuarioServiceImplTest {
         System.out.println("vaciarPeristenciaP");
         UsuarioServiceImpl instance = new UsuarioServiceImpl();
         Date d = new Date();
-        Proveedor proveedor = new Proveedor("UserName", "nombre", "apellido", "correo@correo.com", d, "empresa", "linkempresa", "ruta");
+        Proveedor proveedor = new Proveedor("UserName", "nombre", "apellido", "correo@correo.com", d, "empresa", "linkempresa", "ruta", "Password");
         instance.guardarProveedor(proveedor);
         instance.vaciarPersistenciaP();
         int expResult = 0;
@@ -308,7 +308,7 @@ public class UsuarioServiceImplTest {
         System.out.println("vaciarPeristenciaC");
         UsuarioServiceImpl instance = new UsuarioServiceImpl();
         Date d = new Date();
-        Cliente cliente = new Cliente("UserName", "nombre", "apellido", "correo@correo", d, "ruta");
+        Cliente cliente = new Cliente("UserName", "nombre", "apellido", "correo@correo", d, "ruta", "Password");
         instance.guardarCliente(cliente);
         instance.vaciarPersistenciaC();
         int expResult = 0;

@@ -60,7 +60,7 @@ public class ServicioControllerImplTest {
         String result = instance.crearServicio(nombreServicio, descripcion, precio, ciudadOrigen, ciudadDestino, categorias, imagenes, nickNameProveedor);
         assertEquals(expResult, result);
     }
-    
+
     /**
      * Test of crearServicio method, of class ServicioControllerImpl.
      */
@@ -80,7 +80,7 @@ public class ServicioControllerImplTest {
         String result = instance.crearServicio(nombreServicio, descripcion, precio, ciudadOrigen, ciudadDestino, categorias, imagenes, nickNameProveedor);
         assertEquals(expResult, result);
     }
-    
+
     /**
      * Test of crearServicio method, of class ServicioControllerImpl.
      */
@@ -97,7 +97,7 @@ public class ServicioControllerImplTest {
         List<String> imagenes = new ArrayList<String>();
         ServicioControllerImpl instance = new ServicioControllerImpl();
         UsuarioServiceImpl usuarioService = new UsuarioServiceImpl();
-        Proveedor proveedor = new Proveedor(nickNameProveedor, "nombre", "apellido", "correo@c", null, "empresa", "link", null);
+        Proveedor proveedor = new Proveedor(nickNameProveedor, "nombre", "apellido", "correo@c", null, "empresa", "link", null, "Password");
         usuarioService.guardarProveedor(proveedor);
         ServicioServiceImpl servicioService = new ServicioServiceImpl();
         Servicio servicio = new Servicio(nombreServicio, "descripcion", 10, null, null, proveedor);
@@ -108,7 +108,7 @@ public class ServicioControllerImplTest {
         servicioService.vaciarPersistenciaServicio();
         usuarioService.vaciarPersistenciaP();
     }
-    
+
     /**
      * Test of crearServicio method, of class ServicioControllerImpl.
      */
@@ -125,14 +125,14 @@ public class ServicioControllerImplTest {
         List<String> imagenes = new ArrayList<String>();
         ServicioControllerImpl instance = new ServicioControllerImpl();
         UsuarioServiceImpl usuarioService = new UsuarioServiceImpl();
-        Proveedor proveedor = new Proveedor(nickNameProveedor, "nombre", "apellido", "correo@c", null, "empresa", "link", null);
+        Proveedor proveedor = new Proveedor(nickNameProveedor, "nombre", "apellido", "correo@c", null, "empresa", "link", null, "Password");
         usuarioService.guardarProveedor(proveedor);
         String expResult = "Descripcion no puede quedar vacio";
         String result = instance.crearServicio(nombreServicio, descripcion, precio, ciudadOrigen, ciudadDestino, categorias, imagenes, nickNameProveedor);
         assertEquals(expResult, result);
         usuarioService.vaciarPersistenciaP();
     }
-    
+
     /**
      * Test of crearServicio method, of class ServicioControllerImpl.
      */
@@ -149,14 +149,14 @@ public class ServicioControllerImplTest {
         List<String> imagenes = new ArrayList<String>();
         ServicioControllerImpl instance = new ServicioControllerImpl();
         UsuarioServiceImpl usuarioService = new UsuarioServiceImpl();
-        Proveedor proveedor = new Proveedor(nickNameProveedor, "nombre", "apellido", "correo@c", null, "empresa", "link", null);
+        Proveedor proveedor = new Proveedor(nickNameProveedor, "nombre", "apellido", "correo@c", null, "empresa", "link", null, "Password");
         usuarioService.guardarProveedor(proveedor);
         String expResult = "Precio debe ser mayor a 0";
         String result = instance.crearServicio(nombreServicio, descripcion, precio, ciudadOrigen, ciudadDestino, categorias, imagenes, nickNameProveedor);
         assertEquals(expResult, result);
         usuarioService.vaciarPersistenciaP();
     }
-    
+
     /**
      * Test of crearServicio method, of class ServicioControllerImpl.
      */
@@ -173,14 +173,14 @@ public class ServicioControllerImplTest {
         List<String> imagenes = new ArrayList<String>();
         ServicioControllerImpl instance = new ServicioControllerImpl();
         UsuarioServiceImpl usuarioService = new UsuarioServiceImpl();
-        Proveedor proveedor = new Proveedor(nickNameProveedor, "nombre", "apellido", "correo@c", null, "empresa", "link", null);
+        Proveedor proveedor = new Proveedor(nickNameProveedor, "nombre", "apellido", "correo@c", null, "empresa", "link", null, "Password");
         usuarioService.guardarProveedor(proveedor);
         String expResult = "Ciudad de origen invalido";
         String result = instance.crearServicio(nombreServicio, descripcion, precio, ciudadOrigen, ciudadDestino, categorias, imagenes, nickNameProveedor);
         assertEquals(expResult, result);
         usuarioService.vaciarPersistenciaP();
     }
-    
+
     /**
      * Test of crearServicio method, of class ServicioControllerImpl.
      */
@@ -197,7 +197,7 @@ public class ServicioControllerImplTest {
         List<String> imagenes = new ArrayList<String>();
         ServicioControllerImpl instance = new ServicioControllerImpl();
         UsuarioServiceImpl usuarioService = new UsuarioServiceImpl();
-        Proveedor proveedor = new Proveedor(nickNameProveedor, "nombre", "apellido", "correo@c", null, "empresa", "link", null);
+        Proveedor proveedor = new Proveedor(nickNameProveedor, "nombre", "apellido", "correo@c", null, "empresa", "link", null, "Password");
         usuarioService.guardarProveedor(proveedor);
         CiudadServiceImpl ciudadService = new CiudadServiceImpl();
         Pais pais = new Pais("pais");
@@ -208,7 +208,7 @@ public class ServicioControllerImplTest {
         assertEquals(expResult, result);
         usuarioService.vaciarPersistenciaP();
     }
-    
+
     /**
      * Test of crearServicio method, of class ServicioControllerImpl.
      */
@@ -225,7 +225,7 @@ public class ServicioControllerImplTest {
         List<String> imagenes = new ArrayList<String>();
         ServicioControllerImpl instance = new ServicioControllerImpl();
         UsuarioServiceImpl usuarioService = new UsuarioServiceImpl();
-        Proveedor proveedor = new Proveedor(nickNameProveedor, "nombre", "apellido", "correo@c", null, "empresa", "link", null);
+        Proveedor proveedor = new Proveedor(nickNameProveedor, "nombre", "apellido", "correo@c", null, "empresa", "link", null, "Password");
         usuarioService.guardarProveedor(proveedor);
         CiudadServiceImpl ciudadService = new CiudadServiceImpl();
         Pais pais = new Pais("pais");
@@ -237,7 +237,7 @@ public class ServicioControllerImplTest {
         usuarioService.vaciarPersistenciaP();
         ciudadService.vaciarPersistenciaCiudad();;
     }
-    
+
     /**
      * Test of crearServicio method, of class ServicioControllerImpl.
      */
@@ -254,7 +254,7 @@ public class ServicioControllerImplTest {
         List<String> imagenes = new ArrayList<String>();
         ServicioControllerImpl instance = new ServicioControllerImpl();
         UsuarioServiceImpl usuarioService = new UsuarioServiceImpl();
-        Proveedor proveedor = new Proveedor(nickNameProveedor, "nombre", "apellido", "correo@c", null, "empresa", "link", null);
+        Proveedor proveedor = new Proveedor(nickNameProveedor, "nombre", "apellido", "correo@c", null, "empresa", "link", null, "Password");
         usuarioService.guardarProveedor(proveedor);
         CiudadServiceImpl ciudadService = new CiudadServiceImpl();
         Pais pais = new Pais("pais");
@@ -266,7 +266,7 @@ public class ServicioControllerImplTest {
         usuarioService.vaciarPersistenciaP();
         ciudadService.vaciarPersistenciaCiudad();;
     }
-    
+
     /**
      * Test of crearServicio method, of class ServicioControllerImpl.
      */
@@ -283,7 +283,7 @@ public class ServicioControllerImplTest {
         List<String> imagenes = new ArrayList<String>();
         ServicioControllerImpl instance = new ServicioControllerImpl();
         UsuarioServiceImpl usuarioService = new UsuarioServiceImpl();
-        Proveedor proveedor = new Proveedor(nickNameProveedor, "nombre", "apellido", "correo@c", null, "empresa", "link", null);
+        Proveedor proveedor = new Proveedor(nickNameProveedor, "nombre", "apellido", "correo@c", null, "empresa", "link", null, "Password");
         usuarioService.guardarProveedor(proveedor);
         CiudadServiceImpl ciudadService = new CiudadServiceImpl();
         Pais pais = new Pais("pais");
@@ -295,7 +295,7 @@ public class ServicioControllerImplTest {
         usuarioService.vaciarPersistenciaP();
         ciudadService.vaciarPersistenciaCiudad();;
     }
-    
+
     /**
      * Test of crearServicio method, of class ServicioControllerImpl.
      */
@@ -313,7 +313,7 @@ public class ServicioControllerImplTest {
         List<String> imagenes = new ArrayList<String>();
         ServicioControllerImpl instance = new ServicioControllerImpl();
         UsuarioServiceImpl usuarioService = new UsuarioServiceImpl();
-        Proveedor proveedor = new Proveedor(nickNameProveedor, "nombre", "apellido", "correo@c", null, "empresa", "link", null);
+        Proveedor proveedor = new Proveedor(nickNameProveedor, "nombre", "apellido", "correo@c", null, "empresa", "link", null, "Password");
         usuarioService.guardarProveedor(proveedor);
         CiudadServiceImpl ciudadService = new CiudadServiceImpl();
         Pais pais = new Pais("pais");
@@ -330,7 +330,7 @@ public class ServicioControllerImplTest {
         ciudadService.vaciarPersistenciaCiudad();
         categoriaService.vaciarPersistenciaCategoria();
     }
-    
+
     /**
      * Test of crearServicio method, of class ServicioControllerImpl.
      */
@@ -349,7 +349,7 @@ public class ServicioControllerImplTest {
         imagenes.add("imagen");
         ServicioControllerImpl instance = new ServicioControllerImpl();
         UsuarioServiceImpl usuarioService = new UsuarioServiceImpl();
-        Proveedor proveedor = new Proveedor(nickNameProveedor, "nombre", "apellido", "correo@c", null, "empresa", "link", null);
+        Proveedor proveedor = new Proveedor(nickNameProveedor, "nombre", "apellido", "correo@c", null, "empresa", "link", null, "Password");
         usuarioService.guardarProveedor(proveedor);
         CiudadServiceImpl ciudadService = new CiudadServiceImpl();
         Pais pais = new Pais("pais");
@@ -383,7 +383,7 @@ public class ServicioControllerImplTest {
         Date date = new Date();
         ServicioServiceImpl instanceServicio = new ServicioServiceImpl();
         ServicioControllerImpl instanceController = new ServicioControllerImpl();
-        Proveedor proveedor = new Proveedor("Pepe", "Bartolome", "Perez ", "elToloBienTurrix@aol.co.uk", date, " Postres helados", "www.postresHelados.com", "postercampeoes.png");
+        Proveedor proveedor = new Proveedor("Pepe", "Bartolome", "Perez ", "elToloBienTurrix@aol.co.uk", date, " Postres helados", "www.postresHelados.com", "postercampeoes.png", "Password");
         Servicio servicio = new Servicio("Le fitness", "Aceptamos personas que crean ser mujeres", 750.00, ciudad, ciudad, proveedor);
         instanceServicio.guardarServicio(servicio);
         result = instanceController.existeServicio("Le fitness", "Pepe");
@@ -411,7 +411,7 @@ public class ServicioControllerImplTest {
         Date date = new Date();
         ServicioServiceImpl instanceServicio = new ServicioServiceImpl();
         ServicioControllerImpl instanceController = new ServicioControllerImpl();
-        Proveedor proveedor = new Proveedor("Pepe", "Bartolome", "Perez ", "elToloBienTurrix@aol.co.uk", date, " Postres helados", "www.postresHelados.com", "postercampeoes.png");
+        Proveedor proveedor = new Proveedor("Pepe", "Bartolome", "Perez ", "elToloBienTurrix@aol.co.uk", date, " Postres helados", "www.postresHelados.com", "postercampeoes.png", "Password");
         Servicio servicio = new Servicio("Le fitness", "Aceptamos personas que crean ser mujeres", 750.00, ciudad, ciudad, proveedor);
         instanceServicio.guardarServicio(servicio);
         result = instanceController.existeServicio("Au revoir mon amour", "Hasta luego, mi amor");
@@ -439,7 +439,7 @@ public class ServicioControllerImplTest {
         Date date = new Date();
         ServicioControllerImpl instanceController = new ServicioControllerImpl();
         ServicioServiceImpl instanceService = new ServicioServiceImpl();
-        Proveedor proveedor = new Proveedor("Agustin", "Castillo", "Zalayeta", "elagu@gmail.com", date, " Aprende a jugar al Futbol ", "www.futbolparatodos.com", "postercampeoes.png");
+        Proveedor proveedor = new Proveedor("Agustin", "Castillo", "Zalayeta", "elagu@gmail.com", date, " Aprende a jugar al Futbol ", "www.futbolparatodos.com", "postercampeoes.png", "Password");
         Servicio servicio = new Servicio("Entrenamiento pre-tempo", "Estimulamos el potencial de todas las personas interesadas en jugar la futbol", 250.00, ciudad, ciudad, proveedor);
         instanceService.guardarServicio(servicio);
         result = instanceController.obtenerServicio("Entrenamiento pre-tempo", "Agustin");
@@ -468,7 +468,7 @@ public class ServicioControllerImplTest {
         Date date = new Date();
         ServicioServiceImpl instanceServicio = new ServicioServiceImpl();
         ServicioControllerImpl instanceController = new ServicioControllerImpl();
-        Proveedor proveedor = new Proveedor("Charlie", "Urretavizcaya ", "Martinuccio ", "elale@gmail.com", date, " Aprende a jugar al Futbol ", "www.futbolparatodos.com", "postercampeoes.png");
+        Proveedor proveedor = new Proveedor("Charlie", "Urretavizcaya ", "Martinuccio ", "elale@gmail.com", date, " Aprende a jugar al Futbol ", "www.futbolparatodos.com", "postercampeoes.png", "Password");
         Servicio servicio = new Servicio("Entrenamiento pre-temporada", "Estimulamos el potencial de todas las personas interesadas en jugar la futbol", 250.00, ciudad, ciudad, proveedor);
         instanceServicio.guardarServicio(servicio);
         result = instanceController.obtenerServicio("Entrenamiento pre-campeonato", "Charlie");
@@ -497,9 +497,9 @@ public class ServicioControllerImplTest {
         Date date = new Date();
         ServicioServiceImpl instanceServicio = new ServicioServiceImpl();
         ServicioControllerImpl instanceController = new ServicioControllerImpl();
-        Proveedor proveedor = new Proveedor("Charlie", "Urretavizcaya ", "Martinuccio ", "elale@gmail.com", date, " Aprende a jugar al Futbol ", "www.futbolparatodos.com", "postercampeoes.png");
+        Proveedor proveedor = new Proveedor("Charlie", "Urretavizcaya ", "Martinuccio ", "elale@gmail.com", date, " Aprende a jugar al Futbol ", "www.futbolparatodos.com", "postercampeoes.png", "Password");
         Servicio servicio = new Servicio("Entrenamiento pre-temporada", "Estimulamos el potencial de todas las personas interesadas en jugar la futbol", 250.00, ciudad, ciudad, proveedor);
-        Proveedor proveedor2 = new Proveedor("Pepe", "Bartolome", "Perez ", "elToloBienTurrix@aol.co.uk", date, " Postres helados", "www.postresHelados.com", "postercampeoes.png");
+        Proveedor proveedor2 = new Proveedor("Pepe", "Bartolome", "Perez ", "elToloBienTurrix@aol.co.uk", date, " Postres helados", "www.postresHelados.com", "postercampeoes.png", "Password");
         Servicio servicio2 = new Servicio("Le fitness", "Aceptamos personas que crean ser mujeres", 750.00, ciudad, ciudad, proveedor);
         instanceServicio.guardarServicio(servicio);
         instanceServicio.guardarServicio(servicio2);
@@ -530,9 +530,9 @@ public class ServicioControllerImplTest {
         Date date = new Date();
         ServicioServiceImpl instanceService = new ServicioServiceImpl();
         ServicioControllerImpl instanceController = new ServicioControllerImpl();
-        Proveedor proveedor = new Proveedor("Charlie", "Urretavizcaya ", "Martinuccio ", "elale@gmail.com", date, " Aprende a jugar al Futbol ", "www.futbolparatodos.com", "postercampeoes.png");
+        Proveedor proveedor = new Proveedor("Charlie", "Urretavizcaya ", "Martinuccio ", "elale@gmail.com", date, " Aprende a jugar al Futbol ", "www.futbolparatodos.com", "postercampeoes.png", "Password");
         Servicio servicio = new Servicio("Entrenamiento pre-temporada", "Estimulamos el potencial de todas las personas interesadas en jugar la futbol", 250.00, ciudad, ciudad, proveedor);
-        Proveedor proveedor2 = new Proveedor("Pepe", "Bartolome", "Perez ", "elToloBienTurrix@aol.co.uk", date, " Postres helados", "www.postresHelados.com", "postercampeoes.png");
+        Proveedor proveedor2 = new Proveedor("Pepe", "Bartolome", "Perez ", "elToloBienTurrix@aol.co.uk", date, " Postres helados", "www.postresHelados.com", "postercampeoes.png", "Password");
         Servicio servicio2 = new Servicio("Le fitness", "Aceptamos personas que crean ser mujeres", 750.00, ciudad, ciudad, proveedor);
         instanceService.guardarServicio(servicio);
         instanceService.guardarServicio(servicio2);
@@ -560,8 +560,8 @@ public class ServicioControllerImplTest {
         Date date = new Date();
         ServicioServiceImpl instanceService = new ServicioServiceImpl();
         ServicioControllerImpl instanceController = new ServicioControllerImpl();
-        Proveedor proveedor = new Proveedor("Charlie", "Urretavizcaya ", "Martinuccio ", "elale@gmail.com", date, " Aprende a jugar al Futbol ", "www.futbolparatodos.com", "postercampeoes.png");
-        Proveedor proveedor2 = new Proveedor("Manolo", "Giuseppe", "Ragazzo", "giuseppe@aol.co.uk", date, " Tortugones Manolo", "www.tortugonesManolo.com", "guruceaga.png");
+        Proveedor proveedor = new Proveedor("Charlie", "Urretavizcaya ", "Martinuccio ", "elale@gmail.com", date, " Aprende a jugar al Futbol ", "www.futbolparatodos.com", "postercampeoes.png", "Password");
+        Proveedor proveedor2 = new Proveedor("Manolo", "Giuseppe", "Ragazzo", "giuseppe@aol.co.uk", date, " Tortugones Manolo", "www.tortugonesManolo.com", "guruceaga.png", "Password");
         Servicio servicio = new Servicio("Entrenamiento pre-temporada", "Estimulamos el potencial de todas las personas interesadas en jugar la futbol", 250.00, ciudad, ciudad, proveedor);
         Servicio servicio2 = new Servicio("Tortus bien ricos", "Persona muy capacitada", 100.00, ciudad, ciudad, proveedor);
         instanceService.guardarServicio(servicio);
@@ -577,10 +577,10 @@ public class ServicioControllerImplTest {
         UsuarioControllerImpl usuarioController = new UsuarioControllerImpl();
         usuarioController.vaciarPeristenciaP();
     }
-    
-    
+
     /**
-     * Test of vaciarPersistenciaServicio method, of class ServicioControllerImpl.
+     * Test of vaciarPersistenciaServicio method, of class
+     * ServicioControllerImpl.
      */
     @Test
     public void testVaciarPersistenciaServicioTrue() {
@@ -593,7 +593,7 @@ public class ServicioControllerImplTest {
         Date date = new Date();
         List<Servicio> result = new ArrayList<Servicio>();
         List<Servicio> expResult = new ArrayList<Servicio>();
-        Proveedor proveedor = new Proveedor("Charlie", "Urretavizcaya ", "Martinuccio ", "elale@gmail.com", date, " Aprende a jugar al Futbol ", "www.futbolparatodos.com", "postercampeoes.png");
+        Proveedor proveedor = new Proveedor("Charlie", "Urretavizcaya ", "Martinuccio ", "elale@gmail.com", date, " Aprende a jugar al Futbol ", "www.futbolparatodos.com", "postercampeoes.png", "Password");
         Servicio servicio = new Servicio("Entrenamiento pre-temporada", "Estimulamos el potencial de todas las personas interesadas en jugar la futbol", 250.00, ciudad, ciudad, proveedor);
         instanceService.guardarServicio(servicio);
         instanceController.vaciarPersistenciaServicio();
@@ -607,7 +607,7 @@ public class ServicioControllerImplTest {
         UsuarioControllerImpl usuarioController = new UsuarioControllerImpl();
         usuarioController.vaciarPeristenciaP();
     }
-    
+
     /**
      * Test of verificarPrecio method, of class ServicioControllerImpl.
      */
@@ -620,7 +620,7 @@ public class ServicioControllerImplTest {
         String result = instance.verificarPrecio(precio);
         assertEquals(expResult, result);
     }
-    
+
     /**
      * Test of verificarPrecio method, of class ServicioControllerImpl.
      */
@@ -633,7 +633,7 @@ public class ServicioControllerImplTest {
         String result = instance.verificarPrecio(precio);
         assertEquals(expResult, result);
     }
-    
+
     /**
      * Test of verificarPrecio method, of class ServicioControllerImpl.
      */
@@ -646,7 +646,7 @@ public class ServicioControllerImplTest {
         String result = instance.verificarPrecio(precio);
         assertEquals(expResult, result);
     }
-    
+
     /**
      * Test of verificarPrecio method, of class ServicioControllerImpl.
      */
@@ -659,7 +659,7 @@ public class ServicioControllerImplTest {
         String result = instance.verificarPrecio(precio);
         assertEquals(expResult, result);
     }
-    
+
     /**
      * Test of verificarPrecio method, of class ServicioControllerImpl.
      */
@@ -672,7 +672,7 @@ public class ServicioControllerImplTest {
         String result = instance.verificarPrecio(precio);
         assertEquals(expResult, result);
     }
-    
+
     /**
      * Test of verificarPrecio method, of class ServicioControllerImpl.
      */

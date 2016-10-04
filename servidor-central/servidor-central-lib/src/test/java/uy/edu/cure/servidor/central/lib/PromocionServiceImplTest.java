@@ -88,7 +88,7 @@ public class PromocionServiceImplTest {
     @Test
     public void testExistePromocionTrue() {
         System.out.println("existePromocionTrue");
-        Proveedor proveedor = new Proveedor("nickname", "nombre", "apellido", "correo", null, "nombreEmpresa", "linkEmpresa", "Imagen");
+        Proveedor proveedor = new Proveedor("nickname", "nombre", "apellido", "correo", null, "nombreEmpresa", "linkEmpresa", "Imagen", "Password");
         Promocion promocion = new Promocion("nombre", 10, 100, proveedor);
         PromocionServiceImpl instance = new PromocionServiceImpl();
         instance.guardarPromocion(promocion);
@@ -104,7 +104,7 @@ public class PromocionServiceImplTest {
     @Test
     public void testExistePromocionTrueFalse() {
         System.out.println("existePromocionTrueFalse");
-        Proveedor proveedor = new Proveedor("nickname", "nombre", "apellido", "correo", null, "nombreEmpresa", "linkEmpresa", "Imagen");
+        Proveedor proveedor = new Proveedor("nickname", "nombre", "apellido", "correo", null, "nombreEmpresa", "linkEmpresa", "Imagen", "Password");
         Promocion promocion = new Promocion("nombre", 10, 100, proveedor);
         PromocionServiceImpl instance = new PromocionServiceImpl();
         instance.guardarPromocion(promocion);
@@ -120,7 +120,7 @@ public class PromocionServiceImplTest {
     @Test
     public void testExistePromocionFalseTrue() {
         System.out.println("existePromocionFalseTrue");
-        Proveedor proveedor = new Proveedor("nickname", "nombre", "apellido", "correo", null, "nombreEmpresa", "linkEmpresa", "Imagen");
+        Proveedor proveedor = new Proveedor("nickname", "nombre", "apellido", "correo", null, "nombreEmpresa", "linkEmpresa", "Imagen", "Password");
         Promocion promocion = new Promocion("nombre", 10, 100, proveedor);
         PromocionServiceImpl instance = new PromocionServiceImpl();
         instance.guardarPromocion(promocion);
@@ -151,7 +151,7 @@ public class PromocionServiceImplTest {
     @Test
     public void testObtenerPromocionTrue() {
         System.out.println("obtenerPromocionTrue");
-        Proveedor proveedor = new Proveedor("nickname", "nombre", "apellido", "correo", null, "nombreEmpresa", "linkEmpresa", "Imagen");
+        Proveedor proveedor = new Proveedor("nickname", "nombre", "apellido", "correo", null, "nombreEmpresa", "linkEmpresa", "Imagen", "Password");
         Promocion promocion = new Promocion("nombre", 10, 100, proveedor);
         PromocionServiceImpl instance = new PromocionServiceImpl();
         instance.guardarPromocion(promocion);
@@ -167,7 +167,7 @@ public class PromocionServiceImplTest {
     @Test
     public void testObtenerPromocionTrueFalse() {
         System.out.println("obtenerPromocionTrueFlase");
-        Proveedor proveedor = new Proveedor("nickname", "nombre", "apellido", "correo", null, "nombreEmpresa", "linkEmpresa", "Imagen");
+        Proveedor proveedor = new Proveedor("nickname", "nombre", "apellido", "correo", null, "nombreEmpresa", "linkEmpresa", "Imagen", "Password");
         Promocion promocion = new Promocion("nombre", 10, 100, proveedor);
         PromocionServiceImpl instance = new PromocionServiceImpl();
         instance.guardarPromocion(promocion);
@@ -183,7 +183,7 @@ public class PromocionServiceImplTest {
     @Test
     public void testObtenerPromocionFalseTrue() {
         System.out.println("obtenerPromocionFalseTrue");
-        Proveedor proveedor = new Proveedor("nickname", "nombre", "apellido", "correo", null, "nombreEmpresa", "linkEmpresa", "Imagen");
+        Proveedor proveedor = new Proveedor("nickname", "nombre", "apellido", "correo", null, "nombreEmpresa", "linkEmpresa", "Imagen", "Password");
         Promocion promocion = new Promocion("nombre", 10, 100, proveedor);
         PromocionServiceImpl instance = new PromocionServiceImpl();
         instance.guardarPromocion(promocion);

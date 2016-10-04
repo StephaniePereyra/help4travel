@@ -57,7 +57,7 @@ public class ServicioServiceImplTest {
         Ciudad ciudad = new Ciudad("Maldonado", pais);
         pais.setCiudades(ciudad);
         Date date = new Date();
-        Proveedor proveedor = new Proveedor("Manolo", "Giuseppe", "Ragazzo", "giuseppe@aol.co.uk", date, " Tortugones Manolo", "www.tortugonesManolo.com", "guruceaga.png");
+        Proveedor proveedor = new Proveedor("Manolo", "Giuseppe", "Ragazzo", "giuseppe@aol.co.uk", date, " Tortugones Manolo", "www.tortugonesManolo.com", "guruceaga.png", "Password");
         Servicio servicio = new Servicio("Tortus bien ricos", "Persona muy capacitada", 100.00, ciudad, ciudad, proveedor);
         instance.guardarServicio(servicio);
         expResult = servicio;
@@ -78,7 +78,7 @@ public class ServicioServiceImplTest {
         pais.setCiudades(ciudad);
         Date date = new Date();
         ServicioServiceImpl instance = new ServicioServiceImpl();
-        Proveedor proveedor = new Proveedor("Pepe", "Bartolome", "Perez ", "elToloBienTurrix@aol.co.uk", date, " Postres helados", "www.postresHelados.com", "postercampeoes.png");
+        Proveedor proveedor = new Proveedor("Pepe", "Bartolome", "Perez ", "elToloBienTurrix@aol.co.uk", date, " Postres helados", "www.postresHelados.com", "postercampeoes.png", "Password");
         Servicio servicio = new Servicio("Le fitness", "Aceptamos personas que crean ser mujeres", 750.00, ciudad, ciudad, proveedor);
         instance.guardarServicio(servicio);
         boolean result = instance.existeServicio("Le fitness", "Pepe");
@@ -98,7 +98,7 @@ public class ServicioServiceImplTest {
         pais.setCiudades(ciudad);
         Date date = new Date();
         ServicioServiceImpl instance = new ServicioServiceImpl();
-        Proveedor proveedor = new Proveedor("Pepe", "Bartolome", "Perez ", "elToloBienTurrix@aol.co.uk", date, " Postres helados", "www.postresHelados.com", "postercampeoes.png");
+        Proveedor proveedor = new Proveedor("Pepe", "Bartolome", "Perez ", "elToloBienTurrix@aol.co.uk", date, " Postres helados", "www.postresHelados.com", "postercampeoes.png", "Password");
         Servicio servicio = new Servicio("Le fitness", "Aceptamos personas que crean ser mujeres", 750.00, ciudad, ciudad, proveedor);
         instance.guardarServicio(servicio);
         boolean result = instance.existeServicio("Au revoir mon amour", "Hasta luego, mi amor");
@@ -117,7 +117,7 @@ public class ServicioServiceImplTest {
         pais.setCiudades(ciudad);
         Date date = new Date();
         ServicioServiceImpl instance = new ServicioServiceImpl();
-        Proveedor proveedor = new Proveedor("Charlie", "Urretavizcaya ", "Martinuccio ", "elale@gmail.com", date, " Aprende a jugar al Futbol ", "www.futbolparatodos.com", "postercampeoes.png");
+        Proveedor proveedor = new Proveedor("Charlie", "Urretavizcaya ", "Martinuccio ", "elale@gmail.com", date, " Aprende a jugar al Futbol ", "www.futbolparatodos.com", "postercampeoes.png", "Password");
         Servicio servicio = new Servicio("Entrenamiento pre-temporada", "Estimulamos el potencial de todas las personas interesadas en jugar la futbol", 250.00, ciudad, ciudad, proveedor);
         instance.guardarServicio(servicio);
         Servicio result = instance.obtenerServicio("Entrenamiento pre-temporada", "Charlie");
@@ -137,7 +137,7 @@ public class ServicioServiceImplTest {
         pais.setCiudades(ciudad);
         Date date = new Date();
         ServicioServiceImpl instance = new ServicioServiceImpl();
-        Proveedor proveedor = new Proveedor("Charlie", "Urretavizcaya ", "Martinuccio ", "elale@gmail.com", date, " Aprende a jugar al Futbol ", "www.futbolparatodos.com", "postercampeoes.png");
+        Proveedor proveedor = new Proveedor("Charlie", "Urretavizcaya ", "Martinuccio ", "elale@gmail.com", date, " Aprende a jugar al Futbol ", "www.futbolparatodos.com", "postercampeoes.png", "Password");
         Servicio servicio = new Servicio("Entrenamiento pre-temporada", "Estimulamos el potencial de todas las personas interesadas en jugar la futbol", 250.00, ciudad, ciudad, proveedor);
         instance.guardarServicio(servicio);
         Servicio result = instance.obtenerServicio("Entrenamiento pre-campeonato", "Charlie");
@@ -158,9 +158,9 @@ public class ServicioServiceImplTest {
         pais.setCiudades(ciudad);
         Date date = new Date();
         ServicioServiceImpl instance = new ServicioServiceImpl();
-        Proveedor proveedor = new Proveedor("Charlie", "Urretavizcaya ", "Martinuccio ", "elale@gmail.com", date, " Aprende a jugar al Futbol ", "www.futbolparatodos.com", "postercampeoes.png");
+        Proveedor proveedor = new Proveedor("Charlie", "Urretavizcaya ", "Martinuccio ", "elale@gmail.com", date, " Aprende a jugar al Futbol ", "www.futbolparatodos.com", "postercampeoes.png", "Password");
         Servicio servicio = new Servicio("Entrenamiento pre-temporada", "Estimulamos el potencial de todas las personas interesadas en jugar la futbol", 250.00, ciudad, ciudad, proveedor);
-        Proveedor proveedor2 = new Proveedor("Pepe", "Bartolome", "Perez ", "elToloBienTurrix@aol.co.uk", date, " Postres helados", "www.postresHelados.com", "postercampeoes.png");
+        Proveedor proveedor2 = new Proveedor("Pepe", "Bartolome", "Perez ", "elToloBienTurrix@aol.co.uk", date, " Postres helados", "www.postresHelados.com", "postercampeoes.png", "Password");
         Servicio servicio2 = new Servicio("Le fitness", "Aceptamos personas que crean ser mujeres", 750.00, ciudad, ciudad, proveedor);
         instance.guardarServicio(servicio);
         instance.guardarServicio(servicio2);
@@ -182,9 +182,9 @@ public class ServicioServiceImplTest {
         pais.setCiudades(ciudad);
         Date date = new Date();
         ServicioServiceImpl instance = new ServicioServiceImpl();
-        Proveedor proveedor = new Proveedor("Charlie", "Urretavizcaya ", "Martinuccio ", "elale@gmail.com", date, " Aprende a jugar al Futbol ", "www.futbolparatodos.com", "postercampeoes.png");
+        Proveedor proveedor = new Proveedor("Charlie", "Urretavizcaya ", "Martinuccio ", "elale@gmail.com", date, " Aprende a jugar al Futbol ", "www.futbolparatodos.com", "postercampeoes.png", "Password");
         Servicio servicio = new Servicio("Entrenamiento pre-temporada", "Estimulamos el potencial de todas las personas interesadas en jugar la futbol", 250.00, ciudad, ciudad, proveedor);
-        Proveedor proveedor2 = new Proveedor("Pepe", "Bartolome", "Perez ", "elToloBienTurrix@aol.co.uk", date, " Postres helados", "www.postresHelados.com", "postercampeoes.png");
+        Proveedor proveedor2 = new Proveedor("Pepe", "Bartolome", "Perez ", "elToloBienTurrix@aol.co.uk", date, " Postres helados", "www.postresHelados.com", "postercampeoes.png", "Password");
         Servicio servicio2 = new Servicio("Le fitness", "Aceptamos personas que crean ser mujeres", 750.00, ciudad, ciudad, proveedor);
         instance.guardarServicio(servicio);
         instance.guardarServicio(servicio2);
@@ -206,7 +206,7 @@ public class ServicioServiceImplTest {
         pais.setCiudades(ciudad);
         Date date = new Date();
         List<Servicio> expResult = new ArrayList<Servicio>();
-        Proveedor proveedor = new Proveedor("Charlie", "Urretavizcaya ", "Martinuccio ", "elale@gmail.com", date, " Aprende a jugar al Futbol ", "www.futbolparatodos.com", "postercampeoes.png");
+        Proveedor proveedor = new Proveedor("Charlie", "Urretavizcaya ", "Martinuccio ", "elale@gmail.com", date, " Aprende a jugar al Futbol ", "www.futbolparatodos.com", "postercampeoes.png", "Password");
         Servicio servicio = new Servicio("Entrenamiento pre-temporada", "Estimulamos el potencial de todas las personas interesadas en jugar la futbol", 250.00, ciudad, ciudad, proveedor);
         instance.guardarServicio(servicio);
         instance.vaciarPersistenciaServicio();
