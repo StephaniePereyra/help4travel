@@ -31,25 +31,19 @@ public class UsuarioControllerImpl implements UsuarioController {
     }
 
     @Override
-    public int crearCliente(String nickName, String nombre, String apellido, String correo, int dia, int mes, int anio, String imagenPerfil,String passWord) {
+    public int crearCliente(String nickName, String nombre, String apellido, String correo, int dia, int mes, int anio, String imagenPerfil, String passWord) {
         if (!usuarioService.existeCliente(nickName) && !usuarioService.existeProveedor(nickName)) {
             if (!usuarioService.existeCorreo(correo)) {
-                if (correo.contains("@")) {
-                    if (!correo.startsWith("@") && !correo.endsWith("@")) {
-                        if (validarFecha(dia, mes, anio)) {
-                            Date fechanacimiento = new Date();
-                            fechanacimiento.setDate(dia);
-                            fechanacimiento.setMonth(mes);
-                            fechanacimiento.setYear(anio);
-                            Cliente cliente = new Cliente(nickName, nombre, apellido, correo, fechanacimiento, imagenPerfil,passWord);
-                            usuarioService.guardarCliente(cliente);
-
-                        } else {
-                            return 4;
-                        }
-
+                if (correoValido(correo)) {
+                    if (validarFecha(dia, mes, anio)) {
+                        Date fechanacimiento = new Date();
+                        fechanacimiento.setDate(dia);
+                        fechanacimiento.setMonth(mes);
+                        fechanacimiento.setYear(anio);
+                        Cliente cliente = new Cliente(nickName, nombre, apellido, correo, fechanacimiento, imagenPerfil, passWord);
+                        usuarioService.guardarCliente(cliente);
                     } else {
-                        return 3;
+                        return 4;
                     }
                 } else {
                     return 3;
@@ -64,24 +58,19 @@ public class UsuarioControllerImpl implements UsuarioController {
     }
 
     @Override
-    public int crearProveedor(String nickName, String nombre, String apellido, String correo, int dia, int mes, int anio, String nombreEmpresa, String linkEmpresa, String imagenPerfil,String passWord) {
+    public int crearProveedor(String nickName, String nombre, String apellido, String correo, int dia, int mes, int anio, String nombreEmpresa, String linkEmpresa, String imagenPerfil, String passWord) {
         if (!usuarioService.existeCliente(nickName) && !usuarioService.existeProveedor(nickName)) {
             if (!usuarioService.existeCorreo(correo)) {
-                if (correo.contains("@")) {
-                    if (!correo.startsWith("@") && !correo.endsWith("@")) {
-                        if (validarFecha(dia, mes, anio)) {
-                            Date fechanacimiento = new Date();
-                            fechanacimiento.setDate(dia);
-                            fechanacimiento.setMonth(mes);
-                            fechanacimiento.setYear(anio);
-                            Proveedor proveedor = new Proveedor(nickName, nombre, apellido, correo, fechanacimiento, nombreEmpresa, linkEmpresa, imagenPerfil,passWord);
-                            usuarioService.guardarProveedor(proveedor);
-                        } else {
-                            return 4;
-                        }
-
+                if (correoValido(correo)) {
+                    if (validarFecha(dia, mes, anio)) {
+                        Date fechanacimiento = new Date();
+                        fechanacimiento.setDate(dia);
+                        fechanacimiento.setMonth(mes);
+                        fechanacimiento.setYear(anio);
+                        Proveedor proveedor = new Proveedor(nickName, nombre, apellido, correo, fechanacimiento, nombreEmpresa, linkEmpresa, imagenPerfil, passWord);
+                        usuarioService.guardarProveedor(proveedor);
                     } else {
-                        return 3;
+                        return 4;
                     }
                 } else {
                     return 3;
@@ -135,41 +124,30 @@ public class UsuarioControllerImpl implements UsuarioController {
     public void vaciarPeristenciaC() {
         usuarioService.vaciarPersistenciaC();
     }
-    
-    @Override
-    public boolean LogInCliente (String nickName,String passWord){
-        boolean resultado;
-        if(existeCliente(nickName)){
-            Cliente clienteAux = obtenerCliente(nickName);
-            if(clienteAux.getPassWord().equals(passWord)){
-                resultado = true;
-            }else{
-                resultado = false;
-            }
-        }else{
-            resultado = false;
-        }
-      return resultado;   
-    }
-    
-    @Override
-    public boolean LogInProveedor (String nickName,String passWord){
-        boolean resultado;
-        if(existeProveedor(nickName)){
-            Proveedor proveedorAux = obtenerProveedor(nickName);
-            if(proveedorAux.getPassWord().equals(passWord)){
-                resultado = true;
-            }else{
-                resultado = false;
-            }
-        }else{
-            resultado = false;
-        }
-      return resultado;   
-    }
-    
-    private boolean validarFecha(int dia, int mes, int anio) {
 
+    @Override
+    public boolean LogInCliente(String nickName, String passWord) {
+        if (existeCliente(nickName)) {
+            Cliente clienteAux = obtenerCliente(nickName);
+            if (clienteAux.getPassWord().equals(passWord)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean LogInProveedor(String nickName, String passWord) {
+        if (existeProveedor(nickName)) {
+            Proveedor proveedorAux = obtenerProveedor(nickName);
+            if (proveedorAux.getPassWord().equals(passWord)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean validarFecha(int dia, int mes, int anio) {
         if (anio > 0 && anio < 2017) {
             if (mes > 0 && mes < 13) {
                 if (mes == 1 || mes == 3 || mes == 5 || mes == 7 || mes == 8 || mes == 10 || mes == 12) {
@@ -199,6 +177,22 @@ public class UsuarioControllerImpl implements UsuarioController {
                 }
             } else {
                 return false;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean correoValido(String correo) {
+        int cantArroba = 0;
+        for (int i = 0; i < correo.length(); i++) {
+            if (correo.charAt(i) == '@') {
+                cantArroba++;
+            }
+        }
+        if (cantArroba == 1) {
+            if (!correo.startsWith("@") && !correo.endsWith("@")) {
+                return true;
             }
         }
         return false;

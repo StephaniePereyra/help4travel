@@ -30,12 +30,12 @@ import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
 public class AltaProveedor extends javax.swing.JFrame {
 
     private FileNameExtensionFilter filtro;
-    @Jeringa (value = "usuariocontroller")
+    @Jeringa(value = "usuariocontroller")
     private UsuarioControllerImpl usuariocontrollerForm;
     private String rutaImagen;
     private String rutaArchivo;
     private String validez;
-    private boolean user, password, nombre, apellido, correo, fechad, fecham, fechaA, empresa, linkEmpresa;
+    private boolean user, password, passwordConfirm, nombre, apellido, correo, fechad, fecham, fechaA, empresa, linkEmpresa;
     private int dia, mes, anio;
     private Properties progappProperties;
     private InputStream input = null;
@@ -54,13 +54,11 @@ public class AltaProveedor extends javax.swing.JFrame {
         initComponents();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         filtro = new FileNameExtensionFilter("Formato Imagen", "png", "jpg");
-        
-          try {
+        try {
             JeringaInjector.getInstance().inyectar(this);
         } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
             e.printStackTrace();
         }
-        
         rutaImagen = "";
         rutaArchivo = "";
         validez = "";
@@ -110,6 +108,9 @@ public class AltaProveedor extends javax.swing.JFrame {
         textFieldPassword = new javax.swing.JTextField();
         labelPasswordError = new javax.swing.JLabel();
         labelPassword = new javax.swing.JLabel();
+        textFieldPasswordConfirm = new javax.swing.JTextField();
+        labelPassowrdConfirm = new javax.swing.JLabel();
+        labelPasswordConfirmError = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -184,14 +185,19 @@ public class AltaProveedor extends javax.swing.JFrame {
         WarningNombre.setForeground(new java.awt.Color(255, 51, 51));
 
         WarningApellido.setForeground(new java.awt.Color(255, 51, 51));
+        WarningApellido.setText(" ");
 
         WarningCorreo.setForeground(new java.awt.Color(255, 51, 51));
+        WarningCorreo.setText(" ");
 
         WarningEmpresa.setForeground(new java.awt.Color(255, 51, 51));
+        WarningEmpresa.setText(" ");
 
         WarningLink.setForeground(new java.awt.Color(255, 51, 51));
+        WarningLink.setText(" ");
 
         WarningFecha.setForeground(new java.awt.Color(255, 51, 51));
+        WarningFecha.setText(" ");
 
         PreviewImagen.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
@@ -199,6 +205,11 @@ public class AltaProveedor extends javax.swing.JFrame {
         labelPasswordError.setText(" ");
 
         labelPassword.setText("Password");
+
+        labelPassowrdConfirm.setText("Confirmar");
+
+        labelPasswordConfirmError.setForeground(new java.awt.Color(255, 0, 0));
+        labelPasswordConfirmError.setText(" ");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -211,59 +222,58 @@ public class AltaProveedor extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel7)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(113, 113, 113)
-                                        .addComponent(jLabel8)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(AñioProveedorForm, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jLabel9)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(MesProveedorForm, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(jLabel10)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(DiaProveedorForm, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addComponent(WarningFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                .addGap(27, 310, Short.MAX_VALUE))
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel6))
+                                .addGap(36, 36, 36)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(ApellidoProveedorForm, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(WarningApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(CorreoProveedorForm, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(WarningCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(NombreEmpresaProveedorForm, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(WarningEmpresa, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(LinkEmpresaProveedorForm, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(WarningLink, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(NombreProveedorForm, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(WarningNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel1)
+                                    .addComponent(labelPassword)
+                                    .addComponent(labelPassowrdConfirm))
+                                .addGap(65, 65, 65)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(textFieldPasswordConfirm)
+                                    .addComponent(textFieldPassword)
+                                    .addComponent(UserNameProveedorForm, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
+                                    .addComponent(WarningUsername, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(labelPasswordConfirmError, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(labelPasswordError, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(WarningFecha, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel2)
-                                            .addComponent(jLabel3)
-                                            .addComponent(jLabel4)
-                                            .addComponent(jLabel5)
-                                            .addComponent(jLabel6))
-                                        .addGap(36, 36, 36)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(WarningNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(NombreProveedorForm, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(ApellidoProveedorForm, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(WarningApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(CorreoProveedorForm, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(WarningCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(NombreEmpresaProveedorForm, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(WarningEmpresa, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(LinkEmpresaProveedorForm, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(WarningLink, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel1)
-                                            .addComponent(labelPassword))
-                                        .addGap(65, 65, 65)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(labelPasswordError, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(textFieldPassword)
-                                            .addComponent(UserNameProveedorForm, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
-                                            .addComponent(WarningUsername, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 127, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(BotonAgregarImagen)
-                                    .addComponent(PreviewImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                        .addComponent(jLabel7)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jLabel8)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(AñioProveedorForm, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jLabel9)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(MesProveedorForm, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jLabel10)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(DiaProveedorForm, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 119, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(BotonAgregarImagen)
+                            .addComponent(PreviewImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(BotonReset)
@@ -297,6 +307,12 @@ public class AltaProveedor extends javax.swing.JFrame {
                         .addComponent(labelPasswordError)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(textFieldPasswordConfirm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(labelPassowrdConfirm))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(labelPasswordConfirmError)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(NombreProveedorForm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -318,27 +334,24 @@ public class AltaProveedor extends javax.swing.JFrame {
                             .addComponent(NombreEmpresaProveedorForm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(WarningEmpresa, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(WarningEmpresa)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
                             .addComponent(LinkEmpresaProveedorForm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(WarningLink, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(WarningLink)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(AñioProveedorForm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(MesProveedorForm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(DiaProveedorForm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel10)
-                                .addComponent(jLabel9)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(WarningFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel8))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel8)
+                    .addComponent(AñioProveedorForm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9)
+                    .addComponent(MesProveedorForm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10)
+                    .addComponent(DiaProveedorForm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(WarningFecha)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BotonCrearProveedor)
@@ -355,12 +368,24 @@ public class AltaProveedor extends javax.swing.JFrame {
     private void BotonCrearProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonCrearProveedorActionPerformed
         WarningUsername.setText("");
         labelPasswordError.setText("");
+        labelPasswordConfirmError.setText("");
         WarningNombre.setText("");
         WarningApellido.setText("");
         WarningCorreo.setText("");
         WarningFecha.setText("");
         WarningEmpresa.setText("");
         WarningLink.setText("");
+        user = false;
+        password = false;
+        passwordConfirm = false;
+        nombre = false;
+        apellido = false;
+        correo = false;
+        fechad = false;
+        fecham = false;
+        fechaA = false;
+        empresa = false;
+        linkEmpresa = false;
         if (UserNameProveedorForm.getText().equals(validez)) {
             WarningUsername.setText("*Campo vacio");
         } else {
@@ -370,6 +395,13 @@ public class AltaProveedor extends javax.swing.JFrame {
             labelPasswordError.setText("*Campo vacio");
         } else {
             password = true;
+        }
+        if (textFieldPasswordConfirm.getText().equals(validez)) {
+            labelPasswordConfirmError.setText("*Campo vacio");
+        } else if (!textFieldPasswordConfirm.getText().equals(textFieldPassword.getText())) {
+            labelPasswordConfirmError.setText("*Passwords no coinciden");
+        } else {
+            passwordConfirm = true;
         }
         if (NombreProveedorForm.getText().equals(validez)) {
             WarningNombre.setText("*Campo vacio");
@@ -411,30 +443,21 @@ public class AltaProveedor extends javax.swing.JFrame {
         } else {
             linkEmpresa = true;
         }
-        if (user && password && nombre && apellido && correo && fechad && fecham && fechaA && empresa && linkEmpresa) {
+        if (user && password && passwordConfirm && nombre && apellido && correo && fechad && fecham && fechaA && empresa && linkEmpresa) {
             dia = Integer.parseInt(DiaProveedorForm.getText());
             mes = Integer.parseInt(MesProveedorForm.getText());
             anio = Integer.parseInt(AñioProveedorForm.getText());
-
-        int resultado = usuariocontrollerForm.crearProveedor(UserNameProveedorForm.getText(), NombreProveedorForm.getText(), ApellidoProveedorForm.getText(), CorreoProveedorForm.getText(), dia, mes, anio, NombreEmpresaProveedorForm.getText(), LinkEmpresaProveedorForm.getText(), rutaImagen, textFieldPassword.getText());
-            if(resultado == -1){
+            int resultado = usuariocontrollerForm.crearProveedor(UserNameProveedorForm.getText(), NombreProveedorForm.getText(), ApellidoProveedorForm.getText(), CorreoProveedorForm.getText(), dia, mes, anio, NombreEmpresaProveedorForm.getText(), LinkEmpresaProveedorForm.getText(), rutaImagen, textFieldPassword.getText());
+            if (resultado == -1) {
                 javax.swing.JOptionPane.showMessageDialog(null, "Proveedor dado de alta", "Alta proveedor", 1);
-            }else{
-                if(resultado == 1){
-                    WarningUsername.setText("*Nombre de usuario ya registrado");
-                }else{
-                    if(resultado == 2){
-                        WarningCorreo.setText("*Correo electronico ya registrado");
-                    }else{
-                        if(resultado == 3){
-                            WarningCorreo.setText("*Correo electronico invalido");
-                        }else{
-                            if(resultado == 4){
-                                WarningFecha.setText("*Fecha invalida");
-                            }
-                        }
-                    }
-                }
+            } else if (resultado == 1) {
+                WarningUsername.setText("*Nombre de usuario ya registrado");
+            } else if (resultado == 2) {
+                WarningCorreo.setText("*Correo electronico ya registrado");
+            } else if (resultado == 3) {
+                WarningCorreo.setText("*Correo electronico invalido");
+            } else if (resultado == 4) {
+                WarningFecha.setText("*Fecha invalida");
             }
         }
     }//GEN-LAST:event_BotonCrearProveedorActionPerformed
@@ -453,13 +476,11 @@ public class AltaProveedor extends javax.swing.JFrame {
             rutaImagen = ruta;
             File destino = new File(ruta);
             File JFile = new File(rutaArchivo);
-
             try {
                 Files.copy(JFile.toPath(), destino.toPath());
             } catch (IOException ex) {
                 Logger.getLogger(AltaCliente.class.getName()).log(Level.SEVERE, null, ex);
             }
-
             ImageIcon iconoPerfil = new ImageIcon(JFile.getAbsolutePath());
             Image imagenPerfil = iconoPerfil.getImage();
             Image nuevaPerfil = imagenPerfil.getScaledInstance(155, 175, java.awt.Image.SCALE_SMOOTH);
@@ -477,6 +498,7 @@ public class AltaProveedor extends javax.swing.JFrame {
     private void BotonResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonResetActionPerformed
         UserNameProveedorForm.setText("");
         textFieldPassword.setText("");
+        textFieldPasswordConfirm.setText("");
         NombreProveedorForm.setText("");
         ApellidoProveedorForm.setText("");
         CorreoProveedorForm.setText("");
@@ -487,6 +509,7 @@ public class AltaProveedor extends javax.swing.JFrame {
         LinkEmpresaProveedorForm.setText("");
         WarningUsername.setText("");
         labelPasswordError.setText("");
+        labelPasswordConfirmError.setText("");
         WarningNombre.setText("");
         WarningApellido.setText("");
         WarningCorreo.setText("");
@@ -584,8 +607,11 @@ public class AltaProveedor extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel labelPassowrdConfirm;
     private javax.swing.JLabel labelPassword;
+    private javax.swing.JLabel labelPasswordConfirmError;
     private javax.swing.JLabel labelPasswordError;
     private javax.swing.JTextField textFieldPassword;
+    private javax.swing.JTextField textFieldPasswordConfirm;
     // End of variables declaration//GEN-END:variables
 }

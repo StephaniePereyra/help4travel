@@ -30,73 +30,69 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jLabel7" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace min="-2" pref="113" max="-2" attributes="0"/>
+                                  <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="36" pref="36" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="103" groupAlignment="1" attributes="0">
+                                      <Component id="ApellidoProveedorForm" alignment="1" min="-2" pref="203" max="-2" attributes="0"/>
+                                      <Component id="WarningApellido" alignment="1" min="-2" pref="203" max="-2" attributes="0"/>
+                                      <Component id="CorreoProveedorForm" alignment="1" min="-2" pref="203" max="-2" attributes="0"/>
+                                      <Component id="WarningCorreo" alignment="1" min="-2" pref="203" max="-2" attributes="0"/>
+                                      <Component id="NombreEmpresaProveedorForm" alignment="1" min="-2" pref="203" max="-2" attributes="0"/>
+                                      <Component id="WarningEmpresa" alignment="1" min="-2" pref="203" max="-2" attributes="0"/>
+                                      <Component id="LinkEmpresaProveedorForm" alignment="1" min="-2" pref="203" max="-2" attributes="0"/>
+                                      <Component id="WarningLink" alignment="1" min="-2" pref="203" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Component id="NombreProveedorForm" alignment="0" min="-2" pref="203" max="-2" attributes="0"/>
+                                  <Component id="WarningNombre" alignment="0" min="-2" pref="203" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="labelPassword" min="-2" max="-2" attributes="0"/>
+                                  <Component id="labelPassowrdConfirm" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="65" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="textFieldPasswordConfirm" max="32767" attributes="0"/>
+                                  <Component id="textFieldPassword" max="32767" attributes="0"/>
+                                  <Component id="UserNameProveedorForm" pref="203" max="32767" attributes="0"/>
+                                  <Component id="WarningUsername" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="labelPasswordConfirmError" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="labelPasswordError" alignment="0" max="32767" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                  <Component id="WarningFecha" alignment="0" pref="300" max="32767" attributes="0"/>
+                                  <Group type="102" attributes="0">
+                                      <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Group type="102" alignment="0" attributes="0">
-                                              <Component id="AñioProveedorForm" min="-2" pref="47" max="-2" attributes="0"/>
-                                              <EmptySpace max="-2" attributes="0"/>
-                                              <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace max="32767" attributes="0"/>
-                                              <Component id="MesProveedorForm" min="-2" pref="23" max="-2" attributes="0"/>
-                                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                              <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace max="-2" attributes="0"/>
-                                              <Component id="DiaProveedorForm" min="-2" pref="24" max="-2" attributes="0"/>
-                                          </Group>
-                                          <Component id="WarningFecha" alignment="0" min="-2" pref="154" max="-2" attributes="0"/>
-                                      </Group>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <Component id="AñioProveedorForm" min="-2" pref="50" max="-2" attributes="0"/>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <Component id="MesProveedorForm" min="-2" pref="50" max="-2" attributes="0"/>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <EmptySpace min="27" pref="310" max="32767" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="DiaProveedorForm" min="-2" pref="50" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" attributes="0">
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="1" attributes="0">
-                                          <Component id="WarningNombre" min="-2" pref="203" max="-2" attributes="0"/>
-                                          <Component id="NombreProveedorForm" min="-2" pref="203" max="-2" attributes="0"/>
-                                          <Component id="ApellidoProveedorForm" alignment="1" min="-2" pref="203" max="-2" attributes="0"/>
-                                          <Component id="WarningApellido" alignment="1" min="-2" pref="203" max="-2" attributes="0"/>
-                                          <Component id="CorreoProveedorForm" alignment="1" min="-2" pref="203" max="-2" attributes="0"/>
-                                          <Component id="WarningCorreo" alignment="1" min="-2" pref="203" max="-2" attributes="0"/>
-                                          <Component id="NombreEmpresaProveedorForm" alignment="1" min="-2" pref="203" max="-2" attributes="0"/>
-                                          <Component id="WarningEmpresa" alignment="1" min="-2" pref="203" max="-2" attributes="0"/>
-                                          <Component id="LinkEmpresaProveedorForm" alignment="1" min="-2" pref="203" max="-2" attributes="0"/>
-                                          <Component id="WarningLink" alignment="1" min="-2" pref="203" max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                                  <Group type="102" attributes="0">
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                                          <Component id="labelPassword" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace min="-2" pref="65" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="labelPasswordError" max="32767" attributes="0"/>
-                                          <Component id="textFieldPassword" max="32767" attributes="0"/>
-                                          <Component id="UserNameProveedorForm" pref="203" max="32767" attributes="0"/>
-                                          <Component id="WarningUsername" alignment="0" max="32767" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                              </Group>
-                              <EmptySpace pref="127" max="32767" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="BotonAgregarImagen" min="-2" max="-2" attributes="0"/>
-                                  <Component id="PreviewImagen" min="-2" pref="155" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
+                      </Group>
+                      <EmptySpace pref="119" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="BotonAgregarImagen" min="-2" max="-2" attributes="0"/>
+                          <Component id="PreviewImagen" min="-2" pref="155" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" attributes="0">
@@ -139,6 +135,13 @@
                       <Component id="labelPasswordError" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="textFieldPasswordConfirm" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="labelPassowrdConfirm" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="labelPasswordConfirmError" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="NombreProveedorForm" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
@@ -164,7 +167,7 @@
                           <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="WarningEmpresa" linkSize="2" min="-2" pref="12" max="-2" attributes="0"/>
+                      <Component id="WarningEmpresa" linkSize="2" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -173,25 +176,19 @@
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="WarningLink" min="-2" pref="12" max="-2" attributes="0"/>
+              <Component id="WarningLink" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jLabel7" alignment="1" min="-2" max="-2" attributes="0"/>
-                          <Group type="103" alignment="1" groupAlignment="3" attributes="0">
-                              <Component id="AñioProveedorForm" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="MesProveedorForm" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="DiaProveedorForm" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabel10" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="WarningFecha" min="-2" pref="15" max="-2" attributes="0"/>
-                  </Group>
-                  <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="AñioProveedorForm" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="MesProveedorForm" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel10" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="DiaProveedorForm" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="WarningFecha" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="BotonCrearProveedor" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -332,6 +329,7 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="33" green="33" red="ff" type="rgb"/>
         </Property>
+        <Property name="text" type="java.lang.String" value=" "/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="WarningCorreo">
@@ -339,6 +337,7 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="33" green="33" red="ff" type="rgb"/>
         </Property>
+        <Property name="text" type="java.lang.String" value=" "/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="WarningEmpresa">
@@ -346,6 +345,7 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="33" green="33" red="ff" type="rgb"/>
         </Property>
+        <Property name="text" type="java.lang.String" value=" "/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="WarningLink">
@@ -353,6 +353,7 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="33" green="33" red="ff" type="rgb"/>
         </Property>
+        <Property name="text" type="java.lang.String" value=" "/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="WarningFecha">
@@ -360,6 +361,7 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="33" green="33" red="ff" type="rgb"/>
         </Property>
+        <Property name="text" type="java.lang.String" value=" "/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="PreviewImagen">
@@ -384,6 +386,21 @@
     <Component class="javax.swing.JLabel" name="labelPassword">
       <Properties>
         <Property name="text" type="java.lang.String" value="Password"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="textFieldPasswordConfirm">
+    </Component>
+    <Component class="javax.swing.JLabel" name="labelPassowrdConfirm">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Confirmar"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="labelPasswordConfirmError">
+      <Properties>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="0" green="0" red="ff" type="rgb"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value=" "/>
       </Properties>
     </Component>
   </SubComponents>

@@ -34,7 +34,7 @@ public class AltaCliente extends javax.swing.JFrame {
     private String rutaArchivo;
     private String validez;
     private int dia, mes, anio;
-    private boolean user, password, nombre, apellido, correo, fechad, fecham, fechaA;
+    private boolean user, password, passwordConfirm, nombre, apellido, correo, fechad, fecham, fechaA;
     @Jeringa(value = "usuariocontroller")
     private UsuarioControllerImpl usuariocontrollerForm;
     private Properties progappProperties;
@@ -56,15 +56,6 @@ public class AltaCliente extends javax.swing.JFrame {
             e.printStackTrace();
         }
 
-        //inicializo TextFields
-        UserNameForm.setText("");
-        textFieldPassword.setText("");
-        NombreForm.setText("");
-        ApellidoForm.setText("");
-        CorreoForm.setText("");
-        DiaForm.setText("");
-        MesForm.setText("");
-        AñioForm.setText("");
         //Filtro para FileChooser
         filtro = new FileNameExtensionFilter("Formato Imagen", "png", "jpg");
         rutaImagen = "";
@@ -110,6 +101,9 @@ public class AltaCliente extends javax.swing.JFrame {
         textFieldPassword = new javax.swing.JTextField();
         labelPassword = new javax.swing.JLabel();
         labelPassWordError = new javax.swing.JLabel();
+        textFieldPasswordConfirm = new javax.swing.JTextField();
+        labelPasswordConfirm = new javax.swing.JLabel();
+        labelPasswordConfirmError = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -123,6 +117,7 @@ public class AltaCliente extends javax.swing.JFrame {
 
         jLabel5.setText("Fecha Nacimiento");
 
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel6.setText("Año");
 
         jLabel7.setText("Mes");
@@ -191,6 +186,11 @@ public class AltaCliente extends javax.swing.JFrame {
 
         labelPassWordError.setForeground(new java.awt.Color(255, 0, 0));
 
+        labelPasswordConfirm.setText("Confirmar");
+
+        labelPasswordConfirmError.setForeground(new java.awt.Color(255, 0, 0));
+        labelPasswordConfirmError.setText(" ");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -227,42 +227,42 @@ public class AltaCliente extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel1)
-                                    .addComponent(labelPassword))
+                                    .addComponent(labelPassword)
+                                    .addComponent(labelPasswordConfirm))
                                 .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(labelPassWordError, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(UserNameForm, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE)
-                                        .addComponent(WarningUsername, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(textFieldPassword)))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(labelPasswordConfirmError, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(labelPassWordError, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(UserNameForm, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE)
+                                    .addComponent(WarningUsername, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(textFieldPassword)
+                                    .addComponent(textFieldPasswordConfirm))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
                         .addComponent(PreviewImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(19, 19, 19))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel5)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel6)
-                        .addGap(14, 14, 14)
-                        .addComponent(AñioForm, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(AñioForm, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(MesForm, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(12, 12, 12)
+                        .addComponent(MesForm, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(DiaForm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(DiaForm, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(37, 37, 37)
                         .addComponent(BotonAgregarImagen))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(WarningFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(WarningFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel1, jLabel2, jLabel3, jLabel4});
-
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {DiaForm, jLabel6});
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {ApellidoForm, CorreoForm, NombreForm, UserNameForm});
 
@@ -285,6 +285,12 @@ public class AltaCliente extends javax.swing.JFrame {
                         .addComponent(labelPassWordError, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(textFieldPasswordConfirm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(labelPasswordConfirm))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(labelPasswordConfirmError, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
                             .addComponent(NombreForm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(3, 3, 3)
@@ -303,21 +309,17 @@ public class AltaCliente extends javax.swing.JFrame {
                         .addComponent(WarningCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(PreviewImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(jLabel6)
                     .addComponent(AñioForm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(MesForm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel7))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(DiaForm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(BotonAgregarImagen))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(1, 1, 1)
-                        .addComponent(jLabel8)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(WarningFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7)
+                    .addComponent(MesForm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8)
+                    .addComponent(DiaForm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BotonAgregarImagen))
+                .addGap(12, 12, 12)
+                .addComponent(WarningFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(11, 11, 11)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BotonCancelar)
@@ -331,10 +333,20 @@ public class AltaCliente extends javax.swing.JFrame {
     private void BotonCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonCrearActionPerformed
         WarningUsername.setText("");
         labelPassWordError.setText("");
+        labelPasswordConfirmError.setText("");
         WarningNombre.setText("");
         WarningApellido.setText("");
         WarningCorreo.setText("");
         WarningFecha.setText("");
+        user = false;
+        password = false;
+        passwordConfirm = false;
+        nombre = false;
+        apellido = false;
+        correo = false;
+        fechad = false;
+        fecham = false;
+        fechaA = false;
         if (UserNameForm.getText().equals(validez)) {
             WarningUsername.setText("*Campo vacio");
         } else {
@@ -344,6 +356,13 @@ public class AltaCliente extends javax.swing.JFrame {
             labelPassWordError.setText("*Campo vacio");
         } else {
             password = true;
+        }
+        if (textFieldPasswordConfirm.getText().equals(validez)) {
+            labelPasswordConfirmError.setText("*Campo vacio");
+        } else if (!textFieldPasswordConfirm.getText().equals(textFieldPassword.getText())) {
+            labelPasswordConfirmError.setText("*Passwords no coinciden");
+        } else {
+            passwordConfirm = true;
         }
         if (NombreForm.getText().equals(validez)) {
             WarningNombre.setText("*Campo vacio");
@@ -375,11 +394,10 @@ public class AltaCliente extends javax.swing.JFrame {
         } else {
             fechaA = true;
         }
-        if (user && password && nombre && apellido && correo && fechad && fecham && fechaA) {
+        if (user && password && passwordConfirm && nombre && apellido && correo && fechad && fecham && fechaA) {
             dia = Integer.parseInt(DiaForm.getText());
             mes = Integer.parseInt(MesForm.getText());
             anio = Integer.parseInt(AñioForm.getText());
-
             int resultado = usuariocontrollerForm.crearCliente(UserNameForm.getText(), NombreForm.getText(), ApellidoForm.getText(), CorreoForm.getText(), dia, mes, anio, rutaImagen, textFieldPassword.getText());
             if (resultado == -1) {
                 javax.swing.JOptionPane.showMessageDialog(null, "Cliente dado de alta", "Alta cliente", 1);
@@ -392,7 +410,6 @@ public class AltaCliente extends javax.swing.JFrame {
             } else if (resultado == 4) {
                 WarningFecha.setText("*Fecha invalida");
             }
-
         }
     }//GEN-LAST:event_BotonCrearActionPerformed
 
@@ -436,6 +453,7 @@ public class AltaCliente extends javax.swing.JFrame {
     private void BotonResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonResetActionPerformed
         UserNameForm.setText("");
         textFieldPassword.setText("");
+        textFieldPasswordConfirm.setText("");
         NombreForm.setText("");
         ApellidoForm.setText("");
         CorreoForm.setText("");
@@ -444,6 +462,7 @@ public class AltaCliente extends javax.swing.JFrame {
         AñioForm.setText("");
         WarningUsername.setText("");
         labelPassWordError.setText("");
+        labelPasswordConfirmError.setText("");
         WarningNombre.setText("");
         WarningApellido.setText("");
         WarningCorreo.setText("");
@@ -539,6 +558,9 @@ public class AltaCliente extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel labelPassWordError;
     private javax.swing.JLabel labelPassword;
+    private javax.swing.JLabel labelPasswordConfirm;
+    private javax.swing.JLabel labelPasswordConfirmError;
     private javax.swing.JTextField textFieldPassword;
+    private javax.swing.JTextField textFieldPasswordConfirm;
     // End of variables declaration//GEN-END:variables
 }

@@ -780,4 +780,150 @@ public class UsuarioControllerImplTest {
         instance.vaciarPeristenciaC();
     }
 
+    @Test
+    public void correoValidoCantArrobaMayor() {
+        System.out.println("correoValidoCantArrobaMayor");
+        String correo = "correo@correo@";
+        UsuarioControllerImpl instance = new UsuarioControllerImpl();
+        boolean expResult = false;
+        boolean result = instance.correoValido(correo);
+        assertEquals(expResult, result);
+    }
+
+    @Test
+    public void correoValidoEmpiezaArroba() {
+        System.out.println("correoValidoEmpiezaArroba");
+        String correo = "@correo";
+        UsuarioControllerImpl instance = new UsuarioControllerImpl();
+        boolean expResult = false;
+        boolean result = instance.correoValido(correo);
+        assertEquals(expResult, result);
+    }
+
+    @Test
+    public void correoValidoFinArroba() {
+        System.out.println("correoValidoFinArroba");
+        String correo = "correo@";
+        UsuarioControllerImpl instance = new UsuarioControllerImpl();
+        boolean expResult = false;
+        boolean result = instance.correoValido(correo);
+        assertEquals(expResult, result);
+    }
+
+    @Test
+    public void correoValido() {
+        System.out.println("correoValido");
+        String correo = "correo@correo";
+        UsuarioControllerImpl instance = new UsuarioControllerImpl();
+        boolean expResult = true;
+        boolean result = instance.correoValido(correo);
+        assertEquals(expResult, result);
+    }
+
+    @Test
+    public void LogInClienteNoCliente() {
+        System.out.println("LogInClienteNoCliente");
+        String nickName = "";
+        String passWord = "";
+        UsuarioControllerImpl instance = new UsuarioControllerImpl();
+        boolean expResult = false;
+        boolean result = instance.LogInCliente(nickName, passWord);
+        assertEquals(expResult, result);
+    }
+
+    @Test
+    public void LogInClientePasswordNoEqual() {
+        System.out.println("LogInClientPasswordNoEqual");
+        String nickName = "nickName";
+        String nombre = "nombre";
+        String apellido = "apellido";
+        String correo = "correo@correo";
+        int dia = 1;
+        int mes = 1;
+        int anio = 2015;
+        String imagenPerfil = "ruta";
+        String passWord = "passWord";
+        UsuarioControllerImpl instance = new UsuarioControllerImpl();
+        instance.crearCliente(nickName, nombre, apellido, correo, dia, mes, anio, imagenPerfil, passWord);
+        boolean expResult = false;
+        boolean result = instance.LogInCliente(nickName, "otraPassWord");
+        assertEquals(expResult, result);
+        instance.vaciarPeristenciaC();
+    }
+
+    @Test
+    public void LogInCliente() {
+        System.out.println("LogInClient");
+        String nickName = "nickName";
+        String nombre = "nombre";
+        String apellido = "apellido";
+        String correo = "correo@correo";
+        int dia = 1;
+        int mes = 1;
+        int anio = 2015;
+        String imagenPerfil = "ruta";
+        String passWord = "passWord";
+        UsuarioControllerImpl instance = new UsuarioControllerImpl();
+        instance.crearCliente(nickName, nombre, apellido, correo, dia, mes, anio, imagenPerfil, passWord);
+        boolean expResult = true;
+        boolean result = instance.LogInCliente(nickName, passWord);
+        assertEquals(expResult, result);
+        instance.vaciarPeristenciaC();
+    }
+
+    @Test
+    public void LogInProveedorNoProveedor() {
+        System.out.println("LogInProveedorNoProveedor");
+        String nickName = "";
+        String passWord = "";
+        UsuarioControllerImpl instance = new UsuarioControllerImpl();
+        boolean expResult = false;
+        boolean result = instance.LogInProveedor(nickName, passWord);
+        assertEquals(expResult, result);
+    }
+
+    @Test
+    public void LogInProveedorPasswordNoEqual() {
+        System.out.println("LogInProveedorPasswordNoEqual");
+        String nickName = "nickname";
+        String nombre = "nombre";
+        String apellido = "apellido";
+        String correo = "correo@correo";
+        int dia = 1;
+        int mes = 1;
+        int anio = 2015;
+        String nombreEmpresa = "empresa";
+        String linkEmpresa = "link";
+        String imagenPerfil = "ruta";
+        String passWord = "passWord";
+        UsuarioControllerImpl instance = new UsuarioControllerImpl();
+        instance.crearProveedor(nickName, nombre, apellido, correo, dia, mes, anio, nombreEmpresa, linkEmpresa, imagenPerfil, passWord);
+        boolean expResult = false;
+        boolean result = instance.LogInProveedor(nickName, "otraPassword");
+        assertEquals(expResult, result);
+        instance.vaciarPeristenciaP();
+    }
+
+    @Test
+    public void LogInProveedor() {
+        System.out.println("LogInProveedor");
+        String nickName = "nickname";
+        String nombre = "nombre";
+        String apellido = "apellido";
+        String correo = "correo@correo";
+        int dia = 1;
+        int mes = 1;
+        int anio = 2015;
+        String nombreEmpresa = "empresa";
+        String linkEmpresa = "link";
+        String imagenPerfil = "ruta";
+        String passWord = "passWord";
+        UsuarioControllerImpl instance = new UsuarioControllerImpl();
+        instance.crearProveedor(nickName, nombre, apellido, correo, dia, mes, anio, nombreEmpresa, linkEmpresa, imagenPerfil, passWord);
+        boolean expResult = true;
+        boolean result = instance.LogInProveedor(nickName, passWord);
+        assertEquals(expResult, result);
+        instance.vaciarPeristenciaP();
+    }
+
 }
