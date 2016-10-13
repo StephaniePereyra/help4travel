@@ -447,17 +447,26 @@ public class AltaProveedor extends javax.swing.JFrame {
             dia = Integer.parseInt(DiaProveedorForm.getText());
             mes = Integer.parseInt(MesProveedorForm.getText());
             anio = Integer.parseInt(AñioProveedorForm.getText());
-            int resultado = usuariocontrollerForm.crearProveedor(UserNameProveedorForm.getText(), NombreProveedorForm.getText(), ApellidoProveedorForm.getText(), CorreoProveedorForm.getText(), dia, mes, anio, NombreEmpresaProveedorForm.getText(), LinkEmpresaProveedorForm.getText(), rutaImagen, textFieldPassword.getText());
-            if (resultado == -1) {
-                javax.swing.JOptionPane.showMessageDialog(null, "Proveedor dado de alta", "Alta proveedor", 1);
-            } else if (resultado == 1) {
-                WarningUsername.setText("*Nombre de usuario ya registrado");
-            } else if (resultado == 2) {
-                WarningCorreo.setText("*Correo electronico ya registrado");
-            } else if (resultado == 3) {
-                WarningCorreo.setText("*Correo electronico invalido");
-            } else if (resultado == 4) {
-                WarningFecha.setText("*Fecha invalida");
+            int resultado = usuariocontrollerForm.crearProveedor(UserNameProveedorForm.getText(), NombreProveedorForm.getText(), ApellidoProveedorForm.getText(), CorreoProveedorForm.getText(), dia, mes, anio, NombreEmpresaProveedorForm.getText(), LinkEmpresaProveedorForm.getText(), rutaImagen, textFieldPassword.getText(), textFieldPasswordConfirm.getText());
+            switch (resultado) {
+                case -1:
+                    javax.swing.JOptionPane.showMessageDialog(null, "Cliente dado de alta", "Alta cliente", 1);
+                    break;
+                case 1:
+                    WarningUsername.setText("*Nombre de usuario ya registrado");
+                    break;
+                case 2:
+                    labelPasswordConfirmError.setText("*Passwords no coinciden");
+                    break;
+                case 3:
+                    WarningCorreo.setText("*Correo electronico invalido");
+                    break;
+                case 4:
+                    WarningCorreo.setText("*Correo en uso");
+                    break;
+                case 5:
+                    WarningFecha.setText("*Fecha invalida");
+                    break;
             }
         }
     }//GEN-LAST:event_BotonCrearProveedorActionPerformed

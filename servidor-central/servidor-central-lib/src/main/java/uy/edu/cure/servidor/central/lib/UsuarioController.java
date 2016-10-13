@@ -15,19 +15,23 @@ import uy.edu.cure.servidor.central.dto.Proveedor;
  */
 public interface UsuarioController {
 
-    public int crearCliente(String nickName, String nombre, String apellido, String correo, int dia, int mes, int anio, String imagenPerfil, String passWord);
+    public int crearCliente(String nickName, String nombre, String apellido, String correo, int dia, int mes, int anio, String imagenPerfil, String passWord, String passWordConfirm);
 
-    public int crearProveedor(String nickName, String nombre, String apellido, String correo, int dia, int mes, int anio, String nombreEmpresa, String linkEmpresa, String imagenPerfil, String passWord);
+    public int crearProveedor(String nickName, String nombre, String apellido, String correo, int dia, int mes, int anio, String nombreEmpresa, String linkEmpresa, String imagenPerfil, String passWord, String passWordConfirm);
 
     public boolean existeCliente(String nickName);
 
     public boolean existeProveedor(String nickName);
+    
+    public boolean existeNickName (String nickName);
 
     public boolean correoValido(String correo);
 
     public boolean LogInCliente(String nickName, String passWord);
 
     public boolean LogInProveedor(String nickName, String passWord);
+    
+    public boolean validarFecha(int dia, int mes, int anio);
 
     public Cliente obtenerCliente(String nickName);
 
