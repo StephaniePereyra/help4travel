@@ -139,7 +139,7 @@ public class ReservaControllerImplTest {
         Proveedor proveedor1 = new Proveedor("nickName1", "nombre1", "apellido1", "correo@proveedor", date, "nombreEmpresa", "linkEmpresa", "imagenPerfil", "Password");
         promocion = new Promocion("promo1", 10, 5000, proveedor1);
         promociones.add(promocion);
-        expResult = 2;
+        expResult = 1;
         result = instance.crearReserva(promociones, servicios, cliente);
         assertEquals(expResult, result);
         instance.vaciarPersistencia();

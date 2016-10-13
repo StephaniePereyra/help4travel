@@ -37,30 +37,20 @@ public class ReservaControllerImpl implements ReservaController {
     public int crearReserva(List<Promocion> promociones, List<Servicio> servicios, Cliente cliente) {
 
         double precio = 0;
-        Proveedor proveedor = null;
-
         if ((promociones.isEmpty()) && (servicios.isEmpty())) {
             return 3; // no hay promo ni servicios     
         } else {
             if (!servicios.isEmpty()) {
                 int size = servicios.size();
-                proveedor = servicios.get(0).getProveedor();
                 for (int x = 0; x < servicios.size(); x++) {
                     precio = precio + (servicios.get(x).getPrecio());
-                    if (!(proveedor.equals(servicios.get(x).getProveedor()))) {
-                        return 2; //proveedor de servicio !=
-                    }
                 }
             }
 
             if (!promociones.isEmpty()) {
                 int size = promociones.size();
-                proveedor = promociones.get(0).getProveedor();
                 for (int x = 0; x < promociones.size(); x++) {
                     precio = precio + (promociones.get(x).getPrecioTotal());
-                    if (!(proveedor.equals(promociones.get(x).getProveedor()))) {
-                        return 2; //proveedor de promocion !=
-                    }
                 }
                 if (!servicios.isEmpty()) {
                     if (servicios.get(0).getProveedor().equals(promociones.get(0).getProveedor())) {
@@ -73,7 +63,6 @@ public class ReservaControllerImpl implements ReservaController {
                     } else {
                         return 2;
                     }
-
                 }
             }
         }

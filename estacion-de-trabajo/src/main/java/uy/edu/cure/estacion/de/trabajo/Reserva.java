@@ -423,15 +423,7 @@ public class Reserva extends javax.swing.JFrame {
             switch (crearReserva){
                 case 1:
                     JOptionPane.showMessageDialog(null, "Reserva creada");
-                    this.dispose();
-                    break;
-                case 2:
-                    JOptionPane.showMessageDialog(null, "Promociones y servicios de distinto proveedor");
-                    reservaPromocion = new ArrayList<>();
-                    reservaServicios = new ArrayList<>();
-                    listReserva.clear();
-                    listaReserva.setModel(listReserva);
-                    
+                    this.dispose();                 
                     break;
                 case 3:
                     JOptionPane.showMessageDialog(null, "Seleccione al menos una promocion o servicio");                
