@@ -31,58 +31,65 @@ public class UsuarioControllerImpl implements UsuarioController {
     }
 
     @Override
-    public int crearCliente(String nickName, String nombre, String apellido, String correo, int dia, int mes, int anio, String imagenPerfil, String passWord) {
-        if (!usuarioService.existeCliente(nickName) && !usuarioService.existeProveedor(nickName)) {
-            if (!usuarioService.existeCorreo(correo)) {
+    public int crearCliente(String nickName, String nombre, String apellido, String correo, int dia, int mes, int anio, String imagenPerfil, String passWord, String passWordConfirm) {
+        if (!existeNickName(nickName)) {
+            if (passWord.equals(passWordConfirm)) {
                 if (correoValido(correo)) {
-                    if (validarFecha(dia, mes, anio)) {
-                        Date fechanacimiento = new Date();
-                        fechanacimiento.setDate(dia);
-                        fechanacimiento.setMonth(mes);
-                        fechanacimiento.setYear(anio);
-                        Cliente cliente = new Cliente(nickName, nombre, apellido, correo, fechanacimiento, imagenPerfil, passWord);
-                        usuarioService.guardarCliente(cliente);
+                    if (!usuarioService.existeCorreo(correo)) {
+                        if (validarFecha(dia, mes, anio)) {
+                            Date fechanacimiento = new Date();
+                            fechanacimiento.setDate(dia);
+                            fechanacimiento.setMonth(mes);
+                            fechanacimiento.setYear(anio);
+                            Cliente cliente = new Cliente(nickName, nombre, apellido, correo, fechanacimiento, imagenPerfil, passWord);
+                            usuarioService.guardarCliente(cliente);
+                        } else {
+                            return 5; // Fecha no valida
+                        }
                     } else {
-                        return 4;
+                        return 4; // Correo en uso
                     }
                 } else {
-                    return 3;
+                    return 3; // Formato de correo invalido
                 }
             } else {
-                return 2;
+                return 2; // Contraseñas no coinciden
             }
         } else {
-            return 1;
+            return 1; // NickName en uso
         }
-        return -1;
+        return -1; // OK
     }
 
     @Override
-    public int crearProveedor(String nickName, String nombre, String apellido, String correo, int dia, int mes, int anio, String nombreEmpresa, String linkEmpresa, String imagenPerfil, String passWord) {
-        if (!usuarioService.existeCliente(nickName) && !usuarioService.existeProveedor(nickName)) {
-            if (!usuarioService.existeCorreo(correo)) {
+    public int crearProveedor(String nickName, String nombre, String apellido, String correo, int dia, int mes, int anio, String nombreEmpresa, String linkEmpresa, String imagenPerfil, String passWord, String passWordConfirm) {
+        if (!existeNickName(nickName)) {
+            if (passWord.equals(passWordConfirm)) {
                 if (correoValido(correo)) {
-                    if (validarFecha(dia, mes, anio)) {
-                        Date fechanacimiento = new Date();
-                        fechanacimiento.setDate(dia);
-                        fechanacimiento.setMonth(mes);
-                        fechanacimiento.setYear(anio);
-                        Proveedor proveedor = new Proveedor(nickName, nombre, apellido, correo, fechanacimiento, nombreEmpresa, linkEmpresa, imagenPerfil, passWord);
-                        usuarioService.guardarProveedor(proveedor);
+                    if (!usuarioService.existeCorreo(correo)) {
+                        if (validarFecha(dia, mes, anio)) {
+                            Date fechanacimiento = new Date();
+                            fechanacimiento.setDate(dia);
+                            fechanacimiento.setMonth(mes);
+                            fechanacimiento.setYear(anio);
+                            Proveedor proveedor = new Proveedor(nickName, nombre, apellido, correo, fechanacimiento, nombreEmpresa, linkEmpresa, imagenPerfil, passWord);
+                            usuarioService.guardarProveedor(proveedor);
+                        } else {
+                            return 5; // Fecha no valida
+                        }
                     } else {
-                        return 4;
+                        return 4; // Correo en uso
                     }
                 } else {
-                    return 3;
+                    return 3; // Formato de correo invalido
                 }
             } else {
-                return 2;
+                return 2; // Contraseñas no coinciden
             }
         } else {
-            return 1;
+            return 1; // NickName en uso
         }
-        return -1;
-
+        return -1; // OK
     }
 
     @Override
@@ -146,8 +153,9 @@ public class UsuarioControllerImpl implements UsuarioController {
         }
         return false;
     }
-
-    private boolean validarFecha(int dia, int mes, int anio) {
+    
+    @Override
+    public boolean validarFecha(int dia, int mes, int anio) {
         if (anio > 0 && anio < 2017) {
             if (mes > 0 && mes < 13) {
                 if (mes == 1 || mes == 3 || mes == 5 || mes == 7 || mes == 8 || mes == 10 || mes == 12) {
@@ -197,4 +205,15 @@ public class UsuarioControllerImpl implements UsuarioController {
         }
         return false;
     }
+    
+    @Override
+    public boolean existeNickName (String nickName) {
+        if (!existeCliente(nickName)) {
+            if (!existeProveedor(nickName)) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
 }
