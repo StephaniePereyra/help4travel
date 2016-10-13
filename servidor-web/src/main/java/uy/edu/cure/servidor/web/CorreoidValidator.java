@@ -42,6 +42,10 @@ public CorreoidValidator(){
            throw new ValidatorException(new FacesMessage (FacesMessage.SEVERITY_ERROR,
            "Correo no disponible",null));
        }
+       if(!usuariocontroller.correoValido(correo)){
+         throw new ValidatorException(new FacesMessage (FacesMessage.SEVERITY_ERROR,
+           "Correo invalido!!",null));  
+       }
     }
     
 }
