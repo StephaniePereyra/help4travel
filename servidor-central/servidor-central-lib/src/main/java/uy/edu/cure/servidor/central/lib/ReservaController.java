@@ -17,7 +17,7 @@ import uy.edu.cure.servidor.central.dto.Servicio;
  */
 public interface ReservaController {
 
-    public int crearReserva(List<Promocion> promociones, List<Servicio> servicios, Cliente cliente);
+    public boolean crearReserva(List<Promocion> promociones, List<Servicio> servicios, Cliente cliente);
 
     public boolean eliminarReserva(int numero);
 

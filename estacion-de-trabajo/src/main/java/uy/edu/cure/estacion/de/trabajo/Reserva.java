@@ -419,16 +419,13 @@ public class Reserva extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (listaClientes.getSelectedValue() != null) {
             int indiceUsuario = listaClientes.getSelectedIndex();                       
-            int crearReserva = reservaController.crearReserva(reservaPromocion, reservaServicios,usuarioController.obtenerCientes().get(indiceUsuario));
-            switch (crearReserva){
-                case 1:
-                    JOptionPane.showMessageDialog(null, "Reserva creada");
-                    this.dispose();                 
-                    break;
-                case 3:
-                    JOptionPane.showMessageDialog(null, "Seleccione al menos una promocion o servicio");                
-                    break;
-            }            
+            boolean crearReserva = reservaController.crearReserva(reservaPromocion, reservaServicios,usuarioController.obtenerCientes().get(indiceUsuario));
+            if (crearReserva){
+                JOptionPane.showMessageDialog(null, "Reserva creada");
+                this.dispose();  
+            }else{
+                JOptionPane.showMessageDialog(null, "Seleccione al menos una promocion o servicio");  
+            }          
         }
         else{
             JOptionPane.showMessageDialog(null, "Seleccione un cliente");

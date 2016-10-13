@@ -98,8 +98,8 @@ public class ReservaControllerImplTest {
         ReservaControllerImpl instance = new ReservaControllerImpl();
         Date date = new Date();
         Cliente cliente = new Cliente("nickName", "nombre", "apellido", "correo@correo", date, "imagenPerfil", "Password");
-        int expResult = 3;
-        int result = instance.crearReserva(promociones, servicios, cliente);
+        boolean  expResult = false;
+        boolean result = instance.crearReserva(promociones, servicios, cliente);
         assertEquals(expResult, result);
         /*
          * Resultado 2/5
@@ -110,7 +110,7 @@ public class ReservaControllerImplTest {
         Proveedor proveedor = new Proveedor("nickName", "nombre", "apellido", "correo@proveedor", date, "nombreEmpresa", "linkEmpresa", "imagenPerfil", "Password");
         Servicio servicio = new Servicio("servicioNombre", "esto es unadescripcion", 40, origen, destino, proveedor);
         servicios.add(servicio);
-        expResult = 1;
+        expResult = true;
         result = instance.crearReserva(promociones, servicios, cliente);
         assertEquals(expResult, result);
         instance.vaciarPersistencia();
@@ -119,7 +119,7 @@ public class ReservaControllerImplTest {
          */
         Promocion promocion = new Promocion("promo1", 10, 5000, proveedor);
         promociones.add(promocion);
-        expResult = 1;
+        expResult = true;
         result = instance.crearReserva(promociones, servicios, cliente);
         assertEquals(expResult, result);
         instance.vaciarPersistencia();
@@ -129,7 +129,7 @@ public class ReservaControllerImplTest {
          */
         servicios = new ArrayList<Servicio>();
         promociones.add(promocion);
-        expResult = 1;
+        expResult = true;
         result = instance.crearReserva(promociones, servicios, cliente);
         assertEquals(expResult, result);
         instance.vaciarPersistencia();
@@ -139,7 +139,7 @@ public class ReservaControllerImplTest {
         Proveedor proveedor1 = new Proveedor("nickName1", "nombre1", "apellido1", "correo@proveedor", date, "nombreEmpresa", "linkEmpresa", "imagenPerfil", "Password");
         promocion = new Promocion("promo1", 10, 5000, proveedor1);
         promociones.add(promocion);
-        expResult = 1;
+        expResult = true;
         result = instance.crearReserva(promociones, servicios, cliente);
         assertEquals(expResult, result);
         instance.vaciarPersistencia();

@@ -34,11 +34,11 @@ public class ReservaControllerImpl implements ReservaController {
     }
 
     @Override
-    public int crearReserva(List<Promocion> promociones, List<Servicio> servicios, Cliente cliente) {
+    public boolean crearReserva(List<Promocion> promociones, List<Servicio> servicios, Cliente cliente) {
 
         double precio = 0;
         if ((promociones.isEmpty()) && (servicios.isEmpty())) {
-            return 3; // no hay promo ni servicios     
+            return false; // no hay promo ni servicios     
         } else {
             if (!servicios.isEmpty()) {
                 int size = servicios.size();
@@ -53,25 +53,21 @@ public class ReservaControllerImpl implements ReservaController {
                     precio = precio + (promociones.get(x).getPrecioTotal());
                 }
                 if (!servicios.isEmpty()) {
-                    if (servicios.get(0).getProveedor().equals(promociones.get(0).getProveedor())) {
-                        Date fechaCreacion = new Date();
-                        Reserva reserva = new Reserva(fechaCreacion, precio, "registrada", promociones, servicios);
-                        cliente.setReservas(reserva);
-                        reserva.setCliente(cliente);
-                        reservaService.guardarReserva(reserva);
-                        return 1; //creada                    
-                    } else {
-                        return 2;
-                    }
+                    Date fechaCreacion = new Date();
+                    Reserva reserva = new Reserva(fechaCreacion, precio, "registrada", promociones, servicios);
+                    cliente.setReservas(reserva);
+                    reserva.setCliente(cliente);
+                    reservaService.guardarReserva(reserva);
+                    return true; //creada                            
                 }
             }
+            Date fechaCreacion = new Date();
+            Reserva reserva = new Reserva(fechaCreacion, precio, "registrada", promociones, servicios);
+            cliente.setReservas(reserva);
+            reserva.setCliente(cliente);
+            reservaService.guardarReserva(reserva);
+            return true; //creada 
         }
-        Date fechaCreacion = new Date();
-        Reserva reserva = new Reserva(fechaCreacion, precio, "registrada", promociones, servicios);
-        cliente.setReservas(reserva);
-        reserva.setCliente(cliente);
-        reservaService.guardarReserva(reserva);
-        return 1; //creada 
 
     }
 
