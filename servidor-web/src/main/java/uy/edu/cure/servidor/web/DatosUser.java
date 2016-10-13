@@ -73,15 +73,14 @@ public class DatosUser {
     
     String retorno;
     
-    if(resultadoCliente||resultadoProveedor){
+    if(resultadoCliente || resultadoProveedor){
         retorno = "/secured/isLoggedIn";
-    }
-    else{
+    }else{
+
             mostrarError = true;
             mnsjError = "*NickName o Password incorrectas*";
             retorno = "LogIn";
-    }
-    
+        }
     return retorno;
 }
     

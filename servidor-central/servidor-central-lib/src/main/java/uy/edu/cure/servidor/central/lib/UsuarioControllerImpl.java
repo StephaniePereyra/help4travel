@@ -206,6 +206,13 @@ public class UsuarioControllerImpl implements UsuarioController {
         return false;
     }
     
+       @Override
+    public boolean existeCorreo(String correo){
+      return usuarioService.existeCorreo(correo);
+    }
+    
+    
+
     @Override
     public boolean existeNickName (String nickName) {
         if (!existeCliente(nickName)) {

@@ -29,6 +29,8 @@ public interface UsuarioController {
 
     public boolean LogInCliente(String nickName, String passWord);
 
+    public boolean existeCorreo(String correo);
+
     public boolean LogInProveedor(String nickName, String passWord);
     
     public boolean validarFecha(int dia, int mes, int anio);

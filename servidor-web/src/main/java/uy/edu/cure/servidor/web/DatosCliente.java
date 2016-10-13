@@ -10,6 +10,7 @@ import java.lang.reflect.InvocationTargetException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import uy.edu.cure.servidor.central.lib.UsuarioController;
+import uy.edu.cure.servidor.central.lib.UsuarioControllerImpl;
 import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
 import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
 
@@ -22,11 +23,11 @@ import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
 public class DatosCliente {
     
 private MensajeDatosUsuario datosusuarioMnsj = new MensajeDatosUsuario();
-private String nickName,nombre,apellido,correo,ruta,passWord,mensaje,mensajeDefault = "*No pueden existir campos vacios*";
+private String nickName,nombre,apellido,correo,ruta,passWord,passWordConfirm,mensaje,mensajeDefault = "*No pueden existir campos vacios*";
 private int dia,mes,anio;
 private boolean mostrarMensaje = false;
 @Jeringa (value = "usuariocontroller")
-private UsuarioController usuariocontroller;
+private UsuarioControllerImpl usuariocontroller;
 
 
     public DatosCliente(){
@@ -37,6 +38,16 @@ private UsuarioController usuariocontroller;
         }
     }
 
+    public String getPassWordConfirm() {
+        return passWordConfirm;
+    }
+
+    public void setPassWordConfirm(String passWordConfirm) {
+        this.passWordConfirm = passWordConfirm;
+    }
+
+    
+    
     public boolean isMostrarMensaje() {
         return mostrarMensaje;
     }
@@ -124,12 +135,33 @@ private UsuarioController usuariocontroller;
     public void setPassWord(String passWord) {
         this.passWord = passWord;
     }
-    
-    
+
+    public MensajeDatosUsuario getDatosusuarioMnsj() {
+        return datosusuarioMnsj;
+    }
+
+    public void setDatosusuarioMnsj(MensajeDatosUsuario datosusuarioMnsj) {
+        this.datosusuarioMnsj = datosusuarioMnsj;
+    }
+
+    public String getMensajeDefault() {
+        return mensajeDefault;
+    }
+
+    public void setMensajeDefault(String mensajeDefault) {
+        this.mensajeDefault = mensajeDefault;
+    }
+
+    public UsuarioControllerImpl getUsuariocontroller() {
+        return usuariocontroller;
+    }
+
+    public void setUsuariocontroller(UsuarioControllerImpl usuariocontroller) {
+        this.usuariocontroller = usuariocontroller;
+    }
 
 public void action(){
-    int resultado = usuariocontroller.crearCliente(nickName, nombre, apellido, correo, dia, mes, anio, apellido,passWord);
-    
+    int resultado = usuariocontroller.crearCliente(nickName, nombre, apellido, correo, dia, mes, anio, apellido,passWord,passWordConfirm);
     mostrarMensaje = true;
     if(nickName.equals("") || nombre.equals("") || apellido.equals("") || correo.equals("")){
         mensaje = mensajeDefault;

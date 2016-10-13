@@ -19,13 +19,13 @@ public class MensajeDatosUsuario {
         }
          if(retorno == 2)
         {
-            mensaje = "La direccion de correo ingresada ya existe";
+            mensaje = "Las password ingresadas no coinciden";
         }
           if(retorno == 3)
         {
             mensaje = "La direccion de correo ingresada es invalida";
         }
-           if(retorno == 4)
+           if(retorno == 5)
         {
            mensaje = "La fecha de nacimiento ingresada es invalida"; 
         }
