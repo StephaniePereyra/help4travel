@@ -17,7 +17,7 @@ public class Cliente extends Usuario {
 
     private String imagenPerfil;
     private List<Reserva> reservas;
-
+    private Reserva carrito = null;
     public Cliente(String nickName, String nombre, String apellido, String correo, Date fechanacimiento, String imagenPerfil,String passWord) {
         super(nickName, nombre, apellido, correo, fechanacimiento,passWord);
         this.imagenPerfil = imagenPerfil;
@@ -39,4 +39,14 @@ public class Cliente extends Usuario {
     public void setReservas(Reserva reserva) {
         this.reservas.add(reserva);
     }
+
+    public Reserva getCarrito() {
+        return carrito;
+    }
+
+    public void setCarrito(Reserva carrito) {
+        this.carrito = carrito;
+    }
+    
+    
 }

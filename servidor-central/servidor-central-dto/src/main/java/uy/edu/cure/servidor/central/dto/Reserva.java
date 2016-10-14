@@ -88,4 +88,12 @@ public class Reserva {
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
+    
+    public void setServicio(Servicio servicio) {
+        this.servicios.add(servicio);
+    }
+    
+    public void setPromocion(Promocion promocion) {
+        this.promociones.add(promocion);
+    }
 }

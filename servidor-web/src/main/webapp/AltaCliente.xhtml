@@ -46,15 +46,12 @@ and open the template in the editor.
             <p> Año </p> 
             <h:selectOneMenu value="#{datosCliente.anio}">
                 <f:selectItem itemValue="1950" itemLabel="1950" />
-            </h:selectOneMenu>
-            
-            
+            </h:selectOneMenu>       
             <h:outputText value="#{datosCliente.mensaje}"
                           rendered="#{datosCliente.mostrarMensaje == true}"></h:outputText> <br/> <br/>
-
+              
             <h:commandButton value="Crear" action="#{datosCliente.action}"></h:commandButton>
-
-
+            
         </h:form>
     </h:body>
 </html>

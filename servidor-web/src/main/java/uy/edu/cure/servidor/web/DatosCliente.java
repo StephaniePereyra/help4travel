@@ -35,8 +35,9 @@ private UsuarioControllerImpl usuariocontroller;
         } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
             e.printStackTrace();
         }
-    }
-
+        
+    }    
+    
     public String getPassWordConfirm() {
         return passWordConfirm;
     }
@@ -44,8 +45,6 @@ private UsuarioControllerImpl usuariocontroller;
     public void setPassWordConfirm(String passWordConfirm) {
         this.passWordConfirm = passWordConfirm;
     }
-
-    
     
     public boolean isMostrarMensaje() {
         return mostrarMensaje;
@@ -158,7 +157,7 @@ private UsuarioControllerImpl usuariocontroller;
     public void setUsuariocontroller(UsuarioControllerImpl usuariocontroller) {
         this.usuariocontroller = usuariocontroller;
     }
-
+    
 public void action(){
     int resultado = usuariocontroller.crearCliente(nickName, nombre, apellido, correo, dia, mes, anio, apellido,passWord,passWordConfirm);
     mostrarMensaje = true;
