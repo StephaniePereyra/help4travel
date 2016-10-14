@@ -9,7 +9,6 @@ package uy.edu.cure.servidor.web;
 import java.lang.reflect.InvocationTargetException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import uy.edu.cure.servidor.central.lib.UsuarioController;
 import uy.edu.cure.servidor.central.lib.UsuarioControllerImpl;
 import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
 import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;

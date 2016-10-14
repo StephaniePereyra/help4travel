@@ -16,6 +16,7 @@ import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
  *
  * @author guido
  */
+
 @ManagedBean
 @SessionScoped
 public class DatosUser {

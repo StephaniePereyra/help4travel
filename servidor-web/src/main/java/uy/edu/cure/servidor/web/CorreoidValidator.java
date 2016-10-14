@@ -44,7 +44,7 @@ public CorreoidValidator(){
        }
        if(!usuariocontroller.correoValido(correo)){
          throw new ValidatorException(new FacesMessage (FacesMessage.SEVERITY_ERROR,
-           "Correo invalido!!",null));  
+           "Correo invalido",null));  
        }
     }
     
