@@ -127,11 +127,16 @@ public class DatosReserva {
                 cliente.setCarrito(carro);
                 this.carrito = carro;
             }
-            for (int i = 0; i <= this.cantidad; i++) {
+            
+                this.servicio.setCantidad(this.cantidad);
                 this.carrito.setServicio(this.servicio);
+                for(int i = 0;i <= this.cantidad; i++){
+                    this.carrito.setPrecio(this.carrito.getPrecio() + this.servicio.getPrecio());
+                }
                 cliente.getCarrito().setServicio(this.servicio);
-            }
-            this.nombre = usuariocontroller.obtenerCliente(this.nickName).getCarrito().getEstado();
+            
+           
+            this.nombre = usuariocontroller.obtenerCliente(this.nickName).getCarrito().getServicios().get(0).getNombre();
             return "";
         } else {
             this.nombre = "Nooooo";
@@ -139,23 +144,35 @@ public class DatosReserva {
         }
     }
 
-    public void agregarPromocion() {
-        Cliente cliente = usuariocontroller.obtenerCliente(nickName);
+    public String agregarPromocion() {
+    
+        if (usuariocontroller.existeCliente(nickName)) {
+            Cliente cliente = usuariocontroller.obtenerCliente(this.nickName);
 
-        if (cliente.getCarrito() == null) {
-            Date fecha = null;
-            double precio = 0;
-            List<Servicio> servicios = new ArrayList<Servicio>();
-            List<Promocion> promociones = new ArrayList<Promocion>();
-            Reserva carro = new Reserva(fecha, precio, "carrito", promociones, servicios);
-            cliente.setCarrito(carro);
-            this.carrito = carro;
+            if (cliente.getCarrito() == null) {
+                Date fecha = null;
+                double precio = 0;
+                List<Servicio> servicios = new ArrayList<Servicio>();
+                List<Promocion> promociones = new ArrayList<Promocion>();
+                Reserva carro = new Reserva(fecha, precio, "carrito", promociones, servicios);
+                cliente.setCarrito(carro);
+                this.carrito = carro;
+            }
+            
+                this.promocion.setCantidad(this.cantidad);
+                this.carrito.setPromocion(this.promocion);
+                for(int i = 0;i <= this.cantidad; i++){
+                    this.carrito.setPrecio(this.carrito.getPrecio() + this.promocion.getPrecioTotal() * this.promocion.getDescuento() * 100);
+                }
+                cliente.getCarrito().setPromocion(this.promocion);
+            
+           
+            this.nombre = usuariocontroller.obtenerCliente(this.nickName).getCarrito().getEstado();
+            return "";
+        } else {
+            this.nombre = "No Logueado";
+            return "LogIn";
         }
-        for (int i = 0; i <= this.cantidad; i++) {
-            this.carrito.setPromocion(this.promocion);
-            cliente.getCarrito().setPromocion(promocion);
-        }
-
-    }
+    }    
 
 }

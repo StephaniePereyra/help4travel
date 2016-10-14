@@ -22,6 +22,7 @@ public class Servicio {
     private List<String> imagenes;
     private List<Categoria> categorias;
     private Proveedor proveedor;
+    private int cantidad;
 
     public Servicio(String nombre, String descripcion, double precio, Ciudad origen, Ciudad destino, Proveedor proveedor) {
         this.nombre = nombre;
@@ -97,5 +98,15 @@ public class Servicio {
     public void setImagen(String imagen) {
         imagenes.add(imagen);
     }
+
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
+    }
+    
+    
 
 }
