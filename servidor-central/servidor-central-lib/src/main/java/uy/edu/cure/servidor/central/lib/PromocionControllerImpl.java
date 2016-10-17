@@ -6,6 +6,7 @@
 package uy.edu.cure.servidor.central.lib;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Iterator;
 import java.util.List;
 import uy.edu.cure.servidor.central.dto.*;
 import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
@@ -44,9 +45,11 @@ public class PromocionControllerImpl implements PromocionController {
                             Proveedor proveedor = usuarioController.obtenerProveedor(nickProveedor);
                             Promocion promocion = new Promocion(nombre, descuento, 0, proveedor);
                             for(int i=0; i<servicios.size(); i++) {
-                                promocion.setServicios(servicioController.obtenerServicio(servicios.get(i), nickProveedor));
-                                precioTotal = precioTotal + servicioController.obtenerServicio(servicios.get(i), nickProveedor).getPrecio();
+                                Servicio servicioAuxiliar = servicioController.obtenerServicio(servicios.get(i), nickProveedor);
+                                promocion.setServicios(servicioAuxiliar);
+                                precioTotal = precioTotal + servicioAuxiliar.getPrecio();
                             }
+                            precioTotal = precioTotal - (precioTotal*descuento/100);
                             promocion.setPrecioTotal(precioTotal);
                             promocionService.guardarPromocion(promocion);
                             return "OK";
