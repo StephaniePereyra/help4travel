@@ -28,6 +28,15 @@ public class Promocion {
         this.proveedor = proveedor;
         servicios = new ArrayList<Servicio>();
     }
+    
+    public Promocion (){
+        this.nombre = "";
+        this.descuento = 0;
+        this.precioTotal = 0;
+        this.proveedor = null;
+        servicios = new ArrayList<Servicio>();
+        
+    }
 
     public String getNombre() {
         return nombre;

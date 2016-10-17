@@ -20,14 +20,14 @@ import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
 public class UsuarioControllerImpl implements UsuarioController {
 
     @Jeringa(value = "usuarioservice")
-    UsuarioService usuarioService;
-
+    UsuarioServiceImpl usuarioService;
     public UsuarioControllerImpl() {
         try {
             JeringaInjector.getInstance().inyectar(this);
         } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
             e.printStackTrace();
         }
+
     }
 
     @Override

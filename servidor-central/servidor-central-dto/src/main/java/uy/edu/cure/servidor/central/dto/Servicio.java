@@ -34,7 +34,18 @@ public class Servicio {
         categorias = new ArrayList<Categoria>();
         imagenes = new ArrayList<String>();
     }
-
+    
+    public Servicio(){
+        this.nombre = "";
+        this.descripcion = "";
+        this.precio = 0;
+        this.origen = null;
+        this.destino = null;
+        this.proveedor = null;
+        categorias = new ArrayList<Categoria>();
+        imagenes = new ArrayList<String>();
+    }
+    
     public void setProveedor(Proveedor proveedor) {
         this.proveedor = proveedor;
     }

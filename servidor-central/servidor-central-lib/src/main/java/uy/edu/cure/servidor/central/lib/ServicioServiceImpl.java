@@ -17,7 +17,8 @@ import uy.edu.cure.servidor.central.dto.Servicio;
 public class ServicioServiceImpl implements ServicioService {
 
     private static List<Servicio> servicios = new ArrayList<Servicio>();
-
+    
+   
     public ServicioServiceImpl() {
     }
 

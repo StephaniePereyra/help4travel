@@ -31,7 +31,8 @@ public class DatosUser {
             JeringaInjector.getInstance().inyectar(this);
         } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
             e.printStackTrace();
-        }  
+        }
+        nickName = "";
     }
 
     public String getNickName() {
@@ -71,7 +72,6 @@ public class DatosUser {
         
     boolean resultadoCliente = usuariocontroller.LogInCliente(nickName, passWord);
     boolean resultadoProveedor = usuariocontroller.LogInProveedor(nickName, passWord);
-    
     String retorno;
     
     if(resultadoCliente || resultadoProveedor){
