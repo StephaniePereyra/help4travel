@@ -15,6 +15,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import uy.edu.cure.servidor.central.dto.Promocion;
 import uy.edu.cure.servidor.central.dto.Servicio;
+import uy.edu.cure.servidor.central.lib.ReservaControllerImpl;
 import uy.edu.cure.servidor.central.lib.UsuarioControllerImpl;
 import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
 import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
@@ -32,6 +33,8 @@ public class DatosCarro implements Serializable {
     private DatosUser datosuser;
     @Jeringa(value="usuariocontroller")
     private UsuarioControllerImpl usuariocontroller;
+    @Jeringa(value="reservacontroller")
+    private ReservaControllerImpl reservacontroller;
     private List<Servicio> servicios;
     private List<Promocion> promociones;
     private boolean carritoEmpty;
@@ -124,5 +127,7 @@ public class DatosCarro implements Serializable {
         }
     }
     
-    
+    public void confirmarCarro(){
+        //reservacontroller.agregarCarro(usuariocontroller.obtenerCliente(this.nickSession).getCarrito(), usuariocontroller.obtenerCliente(this.nickSession));
+    }
 }

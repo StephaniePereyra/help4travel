@@ -17,11 +17,12 @@ public class Cliente extends Usuario {
 
     private String imagenPerfil;
     private List<Reserva> reservas;
-    private Reserva carrito = null;
+    private Reserva carrito;
     public Cliente(String nickName, String nombre, String apellido, String correo, Date fechanacimiento, String imagenPerfil,String passWord) {
         super(nickName, nombre, apellido, correo, fechanacimiento,passWord);
         this.imagenPerfil = imagenPerfil;
         this.reservas = new ArrayList<Reserva>();
+        this.carrito = new Reserva();
     }
 
     public String getImagenPerfil() {

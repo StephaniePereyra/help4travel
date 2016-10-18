@@ -46,18 +46,17 @@
                         <h:inputText value="#{datosCliente.nombre}"></h:inputText> <br/> <br/>
                         <p> Apellido </p> 
                         <h:inputText value="#{datosCliente.apellido}"></h:inputText> <br/> <br/>
-                        <p> ContraseÃ±a </p>
+                        <p> ContraseÃÂ±a </p>
                         <h:inputSecret value="#{datosCliente.passWord}"></h:inputSecret> <br/> <br/>
-                        <p> Confirmar contraseÃ±a </p>
+                        <p> Confirmar contraseÃÂ±a </p>
                         <h:inputSecret value="#{datosCliente.passWordConfirm}"></h:inputSecret> <br/> <br/>
                         <p> Dia </p> 
                         <h:inputText value="#{datosCliente.dia}"></h:inputText> <br/> <br/>
                         <p> Mes </p> 
                         <h:inputText value="#{datosCliente.mes}"></h:inputText> <br/> <br/>
-                        <p> AÃ±o </p> 
-                        <h:selectOneMenu value="#{datosCliente.anio}">
-                            <f:selectItem itemValue="1950" itemLabel="1950" />
-                        </h:selectOneMenu>       
+                        <p> Año </p> 
+                        
+                        <h:inputText value="#{datosCliente.anio}"></h:inputText> <br/> <br/>    
                         <h:outputText value="#{datosCliente.mensaje}"
                                       rendered="#{datosCliente.mostrarMensaje == true}"></h:outputText> <br/> <br/>
 

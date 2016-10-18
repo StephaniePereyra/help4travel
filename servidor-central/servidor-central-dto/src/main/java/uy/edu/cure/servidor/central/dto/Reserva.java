@@ -22,6 +22,8 @@ public class Reserva {
     private Cliente cliente;
     private List<Promocion> promociones;
     private List<Servicio> servicios;
+    private List<Integer> cantidadPromociones;
+    private List<Integer> cantidadServicios;
 
     public Reserva(Date fechaCreacion, double precio, String estado, List<Promocion> promociones, List<Servicio> servicios) {
         this.numero = ++increment;
@@ -32,6 +34,16 @@ public class Reserva {
         this.servicios = servicios;
     } 
     
+    public Reserva(){
+        this.numero = ++increment;
+        this.fechaCreacion = new Date();
+        this.precio = 0.0;
+        this.estado = "creado";
+        this.promociones = new ArrayList<Promocion>();
+        this.servicios = new ArrayList<Servicio>();
+        this.cantidadPromociones = new ArrayList<Integer>();
+        this.cantidadServicios = new ArrayList<Integer>();
+    }
 
     public int getNumero() {
         return numero;
@@ -96,4 +108,22 @@ public class Reserva {
     public void setPromocion(Promocion promocion) {
         this.promociones.add(promocion);
     }
+
+    public List<Integer> getCantidadPromociones() {
+        return cantidadPromociones;
+    }
+
+    public void setCantidadPromociones(List<Integer> cantidadPromociones) {
+        this.cantidadPromociones = cantidadPromociones;
+    }
+
+    public List<Integer> getCantidadServicios() {
+        return cantidadServicios;
+    }
+
+    public void setCantidadServicios(List<Integer> cantidadServicios) {
+        this.cantidadServicios = cantidadServicios;
+    }
+    
+    
 }

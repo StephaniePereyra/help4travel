@@ -19,7 +19,7 @@ public class Promocion {
     private double precioTotal;
     private List<Servicio> servicios;
     private Proveedor proveedor;
-    private int cantidad;
+    
 
     public Promocion(String nombre, int descuento, double preciototal, Proveedor proveedor) {
         this.nombre = nombre;
@@ -78,13 +78,7 @@ public class Promocion {
         this.proveedor = proveedor;
     }
 
-    public int getCantidad() {
-        return cantidad;
-    }
-
-    public void setCantidad(int cantidad) {
-        this.cantidad = cantidad;
-    }
+    
     
     
 
