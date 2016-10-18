@@ -56,6 +56,7 @@ public class DatosReserva {
         Ciudad ciudad = new Ciudad("Maldonado", pais);
         Proveedor proveedor = new Proveedor("Pepe", "Pedro", "Nose", "algo@correo.com", fecha, "Empresa", "www.empresa.com", "imagen", "password");
         Servicio servicioAux = new Servicio("Servicio1", "Algo", precio, ciudad, ciudad, proveedor);
+        servicioAux.setPrecio(1000);
         this.servicio = servicioAux;
 
     }
@@ -122,7 +123,7 @@ public class DatosReserva {
                 for(int i = 1;i <= this.cantidad; i++){
                     cliente.getCarrito().setPrecio(cliente.getCarrito().getPrecio() + this.servicio.getPrecio());
                 }
-                cliente.getCarrito().setServicio(this.servicio);
+                //cliente.getCarrito().setServicio(this.servicio);
                 cliente.getCarrito().getCantidadServicios().add(this.cantidad);
             
            
