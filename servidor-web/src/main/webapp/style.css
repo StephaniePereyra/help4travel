@@ -4,17 +4,13 @@
 .fright  {float:right}
 .fcenter {float:none;margin:0 auto;width:96%}
 .fclear {clear:both}
-body {background:#CEEFF4;margin:auto;font-family:Arial,Helvetica,sans-serif;font-size:20px;color:#000}
+body {background:url(images/nubes.jpg  );margin:auto;font-family:Arial,Helvetica,sans-serif;font-size:20px;color:#000}
 img {border:none}
 a {color:#174f7b;font-size:12px}
 a:hover {color:#000;text-decoration:none}
 #site {width:900px;margin:auto;background:#fff}
-#header {background:url(images/header.png   ) no-repeat;height:350px;width:900px}
-#sitename {margin:0;font-family:Arial,Helvetica,sans-serif;font-size:46px;padding-top:60px;padding-left:460px;color:#322d21;font-weight:normal}
-#sitename span {font-family:Arial,Helvetica,sans-serif;font-size:56px;color:#322d21;text-decoration:none;padding-left:5px}
-#sitename a {display:block;font-family:Arial,Helvetica,sans-serif;font-size:32px;color:#322d21;text-decoration:none;padding-left:7px}
-#sitename a:visited,active {font-family:Arial,Helvetica,sans-serif;font-size:22px;color:#322d21;text-decoration:none}
-#sitename a:hover {font-family:Arial,Helvetica,sans-serif;font-size:20px;color:#322d21;text-decoration:underline}
+#header {background:url(images/images.jpeg  ) no-repeat;height:430px;width:922px}
+#sitename {margin:0;font-family:Arial,Helvetica,sans-serif;font-size:35px;padding-top:60px;padding-left:550px;color:#322d21;font-weight:normal}
 #menu {height:45px;background:#80BBE3}
 #menu ul {display:block;margin:0;padding-top:9px;height:45px}
 #menu ul li {display:inline}
