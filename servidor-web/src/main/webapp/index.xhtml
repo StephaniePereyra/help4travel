@@ -1,29 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
     <head>
-        <title>INICIO</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+        <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+        <link href="style.css" rel="stylesheet" type="text/css" />
+        <link href="js/galleria.css" rel="stylesheet" type="text/css" />
+        <link href="style.css" rel="stylesheet" type="text/css" />
+        <script type="text/javascript" src="js/jquery.js"></script>
+        <script type="text/javascript" src="js/jquery_002.js"></script>
     </head>
     <body>
-        <div>INICIO HD</div> <br/> <br/>
-        <a href="LogIn.xhtml">LogIN</a> <br/> <br/> <br/> <br/>
-        <a href="AltaCliente.xhtml">SingUp as Client</a> <br/> <br/>
-        <a href="AgregarAReserva.xhtml">Agregar a Reserva</a> <br/> <br/>
-<<<<<<< Updated upstream
-        <a href="Carrito.xhtml">Carrito</a>
-=======
-        <a href="Buscador.xhtml">Buscador servicios o promociones</a>
-        <h:form>
-            <h:commandButton action="#{logicaBuscador.niceHarcoding()}" value="Harcoding"></h:commandButton>
-        </h:form>
->>>>>>> Stashed changes
+        <div id="site">
+            <ui:composition template="commonLayout.xhtml">
+
+                <ui:define name="header">
+                    <div id="header">
+                        <!--Definir pagina para heder -->
+                        <h1 id="sitename"><span>help4travel</span><a href="#">INICIO</a></h1>
+                    </div>
+                </ui:define>
+
+                <ui:define name="content">
+                    <h2>Este es el inicio aqui va todo el contenido</h2>
+                    <h:form> 
+                        <h:commandButton action="#{logicaBuscador.niceHarcoding()}" value="Harcoding"></h:commandButton> 
+                    </h:form> 
+                </ui:define>
+
+            </ui:composition>
+        </div>
     </body>
+
 </html>

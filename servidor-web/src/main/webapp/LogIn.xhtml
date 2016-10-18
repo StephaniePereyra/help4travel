@@ -1,27 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
     <head>
-        <title>LogIn</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+        <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+        <link href="style.css" rel="stylesheet" type="text/css" />
+        <link href="js/galleria.css" rel="stylesheet" type="text/css" />
+        <link href="style.css" rel="stylesheet" type="text/css" />
+        <script type="text/javascript" src="js/jquery.js"></script>
+        <script type="text/javascript" src="js/jquery_002.js"></script>
     </head>
     <body>
-        <h:form>
-        <div>LogIn</div> <br/>
-        <p> UserName </p>
-        <h:inputText value="#{datosUser.nickName}"></h:inputText> <br/><br/>
-        <p> PassWord </p> 
-        <h:inputText value="#{datosUser.passWord}"></h:inputText> <br/><br/><br/>
-        
-        <h:commandButton value="Log In" action="#{datosUser.action}"></h:commandButton>       
-        </h:form>
-        
+        <div id="site">
+            <ui:composition template="commonLayout.xhtml">
+
+                <ui:define name="header">
+                    <div id="header">
+                        <!--Definir pagina para heder -->
+                        <h1 id="sitename"><span>help4travel</span><a href="#">SingIn</a></h1>
+                    </div>
+                </ui:define>
+
+                <ui:define name="content">
+                    <h2>SingIn</h2>
+                    <h:form>
+                        <div>LogIn</div> <br/>
+                        <p> UserName </p>
+                        <h:inputText value="#{datosUser.nickName}"></h:inputText> <br/><br/>
+                        <p> PassWord </p> 
+                        <h:inputText value="#{datosUser.passWord}"></h:inputText> <br/><br/><br/>
+
+                        <h:commandButton value="Log In" action="#{datosUser.action}"></h:commandButton>       
+                    </h:form>
+                </ui:define>
+
+            </ui:composition>
+        </div>
     </body>
+
 </html>
