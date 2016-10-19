@@ -46,17 +46,21 @@
                         <h:inputText value="#{datosCliente.nombre}"></h:inputText> <br/> <br/> 
                         <p> Apellido </p>  
                         <h:inputText value="#{datosCliente.apellido}"></h:inputText> <br/> <br/> 
-                        <p> Contraseña </p> 
+                        <p> ContraseÃ±a </p> 
                         <h:inputSecret value="#{datosCliente.passWord}"></h:inputSecret> <br/> <br/> 
-                        <p> Confirmar contraseña </p> 
+                        <p> Confirmar contraseÃ±a </p> 
                         <h:inputSecret value="#{datosCliente.passWordConfirm}"></h:inputSecret> <br/> <br/> 
                         <p> Dia </p>  
-                        <h:inputText value="#{datosCliente.dia}"></h:inputText> <br/> <br/> 
+                        <h:selectOneMenu value="#{datosCliente.dia}"> 
+                            <f:selectItems value="#{datosCliente.dias}" var="dias" itemValue="#{dias}" itemLabel="#{dias}" /> 
+                        </h:selectOneMenu>  
                         <p> Mes </p>  
-                        <h:inputText value="#{datosCliente.mes}"></h:inputText> <br/> <br/> 
+                        <h:selectOneMenu value="#{datosCliente.mes}"> 
+                            <f:selectItems value="#{datosCliente.meses}" var="mes" itemValue="#{mes}" itemLabel="#{mes}" /> 
+                        </h:selectOneMenu>   
                         <p> Año </p>  
                         <h:selectOneMenu value="#{datosCliente.anio}"> 
-                            <f:selectItem itemValue="1950" itemLabel="1950" /> 
+                            <f:selectItems value="#{datosCliente.anios}" var="anio" itemValue="#{anio}" itemLabel="#{anio}" /> 
                         </h:selectOneMenu>        
                         <h:outputText value="#{datosCliente.mensaje}" 
                                       rendered="#{datosCliente.mostrarMensaje == true}"></h:outputText> <br/> <br/> 

@@ -7,8 +7,10 @@ package uy.edu.cure.servidor.web;
 
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import uy.edu.cure.servidor.central.lib.UsuarioControllerImpl;
 import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
 import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
@@ -18,7 +20,7 @@ import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
  * @author guido
  */
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class DatosCliente {
     
 private MensajeDatosUsuario datosusuarioMnsj = new MensajeDatosUsuario();
@@ -27,6 +29,7 @@ private int dia,mes,anio;
 private boolean mostrarMensaje = false;
 @Jeringa (value = "usuariocontroller")
 private UsuarioControllerImpl usuariocontroller;
+private List<Integer> dias,meses,anios;
 
 
     public DatosCliente(){
@@ -35,7 +38,18 @@ private UsuarioControllerImpl usuariocontroller;
         } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
             e.printStackTrace();
         }
-        
+        dias = new ArrayList();
+        meses = new ArrayList();
+        anios = new ArrayList();
+        for(int i =1;i<32;i++){
+          dias.add(i);
+        }
+         for(int i =1;i<13;i++){
+          meses.add(i);
+        }
+         for(int i =1900;i<2017;i++){
+          anios.add(i);
+        } 
     }    
     
     public String getPassWordConfirm() {
@@ -157,6 +171,31 @@ private UsuarioControllerImpl usuariocontroller;
     public void setUsuariocontroller(UsuarioControllerImpl usuariocontroller) {
         this.usuariocontroller = usuariocontroller;
     }
+
+    public List<Integer> getDias() {
+        return dias;
+    }
+
+    public void setDias(List<Integer> dias) {
+        this.dias = dias;
+    }
+
+    public List<Integer> getMeses() {
+        return meses;
+    }
+
+    public void setMeses(List<Integer> meses) {
+        this.meses = meses;
+    }
+
+    public List<Integer> getAnios() {
+        return anios;
+    }
+
+    public void setAnios(List<Integer> anios) {
+        this.anios = anios;
+    }
+    
     
 public void action(){
     int resultado = usuariocontroller.crearCliente(nickName, nombre, apellido, correo, dia, mes, anio, apellido,passWord,passWordConfirm);
