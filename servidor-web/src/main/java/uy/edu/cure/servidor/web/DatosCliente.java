@@ -47,7 +47,7 @@ private List<Integer> dias,meses,anios;
          for(int i =1;i<13;i++){
           meses.add(i);
         }
-         for(int i =1900;i<2017;i++){
+         for(int i =2016;i>=1900;i--){
           anios.add(i);
         } 
     }    
