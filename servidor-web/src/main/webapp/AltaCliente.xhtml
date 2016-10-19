@@ -4,9 +4,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core" >
     <head>
-
+         
         <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
         <link href="style.css" rel="stylesheet" type="text/css" />
         <link href="js/galleria.css" rel="stylesheet" type="text/css" />
@@ -15,58 +15,59 @@
         <script type="text/javascript" src="js/jquery_002.js"></script>
     </head>
     <body>
-        <div id="site">
-            <ui:composition template="commonLayout.xhtml">
+        <div id="site"> 
+            <ui:composition template="commonLayout.xhtml"> 
 
-                <ui:define name="header">
-                    <div id="header">
-                        <!--Definir pagina para heder -->
-                        <h1 id="sitename"><span>singUp</span> </h1>
-                    </div>
-                </ui:define>
+                <ui:define name="header"> 
+                    <div id="header"> 
+                        <!--Definir pagina para heder --> 
+                        <h1 id="sitename"><span>help4travel</span><a href="#">SINGUP</a></h1> 
+                    </div> 
+                </ui:define> 
 
-                <ui:define name="content">
-                    <h2>Registrarse </h2>
-                    <h:form>
+                <ui:define name="content"> 
+                    <h2>Registrarse </h2> 
+                    <h:form> 
 
-                        <p> NickName </p> 
-                        <h:inputText id ="nickNameid" value="#{datosCliente.nickName}" >
-                            <f:validator validatorId="nickNameidValidator" />
-                            <f:ajax event = "keyup" render = "nickNameidMessage"/>
+                        <p> NickName </p>  
+                        <h:inputText id ="nickNameid" value="#{datosCliente.nickName}" > 
+                            <f:validator validatorId="nickNameidValidator" /> 
+                            <f:ajax event = "keyup" render = "nickNameidMessage"/> 
+                        </h:inputText>  
+                        <h:message style="color: red" id="nickNameidMessage" for="nickNameid"/> 
+                        <p> Correo </p>  
+                        <h:inputText id="correoid" value="#{datosCliente.correo}" > 
+                            <f:validator validatorId="correoidValidator" /> 
+                            <f:ajax event = "keyup" render = "correoidMessage"/> 
                         </h:inputText> 
-                        <h:message style="color: red" id="nickNameidMessage" for="nickNameid"/>
-                        <p> Correo </p> 
-                        <h:inputText id="correoid" value="#{datosCliente.correo}" >
-                            <f:validator validatorId="correoidValidator" />
-                            <f:ajax event = "keyup" render = "correoidMessage"/>
-                        </h:inputText>
-                        <h:message style="color: red"  id="correoidMessage" for="correoid"/>
+                        <h:message style="color: red"  id="correoidMessage" for="correoid"/> 
 
-                        <p> Nombre </p> 
-                        <h:inputText value="#{datosCliente.nombre}"></h:inputText> <br/> <br/>
-                        <p> Apellido </p> 
-                        <h:inputText value="#{datosCliente.apellido}"></h:inputText> <br/> <br/>
-                        <p> ContraseÃÂÃÂ±a </p>
-                        <h:inputSecret value="#{datosCliente.passWord}"></h:inputSecret> <br/> <br/>
-                        <p> Confirmar contraseÃÂÃÂ±a </p>
-                        <h:inputSecret value="#{datosCliente.passWordConfirm}"></h:inputSecret> <br/> <br/>
-                        <p> Dia </p> 
-                        <h:inputText value="#{datosCliente.dia}"></h:inputText> <br/> <br/>
-                        <p> Mes </p> 
-                        <h:inputText value="#{datosCliente.mes}"></h:inputText> <br/> <br/>
-                        <p> AÃ±o </p> 
-                        
-                        <h:inputText value="#{datosCliente.anio}"></h:inputText> <br/> <br/>    
-                        <h:outputText value="#{datosCliente.mensaje}"
-                                      rendered="#{datosCliente.mostrarMensaje == true}"></h:outputText> <br/> <br/>
+                        <p> Nombre </p>  
+                        <h:inputText value="#{datosCliente.nombre}"></h:inputText> <br/> <br/> 
+                        <p> Apellido </p>  
+                        <h:inputText value="#{datosCliente.apellido}"></h:inputText> <br/> <br/> 
+                        <p> Contraseña </p> 
+                        <h:inputSecret value="#{datosCliente.passWord}"></h:inputSecret> <br/> <br/> 
+                        <p> Confirmar contraseña </p> 
+                        <h:inputSecret value="#{datosCliente.passWordConfirm}"></h:inputSecret> <br/> <br/> 
+                        <p> Dia </p>  
+                        <h:inputText value="#{datosCliente.dia}"></h:inputText> <br/> <br/> 
+                        <p> Mes </p>  
+                        <h:inputText value="#{datosCliente.mes}"></h:inputText> <br/> <br/> 
+                        <p> Año </p>  
+                        <h:selectOneMenu value="#{datosCliente.anio}"> 
+                            <f:selectItem itemValue="1950" itemLabel="1950" /> 
+                        </h:selectOneMenu>        
+                        <h:outputText value="#{datosCliente.mensaje}" 
+                                      rendered="#{datosCliente.mostrarMensaje == true}"></h:outputText> <br/> <br/> 
 
-                        <h:commandButton value="Crear" action="#{datosCliente.action}"></h:commandButton>
+                        <h:commandButton value="Crear" action="#{datosCliente.action}"></h:commandButton> 
 
-                    </h:form>
-                </ui:define>
+                    </h:form> 
+                </ui:define> 
 
-            </ui:composition>
-        </div>
+            </ui:composition> 
+        </div> 
     </body>
 
 </html>
