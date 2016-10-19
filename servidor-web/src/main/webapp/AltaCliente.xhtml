@@ -27,43 +27,57 @@
 
                 <ui:define name="content"> 
                     <h2>Registrarse </h2> 
-                    <h:form> 
+                    <h:form enctype="multipart/form-data">
 
-                        <p> NickName </p>  
-                        <h:inputText id ="nickNameid" value="#{datosCliente.nickName}" > 
-                            <f:validator validatorId="nickNameidValidator" /> 
-                            <f:ajax event = "keyup" render = "nickNameidMessage"/> 
-                        </h:inputText>  
-                        <h:message style="color: red" id="nickNameidMessage" for="nickNameid"/> 
-                        <p> Correo </p>  
-                        <h:inputText id="correoid" value="#{datosCliente.correo}" > 
-                            <f:validator validatorId="correoidValidator" /> 
-                            <f:ajax event = "keyup" render = "correoidMessage"/> 
-                        </h:inputText> 
-                        <h:message style="color: red"  id="correoidMessage" for="correoid"/> 
 
-                        <p> Nombre </p>  
-                        <h:inputText value="#{datosCliente.nombre}"></h:inputText> <br/> <br/> 
-                        <p> Apellido </p>  
-                        <h:inputText value="#{datosCliente.apellido}"></h:inputText> <br/> <br/> 
-                        <p> ContraseÃÂ±a </p> 
-                        <h:inputSecret value="#{datosCliente.passWord}"></h:inputSecret> <br/> <br/> 
-                        <p> Confirmar contraseÃÂ±a </p> 
-                        <h:inputSecret value="#{datosCliente.passWordConfirm}"></h:inputSecret> <br/> <br/> 
-                        <p> Fecha nacimiento</p>  
-                        <h:selectOneMenu value="#{datosCliente.dia}"> 
-                            <f:selectItems value="#{datosCliente.dias}" var="dias" itemValue="#{dias}" itemLabel="#{dias}" /> 
-                        </h:selectOneMenu>   
-                        <h:selectOneMenu value="#{datosCliente.mes}"> 
-                            <f:selectItems value="#{datosCliente.meses}" var="mes" itemValue="#{mes}" itemLabel="#{mes}" /> 
-                        </h:selectOneMenu>    
-                        <h:selectOneMenu value="#{datosCliente.anio}"> 
-                            <f:selectItems value="#{datosCliente.anios}" var="anio" itemValue="#{anio}" itemLabel="#{anio}" /> 
-                        </h:selectOneMenu>        
+
+                        <table style="width: 100%">
+                            <tr align="center">
+                                <td align="center"> <p> NickName </p>  
+                                    <h:inputText required="true" requiredMessage="Nick necesario" id ="nickNameid" value="#{datosCliente.nickName}" > 
+                                        <f:validator validatorId="nickNameidValidator" /> 
+                                        <f:ajax event = "keyup" render = "nickNameidMessage"/> 
+                                    </h:inputText>  
+                                    <h:message style="color: red" id="nickNameidMessage" for="nickNameid"/></td>
+                                <td align="center"><p> Password </p> 
+                                    <h:inputSecret required="true" requiredMessage="Password necesaria" value="#{datosCliente.passWord}"></h:inputSecret> <br/> <br/></td>
+                            </tr>
+                            <tr align="center">
+                                <td align="center"> <p> Correo </p>  
+                                    <h:inputText required="true" requiredMessage="Correo necesario" id="correoid" value="#{datosCliente.correo}" > 
+                                        <f:validator validatorId="correoidValidator" /> 
+                                        <f:ajax event = "keyup" render = "correoidMessage"/> 
+                                    </h:inputText> 
+                                    <h:message style="color: red"  id="correoidMessage" for="correoid"/> </td>
+                                <td align="center"> <p> Confirmar password </p> 
+                                    <h:inputSecret value="#{datosCliente.passWordConfirm}"></h:inputSecret> <br/> <br/> </td>  
+                            </tr>
+                            <tr align="center">
+                                <td align="center"><p> Nombre </p>  
+                                    <h:inputText required="true" requiredMessage="Nombre necesario" value="#{datosCliente.nombre}"></h:inputText> <br/> <br/> </td>
+                                <td align="center"><p> Fecha nacimiento</p>  
+                                    <h:selectOneMenu value="#{datosCliente.dia}"> 
+                                        <f:selectItems value="#{datosCliente.dias}" var="dias" itemValue="#{dias}" itemLabel="#{dias}" /> 
+                                    </h:selectOneMenu>   
+                                    <h:selectOneMenu value="#{datosCliente.mes}"> 
+                                        <f:selectItems value="#{datosCliente.meses}" var="mes" itemValue="#{mes}" itemLabel="#{mes}" /> 
+                                    </h:selectOneMenu>    
+                                    <h:selectOneMenu value="#{datosCliente.anio}"> 
+                                        <f:selectItems value="#{datosCliente.anios}" var="anio" itemValue="#{anio}" itemLabel="#{anio}" /> 
+                                    </h:selectOneMenu></td>  
+                            </tr>
+                            <tr>
+                                <td align="center"><p> Apellido </p>  
+                                    <h:inputText required="true" requiredMessage="Apellido necesario" value="#{datosCliente.apellido}"></h:inputText> <br/> <br/></td>
+                                <td align="center"><p> Imagen de Perfil </p>
+                                    <input type="file" name="imagenPerfil" value="#{datosCliente.imagen}"></input></td>
+                            </tr>
+                        </table>
+
                         <h:outputText value="#{datosCliente.mensaje}" 
                                       rendered="#{datosCliente.mostrarMensaje == true}"></h:outputText> <br/> <br/> 
 
-                        <h:commandButton value="Crear" action="#{datosCliente.action}"></h:commandButton> 
+                                      <h:commandButton style="size: A4" value="Crear" action="#{datosCliente.action}"></h:commandButton> 
 
                     </h:form> 
                 </ui:define> 

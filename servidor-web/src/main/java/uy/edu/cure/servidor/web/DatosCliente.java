@@ -6,9 +6,19 @@
 package uy.edu.cure.servidor.web;
 
 
+
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import javax.servlet.http.Part;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import uy.edu.cure.servidor.central.lib.UsuarioControllerImpl;
@@ -30,7 +40,7 @@ private boolean mostrarMensaje = false;
 @Jeringa (value = "usuariocontroller")
 private UsuarioControllerImpl usuariocontroller;
 private List<Integer> dias,meses,anios;
-
+private File imagen;
 
     public DatosCliente(){
         try {
@@ -195,9 +205,33 @@ private List<Integer> dias,meses,anios;
     public void setAnios(List<Integer> anios) {
         this.anios = anios;
     }
+
+    public File getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(File imagen) {
+        this.imagen = imagen;
+    }
     
+
     
-public void action(){
+ 
+public void action() throws IOException{
+    /*InputStream input;
+    OutputStream output;
+    //input = imagen.getInputStream();
+    Date d = new Date();
+    //output = new FileOutputStream(new File("images/perfil/" + d.getTime() + ".png"));
+    File perfil = new File("C:/Users/SCN/help4travel/servidor-web/src/main/webapp/images/perfil/" + d.getTime() + ".png");
+    Files.copy(imagen.toPath(), perfil.toPath());
+    /*int read;
+		byte[] bytes = new byte[1024];
+
+		while ((read = input.read(bytes)) != -1) {
+			output.write(bytes, 0, read);
+		}*/
+    
     int resultado = usuariocontroller.crearCliente(nickName, nombre, apellido, correo, dia, mes, anio, apellido,passWord,passWordConfirm);
     mostrarMensaje = true;
     if(nickName.equals("") || nombre.equals("") || apellido.equals("") || correo.equals("")){
