@@ -108,7 +108,7 @@ public class DatosReserva {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-
+  
     @PostConstruct
     public void init() {
         setNickName(datosuser.getNickName());
@@ -118,12 +118,19 @@ public class DatosReserva {
 
         if (usuariocontroller.existeCliente(nickName)) {
             Cliente cliente = usuariocontroller.obtenerCliente(this.nickName);
-
-                cliente.getCarrito().setServicio(this.servicio);
+              
+                if(cliente.getCarrito().getServicios().contains(this.servicio)){
+                    int posicion = cliente.getCarrito().getServicios().indexOf(this.servicio);
+                    int cantidadServicio = cliente.getCarrito().getCantidadServicios().get(posicion) + this.cantidad;
+                    cliente.getCarrito().getCantidadServicios().add(posicion,cantidadServicio);
+                }
+                else{
+                    cliente.getCarrito().setServicio(this.servicio);
+                }
                 for(int i = 1;i <= this.cantidad; i++){
                     cliente.getCarrito().setPrecio(cliente.getCarrito().getPrecio() + this.servicio.getPrecio());
                 }
-                //cliente.getCarrito().setServicio(this.servicio);
+                
                 cliente.getCarrito().getCantidadServicios().add(this.cantidad);
             
            
@@ -140,8 +147,16 @@ public class DatosReserva {
        
         if (usuariocontroller.existeCliente(nickName)) {
             Cliente cliente = usuariocontroller.obtenerCliente(this.nickName);
-
-                cliente.getCarrito().setPromocion(this.promocion);
+                
+                if(cliente.getCarrito().getPromociones().contains(this.promocion)){
+                    int posicion = cliente.getCarrito().getPromociones().indexOf(this.promocion);
+                    int cantidadPromocion = cliente.getCarrito().getCantidadPromociones().get(posicion) + this.cantidad;
+                    cliente.getCarrito().getCantidadPromociones().add(posicion,cantidadPromocion);
+                }
+                else{
+                    cliente.getCarrito().setPromocion(this.promocion);
+                }
+                
                 for(int i = 1;i <= this.cantidad; i++){
                     cliente.getCarrito().setPrecio(cliente.getCarrito().getPrecio() + this.promocion.getPrecioTotal() * this.promocion.getDescuento() / 100);
                 }
