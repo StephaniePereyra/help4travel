@@ -13,6 +13,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import uy.edu.cure.servidor.central.dto.Oculta;
 import uy.edu.cure.servidor.central.dto.Promocion;
 import uy.edu.cure.servidor.central.dto.Servicio;
 import uy.edu.cure.servidor.central.lib.UsuarioControllerImpl;
@@ -38,6 +39,7 @@ public class DatosCarro implements Serializable {
     private double totalCarro;
     private List<Integer> cantidadServicios;
     private List<Integer> cantidadPromos;
+    private List<Oculta> oculto;
 
     public DatosCarro() {
         try {
@@ -120,6 +122,14 @@ public class DatosCarro implements Serializable {
         this.cantidadPromos = cantidadPromos;
     }
 
+    public List<Oculta> getOculto() {
+        return oculto;
+    }
+
+    public void setOculto(List<Oculta> oculto) {
+        this.oculto = oculto;
+    }
+
     @PostConstruct
     public void cargarArray() {
 
@@ -127,6 +137,9 @@ public class DatosCarro implements Serializable {
         promociones = new ArrayList();
         cantidadServicios = new ArrayList();
         cantidadPromos = new ArrayList();
+        oculto = new ArrayList();
+        Oculta o = new Oculta();
+        oculto.add(o);
 
         nickSession = datosuser.getNickName();
         servicios = usuariocontroller.obtenerCliente(nickSession).getCarrito().getServicios();
@@ -154,6 +167,7 @@ public class DatosCarro implements Serializable {
         p2.setPrecioTotal(1525);
         promociones.add(p1);
         promociones.add(p2);*/
+        
         if (servicios.isEmpty() && promociones.isEmpty()) {
             setCarritoEmpty(true);
         }
@@ -161,29 +175,28 @@ public class DatosCarro implements Serializable {
 
     public void eliminarServicio(Servicio s) {
 
+        int index = servicios.indexOf(s);
         servicios.remove(s);
-        int index = usuariocontroller.obtenerCliente(nickSession).getCarrito().getServicios().indexOf(s);
-        totalCarro = totalCarro - (usuariocontroller.obtenerCliente(nickSession).getCarrito().getServicios().get(index).getPrecio()
-                * usuariocontroller.obtenerCliente(nickSession).getCarrito().getCantidadServicios().get(index));
+        totalCarro = totalCarro - (s.getPrecio() * usuariocontroller.obtenerCliente(nickSession).getCarrito().getCantidadServicios().get(index));
         usuariocontroller.obtenerCliente(nickSession).getCarrito().getCantidadServicios().remove(index);
-        usuariocontroller.obtenerCliente(nickSession).getCarrito().getServicios().remove(index);
+        usuariocontroller.obtenerCliente(nickSession).getCarrito().getServicios().remove(s);
     }
 
     public void eliminarPromo(Promocion p) {
+
+        int index = promociones.indexOf(p);
         promociones.remove(p);
-        int index = usuariocontroller.obtenerCliente(nickSession).getCarrito().getPromociones().indexOf(p);
-        totalCarro = totalCarro - (usuariocontroller.obtenerCliente(nickSession).getCarrito().getPromociones().get(index).getPrecioTotal()
-                * usuariocontroller.obtenerCliente(nickSession).getCarrito().getCantidadPromociones().get(index));
+        totalCarro = totalCarro - (p.getPrecioTotal() * usuariocontroller.obtenerCliente(nickSession).getCarrito().getCantidadPromociones().get(index));
         usuariocontroller.obtenerCliente(nickSession).getCarrito().getCantidadPromociones().remove(index);
         usuariocontroller.obtenerCliente(nickSession).getCarrito().getPromociones().remove(index);
     }
-    
-    public int cantidadServ(Servicio s){
+
+    public int cantidadServ(Servicio s) {
         int index = servicios.indexOf(s);
         return usuariocontroller.obtenerCliente(nickSession).getCarrito().getCantidadServicios().get(index);
     }
-    
-        public int cantidadPromo(Promocion p){
+
+    public int cantidadPromo(Promocion p) {
         int index = promociones.indexOf(p);
         return usuariocontroller.obtenerCliente(nickSession).getCarrito().getCantidadPromociones().get(index);
     }

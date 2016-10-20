@@ -39,13 +39,22 @@ and open the template in the editor.
                     <th>Total</th>
                     <th></th>
                 </tr>
+                <c:forEach items="#{datosCarro.oculto}" var="item">
+                    <tr>
+                        <td align="center">#{item.uno}</td>
+                        <td align="center">#{item.dos}</td>
+                        <td align="center">#{item.tres}</td>
+                        <td align="center">#{item.cuatro}</td>
+                        <td align="center"><h:form><h:commandLink type="hiden"></h:commandLink></h:form></td>
+                    </tr>
+                </c:forEach>
                 <c:forEach items="#{datosCarro.servicios}" var="item">
                     <tr>
                         <td align="center">#{item.nombre}</td>
                         <td align="center">#{item.precio}</td>
                         <td align="center">#{datosCarro.cantidadServ(item)}</td>
                         <td align="center">#{item.precio * datosCarro.cantidadServ(item)}</td>
-                        <td align="center"><h:form> <h:commandLink action="#{datosCarro.eliminarServicio(item)}" > <h:graphicImage width="32" height="32" value="images/carrito.png" /> </h:commandLink>  </h:form> </td>
+                        <td align="center"><h:form> <h:commandLink action="#{datosCarro.eliminarServicio(item)}" ><h:graphicImage width="32" height="32" value="images/carrito.png" /> </h:commandLink>  </h:form> </td>
                     </tr>
                 </c:forEach>
                 <c:forEach items="#{datosCarro.promociones}" var="item">
@@ -54,7 +63,7 @@ and open the template in the editor.
                         <td align="center">#{item.precioTotal}</td>
                         <td align="center">#{datosCarro.cantidadPromo(item)}</td>
                         <td align="center">#{item.precioTotal * datosCarro.cantidadPromo(item)}</td>
-                        <td align="center"><h:form> <h:commandLink action="#{datosCarro.eliminarPromo(item)}"> <h:graphicImage width="32" height="32" value="images/carrito.png" /> </h:commandLink>  </h:form> </td>
+                        <td align="center"><h:form> <h:commandLink action="#{datosCarro.eliminarPromo(item)}"> <h:graphicImage width="32" height="32" value="images/carrito.png" /> </h:commandLink> </h:form> </td>
                     </tr>
                 </c:forEach> 
                 <tr>
@@ -65,7 +74,7 @@ and open the template in the editor.
                     <td align="center">#{datosCarro.totalCarro}</td>
                 </tr>
             </table>
-   
+
             <h:outputLabel style="color: red " value="SU CARRO DE COMPRAS ESTA VACIO" rendered="#{datosCarro.carritoEmpty}"></h:outputLabel>
 
         </form>
