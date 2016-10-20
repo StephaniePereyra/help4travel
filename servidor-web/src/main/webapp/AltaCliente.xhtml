@@ -2,8 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core" >
     <head>
          
@@ -33,29 +33,29 @@
 
                         <table style="width: 100%">
                             <tr align="center">
-                                <td align="center"> <p> NickName </p>  
+                                <td align="left"> <p> NickName </p>  
                                     <h:inputText required="true" requiredMessage="**" id ="nickNameid" value="#{datosCliente.nickName}" > 
                                         <f:validator validatorId="nickNameidValidator" /> 
                                         <f:ajax event = "keyup" render = "nickNameidMessage"/> 
-                                    </h:inputText> <br/> 
+                                    </h:inputText> 
                                     <h:message style="color: red;font-size: small" id="nickNameidMessage" for="nickNameid"/></td>
-                                <td align="center"><p> Password </p> 
+                                <td align="left"><p> Password </p> 
                                     <h:inputSecret required="true" requiredMessage="**" value="#{datosCliente.passWord}"></h:inputSecret> <br/> <br/></td>
                             </tr>
                             <tr align="center">
-                                <td align="center"> <p> Correo </p>  
+                                <td align="left"> <p> Correo </p>  
                                     <h:inputText required="true" requiredMessage="**" id="correoid" value="#{datosCliente.correo}" > 
                                         <f:validator validatorId="correoidValidator" /> 
                                         <f:ajax event = "keyup" render = "correoidMessage"/> 
-                                    </h:inputText> <br/>
+                                    </h:inputText>
                                     <h:message style="color: red;font-size: small"  id="correoidMessage" for="correoid"/> </td>
-                                <td align="center"> <p> Confirmar password </p> 
+                                <td align="left"> <p> Confirmar password </p> 
                                     <h:inputSecret value="#{datosCliente.passWordConfirm}"></h:inputSecret> <br/> <br/> </td>  
                             </tr>
                             <tr align="center">
-                                <td align="center"><p> Nombre </p>  
+                                <td align="left"><p> Nombre </p>  
                                     <h:inputText required="true" requiredMessage="**" value="#{datosCliente.nombre}"></h:inputText> <br/> <br/> </td>
-                                <td align="center"><p> Fecha nacimiento</p>  
+                                <td align="left"><p> Fecha nacimiento</p>  
                                     <h:selectOneMenu value="#{datosCliente.dia}"> 
                                         <f:selectItems value="#{datosCliente.dias}" var="dias" itemValue="#{dias}" itemLabel="#{dias}" /> 
                                     </h:selectOneMenu>   
@@ -66,11 +66,12 @@
                                         <f:selectItems value="#{datosCliente.anios}" var="anio" itemValue="#{anio}" itemLabel="#{anio}" /> 
                                     </h:selectOneMenu></td>  
                             </tr>
-                            <tr>
-                                <td align="center"><p> Apellido </p>  
+                            <tr align="center">
+                                <td align="left"><p> Apellido </p>  
                                     <h:inputText required="true" requiredMessage="**" value="#{datosCliente.apellido}"></h:inputText> <br/> <br/></td>
-                                <td align="center"><p> Imagen de Perfil </p>
-                                    <input type="file" name="imagenPerfil" value="#{datosCliente.imagen}"></input></td>
+                                <td align="left"><p> Imagen de Perfil </p>
+                                    <h:inputFile value="#{datosCliente.imagen}"></h:inputFile>
+                                    </td>
                             </tr>
                         </table>
 

@@ -5,16 +5,12 @@
  */
 package uy.edu.cure.servidor.web;
 
-
-
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -40,7 +36,7 @@ private boolean mostrarMensaje = false;
 @Jeringa (value = "usuariocontroller")
 private UsuarioControllerImpl usuariocontroller;
 private List<Integer> dias,meses,anios;
-private File imagen;
+private Part imagen;
 
     public DatosCliente(){
         try {
@@ -206,41 +202,44 @@ private File imagen;
         this.anios = anios;
     }
 
-    public File getImagen() {
+    public Part getImagen() {
         return imagen;
     }
 
-    public void setImagen(File imagen) {
+    public void setImagen(Part imagen) {
         this.imagen = imagen;
     }
-    
 
-    
- 
 public void action() throws IOException{
-    /*InputStream input;
+    InputStream input;
     OutputStream output;
-    //input = imagen.getInputStream();
-    Date d = new Date();
-    //output = new FileOutputStream(new File("images/perfil/" + d.getTime() + ".png"));
-    File perfil = new File("C:/Users/SCN/help4travel/servidor-web/src/main/webapp/images/perfil/" + d.getTime() + ".png");
-    Files.copy(imagen.toPath(), perfil.toPath());
-    /*int read;
-		byte[] bytes = new byte[1024];
-
-		while ((read = input.read(bytes)) != -1) {
-			output.write(bytes, 0, read);
-		}*/
+    String imgPerfil;
     
-    int resultado = usuariocontroller.crearCliente(nickName, nombre, apellido, correo, dia, mes, anio, apellido,passWord,passWordConfirm);
+    if (imagen == null) {
+        imgPerfil = "C:/Users/SCN/help4travel/servidor-web/src/main/webapp/images/perfil/default.png";
+    } else {
+
+        input = imagen.getInputStream();
+        Date d = new Date();
+        File perfil = new File("C:/Users/SCN/help4travel/servidor-web/src/main/webapp/images/perfil/" + d.getTime() + ".png");
+        output = new FileOutputStream(perfil);
+
+        byte[] buffer = new byte[8 * 1024];
+        int bytesRead;
+        while ((bytesRead = input.read(buffer)) != -1) {
+            output.write(buffer, 0, bytesRead);
+        }
+        imgPerfil = perfil.getAbsolutePath();
+
+    }
+    
+    int resultado = usuariocontroller.crearCliente(nickName, nombre, apellido, correo, dia, mes, anio, imgPerfil,passWord,passWordConfirm);
     mostrarMensaje = true;
     if(nickName.equals("") || nombre.equals("") || apellido.equals("") || correo.equals("")){
         mensaje = mensajeDefault;
     }else{
         mensaje = datosusuarioMnsj.retornoMensajeUsuario(resultado);
     }
-    
-
 }
 
 }
