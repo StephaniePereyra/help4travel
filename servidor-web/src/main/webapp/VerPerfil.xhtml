@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+        <link href="style.css" rel="stylesheet" type="text/css" />
+        <link href="js/galleria.css" rel="stylesheet" type="text/css" />
+        <link href="style.css" rel="stylesheet" type="text/css" />
+        <script type="text/javascript" src="js/jquery.js"></script>
+        <script type="text/javascript" src="js/jquery_002.js"></script>
+    </head>
+    <body>
+        <div id="site"> 
+            <ui:composition template="commonLayout.xhtml"> 
+                <ui:define name="header"> 
+                    <div id="header"> 
+                        <!--Definir pagina para heder --> 
+                        <h1 id="sitename"><span>help4travel</span><a href="#">ViewAProfile</a> </h1>
+                    </div> 
+                </ui:define> 
+                <ui:define name="content">
+                <div  align="center"><h2><b>VerInfoUsuario</b></h2></div>
+                <p  align="center"><h3><b>InformaciÃ³n de #{datosUser.nickName}</b></h3></p>
+                <ul>
+                    <li><b> NickName: #{datosUser.usuario.nickName}</b></li>
+                    <li><b> Nombre: #{datosUser.usuario.nombre}</b> </li>
+                    <li><b> Apellido: #{datosUser.usuario.apellido}</b> </li>
+                    <li><b> Fecha Nacimiento: #{datosUser.usuario.fechanacimiento}</b></li>
+                    <li><b> Correo: #{datosUser.usuario.correo}</b> </li>
+                </ul>    
+                <a href="index.xhtml"><h3><b>Volver al Inicio</b></h3></a>
+            </ui:define>
+            </ui:composition> 
+            
+        </div> 
+    </body>
+</html>

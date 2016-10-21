@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core" >
+    <head>
+
+        <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+        <link href="style.css" rel="stylesheet" type="text/css" />
+        <link href="js/galleria.css" rel="stylesheet" type="text/css" />
+        <link href="style.css" rel="stylesheet" type="text/css" />
+        <script type="text/javascript" src="js/jquery.js"></script>
+        <script type="text/javascript" src="js/jquery_002.js"></script>
+    </head>
+    <body>
+        <div id="site"> 
+            <ui:composition template="commonLayout.xhtml"> 
+
+                <ui:define name="header"> 
+                    <div id="header"> 
+                        <!--Definir pagina para heder --> 
+                        <h1 id="sitename"><span>help4travel</span><a href="#">ViewAProvider'sProfile</a> </h1>
+                    </div> 
+                </ui:define> 
+                <ui:define name="content">
+                    <div  align="center"><h2><b>VerInfoProveedores</b></h2></div>
+                    <h:form>
+                        <h:selectOneMenu value="#{datosProveedor.nickName}">
+                            <f:selectItems value="#{datosProveedor.proveedores}" var="c" itemValue="#{c.nickName}" itemLabel="#{c.nickName}"></f:selectItems>
+                        </h:selectOneMenu>
+                        <h:commandButton value="VerInfo" action="#{datosProveedor.accionProveedor()}" >
+                            <br/><outputText> <b>NickName:</b> #{datosProveedor.proveedor.nickName}</outputText><br/>
+                            <br/><outputText> <b>Nombre:</b> #{datosProveedor.proveedor.nombre}</outputText><br/> 
+                            <br/><outputText> <b>Apellido:</b> #{datosProveedor.proveedor.apellido}</outputText><br/> 
+                            <br/><outputText> <b>Correo:</b> #{datosProveedor.proveedor.correo}</outputText><br/> 
+                            <br/><outputText> <b>Nombre Empresa:</b> #{datosProveedor.proveedor.nombreEmpresa}</outputText><br/>
+                            <br/><outputText> <b>Link Empresa:</b> <a href="#{datosProveedor.proveedor.linkEmpresa}">ClickAqui</a></outputText><br/>
+                            <br/><outputText> <b>Imagen Perfil:</b> #{datosProveedor.proveedor.imagenPerfil}</outputText><br/>
+                            <br/><outputText> <b>Servicios:</b></outputText><br/>
+                            <h:form>
+                                <ui:repeat value="#{datosProveedor.servicios}" var="item" varStatus="estado">  
+                                    <h:outputText> #{estado.index}- </h:outputText><a href="index.xhtml">Ver informacion de #{item.nombre}</a>  
+                                </ui:repeat>
+                            </h:form>
+                        </h:commandButton>
+                    </h:form>
+                </ui:define>
+            </ui:composition> 
+        </div>
+
+        <a href="index.xhtml"><h3><b>Volver al Inicio</b></h3></a>
+    </body>
+</html>
