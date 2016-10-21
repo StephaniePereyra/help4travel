@@ -8,6 +8,7 @@ package uy.edu.cure.servidor.web;
 import java.lang.reflect.InvocationTargetException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import uy.edu.cure.servidor.central.dto.Usuario;
 import uy.edu.cure.servidor.central.lib.UsuarioController;
 import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
 import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
@@ -25,6 +26,7 @@ public class DatosUser {
     @Jeringa (value = "usuariocontroller")
     private UsuarioController usuariocontroller;
     private boolean mostrarError = false;
+    private Usuario usuario;
     
     public DatosUser(){
         try {
@@ -34,6 +36,23 @@ public class DatosUser {
         }
         nickName = "";
     }
+
+    public UsuarioController getUsuariocontroller() {
+        return usuariocontroller;
+    }
+
+    public void setUsuariocontroller(UsuarioController usuariocontroller) {
+        this.usuariocontroller = usuariocontroller;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+    
 
     public String getNickName() {
         return nickName;
@@ -82,6 +101,9 @@ public class DatosUser {
             mnsjError = "*NickName o Password incorrectas*";
             retorno = "LogIn";
         }
+    if(resultadoCliente == true){
+        usuario = usuariocontroller.obtenerProveedor(this.nickName);
+    }
     return retorno;
 }
     
