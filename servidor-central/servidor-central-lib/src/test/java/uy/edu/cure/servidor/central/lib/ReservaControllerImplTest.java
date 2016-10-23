@@ -246,5 +246,39 @@ public class ReservaControllerImplTest {
         assertEquals(expResult, result);
         instance.vaciarPersistencia();
     }
-
+    
+    @Test
+    public void testAgregarCarro(){
+        System.out.println("agregarCarro");
+        boolean expResult,result;
+        
+        List<Integer> cantidadpromociones = new ArrayList<Integer>();        
+        List<Integer> cantidadservicios = new ArrayList<Integer>();
+        cantidadpromociones.add(2);
+        cantidadpromociones.add(1);
+        cantidadservicios.add(3);
+        cantidadservicios.add(1);
+        Servicio servicio1 = new Servicio();
+        Servicio servicio2 = new Servicio();
+        Promocion promocion1 = new Promocion();
+        Promocion promocion2 = new Promocion();
+        Reserva reserva = new Reserva();
+        reserva.setServicio(servicio1);
+        reserva.setServicio(servicio2);
+        reserva.setPromocion(promocion1);
+        reserva.setPromocion(promocion2);
+        reserva.setCantidadPromociones(cantidadpromociones);
+        reserva.setCantidadServicios(cantidadservicios);
+        int numeroReserva;
+        numeroReserva = reserva.getNumero();
+        Date fecha = new Date();
+        Cliente cliente = new Cliente("Juan","Pedro","Gomez","juan@correo.com",fecha,"imagen.png","1234");
+        cliente.setCarrito(reserva);
+        ReservaControllerImpl instance = new ReservaControllerImpl();
+        instance.agregarCarro(cliente);
+        result = instance.existeReserva(numeroReserva);
+        expResult = true;
+        assertEquals(expResult, result);
+        instance.vaciarPersistencia();
+    }
 }

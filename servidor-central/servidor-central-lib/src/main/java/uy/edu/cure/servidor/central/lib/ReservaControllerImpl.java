@@ -8,6 +8,7 @@ package uy.edu.cure.servidor.central.lib;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 import java.util.List;
+import java.util.ArrayList;
 import uy.edu.cure.servidor.central.dto.Cliente;
 import uy.edu.cure.servidor.central.dto.Promocion;
 import uy.edu.cure.servidor.central.dto.Proveedor;
@@ -118,6 +119,57 @@ public class ReservaControllerImpl implements ReservaController {
         } else {
             return false;
         }
+    }
+
+    @Override
+    public void agregarCarro(Cliente cliente) {
+        Reserva reserva = new Reserva();
+        int cantidadPromocion, cantidadServicio, posicionPromocion, posicionServicio;
+        reserva.setNumero(cliente.getCarrito().getNumero());
+        reserva.setCliente(cliente);
+        Date fecha = new Date();
+        reserva.setFechaCreacion(fecha);
+
+        reserva.setPrecio(cliente.getCarrito().getPrecio());
+        reserva.setEstado("Registrada");
+
+        List<Promocion> promociones = new ArrayList<Promocion>();
+        List<Servicio> servicios = new ArrayList<Servicio>();
+        List<Integer> numeroPromocion = new ArrayList<Integer>();
+        List<Integer> numeroServidor = new ArrayList<Integer>();
+
+        for (posicionPromocion = 0; posicionPromocion < cliente.getCarrito().getPromociones().size(); posicionPromocion++) {
+            promociones.add(cliente.getCarrito().getPromociones().get(posicionPromocion));
+        }
+
+        for (posicionServicio = 0; posicionServicio < cliente.getCarrito().getServicios().size(); posicionServicio++) {
+            servicios.add(cliente.getCarrito().getServicios().get(posicionServicio));
+        }
+
+        for (cantidadPromocion = 0; cantidadPromocion < cliente.getCarrito().getCantidadPromociones().size(); cantidadPromocion++) {
+            numeroPromocion.add(cliente.getCarrito().getCantidadPromociones().get(cantidadPromocion));
+        }
+
+        for (cantidadServicio = 0; cantidadServicio < cliente.getCarrito().getServicios().size(); cantidadServicio++) {
+            numeroServidor.add(cliente.getCarrito().getCantidadServicios().get(cantidadServicio));
+        }
+
+        reserva.setPromociones((ArrayList<Promocion>) promociones);
+        reserva.setServicios((ArrayList<Servicio>) servicios);
+        reserva.setCantidadPromociones(numeroPromocion);
+        reserva.setCantidadServicios(numeroServidor);
+
+        reservaService.guardarReserva(reserva);
+
+        cliente.getCarrito().getServicios().clear();
+        cliente.getCarrito().getPromociones().clear();
+        cliente.getCarrito().getCantidadPromociones().clear();
+        cliente.getCarrito().getCantidadServicios().clear();
+        cliente.getCarrito().setEstado("");
+        cliente.getCarrito().setPrecio(0.0);
+
+        cliente.setCarrito(new Reserva());
+
     }
 
 }

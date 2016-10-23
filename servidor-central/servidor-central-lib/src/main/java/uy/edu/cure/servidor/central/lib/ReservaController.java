@@ -30,4 +30,6 @@ public interface ReservaController {
     public boolean cambiarEstado(Reserva reserva, String estado);
 
     public void vaciarPersistencia();
+    
+    public void agregarCarro(Cliente cliente);
 }
