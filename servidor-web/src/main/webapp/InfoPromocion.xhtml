@@ -5,12 +5,29 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:f="http://java.sun.com/jsf/core">
     <head>
         <title>InfoPromocion</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </head>
     <body>
-        <div>Mostrar datos de promocion (en progreso)</div>
+        <h:form>
+            <h1>#{verInfoPromocion.nombre}</h1>
+            <pre>Proveedor: <h:outputText value="#{verInfoPromocion.proveedor}"></h:outputText></pre>
+            <pre>Precio: <h:outputText value="#{verInfoPromocion.precio}"></h:outputText></pre>
+            <pre>Servicios: </pre>
+            <c:forEach items="#{verInfoPromocion.servicios}" var="servicios">
+                <h:commandLink action="#{verInfoServicio.getThatService()}" value="#{servicios}">
+                    <f:param name="nombreServicio" value="#{servicios}"/>
+                    <f:param name="proveedorServicio" value="#{verInfoPromocion.proveedor}"/>
+                </h:commandLink> <br/> 
+            </c:forEach>
+        </h:form>
+        <br/>
+        <a href="index.xhtml">Home</a> <br/>
+        <a href="Buscador.xhtml">Otra busqueda</a>
     </body>
 </html>

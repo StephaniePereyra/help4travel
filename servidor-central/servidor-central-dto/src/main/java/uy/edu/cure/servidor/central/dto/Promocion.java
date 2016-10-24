@@ -29,6 +29,14 @@ public class Promocion {
         servicios = new ArrayList<Servicio>();
     }
     
+    public Promocion(String nombre, int descuento, double preciototal, List<Servicio> servicios, Proveedor proveedor) {
+        this.nombre = nombre;
+        this.descuento = descuento;
+        this.precioTotal = preciototal;
+        this.proveedor = proveedor;
+        this.servicios = servicios;
+    }
+    
     public Promocion (){
         this.nombre = "";
         this.descuento = 0;
@@ -81,5 +89,4 @@ public class Promocion {
     
     
     
-
 }

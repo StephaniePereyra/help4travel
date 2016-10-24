@@ -16,44 +16,40 @@
         <script type="text/javascript" src="js/jquery_002.js"></script>
     </head>
     <body>
-         <!--
-        <div id="site">
-            <ui:composition template="commonLayout.xhtml">
-
-                <ui:define name="header">
-                    <div id="header">
-                       
-                        <h1 id="sitename"><span>resultado</span></h1>
-                    </div>
-                </ui:define>
-
-                <ui:define name="content"> -->
-                    <h2>Resultado de busqueda</h2>
-                    <h:form>
-                        <fieldset>
-                            <legend>Resultado</legend>
-                            <h:outputText id="cantServicios" value="#{logicaBuscador.cantidadServicios()}"></h:outputText>
-                            <h:selectOneMenu value="#{logicaBuscador.tipoDeBusqueda}">
-                                <f:selectItem itemValue="1" itemLabel="Precio (ascendente)" ></f:selectItem>
-                                <f:selectItem itemValue="2" itemLabel="Alfabeticamente (a-z)"></f:selectItem>
-                            </h:selectOneMenu>
-                            <h:commandButton value="Ordenar" action="#{logicaBuscador.ordenar()}"></h:commandButton>
-                        </fieldset>
-                        <c:forEach items="#{logicaBuscador.serviciosFiltrados}" var="item">
-                            <h:form>
-                                <fieldset>
-                                    <legend>#{item.tipo}</legend>
-                                    <a href="#{item.linkInfo}"><h:outputText value="#{item.nombre}"></h:outputText></a> <br/>
-                                    <h:outputText value="#{item.proveedor}"></h:outputText> <br/>
-                                    <h:outputText value="#{item.precio}"></h:outputText> <br/>
-                                </fieldset>
-                            </h:form>
-                        </c:forEach>
-                    </h:form>
-         <!--        </ui:define>
-
-            </ui:composition>
-        </div> -->
+        <h:form>
+            <fieldset>
+                <legend>Resultado</legend>
+                <h:outputText id="cantServicios" value="#{logicaBuscador.cantidadServicios()}"></h:outputText>
+                <h:selectOneMenu value="#{logicaBuscador.tipoDeBusqueda}">
+                    <f:selectItem itemValue="1" itemLabel="Precio (ascendente)" ></f:selectItem>
+                    <f:selectItem itemValue="2" itemLabel="Alfabeticamente (a-z)"></f:selectItem>
+                </h:selectOneMenu>
+                <h:commandButton value="Ordenar" action="#{logicaBuscador.ordenar()}"></h:commandButton>
+            </fieldset>
+            <c:forEach items="#{logicaBuscador.serviciosFiltrados}" var="item">
+                <fieldset>
+                    <legend>#{item.tipo}</legend>
+                    <c:if test="#{item.tipo=='Servicio'}">
+                        <h:commandLink action="#{verInfoServicio.getThatService()}" value="#{item.nombre}">
+                            <f:param name="nombreServicio" value="#{item.nombre}"/>
+                            <f:param name="proveedorServicio" value="#{item.proveedor}"/>
+                        </h:commandLink> <br/>
+                    </c:if>
+                    <c:if test="#{item.tipo=='Promocion'}">
+                        <h:commandLink action="#{verInfoPromocion.getThatPromo()}" value="#{item.nombre}">
+                            <f:param name="nombrePromocion" value="#{item.nombre}"/>
+                            <f:param name="proveedorPromocion" value="#{item.proveedor}"/>
+                        </h:commandLink> <br/>
+                    </c:if>
+                    <h:outputText value="#{item.proveedor}"></h:outputText> <br/>
+                    <h:outputText value="#{item.precio}"></h:outputText> <br/>
+                </fieldset>
+            </c:forEach>
+        </h:form>
+        <p>
+           <a href="index.xhtml">Home</a> <br/>
+           <a href="Buscador.xhtml">Otra busqueda</a>
+        </p>
     </body>
 
 </html>

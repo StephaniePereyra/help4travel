@@ -12,16 +12,12 @@ package uy.edu.cure.servidor.web;
 public class Filtrado {
 
     private String tipo;
-    private String linkInfo;
     private String nombre;
     private String proveedor;
     private double precio;
 
     public Filtrado(String tipo, String nombre, String proveedor, double precio) {
         this.tipo = tipo;
-        if(tipo.equals("Promocion")) {
-            this.linkInfo = "InfoPromocion.xhtml";
-        }
         this.nombre = nombre;
         this.proveedor = proveedor;
         this.precio = precio;
@@ -33,14 +29,6 @@ public class Filtrado {
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
-    }
-
-    public String getLinkInfo() {
-        return linkInfo;
-    }
-
-    public void setLinkInfo(String linkInfo) {
-        this.linkInfo = linkInfo;
     }
     
     public String getNombre() {

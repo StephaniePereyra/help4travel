@@ -16,8 +16,6 @@ public interface PromocionService {
 
     public boolean guardarPromocion(Promocion promocion);
 
-    public boolean existePromocion(String nombre, String nickNameProveedor);
-
     public Promocion obtenerPromocion(String nombrem, String nickNameProveedor);
 
     public List<Promocion> obtenerTodasPromociones();

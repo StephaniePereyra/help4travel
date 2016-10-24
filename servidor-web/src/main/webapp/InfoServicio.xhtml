@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <head>
+        <title>InfoServicio</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+        <h:form>
+            <h1>#{verInfoServicio.nombre}</h1>
+            <pre>Proveedor: <h:outputText value="#{verInfoServicio.proveedor}"></h:outputText></pre>
+            <fieldset>
+                <legend>Descripcion</legend>
+                <h:outputText value="#{verInfoServicio.descripcion}"></h:outputText>
+            </fieldset>
+            <pre>Precio: <h:outputText value="#{verInfoServicio.precio}"></h:outputText></pre>
+            <pre>Destino: <h:outputText value="#{verInfoServicio.destinos}"></h:outputText></pre>
+            <pre>Categorias: </pre>
+            <ul>
+               <c:forEach items="#{verInfoServicio.categorias}" var="categoriasServicio">
+                   <li>#{categoriasServicio}</li>
+               </c:forEach> 
+            </ul>
+        </h:form>
+        <br/>
+        <a href="index.xhtml">Home</a> <br/>
+        <a href="Buscador.xhtml">Otra busqueda</a>
+    </body>
+</html>

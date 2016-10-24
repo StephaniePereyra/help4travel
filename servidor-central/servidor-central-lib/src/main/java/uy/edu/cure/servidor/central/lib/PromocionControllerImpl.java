@@ -6,6 +6,7 @@
 package uy.edu.cure.servidor.central.lib;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import uy.edu.cure.servidor.central.dto.*;
@@ -38,19 +39,19 @@ public class PromocionControllerImpl implements PromocionController {
     public String crearPromocion(String nombre, int descuento, String nickProveedor, List<String> servicios) {
         if(!nombre.isEmpty()) {
             if(usuarioController.existeProveedor(nickProveedor)) {
-                if(!promocionService.existePromocion(nombre, nickProveedor)) {
+                if(!existePromocion(nombre, nickProveedor)) {
                     if(descuento > 0 && descuento < 100) {
                         if(!servicios.isEmpty()) {
                             double precioTotal = 0;
                             Proveedor proveedor = usuarioController.obtenerProveedor(nickProveedor);
-                            Promocion promocion = new Promocion(nombre, descuento, 0, proveedor);
+                            List<Servicio> serviciosAux = new ArrayList<>();
                             for(int i=0; i<servicios.size(); i++) {
                                 Servicio servicioAuxiliar = servicioController.obtenerServicio(servicios.get(i), nickProveedor);
-                                promocion.setServicios(servicioAuxiliar);
+                                serviciosAux.add(servicioAuxiliar);
                                 precioTotal = precioTotal + servicioAuxiliar.getPrecio();
                             }
                             precioTotal = precioTotal - (precioTotal*descuento/100);
-                            promocion.setPrecioTotal(precioTotal);
+                            Promocion promocion = new Promocion(nombre, descuento, precioTotal, serviciosAux, proveedor);
                             promocionService.guardarPromocion(promocion);
                             return "OK";
                         } else {
@@ -72,7 +73,11 @@ public class PromocionControllerImpl implements PromocionController {
 
     @Override
     public boolean existePromocion(String nombre, String nickNameProveedor) {
-        return promocionService.existePromocion(nombre, nickNameProveedor);
+        if(obtenerPromocion(nombre, nickNameProveedor) != null) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override

@@ -32,18 +32,6 @@ public class PromocionServiceImpl implements PromocionService {
     }
 
     @Override
-    public boolean existePromocion(String nombre, String nickNameProveedor) {
-        Iterator<Promocion> iteratorPromociones = promociones.iterator();
-        while (iteratorPromociones.hasNext()) {
-            Promocion promocionAuxiliar = iteratorPromociones.next();
-            if (promocionAuxiliar.getNombre().equals(nombre) && promocionAuxiliar.getProveedor().getNickName().equals(nickNameProveedor)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @Override
     public Promocion obtenerPromocion(String nombre, String nickNameProveedor) {
         Iterator<Promocion> iteratorPromociones = promociones.iterator();
         while (iteratorPromociones.hasNext()) {

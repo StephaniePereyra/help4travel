@@ -68,69 +68,6 @@ public class PromocionServiceImplTest {
     }
 
     /**
-     * Test of existePromocion method, of class PromocionServiceImpl.
-     */
-    @Test
-    public void testExistePromocionNull() {
-        System.out.println("existePromocionNull");
-        String nombre = "";
-        String nickNameProveedor = "";
-        PromocionServiceImpl instance = new PromocionServiceImpl();
-        boolean expResult = false;
-        boolean result = instance.existePromocion(nombre, nickNameProveedor);
-        assertEquals(expResult, result);
-        instance.obtenerTodasPromociones().clear();
-    }
-
-    /**
-     * Test of existePromocion method, of class PromocionServiceImpl.
-     */
-    @Test
-    public void testExistePromocionTrue() {
-        System.out.println("existePromocionTrue");
-        Proveedor proveedor = new Proveedor("nickname", "nombre", "apellido", "correo", null, "nombreEmpresa", "linkEmpresa", "Imagen", "Password");
-        Promocion promocion = new Promocion("nombre", 10, 100, proveedor);
-        PromocionServiceImpl instance = new PromocionServiceImpl();
-        instance.guardarPromocion(promocion);
-        boolean expResult = true;
-        boolean result = instance.existePromocion("nombre", "nickname");
-        assertEquals(expResult, result);
-        instance.obtenerTodasPromociones().clear();
-    }
-
-    /**
-     * Test of existePromocion method, of class PromocionServiceImpl.
-     */
-    @Test
-    public void testExistePromocionTrueFalse() {
-        System.out.println("existePromocionTrueFalse");
-        Proveedor proveedor = new Proveedor("nickname", "nombre", "apellido", "correo", null, "nombreEmpresa", "linkEmpresa", "Imagen", "Password");
-        Promocion promocion = new Promocion("nombre", 10, 100, proveedor);
-        PromocionServiceImpl instance = new PromocionServiceImpl();
-        instance.guardarPromocion(promocion);
-        boolean expResult = false;
-        boolean result = instance.existePromocion("nombre", "nickname2");
-        assertEquals(expResult, result);
-        instance.obtenerTodasPromociones().clear();
-    }
-
-    /**
-     * Test of existePromocion method, of class PromocionServiceImpl.
-     */
-    @Test
-    public void testExistePromocionFalseTrue() {
-        System.out.println("existePromocionFalseTrue");
-        Proveedor proveedor = new Proveedor("nickname", "nombre", "apellido", "correo", null, "nombreEmpresa", "linkEmpresa", "Imagen", "Password");
-        Promocion promocion = new Promocion("nombre", 10, 100, proveedor);
-        PromocionServiceImpl instance = new PromocionServiceImpl();
-        instance.guardarPromocion(promocion);
-        boolean expResult = false;
-        boolean result = instance.existePromocion("nombre2", "nickname2");
-        assertEquals(expResult, result);
-        instance.obtenerTodasPromociones().clear();
-    }
-
-    /**
      * Test of obtenerPromocion method, of class PromocionServiceImpl.
      */
     @Test
