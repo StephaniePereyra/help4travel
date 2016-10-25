@@ -90,7 +90,7 @@ public class VerInfoPromocion {
         Iterator<Promocion> iteratorPromocion = promociones.iterator();
         while (iteratorPromocion.hasNext()) {
             Promocion promocionAuxiliar = iteratorPromocion.next();
-            Filtrado filtrado = new Filtrado("Promocion", promocionAuxiliar.getNombre(), promocionAuxiliar.getProveedor().getNickName(), 0);
+            Filtrado filtrado = new Filtrado("Promocion", promocionAuxiliar.getNombre(), promocionAuxiliar.getProveedor().getNickName());
             listaPromocionesAux.add(filtrado);
         }
         return listaPromocionesAux;

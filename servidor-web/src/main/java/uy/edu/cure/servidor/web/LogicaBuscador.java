@@ -79,11 +79,11 @@ public class LogicaBuscador {
             Servicio servicioAuxiliar = iteratorServicios.next();
             // Busqueda por nombre del servicio
             if (servicioAuxiliar.getNombre().toLowerCase().contains(wanted.toLowerCase())) {
-                Filtrado servicioFiltrado = new Filtrado("Servicio", servicioAuxiliar.getNombre(), servicioAuxiliar.getProveedor().getNickName(), servicioAuxiliar.getPrecio());
+                Filtrado servicioFiltrado = new Filtrado("Servicio", servicioAuxiliar.getNombre(), servicioAuxiliar.getProveedor().getNickName());
                 serviciosFiltrados.add(servicioFiltrado);
             } else // Busqueda por contenido de descripcion del servicio
              if (servicioAuxiliar.getDescripcion().toLowerCase().contains(wanted.toLowerCase())) {
-                    Filtrado servicioFiltrado = new Filtrado("Servicio", servicioAuxiliar.getNombre(), servicioAuxiliar.getProveedor().getNickName(), servicioAuxiliar.getPrecio());
+                    Filtrado servicioFiltrado = new Filtrado("Servicio", servicioAuxiliar.getNombre(), servicioAuxiliar.getProveedor().getNickName());
                     serviciosFiltrados.add(servicioFiltrado);
                 } else {
                     Iterator<Categoria> iteratorCategorias = servicioAuxiliar.getCategorias().iterator();
@@ -91,7 +91,7 @@ public class LogicaBuscador {
                         Categoria categoriaAuxiliar = iteratorCategorias.next();
                         // Busqueda por categorias del servicio
                         if (categoriaAuxiliar.getNombre().toLowerCase().contains(wanted.toLowerCase())) {
-                            Filtrado servicioFiltrado = new Filtrado("Servicio", servicioAuxiliar.getNombre(), servicioAuxiliar.getProveedor().getNickName(), servicioAuxiliar.getPrecio());
+                            Filtrado servicioFiltrado = new Filtrado("Servicio", servicioAuxiliar.getNombre(), servicioAuxiliar.getProveedor().getNickName());
                             serviciosFiltrados.add(servicioFiltrado);
                         }
                     }
@@ -102,7 +102,7 @@ public class LogicaBuscador {
             Promocion promocionAuxiliar = iteratorPromociones.next();
             // Busqueda por nombre de promocion
             if (promocionAuxiliar.getNombre().toLowerCase().contains(wanted.toLowerCase())) {
-                Filtrado servicioFiltrado = new Filtrado("Promocion", promocionAuxiliar.getNombre(), promocionAuxiliar.getProveedor().getNickName(), promocionAuxiliar.getPrecioTotal());
+                Filtrado servicioFiltrado = new Filtrado("Promocion", promocionAuxiliar.getNombre(), promocionAuxiliar.getProveedor().getNickName());
                 serviciosFiltrados.add(servicioFiltrado);
             } else {
                 boolean tieneServicio = false;
@@ -120,7 +120,7 @@ public class LogicaBuscador {
                     }
                 }
                 if (tieneServicio) {
-                    Filtrado servicioFiltrado = new Filtrado("Promocion", promocionAuxiliar.getNombre(), promocionAuxiliar.getProveedor().getNickName(), promocionAuxiliar.getPrecioTotal());
+                    Filtrado servicioFiltrado = new Filtrado("Promocion", promocionAuxiliar.getNombre(), promocionAuxiliar.getProveedor().getNickName());
                     serviciosFiltrados.add(servicioFiltrado);
                 }
             }

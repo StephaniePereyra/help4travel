@@ -5,24 +5,20 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets">
     <head>
-
         <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
         <link href="style.css" rel="stylesheet" type="text/css" />
     </head>
     <body>
         <div id="site">
             <ui:composition template="commonLayout.xhtml">
-
                 <ui:define name="content">
                     <h2>Este es el inicio aqui va todo el contenido</h2>
                     <a href="AgregarAReserva.xhtml">Agregar Reserva</a> <br/> <br/>
-                         <h:form> 
+                    <h:form> 
                         <h:commandButton action="#{logicaBuscador.niceHarcoding()}" value="Harcoding"></h:commandButton> 
                     </h:form> 
                 </ui:define>
-
             </ui:composition>
         </div>
     </body>
-
 </html>

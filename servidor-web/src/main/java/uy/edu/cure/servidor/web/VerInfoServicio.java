@@ -97,7 +97,7 @@ public class VerInfoServicio {
         Iterator<Servicio> iteratorServicio = servicios.iterator();
         while (iteratorServicio.hasNext()) {
             Servicio servicioAuxiliar = iteratorServicio.next();
-            Filtrado filtrado = new Filtrado("Servicio", servicioAuxiliar.getNombre(), servicioAuxiliar.getProveedor().getNickName(), 0);
+            Filtrado filtrado = new Filtrado("Servicio", servicioAuxiliar.getNombre(), servicioAuxiliar.getProveedor().getNickName());
             listaServiciosAux.add(filtrado);
         }
         return listaServiciosAux;
