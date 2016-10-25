@@ -6,7 +6,7 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core" >
     <head>
-         
+
         <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
         <link href="style.css" rel="stylesheet" type="text/css" />
         <link href="js/galleria.css" rel="stylesheet" type="text/css" />
@@ -16,21 +16,10 @@
     </head>
     <body>
         <div id="site"> 
-            <ui:composition template="commonLayout.xhtml"> 
-
-                <ui:define name="header"> 
-                    <div id="header"> 
-                        <!--Definir pagina para heder --> 
-                        <h1 id="sitename"><span>help4travel</span><a href="#">SINGUP</a></h1> 
-                    </div> 
-                </ui:define> 
-
+            <ui:composition template="commonLayout.xhtml">                
                 <ui:define name="content"> 
                     <h2>Registrarse </h2> 
                     <h:form enctype="multipart/form-data">
-
-
-
                         <table style="width: 100%">
                             <tr align="center">
                                 <td align="left"> <p> NickName </p>  
@@ -71,14 +60,14 @@
                                     <h:inputText required="true" requiredMessage="**" value="#{datosCliente.apellido}"></h:inputText> <br/> <br/></td>
                                 <td align="left"><p> Imagen de Perfil </p>
                                     <h:inputFile value="#{datosCliente.imagen}"></h:inputFile>
-                                    </td>
+                                </td>
                             </tr>
                         </table>
 
                         <h:outputText value="#{datosCliente.mensaje}" 
                                       rendered="#{datosCliente.mostrarMensaje == true}"></h:outputText> <br/> <br/> 
 
-                                      <h:commandButton style="size: A4" value="Crear" action="#{datosCliente.action}"></h:commandButton> 
+                        <h:commandButton style="size: A4" value="Crear" action="#{datosCliente.action}"></h:commandButton> 
 
                     </h:form> 
                 </ui:define> 

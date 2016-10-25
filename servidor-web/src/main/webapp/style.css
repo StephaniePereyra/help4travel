@@ -8,7 +8,7 @@ body {background:url(images/nubes.jpg  );margin:auto;font-family:Arial,Helvetica
 img {border:none}
 a {color:#174f7b;font-size:12px}
 a:hover {color:#000;text-decoration:none}
-#site {width:900px;margin:auto;background:#fff}
+#site {width:921px;margin:auto;background:#fff}
 #header {background:url(images/images.jpeg  ) no-repeat;height:430px;width:922px}
 #sitename {margin:0;font-family:Arial,Helvetica,sans-serif;font-size:35px;padding-top:60px;padding-left:550px;color:#322d21;font-weight:normal}
 #menu {height:45px;background:#80BBE3}
@@ -17,7 +17,7 @@ a:hover {color:#000;text-decoration:none}
 #menu ul li a {font-family:Arial,Helvetica,sans-serif;font-size:24px;color:#fff;font-weight:normal;text-decoration:none;padding-left:12px;padding-right:12px;padding-top:9px;padding-bottom:9px}
 .active {background:#378CCD}
 #menu ul li a:hover {background:#378CCD}
-#content {width:800px;margin:auto;background:#fff}
+#content {width:921px;margin:auto;background:#fff}
 #welcome {font-family:Arial,Helvetica,sans-serif;font-size:18px;font-weight:bold;color:#bda86e}
 #content p {font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#666;font-weight:normal}
 #footer {background:#A2D0E8;text-align:center;padding-top:19px;padding-bottom:29px}
@@ -34,6 +34,6 @@ p {color:#484439;font-family:Arial,Helvetica,sans-serif}
 .demo{position:relative;margin-top:2em}
 #main_image{margin:0 auto 60px auto;height:438px;width:700px;background:black}
 #main_image img{margin-bottom:10px}
-#search form {float:right;margin-left:4em;margin-right: 2em}
+#search form {float:right;margin-left:4em}
 .info{text-align:left;width:700px;margin:30px auto;border-top:1px dotted #221;padding-top:30px}
 .info p{margin-top:1.6e}

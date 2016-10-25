@@ -12,12 +12,9 @@
 
     <h:body>
 
-        <div id="site"> 
-
-            <div id="header">
-                <ui:insert name="header" >
-                    <ui:include src="commonHeader.xhtml" />
-                </ui:insert>
+        <div id="site">     
+                <div id="header">
+                 </div>
 
                 <div id="menu">
                     <ul>
@@ -33,23 +30,20 @@
                 </div>
                 <div id="search">
                     <h:form>
-                        <fieldset>
                             <div id="search input" >
                                 <h:inputText id="promoServicio" value="#{logicaBuscador.wanted}"  style="width:218px;height:25px" ></h:inputText>
                                 <h:commandButton id="buttonBuscar" action="#{logicaBuscador.actionBuscar()}" image="images/search.png" > </h:commandButton> 
                             </div>
-
-
-                        </fieldset>
                     </h:form>
-                </div>
-            </div>
+                </div>          
             <br></br><br></br><br></br>
-            <div id="content"> 
-                <ui:insert name="content" >
-                    <ui:include src="commonContent.xhtml" />
-                </ui:insert>
-            </div>
+            <center>
+                <div id="content"> 
+                    <ui:insert name="content" >
+                        <ui:include src="commonContent.xhtml" />
+                    </ui:insert>
+                </div>
+            </center>
         </div>
 
     </h:body>

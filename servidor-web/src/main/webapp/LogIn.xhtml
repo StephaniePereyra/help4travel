@@ -17,16 +17,9 @@
         <div id="site">
             <ui:composition template="commonLayout.xhtml">
 
-                <ui:define name="header">
-                    <div id="header">
-                        <!--Definir pagina para heder -->
-                        <h1 id="sitename"><span>singIn</span></h1>
-                    </div>
-                </ui:define>
-
                 <ui:define name="content">
                     <h2>SingIn</h2>
-                    <h:form>
+                    <h:form style="align-items: center">
                         <div>LogIn</div> <br/>
                         <p> UserName </p>
                         <h:inputText value="#{datosUser.nickName}"></h:inputText> <br/><br/>
