@@ -11,7 +11,6 @@ public class LoginBean {
 	private String username = "not loggedin";
 
 	public LoginBean() {
-		loggedIn = true;
 	}
 
 	public boolean isLoggedIn() {

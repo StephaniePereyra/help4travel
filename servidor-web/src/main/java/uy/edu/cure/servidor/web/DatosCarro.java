@@ -143,34 +143,12 @@ public class DatosCarro implements Serializable {
         oculto = new ArrayList();
         Oculta o = new Oculta();
         oculto.add(o);
-
         nickSession = datosuser.getNickName();
         servicios = usuariocontroller.obtenerCliente(nickSession).getCarrito().getServicios();
         promociones = usuariocontroller.obtenerCliente(nickSession).getCarrito().getPromociones();
         cantidadServicios = usuariocontroller.obtenerCliente(nickSession).getCarrito().getCantidadServicios();
         cantidadPromos = usuariocontroller.obtenerCliente(nickSession).getCarrito().getCantidadPromociones();
         totalCarro = usuariocontroller.obtenerCliente(nickSession).getCarrito().getPrecio();
-
-        /*Servicio s = new Servicio();
-        Servicio s1 = new Servicio();
-        s.setNombre("servicio1");
-        s.setPrecio(1000);
-        s.setDescripcion("Es un servicio de prueba");
-        s1.setNombre("servicio2");
-        s1.setPrecio(1200);
-        s.setDescripcion("Es un servicio de prueba x2");
-        servicios.add(s);
-        servicios.add(s1);
-
-        Promocion p1 = new Promocion();
-        Promocion p2 = new Promocion();
-        p1.setNombre("SuperPromo");
-        p1.setPrecioTotal(852);
-        p2.setNombre("RESuperPromo");
-        p2.setPrecioTotal(1525);
-        promociones.add(p1);
-        promociones.add(p2);*/
-        
         if (servicios.isEmpty() && promociones.isEmpty()) {
             setCarritoEmpty(true);
         }
@@ -208,6 +186,6 @@ public class DatosCarro implements Serializable {
 
     public String confirmarCarro() {
         reservacontroller.agregarCarro(usuariocontroller.obtenerCliente(this.nickSession));
-        return "index";
+        return "/index";
     }
 }

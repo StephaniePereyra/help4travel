@@ -23,7 +23,7 @@ public class AuthFilter implements Filter {
 		LoginBean loginBean = (LoginBean) ((HttpServletRequest) request).getSession().getAttribute("loginBean");
 		if (loginBean == null || !loginBean.isLoggedIn()) {
 			String contextPath = ((HttpServletRequest) request).getContextPath();
-			((HttpServletResponse) response).sendRedirect(contextPath + "/login.xhtml");
+			((HttpServletResponse) response).sendRedirect(contextPath + "/LogIn.xhtml");
 		}
 		chain.doFilter(request, response);
 	}

@@ -20,6 +20,9 @@ import uy.edu.cure.servidor.central.dto.Promocion;
 import uy.edu.cure.servidor.central.dto.Proveedor;
 import uy.edu.cure.servidor.central.dto.Reserva;
 import uy.edu.cure.servidor.central.dto.Servicio;
+import uy.edu.cure.servidor.central.lib.ServicioController;
+import uy.edu.cure.servidor.central.lib.ServicioControllerImpl;
+import uy.edu.cure.servidor.central.lib.PromocionControllerImpl;
 import uy.edu.cure.servidor.central.lib.UsuarioController;
 import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
 import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
@@ -40,8 +43,13 @@ public class DatosReserva {
     String nombre;
     @Jeringa(value = "usuariocontroller")
     private UsuarioController usuariocontroller;
+    @Jeringa(value = "serviciocontroller")
+    private ServicioControllerImpl serviciocontroller;
+    @Jeringa(value = "promocioncontroller")
+    private PromocionControllerImpl promocioncontroller;
     @ManagedProperty(value = "#{datosUser}")
     private DatosUser datosuser;
+    
 
     public DatosReserva() {
         try {
@@ -49,16 +57,6 @@ public class DatosReserva {
         } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
             e.printStackTrace();
         }
-
-        double precio = 0;
-        Date fecha = null;
-        Pais pais = new Pais("Uruguay");
-        Ciudad ciudad = new Ciudad("Maldonado", pais);
-        Proveedor proveedor = new Proveedor("Pepe", "Pedro", "Nose", "algo@correo.com", fecha, "Empresa", "www.empresa.com", "imagen", "password");
-        Servicio servicioAux = new Servicio("Servicio1", "Algo", precio, ciudad, ciudad, proveedor);
-        servicioAux.setPrecio(1000);
-        this.servicio = servicioAux;
-
     }
 
     public DatosUser getDatosuser() {
@@ -114,11 +112,11 @@ public class DatosReserva {
         setNickName(datosuser.getNickName());
     }
 
-    public String agregarServicio() {
+    public String agregarServicio( String servicio,String proveedor) {
 
         if (usuariocontroller.existeCliente(nickName)) {
             Cliente cliente = usuariocontroller.obtenerCliente(this.nickName);
-              
+            this.setServicio(serviciocontroller.obtenerServicio(servicio, proveedor));
                 if(cliente.getCarrito().getServicios().contains(this.servicio)){
                     int posicion = cliente.getCarrito().getServicios().indexOf(this.servicio);
                     int cantidadServicio = cliente.getCarrito().getCantidadServicios().get(posicion) + this.cantidad;
@@ -142,12 +140,12 @@ public class DatosReserva {
         }
     }
 
-    public String agregarPromocion() {
+    public String agregarPromocion(String promocion,String proveedor) {
     
        
         if (usuariocontroller.existeCliente(nickName)) {
             Cliente cliente = usuariocontroller.obtenerCliente(this.nickName);
-                
+            this.setPromocion(promocioncontroller.obtenerPromocion(promocion,proveedor));    
                 if(cliente.getCarrito().getPromociones().contains(this.promocion)){
                     int posicion = cliente.getCarrito().getPromociones().indexOf(this.promocion);
                     int cantidadPromocion = cliente.getCarrito().getCantidadPromociones().get(posicion) + this.cantidad;

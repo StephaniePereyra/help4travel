@@ -46,7 +46,7 @@ public class VerInfoPromocion {
         Map<String,String> params = fc.getExternalContext().getRequestParameterMap();
         nombre =  params.get("nombrePromocion"); 
         proveedor =  params.get("proveedorPromocion");
-        return "InfoPromocion.xhtml";
+        return "InfoPromocion";
     }
 
     public String getNombre() {

@@ -26,17 +26,7 @@ and open the template in the editor.
                 padding: 5px; 
             }
         </style>
-        <script type="text/javascript">
-            function Confirm() {
-            var mensaje = confirm("¿Seguro desea confirmar la reserva?");
-            if (mensaje) {
-            alert("Reserva realizada con exito.");
-            }
-            else {
-            alert("Reserva cancelada. Puede seguir agregando a su carrito.");
-            }
-            }
-            </script>
+       
     </head>
     <body>
 
@@ -65,7 +55,7 @@ and open the template in the editor.
                         <td align="center">#{item.precio}</td>
                         <td align="center">#{datosCarro.cantidadServ(item)}</td>
                         <td align="center">#{item.precio * datosCarro.cantidadServ(item)}</td>
-                        <td align="center"><h:form> <h:commandLink action="#{datosCarro.eliminarServicio(item)}" ><h:graphicImage width="32" height="32" value="images/carrito.png" /> </h:commandLink>  </h:form> </td>
+                        <td align="center"><h:form> <h:commandLink action="#{datosCarro.eliminarServicio(item)}" ><h:graphicImage width="32" height="32" value="../images/carrito.png" /> </h:commandLink>  </h:form> </td>
                     </tr>
                 </c:forEach>
                 <c:forEach items="#{datosCarro.promociones}" var="item">
@@ -74,7 +64,7 @@ and open the template in the editor.
                         <td align="center">#{item.precioTotal}</td>
                         <td align="center">#{datosCarro.cantidadPromo(item)}</td>
                         <td align="center">#{item.precioTotal * datosCarro.cantidadPromo(item)}</td>
-                        <td align="center"><h:form> <h:commandLink action="#{datosCarro.eliminarPromo(item)}"> <h:graphicImage width="32" height="32" value="images/carrito.png" /> </h:commandLink> </h:form> </td>
+                        <td align="center"><h:form> <h:commandLink action="#{datosCarro.eliminarPromo(item)}"> <h:graphicImage width="32" height="32" value="../images/carrito.png" /> </h:commandLink> </h:form> </td>
                     </tr>
                 </c:forEach> 
                 <tr>
@@ -83,7 +73,7 @@ and open the template in the editor.
                     <td></td>
                     <td></td>
                     <td align="center">#{datosCarro.totalCarro}</td>
-                    <td align="center"><h:form> <h:commandLink action="#{datosCarro.confirmarCarro()}" rendered="#{!datosCarro.carritoEmpty}" onclick="Confirm()"> <h:graphicImage width="32" height="32" value="images/carritoconf.png" /> </h:commandLink>  </h:form> </td>
+                    <td align="center"><h:form> <h:commandLink action="#{datosCarro.confirmarCarro()}" rendered="#{!datosCarro.carritoEmpty}" > <h:graphicImage width="32" height="32" value="../images/carritoconf.png" /> </h:commandLink>  </h:form> </td>
                 </tr>
             </table>
 
