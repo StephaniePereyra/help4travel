@@ -13,6 +13,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import uy.edu.cure.servidor.central.dto.Cliente;
+import uy.edu.cure.servidor.central.dto.Promocion;
 import uy.edu.cure.servidor.central.dto.Reserva;
 import uy.edu.cure.servidor.central.dto.Servicio;
 import uy.edu.cure.servidor.central.dto.Usuario;
@@ -39,6 +40,10 @@ public class VerReserva {
     private String nombre;
     private String proveedor;
     private List<Reserva> reservas = new ArrayList<>();
+    private List <Servicio> servicios = new ArrayList<>();
+    private List <Promocion> promociones = new ArrayList<>();
+    private List <Integer> cantReservas = new ArrayList<>();
+    private Integer nroReserva;
 
     public VerReserva() {
         try {
@@ -59,6 +64,18 @@ public class VerReserva {
                 reservas.add(reservaController.obtenerTodasReservas().get(i));
             }
         }
+        if(!reservas.isEmpty()){
+            for (int i = 0; i<reservas.size();i++){
+                cantReservas.add(i);
+            }
+            
+        }
+        
+    }
+    
+    public void serviciosPromos(){
+        servicios=reservas.get(nroReserva).getServicios();
+        promociones=reservas.get(nroReserva).getPromociones();
     }
 
     public DatosUser getDatosuser() {
@@ -108,5 +125,38 @@ public class VerReserva {
     public void setReservas(List<Reserva> reservas) {
         this.reservas = reservas;
     }
+
+    public List<Servicio> getServicios() {
+        return servicios;
+    }
+
+    public void setServicios(List<Servicio> servicios) {
+        this.servicios = servicios;
+    }
+
+    public List<Promocion> getPromociones() {
+        return promociones;
+    }
+
+    public void setPromociones(List<Promocion> promociones) {
+        this.promociones = promociones;
+    }
+
+    public Integer getNroReserva() {
+        return nroReserva;
+    }
+
+    public void setNroReserva(Integer nroReserva) {
+            this.nroReserva = nroReserva;
+    }
+
+    public List<Integer> getCantReservas() {
+        return cantReservas;
+    }
+
+    public void setCantReservas(List<Integer> cantReservas) {
+        this.cantReservas = cantReservas;
+    }
+    
 
 }
