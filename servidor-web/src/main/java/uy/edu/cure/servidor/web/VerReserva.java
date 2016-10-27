@@ -77,6 +77,16 @@ public class VerReserva {
             cantServicios = reservas.get(nroReserva).getCantidadServicios();                   
         }
     }
+    
+      public int cantidadServ(Servicio s) {
+        int index = servicios.indexOf(s);
+        return reservas.get(nroReserva).getCantidadServicios().get(index);
+    }
+
+    public int cantidadPromo(Promocion p) {
+        int index = promociones.indexOf(p);
+        return reservas.get(nroReserva).getCantidadPromociones().get(index);
+    }
 
     public DatosSesion getDatosSesion() {
         return datosSesion;

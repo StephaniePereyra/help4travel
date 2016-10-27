@@ -14,7 +14,7 @@
         <div id="site">
             <ui:composition template="commonLayout.xhtml">
                 <ui:define name="content">
-                    <a href="AgregarAReserva.xhtml">Agregar Reserva</a> <br/> <br/>
+         
                     <h:form>
                         <h:selectOneMenu value="#{verReserva.nroReserva}">
                             <f:selectItems value="#{verReserva.cantReservas}" var="nroReserva" itemValue="#{nroReserva}" itemLabel="#{nroReserva}" />                                 
@@ -24,17 +24,20 @@
                             <c:forEach items="#{verReserva.servicios}" var="servicio">
                                 <outputText> <b>Nombre:</b> #{servicio.nombre}</outputText><br></br>
                                 <outputText> <b>Precio:</b> #{servicio.precio}</outputText><br></br>
-                                <outputText> <b>Descripcion:</b> #{servicio.descripcion}</outputText><br/>  
-                                <c:forEach items="#{verReserva.cantServicios}" var="cantServicio">
-                                     <outputText> <b>Cantidad:</b> #{cantServicio}</outputText><br></br>
-                                </c:forEach>
+                                <outputText> <b>Descripcion:</b> #{servicio.descripcion}</outputText><br/> 
+                                <outputText> <b>Precio total:</b> #{servicio.precio * verReserva.cantidadServ(servicio)}</outputText><br></br>
+                                <outputText> <b>Cantidad:</b> #{verReserva.cantidadServ(servicio)}</outputText><br></br>
+                                <div>----------------------------------------------------</div>
                             </c:forEach>
                             <div>Promociones</div><br></br><br></br>
                             <c:forEach items="#{verReserva.promociones}" var="promocion">
                                 <br/><outputText> <b>Nombre:</b> #{promocion.nombre}</outputText><br/>
                                 <br/><outputText> <b>Precio:</b> #{promocion.precioTotal}</outputText><br/>
                                 <br/><outputText> <b>Proveedor:</b> #{promocion.proveedor}</outputText><br/>
+                                <outputText> <b>Precio total:</b> #{promocion.precioTotal * verReserva.cantidadPromo(promocion)}</outputText><br></br>
+                                <outputText> <b>Cantidad:</b> #{verReserva.cantidadPromo(promocion)}</outputText><br></br>
                                 <br></br>
+                                 <div>----------------------------------------------------</div>
                             </c:forEach>
                         </h:commandButton>     
                     </h:form>
