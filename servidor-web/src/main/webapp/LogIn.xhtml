@@ -18,16 +18,20 @@
             <ui:composition template="commonLayout.xhtml">
 
                 <ui:define name="content">
-                    <h2>SingIn</h2>
-                    <h:form style="align-items: center">
+                    <h:form rendered="#{!datosSesion.loged}" style="align-items: center">
                         <div>LogIn</div> <br/>
                         <p> UserName </p>
-                        <h:inputText value="#{datosUser.nickName}"></h:inputText> <br/><br/>
+                        <h:inputText value="#{datosSesion.nickName}"></h:inputText> <br/><br/>
                         <p> PassWord </p> 
-                        <h:inputText value="#{datosUser.passWord}"></h:inputText> <br/><br/><br/>
-
-                        <h:commandButton value="Log In" action="#{datosUser.action}"></h:commandButton>       
+                        <h:inputSecret value="#{datosSesion.passWord}"></h:inputSecret> <br/><br/><br/>
+                        <h:outputText style="color: red" value="#{datosSesion.mnsjError}" rendered="#{datosSesion.mostrarError}"></h:outputText> <br/><br/>
+                        <h:commandButton value="Log In" action="#{datosSesion.logIn()}"></h:commandButton>
                     </h:form>
+                    <h:form rendered="#{datosSesion.loged}" style="align-items: center">
+                        <div>Log Out</div>
+                        <h:commandButton value="Log Out" action="#{datosSesion.logOut()}"></h:commandButton>
+                    </h:form>
+
                 </ui:define>
 
             </ui:composition>

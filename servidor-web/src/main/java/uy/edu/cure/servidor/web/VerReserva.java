@@ -32,7 +32,7 @@ import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
 public class VerReserva {
 
     @ManagedProperty(value = "#{datosUser}")
-    private DatosUser datosuser;  
+    private DatosSesion datosSesion;  
     @Jeringa(value = "serviciocontroller")
     private ServicioControllerImpl servicioController;
     @Jeringa(value = "usuariocontroller")
@@ -56,7 +56,7 @@ public class VerReserva {
     @PostConstruct
     public void listaReservas() {
         reservas = new ArrayList<>();
-        setNombre(datosuser.getNickName());
+        setNombre(datosSesion.getNickName());
         ReservaControllerImpl reservaController = new ReservaControllerImpl();
         
         for(int i=0;i<reservaController.obtenerTodasReservas().size();i++){
@@ -78,13 +78,14 @@ public class VerReserva {
         promociones=reservas.get(nroReserva).getPromociones();
     }
 
-    public DatosUser getDatosuser() {
-        return datosuser;
+    public DatosSesion getDatosSesion() {
+        return datosSesion;
     }
 
-    public void setDatosuser(DatosUser datosuser) {
-        this.datosuser = datosuser;
+    public void setDatosSesion(DatosSesion datosSesion) {
+        this.datosSesion = datosSesion;
     }
+
 
     public ServicioControllerImpl getServicioController() {
         return servicioController;

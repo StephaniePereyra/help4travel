@@ -19,12 +19,12 @@
                 <div id="menu">
                     <ul>
                         <li><a href="index.xhtml">Home</a></li>
-                        <li><a href="LogIn.xhtml">Login</a></li>                             
-                        <li><a href="secured/Carrito.xhtml">Carritow</a></li>
+                        <li><a href="LogIn.xhtml">LogIn/Out</a></li>
+                        <li><a href="Carrito.xhtml">Cart</a></li>
                         <li><a href="VerInfoProveedor.xhtml">Providers</a></li>
                         <li><a href="TodosServicios.xhtml">Services</a></li>
                         <li><a href="TodosPromocion.xhtml">Promotions</a></li>
-                        <li><a href="secured/VerPerfil.xhtml">Profile</a></li>
+                        <li><h:link value="Profile" rendered="#{datosSesion.loged}" outcome="VerPerfil.xhtml"></h:link></li>
                         <li><a href="AltaCliente.xhtml">SingUp</a></li>
                     </ul>
                 </div>

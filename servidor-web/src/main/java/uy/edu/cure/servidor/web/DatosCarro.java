@@ -5,14 +5,18 @@
  */
 package uy.edu.cure.servidor.web;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import uy.edu.cure.servidor.central.dto.Oculta;
 import uy.edu.cure.servidor.central.dto.Promocion;
 import uy.edu.cure.servidor.central.dto.Servicio;
@@ -29,8 +33,8 @@ import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
 @ViewScoped
 public class DatosCarro implements Serializable {
 
-    @ManagedProperty(value = "#{datosUser}")
-    private DatosUser datosuser;
+    @ManagedProperty(value = "#{datosSesion}")
+    DatosSesion datosSesion;
     @Jeringa(value = "usuariocontroller")
     private UsuarioControllerImpl usuariocontroller;
     @Jeringa(value = "reservacontroller")
@@ -43,6 +47,7 @@ public class DatosCarro implements Serializable {
     private List<Integer> cantidadServicios;
     private List<Integer> cantidadPromos;
     private List<Oculta> oculto;
+    private String redirect;
 
     public DatosCarro() {
         try {
@@ -50,13 +55,83 @@ public class DatosCarro implements Serializable {
         } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
             e.printStackTrace();
         }
+    }
 
+    @PostConstruct
+    public void CargarArray() {
+        if(datosSesion.isLoged()){
+        servicios = new ArrayList();
+        promociones = new ArrayList();
+        cantidadServicios = new ArrayList();
+        cantidadPromos = new ArrayList();
+        oculto = new ArrayList();
+        Oculta o = new Oculta();
+        oculto.add(o);
+        nickSession = datosSesion.getNickName();
+        servicios = usuariocontroller.obtenerCliente(nickSession).getCarrito().getServicios();
+        promociones = usuariocontroller.obtenerCliente(nickSession).getCarrito().getPromociones();
+        cantidadServicios = usuariocontroller.obtenerCliente(nickSession).getCarrito().getCantidadServicios();
+        cantidadPromos = usuariocontroller.obtenerCliente(nickSession).getCarrito().getCantidadPromociones();
+        totalCarro = usuariocontroller.obtenerCliente(nickSession).getCarrito().getPrecio();
+        if (servicios.isEmpty() && promociones.isEmpty()) {
+            setCarritoEmpty(true);
+        }
+        }else{
+            try {
+                FacesContext.getCurrentInstance().getExternalContext().redirect("LogIn.xhtml");
+            } catch (IOException ex) {
+                Logger.getLogger(DatosCarro.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    public void eliminarServicio(Servicio s) {
+
+        int index = servicios.indexOf(s);
+        servicios.remove(s);
+        totalCarro = totalCarro - (s.getPrecio() * usuariocontroller.obtenerCliente(nickSession).getCarrito().getCantidadServicios().get(index));
+        usuariocontroller.obtenerCliente(nickSession).getCarrito().setPrecio(totalCarro);
+        usuariocontroller.obtenerCliente(nickSession).getCarrito().getCantidadServicios().remove(index);
+        usuariocontroller.obtenerCliente(nickSession).getCarrito().getServicios().remove(s);
+    }
+
+    public void eliminarPromo(Promocion p) {
+
+        int index = promociones.indexOf(p);
+        promociones.remove(p);
+        totalCarro = totalCarro - (p.getPrecioTotal() * usuariocontroller.obtenerCliente(nickSession).getCarrito().getCantidadPromociones().get(index));
+        usuariocontroller.obtenerCliente(nickSession).getCarrito().setPrecio(totalCarro);
+        usuariocontroller.obtenerCliente(nickSession).getCarrito().getCantidadPromociones().remove(index);
+        usuariocontroller.obtenerCliente(nickSession).getCarrito().getPromociones().remove(index);
+    }
+
+    public int cantidadServ(Servicio s) {
+        int index = servicios.indexOf(s);
+        return usuariocontroller.obtenerCliente(nickSession).getCarrito().getCantidadServicios().get(index);
+    }
+
+    public int cantidadPromo(Promocion p) {
+        int index = promociones.indexOf(p);
+        return usuariocontroller.obtenerCliente(nickSession).getCarrito().getCantidadPromociones().get(index);
+    }
+
+    public String confirmarCarro() {
+        reservacontroller.agregarCarro(usuariocontroller.obtenerCliente(this.nickSession));
+        return "/index";
     }
 
     public List<Servicio> getServicios() {
         return servicios;
     }
 
+    public String getRedirect() {
+        return redirect;
+    }
+
+    public void setRedirect(String redirect) {
+        this.redirect = redirect;
+    }
+    
     public void setServicios(List<Servicio> servicios) {
         this.servicios = servicios;
     }
@@ -75,22 +150,6 @@ public class DatosCarro implements Serializable {
 
     public void setNickSession(String nickSession) {
         this.nickSession = nickSession;
-    }
-
-    public DatosUser getDatosuser() {
-        return datosuser;
-    }
-
-    public void setDatosuser(DatosUser datosuser) {
-        this.datosuser = datosuser;
-    }
-
-    public UsuarioControllerImpl getUsuariocontroller() {
-        return usuariocontroller;
-    }
-
-    public void setUsuariocontroller(UsuarioControllerImpl usuariocontroller) {
-        this.usuariocontroller = usuariocontroller;
     }
 
     public List<Promocion> getPromociones() {
@@ -133,59 +192,11 @@ public class DatosCarro implements Serializable {
         this.oculto = oculto;
     }
 
-    @PostConstruct
-    public void cargarArray() {
-
-        servicios = new ArrayList();
-        promociones = new ArrayList();
-        cantidadServicios = new ArrayList();
-        cantidadPromos = new ArrayList();
-        oculto = new ArrayList();
-        Oculta o = new Oculta();
-        oculto.add(o);
-        nickSession = datosuser.getNickName();
-        servicios = usuariocontroller.obtenerCliente(nickSession).getCarrito().getServicios();
-        promociones = usuariocontroller.obtenerCliente(nickSession).getCarrito().getPromociones();
-        cantidadServicios = usuariocontroller.obtenerCliente(nickSession).getCarrito().getCantidadServicios();
-        cantidadPromos = usuariocontroller.obtenerCliente(nickSession).getCarrito().getCantidadPromociones();
-        totalCarro = usuariocontroller.obtenerCliente(nickSession).getCarrito().getPrecio();
-        if (servicios.isEmpty() && promociones.isEmpty()) {
-            setCarritoEmpty(true);
-        }
+    public DatosSesion getDatosSesion() {
+        return datosSesion;
     }
 
-    public void eliminarServicio(Servicio s) {
-
-        int index = servicios.indexOf(s);
-        servicios.remove(s);
-        totalCarro = totalCarro - (s.getPrecio() * usuariocontroller.obtenerCliente(nickSession).getCarrito().getCantidadServicios().get(index));
-        usuariocontroller.obtenerCliente(nickSession).getCarrito().setPrecio(totalCarro);
-        usuariocontroller.obtenerCliente(nickSession).getCarrito().getCantidadServicios().remove(index);
-        usuariocontroller.obtenerCliente(nickSession).getCarrito().getServicios().remove(s);
-    }
-
-    public void eliminarPromo(Promocion p) {
-
-        int index = promociones.indexOf(p);
-        promociones.remove(p);
-        totalCarro = totalCarro - (p.getPrecioTotal() * usuariocontroller.obtenerCliente(nickSession).getCarrito().getCantidadPromociones().get(index));
-        usuariocontroller.obtenerCliente(nickSession).getCarrito().setPrecio(totalCarro);
-        usuariocontroller.obtenerCliente(nickSession).getCarrito().getCantidadPromociones().remove(index);
-        usuariocontroller.obtenerCliente(nickSession).getCarrito().getPromociones().remove(index);
-    }
-
-    public int cantidadServ(Servicio s) {
-        int index = servicios.indexOf(s);
-        return usuariocontroller.obtenerCliente(nickSession).getCarrito().getCantidadServicios().get(index);
-    }
-
-    public int cantidadPromo(Promocion p) {
-        int index = promociones.indexOf(p);
-        return usuariocontroller.obtenerCliente(nickSession).getCarrito().getCantidadPromociones().get(index);
-    }
-
-    public String confirmarCarro() {
-        reservacontroller.agregarCarro(usuariocontroller.obtenerCliente(this.nickSession));
-        return "/index";
+    public void setDatosSesion(DatosSesion datosSesion) {
+        this.datosSesion = datosSesion;
     }
 }
