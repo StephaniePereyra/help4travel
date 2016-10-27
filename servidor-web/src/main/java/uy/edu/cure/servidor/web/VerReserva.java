@@ -8,15 +8,13 @@ package uy.edu.cure.servidor.web;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
-import uy.edu.cure.servidor.central.dto.Cliente;
+import javax.faces.bean.ViewScoped;
+import javax.annotation.PostConstruct;
 import uy.edu.cure.servidor.central.dto.Promocion;
 import uy.edu.cure.servidor.central.dto.Reserva;
 import uy.edu.cure.servidor.central.dto.Servicio;
-import uy.edu.cure.servidor.central.dto.Usuario;
 import uy.edu.cure.servidor.central.lib.ReservaControllerImpl;
 import uy.edu.cure.servidor.central.lib.ServicioControllerImpl;
 import uy.edu.cure.servidor.central.lib.UsuarioControllerImpl;
@@ -28,11 +26,11 @@ import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
  * @author juan
  */
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class VerReserva {
 
-    @ManagedProperty(value = "#{datosUser}")
-    private DatosSesion datosSesion;  
+    @ManagedProperty(value = "#{datosSesion}")
+    DatosSesion datosSesion;
     @Jeringa(value = "serviciocontroller")
     private ServicioControllerImpl servicioController;
     @Jeringa(value = "usuariocontroller")
@@ -40,9 +38,9 @@ public class VerReserva {
     private String nombre;
     private String proveedor;
     private List<Reserva> reservas = new ArrayList<>();
-    private List <Servicio> servicios = new ArrayList<>();
-    private List <Promocion> promociones = new ArrayList<>();
-    private List <Integer> cantReservas = new ArrayList<>();
+    private List<Servicio> servicios = new ArrayList<>();
+    private List<Promocion> promociones = new ArrayList<>();
+    private List<Integer> cantReservas = new ArrayList<>();
     private Integer nroReserva;
 
     public VerReserva() {
@@ -52,30 +50,30 @@ public class VerReserva {
             e.printStackTrace();
         }
     }
-    
+
     @PostConstruct
     public void listaReservas() {
         reservas = new ArrayList<>();
         setNombre(datosSesion.getNickName());
         ReservaControllerImpl reservaController = new ReservaControllerImpl();
-        
-        for(int i=0;i<reservaController.obtenerTodasReservas().size();i++){
-            if((reservaController.obtenerTodasReservas().get(i).getCliente().getNickName()).equals(nombre)){
+
+        for (int i = 0; i < reservaController.obtenerTodasReservas().size(); i++) {
+            if ((reservaController.obtenerTodasReservas().get(i).getCliente().getNickName()).equals(nombre)) {
                 reservas.add(reservaController.obtenerTodasReservas().get(i));
             }
         }
-        if(!reservas.isEmpty()){
-            for (int i = 0; i<reservas.size();i++){
+        if (!reservas.isEmpty()) {
+            for (int i = 0; i < reservas.size(); i++) {
                 cantReservas.add(i);
             }
-            
+
         }
-        
+
     }
-    
-    public void serviciosPromos(){
-        servicios=reservas.get(nroReserva).getServicios();
-        promociones=reservas.get(nroReserva).getPromociones();
+
+    public void serviciosPromos() {
+        servicios = reservas.get(nroReserva).getServicios();
+        promociones = reservas.get(nroReserva).getPromociones();
     }
 
     public DatosSesion getDatosSesion() {
@@ -85,7 +83,6 @@ public class VerReserva {
     public void setDatosSesion(DatosSesion datosSesion) {
         this.datosSesion = datosSesion;
     }
-
 
     public ServicioControllerImpl getServicioController() {
         return servicioController;
@@ -148,7 +145,7 @@ public class VerReserva {
     }
 
     public void setNroReserva(Integer nroReserva) {
-            this.nroReserva = nroReserva;
+        this.nroReserva = nroReserva;
     }
 
     public List<Integer> getCantReservas() {
@@ -158,6 +155,5 @@ public class VerReserva {
     public void setCantReservas(List<Integer> cantReservas) {
         this.cantReservas = cantReservas;
     }
-    
 
 }
