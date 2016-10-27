@@ -107,13 +107,13 @@ public class DatosReserva {
         this.datosSesion = datosSesion;
     }
   
-
+    @PostConstruct
     public void init() {
         setNickName(datosSesion.getNickName());
     }
 
     public String agregarServicio(String servicio, String proveedor) {
-        if (usuariocontroller.existeCliente(nickName)) {
+        if (datosSesion.isLoged()) {
             if (this.cantidad > 0) {
                 Cliente cliente = usuariocontroller.obtenerCliente(this.nickName);
                 this.setServicio(serviciocontroller.obtenerServicio(servicio, proveedor));
@@ -138,13 +138,13 @@ public class DatosReserva {
 
         } else {
 
-            return "LogIn";
+            return "LogIn.xhtml";
         }
     }
 
     public String agregarPromocion(String promocion, String proveedor) {
 
-        if (usuariocontroller.existeCliente(nickName)) {
+        if (datosSesion.isLoged()) {
             if (this.cantidad > 0) {
                 Cliente cliente = usuariocontroller.obtenerCliente(this.nickName);
                 this.setPromocion(promocioncontroller.obtenerPromocion(promocion, proveedor));

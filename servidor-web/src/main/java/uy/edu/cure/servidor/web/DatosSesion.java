@@ -7,7 +7,6 @@ package uy.edu.cure.servidor.web;
 
 import java.lang.reflect.InvocationTargetException;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import uy.edu.cure.servidor.central.dto.Usuario;
 import uy.edu.cure.servidor.central.lib.UsuarioControllerImpl;
