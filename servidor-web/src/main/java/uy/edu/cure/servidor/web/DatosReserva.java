@@ -47,14 +47,8 @@ public class DatosReserva {
     private ServicioControllerImpl serviciocontroller;
     @Jeringa(value = "promocioncontroller")
     private PromocionControllerImpl promocioncontroller;
-<<<<<<< refs/remotes/origin/master
-    @ManagedProperty(value = "#{datosUser}")
-    private DatosUser datosuser;
-=======
     @ManagedProperty(value = "#{datosSesion}")
     private DatosSesion datosSesion;
-    
->>>>>>> Arreglado navegacion, controles de log, agregado logOut, ver perfil solo disponible si estas logueado
 
     public DatosReserva() {
         try {
@@ -105,10 +99,6 @@ public class DatosReserva {
         this.mayorCero = mayorCero;
     }
 
-<<<<<<< refs/remotes/origin/master
-    
-
-=======
     public DatosSesion getDatosSesion() {
         return datosSesion;
     }
@@ -117,8 +107,7 @@ public class DatosReserva {
         this.datosSesion = datosSesion;
     }
   
->>>>>>> Arreglado navegacion, controles de log, agregado logOut, ver perfil solo disponible si estas logueado
-    @PostConstruct
+
     public void init() {
         setNickName(datosSesion.getNickName());
     }
