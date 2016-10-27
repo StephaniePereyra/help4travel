@@ -41,6 +41,7 @@ public class VerReserva {
     private List<Servicio> servicios = new ArrayList<>();
     private List<Promocion> promociones = new ArrayList<>();
     private List<Integer> cantReservas = new ArrayList<>();
+    private List<Integer> cantServicios = new ArrayList<>();
     private Integer nroReserva;
 
     public VerReserva() {
@@ -66,14 +67,15 @@ public class VerReserva {
             for (int i = 0; i < reservas.size(); i++) {
                 cantReservas.add(i);
             }
-
         }
-
     }
 
     public void serviciosPromos() {
         servicios = reservas.get(nroReserva).getServicios();
         promociones = reservas.get(nroReserva).getPromociones();
+        if(!servicios.isEmpty()){
+            cantServicios = reservas.get(nroReserva).getCantidadServicios();                   
+        }
     }
 
     public DatosSesion getDatosSesion() {
@@ -154,6 +156,14 @@ public class VerReserva {
 
     public void setCantReservas(List<Integer> cantReservas) {
         this.cantReservas = cantReservas;
+    }
+
+    public List<Integer> getCantServicios() {
+        return cantServicios;
+    }
+
+    public void setCantServicios(List<Integer> cantServicios) {
+        this.cantServicios = cantServicios;
     }
 
 }

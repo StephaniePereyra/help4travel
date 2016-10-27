@@ -14,29 +14,30 @@
         <div id="site">
             <ui:composition template="commonLayout.xhtml">
                 <ui:define name="content">
-                    <h2>Este es el inicio aqui va todo el contenido</h2>
                     <a href="AgregarAReserva.xhtml">Agregar Reserva</a> <br/> <br/>
-                     <h:form>
-            <h:selectOneMenu value="#{verReserva.nroReserva}">
-                <f:selectItems value="#{verReserva.cantReservas}" var="nroReserva" itemValue="#{nroReserva}" itemLabel="#{nroReserva}" />                                 
-            </h:selectOneMenu>         
-            <h:commandButton value="Mostrar" action="#{verReserva.serviciosPromos()}" >
-                <div>Servicios</div> 
-                <c:forEach items="#{verReserva.servicios}" var="servicio"><br></br>
-                    <outputText> <b>Nombre:</b> #{servicio.nombre}</outputText><br></br>
-                    <outputText> <b>Precio:</b> #{servicio.precio}</outputText><br></br>
-                    <outputText> <b>Descripcion:</b> #{servicio.descripcion}</outputText><br/>
-                    <br></br>
-                </c:forEach>                
-             <div>Promociones</div><br></br><br></br>
-             <c:forEach items="#{verReserva.promociones}" var="promocion">
-                  <br/><outputText> <b>Nombre:</b> #{promocion.nombre}</outputText><br/>
-                  <br/><outputText> <b>Precio:</b> #{promocion.precioTotal}</outputText><br/>
-                  <br/><outputText> <b>Proveedor:</b> #{promocion.proveedor}</outputText><br/>
-                  <br></br>
-                </c:forEach>
-            </h:commandButton>     
-        </h:form>
+                    <h:form>
+                        <h:selectOneMenu value="#{verReserva.nroReserva}">
+                            <f:selectItems value="#{verReserva.cantReservas}" var="nroReserva" itemValue="#{nroReserva}" itemLabel="#{nroReserva}" />                                 
+                        </h:selectOneMenu>         
+                        <h:commandButton value="Mostrar" action="#{verReserva.serviciosPromos()}" >
+                            <div>Servicios</div> 
+                            <c:forEach items="#{verReserva.servicios}" var="servicio">
+                                <outputText> <b>Nombre:</b> #{servicio.nombre}</outputText><br></br>
+                                <outputText> <b>Precio:</b> #{servicio.precio}</outputText><br></br>
+                                <outputText> <b>Descripcion:</b> #{servicio.descripcion}</outputText><br/>  
+                                <c:forEach items="#{verReserva.cantServicios}" var="cantServicio">
+                                     <outputText> <b>Cantidad:</b> #{cantServicio}</outputText><br></br>
+                                </c:forEach>
+                            </c:forEach>
+                            <div>Promociones</div><br></br><br></br>
+                            <c:forEach items="#{verReserva.promociones}" var="promocion">
+                                <br/><outputText> <b>Nombre:</b> #{promocion.nombre}</outputText><br/>
+                                <br/><outputText> <b>Precio:</b> #{promocion.precioTotal}</outputText><br/>
+                                <br/><outputText> <b>Proveedor:</b> #{promocion.proveedor}</outputText><br/>
+                                <br></br>
+                            </c:forEach>
+                        </h:commandButton>     
+                    </h:form>
                 </ui:define>
             </ui:composition>
         </div>
