@@ -30,6 +30,7 @@
                                 <c:forEach items="#{itemFiltrado.promocionServicios}" var="itemServicios">
                                     <h:outputText value="#{itemServicios} |"/>
                                 </c:forEach> <br/>
+                                <p style='padding-left: 50em'> <h:commandButton value="Agregar Promocion" action="#{datosReserva.agregarPromocion(itemFiltrado.nombre,itemFiltrado.proveedor)}"></h:commandButton> </p>
                             </fieldset>
                         </c:forEach>
                     </h:form>

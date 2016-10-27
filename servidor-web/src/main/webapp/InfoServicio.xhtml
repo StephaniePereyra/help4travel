@@ -33,7 +33,9 @@
                         </ul>
                         <p> Cantidad </p> 
                         <h:inputText value="#{datosReserva.cantidad}"></h:inputText> <br/> <br/>
+                        <h:outputLabel style="color: red " value="La cantidad debe ser mayor a 0" rendered="#{!datosReserva.mayorCero}"></h:outputLabel> <br/> <br/>
                         <h:commandButton value="Agregar Servicio" action="#{datosReserva.agregarServicio(verInfoServicio.nombre,verInfoServicio.proveedor)}"></h:commandButton>
+                        
                     </h:form>
                 </ui:define>
             </ui:composition>

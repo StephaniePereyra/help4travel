@@ -73,7 +73,7 @@ and open the template in the editor.
                     <td></td>
                     <td></td>
                     <td align="center">#{datosCarro.totalCarro}</td>
-                    <td align="center"><h:form> <h:commandLink action="#{datosCarro.confirmarCarro()}" rendered="#{!datosCarro.carritoEmpty}" > <h:graphicImage width="32" height="32" value="../images/carritoconf.png" /> </h:commandLink>  </h:form> </td>
+                    <td align="center"><h:form> <h:commandLink action="#{datosCarro.confirmarCarro()}" rendered="#{!datosCarro.carritoEmpty}" onclick="alert('Reserva registrada')" > <h:graphicImage width="32" height="32" value="../images/carritoconf.png" />  </h:commandLink>  </h:form> </td>
                 </tr>
             </table>
 

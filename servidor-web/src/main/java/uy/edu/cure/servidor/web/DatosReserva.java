@@ -37,10 +37,10 @@ public class DatosReserva {
 
     private Servicio servicio;
     private Promocion promocion;
-    int cantidad;
+    int cantidad = 1;
     String nickName = "";
     Reserva carrito;
-    String nombre;
+    boolean mayorCero = true;
     @Jeringa(value = "usuariocontroller")
     private UsuarioController usuariocontroller;
     @Jeringa(value = "serviciocontroller")
@@ -49,7 +49,6 @@ public class DatosReserva {
     private PromocionControllerImpl promocioncontroller;
     @ManagedProperty(value = "#{datosUser}")
     private DatosUser datosuser;
-    
 
     public DatosReserva() {
         try {
@@ -99,75 +98,81 @@ public class DatosReserva {
         this.nickName = nickName;
     }
 
-    public String getNombre() {
-        return nombre;
+    public boolean isMayorCero() {
+        return mayorCero;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setMayorCero(boolean mayorCero) {
+        this.mayorCero = mayorCero;
     }
-  
+
+    
+
     @PostConstruct
     public void init() {
         setNickName(datosuser.getNickName());
     }
 
-    public String agregarServicio( String servicio,String proveedor) {
-
+    public String agregarServicio(String servicio, String proveedor) {
         if (usuariocontroller.existeCliente(nickName)) {
-            Cliente cliente = usuariocontroller.obtenerCliente(this.nickName);
-            this.setServicio(serviciocontroller.obtenerServicio(servicio, proveedor));
-                if(cliente.getCarrito().getServicios().contains(this.servicio)){
+            if (this.cantidad > 0) {
+                Cliente cliente = usuariocontroller.obtenerCliente(this.nickName);
+                this.setServicio(serviciocontroller.obtenerServicio(servicio, proveedor));
+                if (cliente.getCarrito().getServicios().contains(this.servicio)) {
                     int posicion = cliente.getCarrito().getServicios().indexOf(this.servicio);
                     int cantidadServicio = cliente.getCarrito().getCantidadServicios().get(posicion) + this.cantidad;
-                    cliente.getCarrito().getCantidadServicios().add(posicion,cantidadServicio);
-                }
-                else{
+                    cliente.getCarrito().getCantidadServicios().add(posicion, cantidadServicio);
+                } else {
                     cliente.getCarrito().setServicio(this.servicio);
                 }
-                for(int i = 1;i <= this.cantidad; i++){
+                for (int i = 1; i <= this.cantidad; i++) {
                     cliente.getCarrito().setPrecio(cliente.getCarrito().getPrecio() + this.servicio.getPrecio());
                 }
-                
+
                 cliente.getCarrito().getCantidadServicios().add(this.cantidad);
-            
-           
-            this.nombre = usuariocontroller.obtenerCliente(this.nickName).getCarrito().getServicios().get(0).getNombre();
+                this.mayorCero = true;
+            }
+            else{
+                this.mayorCero = false;
+            }
             return "";
+
         } else {
-            this.nombre = "Nooooo";
+
             return "LogIn";
         }
     }
 
-    public String agregarPromocion(String promocion,String proveedor) {
-    
-       
+    public String agregarPromocion(String promocion, String proveedor) {
+
         if (usuariocontroller.existeCliente(nickName)) {
-            Cliente cliente = usuariocontroller.obtenerCliente(this.nickName);
-            this.setPromocion(promocioncontroller.obtenerPromocion(promocion,proveedor));    
-                if(cliente.getCarrito().getPromociones().contains(this.promocion)){
+            if (this.cantidad > 0) {
+                Cliente cliente = usuariocontroller.obtenerCliente(this.nickName);
+                this.setPromocion(promocioncontroller.obtenerPromocion(promocion, proveedor));
+                if (cliente.getCarrito().getPromociones().contains(this.promocion)) {
                     int posicion = cliente.getCarrito().getPromociones().indexOf(this.promocion);
                     int cantidadPromocion = cliente.getCarrito().getCantidadPromociones().get(posicion) + this.cantidad;
-                    cliente.getCarrito().getCantidadPromociones().add(posicion,cantidadPromocion);
-                }
-                else{
+                    cliente.getCarrito().getCantidadPromociones().add(posicion, cantidadPromocion);
+                } else {
                     cliente.getCarrito().setPromocion(this.promocion);
                 }
-                
-                for(int i = 1;i <= this.cantidad; i++){
+
+                for (int i = 1; i <= this.cantidad; i++) {
                     cliente.getCarrito().setPrecio(cliente.getCarrito().getPrecio() + this.promocion.getPrecioTotal() * this.promocion.getDescuento() / 100);
                 }
-                cliente.getCarrito().setPromocion(this.promocion);
                 cliente.getCarrito().getCantidadPromociones().add(this.cantidad);
-            
-           
-            this.nombre = usuariocontroller.obtenerCliente(this.nickName).getCarrito().getPromociones().get(0).getNombre();
+                this.mayorCero = true;
+            }
+            else{
+                this.mayorCero = false;
+            }
             return "";
+
         } else {
-            this.nombre = "Nooooo";
+
             return "LogIn";
         }
-    }    
+
+    }
 
 }
