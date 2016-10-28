@@ -17,19 +17,20 @@
             <ui:composition template="commonLayout.xhtml">
                 <ui:define name="content">
                     <h:form>
-                        <h1>#{verInfoPromocion.nombre}</h1>
+                        <fieldset><h1>#{verInfoPromocion.nombre}</h1></fieldset><br/>
                         <pre>Proveedor: <h:outputText value="#{verInfoPromocion.proveedor}"></h:outputText></pre>
                         <pre>Precio: <h:outputText value="#{verInfoPromocion.precio}"></h:outputText></pre>
                         <pre>Servicios: </pre>
                         <c:forEach items="#{verInfoPromocion.servicios}" var="servicios">
-                            <h:commandLink action="#{verInfoServicio.getThatService()}" value="#{servicios}">
+                            <h:commandLink style="font-size: large" action="#{verInfoServicio.getThatService()}" value="#{servicios}">
                                 <f:param name="nombreServicio" value="#{servicios}"/>
                                 <f:param name="proveedorServicio" value="#{verInfoPromocion.proveedor}"/>
-                            </h:commandLink> <br/> 
+                            </h:commandLink> <br/>
                         </c:forEach>
+                        <br/> 
                         <p> Cantidad </p> 
-                        <h:inputText value="#{datosReserva.cantidad}"></h:inputText> <br/> <br/>
-                        <h:outputLabel style="color: red " value="La cantidad debe ser mayor a 0" rendered="#{!datosReserva.mayorCero}"></h:outputLabel> <br/> <br/>
+                        <h:inputText value="#{datosReserva.cantidad}"></h:inputText> <br/>
+                        <h:outputLabel style="color: red " value="La cantidad debe ser mayor a 0" rendered="#{!datosReserva.mayorCero}"></h:outputLabel> <br/>
                         <h:commandLink action="#{datosReserva.agregarPromocion(verInfoPromocion.nombre,verInfoPromocion.proveedor)}"><h:graphicImage width="130" height="42" value="images/carritomas.png" /></h:commandLink>
                     </h:form>
                 </ui:define>

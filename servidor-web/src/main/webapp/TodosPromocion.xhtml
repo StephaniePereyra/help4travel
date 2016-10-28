@@ -20,15 +20,15 @@
                     <h:form>
                         <c:forEach items="#{verInfoPromocion.listadoPromociones()}" var="itemFiltrado">
                             <fieldset>
-                                <legend>
-                                    <h:commandLink action="#{verInfoPromocion.getThatPromo()}" value="#{itemFiltrado.nombre}, #{itemFiltrado.proveedor}">
+                                <legend align="center">
+                                    <h:commandLink style="font-size: large" action="#{verInfoPromocion.getThatPromo()}" value="#{itemFiltrado.nombre}, #{itemFiltrado.proveedor}">
                                         <f:param name="nombrePromocion" value="#{itemFiltrado.nombre}"/>
                                         <f:param name="proveedorPromocion" value="#{itemFiltrado.proveedor}"/>
                                     </h:commandLink> <br/>
                                 </legend>
                                 <h:outputText value="Servicios: #{itemFiltrado.promocionLineServicios}"/> <br/>
                                 <h:outputText value="Precio: #{itemFiltrado.precio}"/> <br/>
-                                <p style='padding-left: 50em'> <h:commandLink action="#{datosReserva.agregarPromocion(itemFiltrado.nombre,itemFiltrado.proveedor)}"><h:graphicImage width="130" height="42" value="images/carritomas.png" /></h:commandLink> </p>
+                                <h:commandLink action="#{datosReserva.agregarPromocion(itemFiltrado.nombre,itemFiltrado.proveedor)}"><h:graphicImage width="130" height="42" value="images/carritomas.png" /></h:commandLink>
                             </fieldset>
                         </c:forEach>
                     </h:form>
