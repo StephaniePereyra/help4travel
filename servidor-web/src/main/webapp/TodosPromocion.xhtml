@@ -28,7 +28,7 @@
                                 </legend>
                                 <h:outputText value="Servicios: #{itemFiltrado.promocionLineServicios}"/> <br/>
                                 <h:outputText value="Precio: #{itemFiltrado.precio}"/> <br/>
-                                <p style='padding-left: 50em'> <h:commandButton value="Agregar Promocion" action="#{datosReserva.agregarPromocion(itemFiltrado.nombre,itemFiltrado.proveedor)}"></h:commandButton> </p>
+                                <p style='padding-left: 50em'> <h:commandLink action="#{datosReserva.agregarPromocion(itemFiltrado.nombre,itemFiltrado.proveedor)}"><h:graphicImage width="130" height="42" value="images/carritomas.png" /></h:commandLink> </p>
                             </fieldset>
                         </c:forEach>
                     </h:form>
