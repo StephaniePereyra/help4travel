@@ -150,7 +150,7 @@ public class DatosReserva {
                 }
 
                 for (int i = 1; i <= this.cantidad; i++) {
-                    cliente.getCarrito().setPrecio(cliente.getCarrito().getPrecio() + this.promocion.getPrecioTotal() * this.promocion.getDescuento() / 100);
+                    cliente.getCarrito().setPrecio(cliente.getCarrito().getPrecio() + this.promocion.getPrecioTotal());
                 }
                 cliente.getCarrito().getCantidadPromociones().add(this.cantidad);
                 this.mayorCero = true;
