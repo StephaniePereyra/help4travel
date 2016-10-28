@@ -19,8 +19,8 @@
                     <h:form>
                         <c:forEach items="#{verInfoServicio.listadoServicios()}" var="itemFiltrado">
                             <fieldset>
-                                <legend>
-                                    <h:commandLink action="#{verInfoServicio.getThatService()}" value="#{itemFiltrado.nombre}, #{itemFiltrado.proveedor}">
+                                <legend align="center">
+                                    <h:commandLink style="font-size: large" action="#{verInfoServicio.getThatService()}" value="#{itemFiltrado.nombre}, #{itemFiltrado.proveedor}">
                                         <f:param name="nombreServicio" value="#{itemFiltrado.nombre}"/>
                                         <f:param name="proveedorServicio" value="#{itemFiltrado.proveedor}"/>
                                     </h:commandLink> <br/>

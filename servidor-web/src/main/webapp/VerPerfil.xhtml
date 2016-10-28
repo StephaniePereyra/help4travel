@@ -21,15 +21,23 @@
                     </div> 
                 </ui:define> 
                 <ui:define name="content">
-                <div  align="center"><h2><b>VerInfoUsuario</b></h2></div>
-                <p  align="center"><h3><b>Informacion de #{datosSesion.nickName}</b></h3></p>
-                <ul>
-                    <li><b> NickName: #{datosSesion.usuario.nickName}</b></li>
-                    <li><b> Nombre: #{datosSesion.usuario.nombre}</b> </li>
-                    <li><b> Apellido: #{datosSesion.usuario.apellido}</b> </li>
-                    <li><b> Fecha Nacimiento: #{datosSesion.usuario.fechanacimiento}</b></li>
-                    <li><b> Correo: #{datosSesion.usuario.correo}</b> </li>
-                </ul>    
+                <fieldset><div  align="center"><h2><b>PROFILE:</b></h2></div></fieldset>                    
+                <br/><br/>
+                <table>
+                    <tr>
+                        <td><b> NickName: #{datosSesion.usuario.nickName}</b><br/>
+                            <b> Nombre: #{datosSesion.usuario.nombre}</b> <br/>
+                            <b> Apellido: #{datosSesion.usuario.apellido}</b> <br/>
+                            <b> Fecha Nacimiento: #{datosSesion.usuario.fechanacimiento.date} / #{datosSesion.usuario.fechanacimiento.month} / #{datosSesion.usuario.fechanacimiento.year} </b> <br/>
+                            <b> Correo: #{datosSesion.usuario.correo}</b> <br/>   
+                        </td>
+                        <td><pre>       </pre></td>
+                        
+                        <td><p><img src="#{datosSesion.usuario.imagenPerfil}" width="105" height="210" ></img></p></td>
+                    </tr>
+                   
+    
+                </table>
                 <a href="index.xhtml"><h3><b>Volver al Inicio</b></h3></a>
             </ui:define>
             </ui:composition> 

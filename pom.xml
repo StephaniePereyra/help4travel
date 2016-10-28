@@ -44,6 +44,7 @@
 						<instrumentation>
 						    <excludes>
 							<exclude>uy/edu/cure/servidor/central/dto/**/*.class</exclude>
+							<exclude>uy/edu/cure/servidor/web/**/*.class</exclude>
 							<exclude>uy/edu/cure/estacion/de/trabajo/**/*.class</exclude>
 						    </excludes>
 						</instrumentation>
