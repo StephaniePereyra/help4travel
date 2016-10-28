@@ -90,6 +90,21 @@ public class Filtrado {
         return categorias;
     }
     
+    public String getServicioLineCategorias() {
+        String categorias = "";
+        if (tipo.equals("Servicio")){
+            Iterator<Categoria> iteratorCategorias = servicioController.obtenerServicio(nombre, proveedor).getCategorias().iterator();
+            while (iteratorCategorias.hasNext()) {
+                Categoria categoriaAux = iteratorCategorias.next();
+                categorias = categorias + categoriaAux.getNombre();
+                if (iteratorCategorias.hasNext()) {
+                    categorias = categorias + " | ";
+                }
+            }
+        }
+        return categorias;
+    }
+    
     public String getServicioDestinos() {
         String destinos = "";
         if (tipo.equals("Servicio")) {
@@ -124,6 +139,21 @@ public class Filtrado {
             while (iteratorServicios.hasNext()) {
                 Servicio servicioAux = iteratorServicios.next();
                 servicios.add(servicioAux.getNombre());
+            }
+        }
+        return servicios;
+    }
+    
+    public String getPromocionLineServicios() {
+        String servicios = "";
+        if (tipo.equals("Promocion")) {
+            Iterator<Servicio> iteratorServicios = promocionController.obtenerPromocion(nombre, proveedor).getServicios().iterator();
+            while (iteratorServicios.hasNext()) {
+                Servicio servicioAux = iteratorServicios.next();
+                servicios = servicios + servicioAux.getNombre();
+                if (iteratorServicios.hasNext()) {
+                    servicios = servicios + " | ";
+                }
             }
         }
         return servicios;

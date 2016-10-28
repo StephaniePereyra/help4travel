@@ -26,12 +26,9 @@
                                     </h:commandLink> <br/>
                                 </legend>
                                 <h:outputText value="Descripcion: #{itemFiltrado.servicioDescripcion}"/> <br/>
+                                <h:outputText value="Precio: #{itemFiltrado.precio}"/> <br/>
                                 <p style='padding-left: 50em'> <h:commandButton value="Agregar Servicio" action="#{datosReserva.agregarServicio(itemFiltrado.nombre,itemFiltrado.proveedor)}"></h:commandButton> </p>
-                                <p>Categorias:</p>
-                                <c:forEach items="#{itemFiltrado.servicioCategorias}" var="itemCategorias">
-                                    <h:outputText value=" #{itemCategorias} |"/>
-                                </c:forEach>
-                                
+                                <h:outputText value="Categorias: #{itemFiltrado.servicioLineCategorias}"/> <br/>
                             </fieldset>
                         </c:forEach>
                     </h:form>

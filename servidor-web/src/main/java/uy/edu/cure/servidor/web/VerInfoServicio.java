@@ -90,6 +90,12 @@ public class VerInfoServicio {
         return categorias;
     }
     
+    public List<String> getImagenes() {
+        Servicio servicio = servicioController.obtenerServicio(nombre, proveedor);
+        List<String> imagenes = servicio.getImagenes();
+        return imagenes;
+    }
+     
     public List<Filtrado> listadoServicios() {
         List<Servicio> servicios = new ArrayList<>();
         List<Filtrado> listaServiciosAux = new ArrayList<>();

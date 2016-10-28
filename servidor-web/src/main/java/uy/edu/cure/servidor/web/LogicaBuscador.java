@@ -192,25 +192,43 @@ public class LogicaBuscador {
         List<String> categorias = new ArrayList<String>();
         categorias.add("3 *");
         List<String> imagenes = new ArrayList<String>();
-        imagenes.add("imagen1");
+        imagenes.add("images/services/motel.jpg");
         servicioController.crearServicio("Motel", "Rise, from the blood of your heroes", 100, "Rio de Janeiro", "<null>", categorias, imagenes, "Proveedor1");
+        
         categorias.clear();categorias.add("4 *");
+        imagenes.clear();imagenes.add("images/services/hotel1.jpg");imagenes.add("images/services/hotel2.jpg");
         servicioController.crearServicio("Hotel", "You were the ones who refused to surrender", 150, "Montevideo", "<null>", categorias, imagenes, "Proveedor2");
+        
         categorias.clear();categorias.add("Playa");
+        imagenes.clear();imagenes.add("images/services/auto1.jpg");imagenes.add("images/services/auto2.png");imagenes.add("images/services/auto3.jpg");
         servicioController.crearServicio("RentaCar", "The three, rather die than to flee, know that your memory", 75, "Buenos Aires", "<null>", categorias, imagenes, "Proveedor3");
+        
         categorias.clear();categorias.add("Iberian");categorias.add("LowCost");
+        imagenes.clear();imagenes.add("images/services/fly.jpg");
         servicioController.crearServicio("Fly", "Will be sung for a century", 250, "Canelones", "Buenos Aires", categorias, imagenes, "Proveedor3");
+        
         categorias.clear();categorias.add("Iberian");
+        imagenes.clear();imagenes.add("images/services/flytwo1.jpg");imagenes.add("images/services/flytwo2.jpg");
         servicioController.crearServicio("FlyTwo", "Three took the blow, while impressing their foe", 300, "Canelones", "Buenos Aires", categorias, imagenes, "Proveedor3");
+        
         categorias.clear();categorias.add("Playa");
+        imagenes.clear();imagenes.add("images/services/driven1.jpg");imagenes.add("images/services/driven2.jpg");imagenes.add("images/services/driven3.jpg");
         servicioController.crearServicio("Driven", "Throwing dice with their lives as they’re paying the price", 70, "Montevideo", "<null>", categorias, imagenes, "Proveedor2");
+        
         categorias.clear();categorias.add("AmericaAirlines");
+        imagenes.clear();imagenes.add("images/services/sky.jpg");
         servicioController.crearServicio("Sky", "Sent to raise hell, hear the toll of the bell", 230, "Brasilia", "Maldonado", categorias, imagenes, "Proveedor4");
-        categorias.clear();categorias.add("AmericaAirlines"); 
+        
+        categorias.clear();categorias.add("AmericaAirlines");
+        imagenes.clear();
         servicioController.crearServicio("SkyThree", "It is calling for you as the Wehrmacht devised", 210, "Cordoba", "Sao Paulo", categorias, imagenes, "Proveedor4");
+        
         categorias.clear();categorias.add("AmericaAirlines");categorias.add("LowCost");
+        imagenes.clear();imagenes.add("images/services/skytwo1.jpg");imagenes.add("images/services/skytwo2.jpg");
         servicioController.crearServicio("SkyTwo", "Sent over seas to be cast into fire", 195, "Fortaleza", "Rosario", categorias, imagenes, "Proveedor4");
+        
         categorias.clear();categorias.add("AmericaAirlines");categorias.add("LowCost");
+        imagenes.clear();imagenes.add("images/services/sky41.jpg");imagenes.add("images/services/sky42.jpg");imagenes.add("images/services/sky43.jpg");
         servicioController.crearServicio("Sky4", "Fought for a purpose with pride and desire", 200, "Canelones", "Santa Fe", categorias, imagenes, "Proveedor4");
         // -- Promociones --
         imagenes.clear();imagenes.add("Hotel");imagenes.add("Driven");

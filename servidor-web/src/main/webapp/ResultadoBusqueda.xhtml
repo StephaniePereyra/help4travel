@@ -28,23 +28,21 @@
             <c:forEach items="#{logicaBuscador.serviciosFiltrados}" var="item">
                 <fieldset>
                     <legend>#{item.tipo}</legend>
-                    <h:outputText value="#{item.proveedor}"/> <br/>
+                    <h:outputText value="Proveedor: #{item.proveedor}"/> <br/>
                     <c:if test="#{item.tipo=='Servicio'}">
                         <h:commandLink action="#{verInfoServicio.getThatService()}" value="#{item.nombre}">
                             <f:param name="nombreServicio" value="#{item.nombre}"/>
                             <f:param name="proveedorServicio" value="#{item.proveedor}"/>
                         </h:commandLink> <br/>
                         <h:outputText value="Descripicion: #{item.servicioDescripcion}"/> <br/>
+                        <h:outputText value="Categorias: #{item.servicioLineCategorias}"/> <br/>
                     </c:if>
                     <c:if test="#{item.tipo=='Promocion'}">
                         <h:commandLink action="#{verInfoPromocion.getThatPromo()}" value="#{item.nombre}">
                             <f:param name="nombrePromocion" value="#{item.nombre}"/>
                             <f:param name="proveedorPromocion" value="#{item.proveedor}"/>
                         </h:commandLink> <br/>
-                        <p>Servicios: </p>
-                        <c:forEach items="#{item.promocionServicios}" var="itemServicios">
-                            <h:outputText value="#{itemServicios} |"/>
-                        </c:forEach> <br/>
+                        <h:outputText value="Servicios: #{item.promocionLineServicios}"/> <br/>
                     </c:if>
                     <h:outputText value="Precio: #{item.precio}"/> <br/>
                 </fieldset>
