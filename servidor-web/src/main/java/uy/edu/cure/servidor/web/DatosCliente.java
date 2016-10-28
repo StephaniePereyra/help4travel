@@ -213,10 +213,10 @@ private Part imagen;
 public void action() throws IOException{
     InputStream input;
     OutputStream output;
-    String imgPerfil;
+    String rutaUp="";
     
     if (imagen == null) {
-        imgPerfil = "images/perfil/default.png";
+         rutaUp= "images/perfil/default.png";
     } else {
 
         input = imagen.getInputStream();
@@ -229,11 +229,11 @@ public void action() throws IOException{
         while ((bytesRead = input.read(buffer)) != -1) {
             output.write(buffer, 0, bytesRead);
         }
-        ruta = "images/perfil/" + d.getTime() + ".png";
+        rutaUp = "images/perfil/" + d.getTime() + ".png";
 
     }
     
-    int resultado = usuariocontroller.crearCliente(nickName, nombre, apellido, correo, dia, mes, anio, ruta,passWord,passWordConfirm);
+    int resultado = usuariocontroller.crearCliente(nickName, nombre, apellido, correo, dia, mes, anio, rutaUp,passWord,passWordConfirm);
     mostrarMensaje = true;
     if(nickName.equals("") || nombre.equals("") || apellido.equals("") || correo.equals("")){
         mensaje = mensajeDefault;
