@@ -28,8 +28,6 @@ public class VerInfoPromocion {
     
     @Jeringa(value = "promocioncontroller")
     private PromocionControllerImpl promocionController;
-    @Jeringa(value = "serviciocontroller")
-    private ServicioControllerImpl servicioController;
     private String nombre;
     private String proveedor;
     
@@ -42,8 +40,8 @@ public class VerInfoPromocion {
     }
 
     public String getThatPromo() {
-        FacesContext fc = FacesContext.getCurrentInstance();
-        Map<String,String> params = fc.getExternalContext().getRequestParameterMap();
+        FacesContext facec = FacesContext.getCurrentInstance();
+        Map<String,String> params = facec.getExternalContext().getRequestParameterMap();
         nombre =  params.get("nombrePromocion"); 
         proveedor =  params.get("proveedorPromocion");
         return "InfoPromocion";

@@ -40,8 +40,8 @@ public class VerInfoServicio {
     }
 
     public String getThatService() {
-        FacesContext fc = FacesContext.getCurrentInstance();
-        Map<String,String> params = fc.getExternalContext().getRequestParameterMap();
+        FacesContext facec = FacesContext.getCurrentInstance();
+        Map<String,String> params = facec.getExternalContext().getRequestParameterMap();
         nombre =  params.get("nombreServicio"); 
         proveedor =  params.get("proveedorServicio");
         return "InfoServicio";
