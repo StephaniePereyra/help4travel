@@ -32,10 +32,6 @@ public class VerReserva {
 
     @ManagedProperty(value = "#{datosSesion}")
     DatosSesion datosSesion;
-    @Jeringa(value = "serviciocontroller")
-    private ServicioControllerImpl servicioController;
-    @Jeringa(value = "usuariocontroller")
-    private UsuarioControllerImpl usuarioController;
     @Jeringa(value = "reservacontroller")
     private ReservaControllerImpl reservaController;
     private String nombre;
@@ -79,13 +75,13 @@ public class VerReserva {
         }
     }
     
-      public int cantidadServ(Servicio s) {
-        int index = servicios.indexOf(s);
+      public int cantidadServ(Servicio servicio) {
+        int index = servicios.indexOf(servicio);
         return reservaController.obtenerReserva(nroReserva).getCantidadServicios().get(index);
     }
 
-    public int cantidadPromo(Promocion p) {
-        int index = promociones.indexOf(p);
+    public int cantidadPromo(Promocion promocion) {
+        int index = promociones.indexOf(promocion);
         return reservaController.obtenerReserva(nroReserva).getCantidadPromociones().get(index);
     }
 
@@ -97,7 +93,7 @@ public class VerReserva {
         this.datosSesion = datosSesion;
     }
 
-    public String getEstado () {
+    public String getEstado() {
         String estado = "";
         Iterator<Reserva> iteratorReserva = reservas.iterator();
         while(iteratorReserva.hasNext()) {

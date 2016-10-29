@@ -13,8 +13,13 @@ import java.util.Iterator;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import uy.edu.cure.servidor.central.dto.*;
-import uy.edu.cure.servidor.central.lib.*;
+import uy.edu.cure.servidor.central.dto.Categoria;
+import uy.edu.cure.servidor.central.dto.Promocion;
+import uy.edu.cure.servidor.central.dto.Servicio;
+import uy.edu.cure.servidor.central.lib.CategoriaControllerImpl;
+import uy.edu.cure.servidor.central.lib.CiudadControllerImpl;
+import uy.edu.cure.servidor.central.lib.PaisControllerImpl;
+import uy.edu.cure.servidor.central.lib.UsuarioControllerImpl;
 import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
 import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
 

@@ -13,8 +13,9 @@ import java.util.Map;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import uy.edu.cure.servidor.central.dto.*;
-import uy.edu.cure.servidor.central.lib.*;
+import uy.edu.cure.servidor.central.dto.Categoria;
+import uy.edu.cure.servidor.central.dto.Servicio;
+import uy.edu.cure.servidor.central.lib.ServicioControllerImpl;
 import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
 import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
 

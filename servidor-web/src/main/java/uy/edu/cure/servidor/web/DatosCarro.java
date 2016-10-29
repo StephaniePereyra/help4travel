@@ -58,7 +58,7 @@ public class DatosCarro implements Serializable {
     }
 
     @PostConstruct
-    public void CargarArray() {
+    public void cargarArray() {
         if (datosSesion.isLoged()) {
             servicios = new ArrayList();
             promociones = new ArrayList();
@@ -106,7 +106,7 @@ public class DatosCarro implements Serializable {
         totalCarro = totalCarro - (promocion.getPrecioTotal() * usuariocontroller.obtenerCliente(nickSession).getCarrito().getCantidadPromociones().get(index));
         usuariocontroller.obtenerCliente(nickSession).getCarrito().setPrecio(totalCarro);
         usuariocontroller.obtenerCliente(nickSession).getCarrito().getCantidadPromociones().remove(index);
-        usuariocontroller.obtenerCliente(nickSession).getCarrito().getPromociones().remove(p);
+        usuariocontroller.obtenerCliente(nickSession).getCarrito().getPromociones().remove(promocion);
     }
 
     public int cantidadServ(Servicio servicio) {

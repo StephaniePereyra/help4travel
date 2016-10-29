@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package uy.edu.cure.servidor.web;
 
 import java.lang.reflect.InvocationTargetException;
@@ -13,8 +14,9 @@ import java.util.Map;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import uy.edu.cure.servidor.central.dto.*;
-import uy.edu.cure.servidor.central.lib.*;
+import uy.edu.cure.servidor.central.dto.Promocion;
+import uy.edu.cure.servidor.central.dto.Servicio;
+import uy.edu.cure.servidor.central.lib.PromocionControllerImpl;
 import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
 import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
 

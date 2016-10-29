@@ -3,8 +3,6 @@ package uy.edu.cure.servidor.web;
 import java.util.Iterator;
 import javax.annotation.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import uy.edu.cure.servidor.central.dto.*;
-import uy.edu.cure.servidor.central.lib.*;
 
 @ManagedBean
 @SessionScoped
