@@ -48,7 +48,11 @@ and open the template in the editor.
                 </c:forEach>
                 <c:forEach items="#{datosCarro.servicios}" var="item">
                     <tr>
-                        <td align="center"><h:form><h:commandLink action="#{verInfoServicio.getThatService()}" value="#{item.nombre}" > <f:param name="nombreServicio" value="#{item.nombre}" ></f:param> <f:param name="proveedorServicio" value="#{item.proveedor.getNickName()}" ></f:param> </h:commandLink></h:form></td>
+                        <td align="center"><h:form><h:commandLink
+                                    action="#{verInfoServicio.getThatService()}" value="#{item.nombre}" > 
+                                    <f:param name="nombreServicio" value="#{item.nombre}" >
+                                    </f:param> <f:param name="proveedorServicio" value="#{item.proveedor.getNickName()}" ></f:param> 
+                                </h:commandLink></h:form></td>
                         <td align="center">#{item.precio}</td>
                         <td align="center">#{datosCarro.cantidadServ(item)}</td>
                         <td align="center">#{item.precio * datosCarro.cantidadServ(item)}</td>
@@ -57,7 +61,10 @@ and open the template in the editor.
                 </c:forEach>
                 <c:forEach items="#{datosCarro.promociones}" var="item">
                     <tr>
-                        <td align="center"><h:form><h:commandLink action="#{verInfoPromocion.getThatPromo()}" value="#{item.nombre}" > <f:param name="nombrePromocion" value="#{item.nombre}" ></f:param> <f:param name="proveedorPromocion" value="#{item.proveedor.getNickName()}" ></f:param> </h:commandLink></h:form></td>
+                        <td align="center"><h:form><h:commandLink action="#{verInfoPromocion.getThatPromo()}" value="#{item.nombre}" > 
+                                    <f:param name="nombrePromocion" value="#{item.nombre}" ></f:param> 
+                                    <f:param name="proveedorPromocion" value="#{item.proveedor.getNickName()}" ></f:param> 
+                                </h:commandLink></h:form></td>
                         <td align="center">#{item.precioTotal}</td>
                         <td align="center">#{datosCarro.cantidadPromo(item)}</td>
                         <td align="center">#{item.precioTotal * datosCarro.cantidadPromo(item)}</td>

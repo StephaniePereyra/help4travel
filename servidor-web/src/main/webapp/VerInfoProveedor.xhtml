@@ -30,7 +30,8 @@
                             <br/><outputText> <b>Correo:</b> #{datosProveedor.proveedor.correo}</outputText><br/> 
                             <br/><outputText> <b>Nombre Empresa:</b> #{datosProveedor.proveedor.nombreEmpresa}</outputText><br/>
                             <br/><outputText> <b>Link Empresa:</b> <a href="#{datosProveedor.proveedor.linkEmpresa}">ClickAqui</a></outputText><br/>
-                            <br/><outputText> <b>Imagen Perfil:</b> #{datosProveedor.proveedor.imagenPerfil}</outputText><br/>
+                            <br/><outputText> <b>Imagen Perfil:</b></outputText><br/>
+                            <img src="#{datosProveedor.proveedor.imagenPerfil}" width="175" height="175"></img>
                             <br/><outputText> <b>Servicios:</b></outputText><br/>
                             <h:form>
                                 <ui:repeat value="#{datosProveedor.servicios}" var="item" varStatus="estado">  

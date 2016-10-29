@@ -168,13 +168,13 @@ public class LogicaBuscador {
         usuarioController.crearCliente("Cliente2", "nombre2", "apellido2", "correo@correo2", 29, 2, 1996, "", "password2", "password2");
         // -- Proveedores --
         usuarioController.crearProveedor("Proveedor1", "nombre3", "apellido3",
-                "correo@correo3", 22, 10, 2000, "empresa1", "link1", "", "password3", "password3");
+                "correo@correo3", 22, 10, 2000, "empresa1", "link1", "images/providers/1.jpg", "password3", "password3");
         usuarioController.crearProveedor("Proveedor2", "nombre4", "apellido4",
-                "correo@correo4", 4, 5, 1999, "empresa2", "link2", "", "password4", "password4");
+                "correo@correo4", 4, 5, 1999, "empresa2", "link2", "images/providers/2.jpg", "password4", "password4");
         usuarioController.crearProveedor("Proveedor3", "nombre5", "apellido5",
-                "correo@correo5", 16, 6, 1997, "empresa3", "link3", "", "password5", "password5");
+                "correo@correo5", 16, 6, 1997, "empresa3", "link3", "images/providers/3.png", "password5", "password5");
         usuarioController.crearProveedor("Proveedor4", "nombre6", "apellido6",
-                "correo@correo6", 11, 9, 1997, "empresa4", "link4", "", "password6", "password6");
+                "correo@correo6", 11, 9, 1997, "empresa4", "link4", "images/providers/4.jpg", "password6", "password6");
         // -- Categorias --
         categoriaController.darAltaCategoria("Vuelos", "");
         categoriaController.darAltaCategoria("Empresa", "Vuelos");
