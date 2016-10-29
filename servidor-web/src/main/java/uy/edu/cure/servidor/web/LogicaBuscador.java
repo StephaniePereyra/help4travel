@@ -19,6 +19,8 @@ import uy.edu.cure.servidor.central.dto.Servicio;
 import uy.edu.cure.servidor.central.lib.CategoriaControllerImpl;
 import uy.edu.cure.servidor.central.lib.CiudadControllerImpl;
 import uy.edu.cure.servidor.central.lib.PaisControllerImpl;
+import uy.edu.cure.servidor.central.lib.PromocionControllerImpl;
+import uy.edu.cure.servidor.central.lib.ServicioControllerImpl;
 import uy.edu.cure.servidor.central.lib.UsuarioControllerImpl;
 import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
 import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
