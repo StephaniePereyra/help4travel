@@ -42,12 +42,14 @@
 
                                 </table>
                             </div>
+                            
                             <div class="content-2">
                                 <h:form>
-                                    <h:selectOneMenu value="#{verReserva.nroReserva}">
+                                    <h1>Reservas</h1>
+                                    <h:selectOneMenu value="#{verReserva.nroReserva}" style="width: 42;height: 42">
                                         <f:selectItems value="#{verReserva.cantReservas}" var="nroReserva" itemValue="#{nroReserva}" itemLabel="#{nroReserva}"/>                                 
                                     </h:selectOneMenu>
-                                    <h:commandButton value="Mostrar" action="#{verReserva.serviciosPromos()}"></h:commandButton>
+                                    <h:commandLink action="#{verReserva.serviciosPromos()}"><h:graphicImage value="images/show.png" width="32" height="32"></h:graphicImage></h:commandLink><br/>
                                     <div>Servicios</div> 
                                     <c:forEach items="#{verReserva.servicios}" var="servicio">
                                         <outputText> <b>Nombre:</b> #{servicio.nombre}</outputText><br></br>
@@ -56,7 +58,7 @@
                                         <outputText> <b>Descripcion:</b> #{servicio.descripcion}</outputText><br/> 
                                         <outputText> <b>Cantidad:</b> #{verReserva.cantidadServ(servicio)}</outputText><br></br>
                                         <outputText> <b>Precio total:</b> #{servicio.precio * verReserva.cantidadServ(servicio)}</outputText><br></br>
-                                        <div>----------------------------------------------------</div>
+                                        <h2>----------------------------------------------------</h2>
                                     </c:forEach>
                                     <br></br><br></br>
                                     <div>Promociones</div>
@@ -66,13 +68,13 @@
                                         <outputText> <b>Precio unidad:</b> #{promocion.precioTotal}</outputText><br/>
                                         <outputText> <b>Cantidad:</b> #{verReserva.cantidadPromo(promocion)}</outputText><br></br>
                                         <outputText> <b>Precio total:</b> #{promocion.precioTotal * verReserva.cantidadPromo(promocion)}</outputText><br></br>
-                                        <div>----------------------------------------------------</div>
+                                        <h2>----------------------------------------------------</h2>
                                     </c:forEach>
-                                    <h:outputText value="Estado: #{verReserva.getEstado()}" rendered="#{verReserva.nroReserva != null}"/>
-                                    <h:commandButton value="Cancelar" action="#{verReserva.actionCancelarReserva()}" rendered="#{verReserva.nroReserva != null}"/>
-                                </h:form>
-
-                            </div>
+                                    <h:outputText value="Estado: #{verReserva.getEstado()}" rendered="#{verReserva.nroReserva != null}"/><br/>
+                                    <h:commandLink action="#{verReserva.actionCancelarReserva()}" rendered="#{verReserva.nroReserva != null}"><h:graphicImage value="images/cancel.png" width="42" height="42"></h:graphicImage></h:commandLink>
+                                  
+                                    </h:form>
+                            </div>    
                         </div>
                     </div>
                 </ui:define>

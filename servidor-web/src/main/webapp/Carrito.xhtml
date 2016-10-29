@@ -27,30 +27,58 @@
         <div id="site">
             <ui:composition template="commonLayout.xhtml">
                 <ui:define name="content">
-                    </h:form> </td>
-                    </tr>
-                    </c:forEach>
-                    <c:forEach items="#{datosCarro.promociones}" var="item">
-                        <tr>
-                            <td align="center"><h:form><h:commandLink action="#{verInfoPromocion.getThatPromo()}" value="#{item.nombre}" > 
-                                        <f:param name="nombrePromocion" value="#{item.nombre}" ></f:param> 
-                                        <f:param name="proveedorPromocion" value="#{item.proveedor.getNickName()}" ></f:param> 
-                                    </h:commandLink></h:form></td>
-                            <td align="center">#{item.precioTotal}</td>
-                            <td align="center">#{datosCarro.cantidadPromo(item)}</td>
-                            <td align="center">#{item.precioTotal * datosCarro.cantidadPromo(item)}</td>
-                            <td align="center"><h:form> <h:commandLink action="#{datosCarro.eliminarPromo(item)}"> <h:graphicImage width="32" height="32" value="images/carrito.png" /> </h:commandLink> </h:form> </td>
-                        </tr>
-                    </c:forEach> 
-                    <tr>
-                        <td>Total Carro</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td align="center">#{datosCarro.totalCarro}</td>
-                        <td align="center"><h:form> <h:commandLink action="#{datosCarro.confirmarCarro()}" rendered="#{!datosCarro.carritoEmpty}" > <h:graphicImage width="32" height="32" value="images/carritoconf.png" /> </h:commandLink>  </h:form> </td>
-                    </tr>
-                    </table>
+                    <form>
+                        <table class="roundedCorners" style="width: 100%">
+                            <tr>
+                                <th>Items</th>
+                                <th>Precio</th>
+                                <th>Cantidad</th>
+                                <th>Total</th>
+                                <th></th>
+                            </tr>
+                            <c:forEach items="#{datosCarro.oculto}" var="item">
+                                <tr>
+                                    <td align="center">#{item.uno}</td>
+                                    <td align="center">#{item.dos}</td>
+                                    <td align="center">#{item.tres}</td>
+                                    <td align="center">#{item.cuatro}</td>
+                                    <td align="center"><h:form><h:commandLink type="hiden"></h:commandLink></h:form></td>
+                                </tr>
+                            </c:forEach>
+                            <c:forEach items="#{datosCarro.servicios}" var="item">
+                                <tr>
+                                    <td align="center"><h:form><h:commandLink
+                                                action="#{verInfoServicio.getThatService()}" value="#{item.nombre}" > 
+                                                <f:param name="nombreServicio" value="#{item.nombre}" >
+                                                </f:param> <f:param name="proveedorServicio" value="#{item.proveedor.getNickName()}" ></f:param> 
+                                            </h:commandLink></h:form></td>
+                                    <td align="center">#{item.precio}</td>
+                                    <td align="center">#{datosCarro.cantidadServ(item)}</td>
+                                    <td align="center">#{item.precio * datosCarro.cantidadServ(item)}</td>
+                                    <td align="center"><h:form> <h:commandLink action="#{datosCarro.eliminarServicio(item)}" ><h:graphicImage width="32" height="32" value="images/carrito.png" /> </h:commandLink>  </h:form> </td>
+                                </tr>
+                            </c:forEach>
+                            <c:forEach items="#{datosCarro.promociones}" var="item">
+                                <tr>
+                                    <td align="center"><h:form><h:commandLink action="#{verInfoPromocion.getThatPromo()}" value="#{item.nombre}" > 
+                                                <f:param name="nombrePromocion" value="#{item.nombre}" ></f:param> 
+                                                <f:param name="proveedorPromocion" value="#{item.proveedor.getNickName()}" ></f:param> 
+                                            </h:commandLink></h:form></td>
+                                    <td align="center">#{item.precioTotal}</td>
+                                    <td align="center">#{datosCarro.cantidadPromo(item)}</td>
+                                    <td align="center">#{item.precioTotal * datosCarro.cantidadPromo(item)}</td>
+                                    <td align="center"><h:form> <h:commandLink action="#{datosCarro.eliminarPromo(item)}"> <h:graphicImage width="32" height="32" value="images/carrito.png" /> </h:commandLink> </h:form> </td>
+                                </tr>
+                            </c:forEach> 
+                            <tr>
+                                <td>Total Carro</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td align="center">#{datosCarro.totalCarro}</td>
+                                <td align="center"><h:form> <h:commandLink onclick="alert('Reserva confirmada')" action="#{datosCarro.confirmarCarro()}" rendered="#{!datosCarro.carritoEmpty}" > <h:graphicImage width="32" height="32" value="images/carritoconf.png" /> </h:commandLink>  </h:form> </td>
+                            </tr>
+                        </table>
                     </form>
                 </ui:define>
             </ui:composition>

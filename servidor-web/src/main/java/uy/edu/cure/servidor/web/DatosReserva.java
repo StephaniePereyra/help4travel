@@ -113,6 +113,7 @@ public class DatosReserva {
                 if (cliente.getCarrito().getServicios().contains(this.servicio)) {
                     int posicion = cliente.getCarrito().getServicios().indexOf(this.servicio);
                     int cantidadServicio = cliente.getCarrito().getCantidadServicios().get(posicion) + this.cantidad;
+                    cliente.getCarrito().getCantidadServicios().remove(posicion);
                     cliente.getCarrito().getCantidadServicios().add(posicion, cantidadServicio);
                 } else {
                     cliente.getCarrito().setServicio(this.servicio);
@@ -145,6 +146,7 @@ public class DatosReserva {
                 if (cliente.getCarrito().getPromociones().contains(this.promocion)) {
                     int posicion = cliente.getCarrito().getPromociones().indexOf(this.promocion);
                     int cantidadPromocion = cliente.getCarrito().getCantidadPromociones().get(posicion) + this.cantidad;
+                    cliente.getCarrito().getCantidadPromociones().remove(posicion);
                     cliente.getCarrito().getCantidadPromociones().add(posicion, cantidadPromocion);
                 } else {
                     cliente.getCarrito().setPromocion(this.promocion);
