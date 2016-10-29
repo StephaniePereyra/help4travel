@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+        <link href="style.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <div id="site">
+            <ui:composition template="commonLayout.xhtml">
+                <ui:define name="content">
+
+                    <div id="contenedor">
+                        <input id="tab-1" type="radio" name="radio-set" class="tab-selector-1" checked="checked" />
+                        <label for="tab-1" class="tab-label-1">Profile</label>
+
+                        <input id="tab-2" type="radio" name="radio-set" class="tab-selector-2" />
+                        <label for="tab-2" class="tab-label-2">Booking</label>
+
+                        <div class="content">
+                            <div class="content-1">
+                                <fieldset><div  align="center"><h2><b>PROFILE:</b></h2></div></fieldset>                    
+                                <br/><br/>
+                                <table>
+                                    <tr>
+                                        <td><b> NickName: #{datosSesion.usuario.nickName}</b><br/>
+                                            <b> Nombre: #{datosSesion.usuario.nombre}</b> <br/>
+                                            <b> Apellido: #{datosSesion.usuario.apellido}</b> <br/>
+                                            <b> Fecha Nacimiento: #{datosSesion.usuario.fechanacimiento.date} / #{datosSesion.usuario.fechanacimiento.month} / #{datosSesion.usuario.fechanacimiento.year} </b> <br/>
+                                            <b> Correo: #{datosSesion.usuario.correo}</b> <br/>   
+                                        </td>
+                                        <td><pre>       </pre></td>
+
+                                        <td><p><img src="#{datosSesion.usuario.imagenPerfil}" width="105" height="210" ></img></p></td>
+                                    </tr>
+
+
+                                </table>
+                            </div>
+                            <div class="content-2">
+                                <h:form>
+                                    <h:selectOneMenu value="#{verReserva.nroReserva}">
+                                        <f:selectItems value="#{verReserva.cantReservas}" var="nroReserva" itemValue="#{nroReserva}" itemLabel="#{nroReserva}" />                                 
+                                    </h:selectOneMenu>         
+                                    <h:commandButton value="Mostrar" action="#{verReserva.serviciosPromos()}" >
+                                        <div>Servicios</div> 
+                                        <c:forEach items="#{verReserva.servicios}" var="servicio">
+                                            <outputText> <b>Nombre:</b> #{servicio.nombre}</outputText><br></br>
+                                            <outputText> <b>Precio:</b> #{servicio.precio}</outputText><br></br>
+                                            <outputText> <b>Descripcion:</b> #{servicio.descripcion}</outputText><br/> 
+                                            <outputText> <b>Precio total:</b> #{servicio.precio * verReserva.cantidadServ(servicio)}</outputText><br></br>
+                                            <outputText> <b>Cantidad:</b> #{verReserva.cantidadServ(servicio)}</outputText><br></br>
+                                            <div>----------------------------------------------------</div>
+                                        </c:forEach>
+                                        <div>Promociones</div><br></br><br></br>
+                                        <c:forEach items="#{verReserva.promociones}" var="promocion">
+                                            <br/><outputText> <b>Nombre:</b> #{promocion.nombre}</outputText><br/>
+                                            <br/><outputText> <b>Precio:</b> #{promocion.precioTotal}</outputText><br/>
+                                            <br/><outputText> <b>Proveedor:</b> #{promocion.proveedor}</outputText><br/>
+                                            <outputText> <b>Precio total:</b> #{promocion.precioTotal * verReserva.cantidadPromo(promocion)}</outputText><br></br>
+                                            <outputText> <b>Cantidad:</b> #{verReserva.cantidadPromo(promocion)}</outputText><br></br>
+                                            <br></br>
+                                            <div>----------------------------------------------------</div>
+                                        </c:forEach>
+                                    </h:commandButton>     
+                                </h:form>
+                            </div>
+                        </div>
+                    </div>
+                </ui:define>
+            </ui:composition>
+        </div>
+    </body>
+</html>
