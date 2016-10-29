@@ -58,15 +58,15 @@ public class DatosCarro implements Serializable {
     }
 
     @PostConstruct
-    public void CargarArray() {
+    public void cargarArray() {
         if (datosSesion.isLoged()) {
             servicios = new ArrayList();
             promociones = new ArrayList();
             cantidadServicios = new ArrayList();
             cantidadPromos = new ArrayList();
             oculto = new ArrayList();
-            Oculta o = new Oculta();
-            oculto.add(o);
+            Oculta ocultoObj = new Oculta();
+            oculto.add(ocultoObj);
             nickSession = datosSesion.getNickName();
             servicios = usuariocontroller.obtenerCliente(nickSession).getCarrito().getServicios();
             promociones = usuariocontroller.obtenerCliente(nickSession).getCarrito().getPromociones();
@@ -89,33 +89,33 @@ public class DatosCarro implements Serializable {
         }
     }
 
-    public void eliminarServicio(Servicio s) {
+    public void eliminarServicio(Servicio servicio) {
 
-        int index = servicios.indexOf(s);
-        servicios.remove(s);
-        totalCarro = totalCarro - (s.getPrecio() * usuariocontroller.obtenerCliente(nickSession).getCarrito().getCantidadServicios().get(index));
+        int index = servicios.indexOf(servicio);
+        servicios.remove(servicio);
+        totalCarro = totalCarro - (servicio.getPrecio() * usuariocontroller.obtenerCliente(nickSession).getCarrito().getCantidadServicios().get(index));
         usuariocontroller.obtenerCliente(nickSession).getCarrito().setPrecio(totalCarro);
         usuariocontroller.obtenerCliente(nickSession).getCarrito().getCantidadServicios().remove(index);
-        usuariocontroller.obtenerCliente(nickSession).getCarrito().getServicios().remove(s);
+        usuariocontroller.obtenerCliente(nickSession).getCarrito().getServicios().remove(servicio);
     }
 
-    public void eliminarPromo(Promocion p) {
+    public void eliminarPromo(Promocion promocion) {
 
-        int index = promociones.indexOf(p);
-        promociones.remove(p);
-        totalCarro = totalCarro - (p.getPrecioTotal() * usuariocontroller.obtenerCliente(nickSession).getCarrito().getCantidadPromociones().get(index));
+        int index = promociones.indexOf(promocion);
+        promociones.remove(promocion);
+        totalCarro = totalCarro - (promocion.getPrecioTotal() * usuariocontroller.obtenerCliente(nickSession).getCarrito().getCantidadPromociones().get(index));
         usuariocontroller.obtenerCliente(nickSession).getCarrito().setPrecio(totalCarro);
         usuariocontroller.obtenerCliente(nickSession).getCarrito().getCantidadPromociones().remove(index);
-        usuariocontroller.obtenerCliente(nickSession).getCarrito().getPromociones().remove(index);
+        usuariocontroller.obtenerCliente(nickSession).getCarrito().getPromociones().remove(promocion);
     }
 
-    public int cantidadServ(Servicio s) {
-        int index = servicios.indexOf(s);
+    public int cantidadServ(Servicio servicio) {
+        int index = servicios.indexOf(servicio);
         return usuariocontroller.obtenerCliente(nickSession).getCarrito().getCantidadServicios().get(index);
     }
 
-    public int cantidadPromo(Promocion p) {
-        int index = promociones.indexOf(p);
+    public int cantidadPromo(Promocion promocion) {
+        int index = promociones.indexOf(promocion);
         return usuariocontroller.obtenerCliente(nickSession).getCarrito().getCantidadPromociones().get(index);
     }
 

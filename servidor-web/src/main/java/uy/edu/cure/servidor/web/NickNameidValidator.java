@@ -35,10 +35,10 @@ public NickNameidValidator(){
 }
 
     @Override
-    public void validate(FacesContext fc, UIComponent uic, Object t) throws ValidatorException {
-       String nick = t.toString();
+    public void validate(FacesContext faceContent, UIComponent uiComponent, Object tobject) throws ValidatorException {
+       String nick = tobject.toString();
        if(usuariocontroller.existeCliente(nick) || usuariocontroller.existeProveedor(nick)){
-           throw new ValidatorException(new FacesMessage (FacesMessage.SEVERITY_ERROR,
+           throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR,
            "Nick no disponible",null));
        }
     }

@@ -36,14 +36,14 @@ public CorreoidValidator(){
 }
 
     @Override
-    public void validate(FacesContext fc, UIComponent uic, Object t) throws ValidatorException {
-       String correo = t.toString();
+    public void validate(FacesContext facecont, UIComponent uicomponent, Object tobject) throws ValidatorException {
+       String correo = tobject.toString();
        if(usuariocontroller.existeCorreo(correo)){
-           throw new ValidatorException(new FacesMessage (FacesMessage.SEVERITY_ERROR,
+           throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR,
            "Correo no disponible",null));
        }
        if(!usuariocontroller.correoValido(correo)){
-         throw new ValidatorException(new FacesMessage (FacesMessage.SEVERITY_ERROR,
+         throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR,
            "Correo invalido",null));  
        }
     }

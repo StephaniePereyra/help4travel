@@ -220,8 +220,8 @@ public void action() throws IOException{
     } else {
 
         input = imagen.getInputStream();
-        Date d = new Date();
-        File perfil = new File("/home/guido/help4travel/servidor-web/src/main/webapp/images/perfil/" + d.getTime() + ".png");
+        Date date = new Date();
+        File perfil = new File("/home/guido/help4travel/servidor-web/src/main/webapp/images/perfil/" + date.getTime() + ".png");
         output = new FileOutputStream(perfil);
 
         byte[] buffer = new byte[8 * 1024];
@@ -229,7 +229,7 @@ public void action() throws IOException{
         while ((bytesRead = input.read(buffer)) != -1) {
             output.write(buffer, 0, bytesRead);
         }
-        rutaUp = "images/perfil/" + d.getTime() + ".png";
+        rutaUp = "images/perfil/" + date.getTime() + ".png";
 
     }
     

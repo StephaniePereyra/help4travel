@@ -116,12 +116,13 @@ public class DatosReserva {
                     cliente.getCarrito().getCantidadServicios().add(posicion, cantidadServicio);
                 } else {
                     cliente.getCarrito().setServicio(this.servicio);
+                    cliente.getCarrito().getCantidadServicios().add(this.cantidad);
                 }
                 for (int i = 1; i <= this.cantidad; i++) {
                     cliente.getCarrito().setPrecio(cliente.getCarrito().getPrecio() + this.servicio.getPrecio());
                 }
 
-                cliente.getCarrito().getCantidadServicios().add(this.cantidad);
+                
                 this.mayorCero = true;
             }
             else{
@@ -147,12 +148,13 @@ public class DatosReserva {
                     cliente.getCarrito().getCantidadPromociones().add(posicion, cantidadPromocion);
                 } else {
                     cliente.getCarrito().setPromocion(this.promocion);
+                    cliente.getCarrito().getCantidadPromociones().add(this.cantidad);
                 }
 
                 for (int i = 1; i <= this.cantidad; i++) {
                     cliente.getCarrito().setPrecio(cliente.getCarrito().getPrecio() + this.promocion.getPrecioTotal());
                 }
-                cliente.getCarrito().getCantidadPromociones().add(this.cantidad);
+                
                 this.mayorCero = true;
             }
             else{

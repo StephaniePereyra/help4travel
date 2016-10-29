@@ -9,8 +9,10 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import uy.edu.cure.servidor.central.dto.*;
-import uy.edu.cure.servidor.central.lib.*;
+import uy.edu.cure.servidor.central.dto.Categoria;
+import uy.edu.cure.servidor.central.dto.Servicio;
+import uy.edu.cure.servidor.central.lib.PromocionControllerImpl;
+import uy.edu.cure.servidor.central.lib.ServicioControllerImpl;
 import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
 import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
 
@@ -19,10 +21,10 @@ import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
  * @author Rodrigo "Lobo Plateado" Pérez
  */
 public class Filtrado {
-    
-    @Jeringa(value = "promocioncontroller")
+
+  @Jeringa(value = "promocioncontroller")
     private PromocionControllerImpl promocionController;
-    @Jeringa(value = "serviciocontroller")
+  @Jeringa(value = "serviciocontroller")
     private ServicioControllerImpl servicioController;
     private String tipo;
     private String nombre;
@@ -46,7 +48,7 @@ public class Filtrado {
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
-    
+
     public String getNombre() {
         return nombre;
     }
@@ -62,14 +64,14 @@ public class Filtrado {
     public void setProveedor(String proveedor) {
         this.proveedor = proveedor;
     }
-    
+
     public double getPrecio() {
         if (tipo.equals("Servicio")) {
             return servicioController.obtenerServicio(nombre, proveedor).getPrecio();
         }
         return promocionController.obtenerPromocion(nombre, proveedor).getPrecioTotal();
     }
-    
+
     public String getServicioDescripcion() {
         String descripcion = "";
         if (tipo.equals("Servicio")) {
@@ -77,10 +79,10 @@ public class Filtrado {
         }
         return descripcion;
     }
-    
+
     public List<String> getServicioCategorias() {
         List<String> categorias = new ArrayList<>();
-        if (tipo.equals("Servicio")){
+        if (tipo.equals("Servicio")) {
             Iterator<Categoria> iteratorCategorias = servicioController.obtenerServicio(nombre, proveedor).getCategorias().iterator();
             while (iteratorCategorias.hasNext()) {
                 Categoria categoriaAux = iteratorCategorias.next();
@@ -89,10 +91,10 @@ public class Filtrado {
         }
         return categorias;
     }
-    
+
     public String getServicioLineCategorias() {
         String categorias = "";
-        if (tipo.equals("Servicio")){
+        if (tipo.equals("Servicio")) {
             Iterator<Categoria> iteratorCategorias = servicioController.obtenerServicio(nombre, proveedor).getCategorias().iterator();
             while (iteratorCategorias.hasNext()) {
                 Categoria categoriaAux = iteratorCategorias.next();
@@ -104,26 +106,25 @@ public class Filtrado {
         }
         return categorias;
     }
-    
+
     public String getServicioDestinos() {
         String destinos = "";
         if (tipo.equals("Servicio")) {
             Servicio servicio = servicioController.obtenerServicio(nombre, proveedor);
             if (servicio.getDestino() != null) {
-                destinos = servicio.getOrigen().getNombre()+" - "+servicio.getDestino().getNombre();
+                destinos = servicio.getOrigen().getNombre() + " - " + servicio.getDestino().getNombre();
             } else {
                 destinos = servicio.getOrigen().getNombre();
             }
         }
         return destinos;
     }
-    
+
     /*
     public List<String> getServiciosImagenes() {
         ...
     }
-    */
-    
+     */
     public int getPromocionDescuento() {
         int descuento = 0;
         if (tipo.equals("Promocion")) {
@@ -131,7 +132,7 @@ public class Filtrado {
         }
         return descuento;
     }
-    
+
     public List<String> getPromocionServicios() {
         List<String> servicios = new ArrayList<>();
         if (tipo.equals("Promocion")) {
@@ -143,7 +144,7 @@ public class Filtrado {
         }
         return servicios;
     }
-    
+
     public String getPromocionLineServicios() {
         String servicios = "";
         if (tipo.equals("Promocion")) {

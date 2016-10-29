@@ -7,7 +7,9 @@ package uy.edu.cure.servidor.web;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.List;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import uy.edu.cure.servidor.central.dto.Proveedor;
 import uy.edu.cure.servidor.central.dto.Servicio;
@@ -20,14 +22,15 @@ import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
  * @author SCN
  */
 @ManagedBean
+//@RequestScoped
 //@ViewScoped
 @SessionScoped
 
 public class DatosProveedor {
 
     private Proveedor proveedor;
-    private ArrayList<Proveedor> proveedores;
-    private ArrayList<Servicio> servicios;
+    private List<Proveedor> proveedores;
+    private List<Servicio> servicios;
     private String nickName;
     private String nombreServicio;
     @Jeringa(value = "usuariocontroller")
@@ -47,19 +50,12 @@ public class DatosProveedor {
 
     public void accionProveedor() {
         proveedor = usuariocontroller.obtenerProveedor(this.nickName);
+        this.servicios = proveedor.getServicios();
     }
     
     
-    public ArrayList<Servicio> getServicios() {
-        try {
-            if (this.servicios.isEmpty()) {
-                servicios.addAll(usuariocontroller.obtenerProveedor(this.nickName).getServicios());
-            }
-            return servicios;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+    public List<Servicio> getServicios() {
+        return this.servicios;
 
     }
     
@@ -86,11 +82,11 @@ public class DatosProveedor {
         this.nombreServicio = nombreServicio;
     }
 
-    public ArrayList<Proveedor> getProveedores() {
+    public List<Proveedor> getProveedores() {
         return proveedores;
     }
 
-    public void setProveedores(ArrayList<Proveedor> proveedores) {
+    public void setProveedores(List<Proveedor> proveedores) {
         this.proveedores = proveedores;
     }
 
@@ -106,7 +102,7 @@ public class DatosProveedor {
         this.nickName = nickName;
     }
 
-    public void setServicios(ArrayList<Servicio> servicios) {
+    public void setServicios(List<Servicio> servicios) {
         this.servicios = servicios;
     }
 

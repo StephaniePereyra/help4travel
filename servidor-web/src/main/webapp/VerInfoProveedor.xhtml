@@ -23,23 +23,36 @@
                         <h:selectOneMenu value="#{datosProveedor.nickName}">
                             <f:selectItems value="#{datosProveedor.proveedores}" var="c" itemValue="#{c.nickName}" itemLabel="#{c.nickName}"></f:selectItems>
                         </h:selectOneMenu>
-                        <h:commandButton value="VerInfo" action="#{datosProveedor.accionProveedor()}" >
-                            <br/><outputText> <b>NickName:</b> #{datosProveedor.proveedor.nickName}</outputText><br/>
-                            <br/><outputText> <b>Nombre:</b> #{datosProveedor.proveedor.nombre}</outputText><br/> 
-                            <br/><outputText> <b>Apellido:</b> #{datosProveedor.proveedor.apellido}</outputText><br/> 
-                            <br/><outputText> <b>Correo:</b> #{datosProveedor.proveedor.correo}</outputText><br/> 
-                            <br/><outputText> <b>Nombre Empresa:</b> #{datosProveedor.proveedor.nombreEmpresa}</outputText><br/>
-                            <br/><outputText> <b>Link Empresa:</b> <a href="#{datosProveedor.proveedor.linkEmpresa}">ClickAqui</a></outputText><br/>
-                            <br/><outputText> <b>Imagen Perfil:</b></outputText><br/>
-                            <img src="#{datosProveedor.proveedor.imagenPerfil}" width="175" height="175"></img>
-                            <br/><outputText> <b>Servicios:</b></outputText><br/>
-                            <h:form>
-                                <ui:repeat value="#{datosProveedor.servicios}" var="item" varStatus="estado">  
-                                    <h:outputText> #{estado.index}- </h:outputText><a href="index.xhtml">Ver informacion de #{item.nombre}</a>  
-                                </ui:repeat>
-                            </h:form>
-                        </h:commandButton>
+                        <h:commandButton value="VerInfo" action="#{datosProveedor.accionProveedor()}" ></h:commandButton><br/>
+                        <table>
+                            
+                            <tr>
+                                <td>
+                        <br/><outputText> <b>NickName:</b> #{datosProveedor.proveedor.nickName}</outputText><br/>
+                        <br/><outputText> <b>Nombre:</b> #{datosProveedor.proveedor.nombre}</outputText><br/> 
+                        <br/><outputText> <b>Apellido:</b> #{datosProveedor.proveedor.apellido}</outputText><br/> 
+                        <br/><outputText> <b>Correo:</b> #{datosProveedor.proveedor.correo}</outputText><br/> 
+                        <br/><outputText> <b>Nombre Empresa:</b> #{datosProveedor.proveedor.nombreEmpresa}</outputText><br/>
+                        <br/><outputText> <b>Link Empresa:</b> <a href="#{datosProveedor.proveedor.linkEmpresa}">ClickAqui</a></outputText><br/>
+                                </td>
+                                
+                                <td>
+                                    <img src="#{datosProveedor.proveedor.imagenPerfil}" width="175" height="175"></img>
+                                </td>
+                            </tr>
+                            
+                        </table>
+                        <br/><outputText> <b>Servicios:</b></outputText><br/>
                     </h:form>
+                    <h:form>
+                        <ui:repeat value="#{datosProveedor.servicios}" var="item">  
+                            <h:commandLink
+                                action="#{verInfoServicio.getThatService()}" value="#{item.nombre}" > 
+                                <f:param name="nombreServicio" value="#{item.nombre}" >
+                                </f:param> <f:param name="proveedorServicio" value="#{item.proveedor.getNickName()}" ></f:param> 
+                            </h:commandLink>
+                        </ui:repeat>
+                    </h:form>  
                 </ui:define>
             </ui:composition> 
         </div>
