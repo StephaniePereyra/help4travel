@@ -7,6 +7,7 @@ package uy.edu.cure.servidor.web;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -35,6 +36,8 @@ public class VerReserva {
     private ServicioControllerImpl servicioController;
     @Jeringa(value = "usuariocontroller")
     private UsuarioControllerImpl usuarioController;
+    @Jeringa(value = "reservacontroller")
+    private ReservaControllerImpl reservaController;
     private String nombre;
     private String proveedor;
     private List<Reserva> reservas = new ArrayList<>();
@@ -56,8 +59,6 @@ public class VerReserva {
     public void listaReservas() {
         reservas = new ArrayList<>();
         setNombre(datosSesion.getNickName());
-        ReservaControllerImpl reservaController = new ReservaControllerImpl();
-
         for (int i = 0; i < reservaController.obtenerTodasReservas().size(); i++) {
             if ((reservaController.obtenerTodasReservas().get(i).getCliente().getNickName()).equals(nombre)) {
                 reservas.add(reservaController.obtenerTodasReservas().get(i));
@@ -65,27 +66,27 @@ public class VerReserva {
         }
         if (!reservas.isEmpty()) {
             for (int i = 0; i < reservas.size(); i++) {
-                cantReservas.add(i);
+                cantReservas.add(reservas.get(i).getNumero());
             }
         }
     }
 
     public void serviciosPromos() {
-        servicios = reservas.get(nroReserva).getServicios();
-        promociones = reservas.get(nroReserva).getPromociones();
+        servicios = reservaController.obtenerReserva(nroReserva).getServicios();
+        promociones = reservaController.obtenerReserva(nroReserva).getPromociones();
         if(!servicios.isEmpty()){
-            cantServicios = reservas.get(nroReserva).getCantidadServicios();                   
+            cantServicios = reservaController.obtenerReserva(nroReserva).getCantidadServicios();
         }
     }
     
       public int cantidadServ(Servicio s) {
         int index = servicios.indexOf(s);
-        return reservas.get(nroReserva).getCantidadServicios().get(index);
+        return reservaController.obtenerReserva(nroReserva).getCantidadServicios().get(index);
     }
 
     public int cantidadPromo(Promocion p) {
         int index = promociones.indexOf(p);
-        return reservas.get(nroReserva).getCantidadPromociones().get(index);
+        return reservaController.obtenerReserva(nroReserva).getCantidadPromociones().get(index);
     }
 
     public DatosSesion getDatosSesion() {
@@ -96,20 +97,16 @@ public class VerReserva {
         this.datosSesion = datosSesion;
     }
 
-    public ServicioControllerImpl getServicioController() {
-        return servicioController;
-    }
-
-    public void setServicioController(ServicioControllerImpl servicioController) {
-        this.servicioController = servicioController;
-    }
-
-    public UsuarioControllerImpl getUsuarioController() {
-        return usuarioController;
-    }
-
-    public void setUsuarioController(UsuarioControllerImpl usuarioController) {
-        this.usuarioController = usuarioController;
+    public String getEstado () {
+        String estado = "";
+        Iterator<Reserva> iteratorReserva = reservas.iterator();
+        while(iteratorReserva.hasNext()) {
+            Reserva reservaAux = iteratorReserva.next();
+            if (reservaAux.getNumero() == nroReserva) {
+                estado = reservaAux.getEstado();
+            }
+        }
+        return estado;
     }
 
     public String getNombre() {
@@ -174,6 +171,16 @@ public class VerReserva {
 
     public void setCantServicios(List<Integer> cantServicios) {
         this.cantServicios = cantServicios;
+    }
+    
+    public void actionCancelarReserva() {
+        Iterator<Reserva> iteratorReserva = reservas.iterator();
+        while(iteratorReserva.hasNext()) {
+            Reserva reservaAux = iteratorReserva.next();
+            if (reservaAux.getNumero() == nroReserva) {
+                reservaAux.setEstado("Cancelada");
+            }
+        }
     }
 
 }
