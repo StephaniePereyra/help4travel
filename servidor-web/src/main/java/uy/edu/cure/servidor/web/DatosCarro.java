@@ -106,7 +106,7 @@ public class DatosCarro implements Serializable {
         totalCarro = totalCarro - (p.getPrecioTotal() * usuariocontroller.obtenerCliente(nickSession).getCarrito().getCantidadPromociones().get(index));
         usuariocontroller.obtenerCliente(nickSession).getCarrito().setPrecio(totalCarro);
         usuariocontroller.obtenerCliente(nickSession).getCarrito().getCantidadPromociones().remove(index);
-        usuariocontroller.obtenerCliente(nickSession).getCarrito().getPromociones().remove(index);
+        usuariocontroller.obtenerCliente(nickSession).getCarrito().getPromociones().remove(p);
     }
 
     public int cantidadServ(Servicio s) {
