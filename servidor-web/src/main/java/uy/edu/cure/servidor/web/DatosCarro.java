@@ -59,24 +59,28 @@ public class DatosCarro implements Serializable {
 
     @PostConstruct
     public void CargarArray() {
-        if(datosSesion.isLoged()){
-        servicios = new ArrayList();
-        promociones = new ArrayList();
-        cantidadServicios = new ArrayList();
-        cantidadPromos = new ArrayList();
-        oculto = new ArrayList();
-        Oculta o = new Oculta();
-        oculto.add(o);
-        nickSession = datosSesion.getNickName();
-        servicios = usuariocontroller.obtenerCliente(nickSession).getCarrito().getServicios();
-        promociones = usuariocontroller.obtenerCliente(nickSession).getCarrito().getPromociones();
-        cantidadServicios = usuariocontroller.obtenerCliente(nickSession).getCarrito().getCantidadServicios();
-        cantidadPromos = usuariocontroller.obtenerCliente(nickSession).getCarrito().getCantidadPromociones();
-        totalCarro = usuariocontroller.obtenerCliente(nickSession).getCarrito().getPrecio();
-        if (servicios.isEmpty() && promociones.isEmpty()) {
-            setCarritoEmpty(true);
-        }
-        }else{
+        if (datosSesion.isLoged()) {
+            servicios = new ArrayList();
+            promociones = new ArrayList();
+            cantidadServicios = new ArrayList();
+            cantidadPromos = new ArrayList();
+            oculto = new ArrayList();
+            Oculta o = new Oculta();
+            oculto.add(o);
+            nickSession = datosSesion.getNickName();
+            servicios = usuariocontroller.obtenerCliente(nickSession).getCarrito().getServicios();
+            promociones = usuariocontroller.obtenerCliente(nickSession).getCarrito().getPromociones();
+            cantidadServicios = usuariocontroller.obtenerCliente(nickSession).getCarrito().getCantidadServicios();
+            cantidadPromos = usuariocontroller.obtenerCliente(nickSession).getCarrito().getCantidadPromociones();
+            totalCarro = usuariocontroller.obtenerCliente(nickSession).getCarrito().getPrecio();
+            if (servicios.isEmpty() && promociones.isEmpty()) {
+                try {
+                    FacesContext.getCurrentInstance().getExternalContext().redirect("CarroEmpty.xhtml");
+                } catch (IOException ex) {
+                    Logger.getLogger(DatosCarro.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        } else {
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("LogIn.xhtml");
             } catch (IOException ex) {

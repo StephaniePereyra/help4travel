@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html  xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:f="http://java.sun.com/jsf/core"
+       xmlns:h="http://java.sun.com/jsf/html"
+       xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <head>
+        <title>TODO supply a title</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+        <h:form>
+
+            <table>
+                <tr>
+                    <td>
+                        <img src="images/carrito_vacio.png"></img><br/><br/> 
+                    </td>
+                    <td>
+                        <h:outputLabel value="Tu carro de compras esta vacio" ></h:outputLabel><br/>
+                        <h:outputLabel value="Pero no tiene por que estarlo" ></h:outputLabel><br/>
+                        <h:outputText value="Que esperas para llenarlo con los grandiosos "></h:outputText>
+                        <h:link value="servicios" outcome="TodosServicios.xhtml" ></h:link>
+                        <h:outputText value=" que ofrece Help4Travel?"></h:outputText><br/>
+                        <h:outputText value="Ademas no te pierdas nuestras "></h:outputText>
+                        <h:link value="promociones" outcome="TodosServicios.xhtml" ></h:link>
+                        <h:outputText value=" con descuentos increibles!"></h:outputText><br/>
+                    </td>
+                </tr>           
+            </table>
+        </h:form>
+    </body>
+</html>

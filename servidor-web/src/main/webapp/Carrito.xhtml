@@ -26,10 +26,9 @@ and open the template in the editor.
                 padding: 5px; 
             }
         </style>
-
     </head>
     <body>
-        <h:form rendered="#{!datosCarro.carritoEmpty}">
+        <form>
             <table class="roundedCorners" style="width: 100%">
                 <tr>
                     <th>Items</th>
@@ -74,26 +73,6 @@ and open the template in the editor.
                     <td align="center"><h:form> <h:commandLink action="#{datosCarro.confirmarCarro()}" rendered="#{!datosCarro.carritoEmpty}" > <h:graphicImage width="32" height="32" value="images/carritoconf.png" /> </h:commandLink>  </h:form> </td>
                 </tr>
             </table>
-        </h:form>
-        <h:form rendered="#{datosCarro.carritoEmpty}">
-
-            <table>
-                <tr>
-                    <td>
-                        <img src="images/carrito_vacio.png"></img><br/><br/> 
-                    </td>
-                    <td>
-                        <h:outputLabel value="Tu carro de compras esta vacio" ></h:outputLabel><br/>
-                        <h:outputLabel value="Pero no tiene por que estarlo" ></h:outputLabel><br/>
-                        <h:outputText value="Que esperas para llenarlo con los grandiosos "></h:outputText>
-                        <h:link value="servicios" outcome="TodosServicios.xhtml" ></h:link>
-                        <h:outputText value=" que ofrece Help4Travel?"></h:outputText><br/>
-                        <h:outputText value="Ademas no te pierdas nuestras "></h:outputText>
-                        <h:link value="promociones" outcome="TodosServicios.xhtml" ></h:link>
-                        <h:outputText value=" con descuentos increibles!"></h:outputText><br/>
-                    </td>
-                </tr>           
-            </table>
-        </h:form>
+        </form>
     </body>
 </html>
