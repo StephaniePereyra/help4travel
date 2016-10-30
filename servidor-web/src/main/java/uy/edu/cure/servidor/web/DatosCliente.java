@@ -221,7 +221,7 @@ public void action() throws IOException{
 
         input = imagen.getInputStream();
         Date date = new Date();
-        File perfil = new File("/home/guido/help4travel/servidor-web/src/main/webapp/images/perfil/" + date.getTime() + ".png");
+        File perfil = new File("C:/Users/SCN/help4travel/servidor-web/src/main/webapp/images/perfil/" + date.getTime() + ".png");
         output = new FileOutputStream(perfil);
 
         byte[] buffer = new byte[8 * 1024];

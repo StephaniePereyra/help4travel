@@ -97,6 +97,14 @@ public class DatosCarro implements Serializable {
         usuariocontroller.obtenerCliente(nickSession).getCarrito().setPrecio(totalCarro);
         usuariocontroller.obtenerCliente(nickSession).getCarrito().getCantidadServicios().remove(index);
         usuariocontroller.obtenerCliente(nickSession).getCarrito().getServicios().remove(servicio);
+
+        if (servicios.isEmpty() && promociones.isEmpty()) {
+            try {
+                FacesContext.getCurrentInstance().getExternalContext().redirect("CarroEmpty.xhtml");
+            } catch (IOException ex) {
+                Logger.getLogger(DatosCarro.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     public void eliminarPromo(Promocion promocion) {
@@ -107,6 +115,14 @@ public class DatosCarro implements Serializable {
         usuariocontroller.obtenerCliente(nickSession).getCarrito().setPrecio(totalCarro);
         usuariocontroller.obtenerCliente(nickSession).getCarrito().getCantidadPromociones().remove(index);
         usuariocontroller.obtenerCliente(nickSession).getCarrito().getPromociones().remove(promocion);
+
+        if (servicios.isEmpty() && promociones.isEmpty()) {
+            try {
+                FacesContext.getCurrentInstance().getExternalContext().redirect("CarroEmpty.xhtml");
+            } catch (IOException ex) {
+                Logger.getLogger(DatosCarro.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     public int cantidadServ(Servicio servicio) {
@@ -135,7 +151,7 @@ public class DatosCarro implements Serializable {
     public void setRedirect(String redirect) {
         this.redirect = redirect;
     }
-    
+
     public void setServicios(List<Servicio> servicios) {
         this.servicios = servicios;
     }
