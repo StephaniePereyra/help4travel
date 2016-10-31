@@ -17,7 +17,7 @@ a:hover {color:#000;text-decoration:none}
 #menu ul li a {font-family:Arial,Helvetica,sans-serif;font-size:24px;color:#fff;font-weight:normal;text-decoration:none;padding-left:12px;padding-right:12px;padding-top:9px;padding-bottom:9px}
 .active {background:#378CCD}
 #menu ul li a:hover {background:#378CCD}
-#content {width:1050px;margin:auto;background:#fff}
+#content {width:auto;margin:auto;background:#fff}
 #welcome {font-family:Arial,Helvetica,sans-serif;font-size:18px;font-weight:bold;color:#bda86e}
 #content p {font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#666;font-weight:normal}
 #footer {background:#A2D0E8;text-align:center;padding-top:19px;padding-bottom:29px}
@@ -51,21 +51,6 @@ height: 32px;
 visibility: hidden;
 }
 
-#contenedor label {
-float: left;
-cursor: pointer;
-font-size: 15px;  /* Tamaño del texto de las pestañas */
-line-height: 40px;
-height: 40px;
-padding: 0 20px;
-display: block;
-color: #378CCD;  /* Color del texto de las pestañas */
-text-align: center;
-border-radius: 5px 5px 0 0;
-background: #80BBE3;  /* Fondo de las pestañas */
-margin-right: 5px;
-}
-
 #contenedor input:hover + label {
 background: #348;  /* Fondo de las pestañas al pasar el cursor por encima */
 color: #666;  /* Color del texto de las pestañas al pasar el cursor por encima */
@@ -88,16 +73,14 @@ top: -5px;
 
 
 .content div {
-position: absolute;
+position: static;
 z-index: -100;
 opacity: 0;
 transition: all linear 0.1s;
 }
 
 #contenedor input.tab-selector-1:checked ~ .content .content-1,
-#contenedor input.tab-selector-2:checked ~ .content .content-2,
-#contenedor input.tab-selector-3:checked ~ .content .content-3,
-#contenedor input.tab-selector-4:checked ~ .content .content-4 {
+#contenedor input.tab-selector-2:checked ~ .content .content-2 {
     z-index: 100;
     opacity: 1;
     -webkit-transition: all ease-out 0.2s 0.1s;
