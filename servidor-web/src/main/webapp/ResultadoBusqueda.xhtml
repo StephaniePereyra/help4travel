@@ -62,6 +62,8 @@
                                     </h:commandLink> <br/>
                                     <h:outputText value="Descripicion: #{item.servicioDescripcion}"/> <br/>
                                     <h:outputText value="Categorias: #{item.servicioLineCategorias}"/> <br/>
+                                    <h:outputText value="Precio: #{item.precio}"/> <br/>
+                                    <h:commandLink  action="#{datosReserva.agregarServicio(item.nombre,item.proveedor)}"> <h:graphicImage width="130" height="42" value="images/carritomas.png" /></h:commandLink> <br/>
                                 </c:if>
                                 <c:if test="#{item.tipo=='Promocion'}">
                                     <h:commandLink style="font-size: large" action="#{verInfoPromocion.getThatPromo()}" value="#{item.nombre}">
@@ -69,8 +71,9 @@
                                         <f:param name="proveedorPromocion" value="#{item.proveedor}"/>
                                     </h:commandLink> <br/>
                                     <h:outputText value="Servicios: #{item.promocionLineServicios}"/> <br/>
+                                    <h:outputText value="Precio: #{item.precio}"/> <br/>
+                                    <h:commandLink action="#{datosReserva.agregarPromocion(item.nombre,item.proveedor)}"><h:graphicImage width="130" height="42" value="images/carritomas.png" /></h:commandLink> <br/>
                                 </c:if>
-                                <h:outputText value="Precio: #{item.precio}"/> <br/>
                             </fieldset>
                         </c:forEach>
                     </h:form>
