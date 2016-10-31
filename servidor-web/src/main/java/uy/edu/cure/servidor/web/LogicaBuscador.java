@@ -171,8 +171,8 @@ public class LogicaBuscador {
         ciudadController.crearCiudad("Montevideo", "Uruguay");
         ciudadController.crearCiudad("Rocha", "Uruguay");
         // -- Clientes --
-        usuarioController.crearCliente("Cliente1", "nombre1", "apellido1", "correo@correo1", 10, 10, 1995, "", "password1", "password1");
-        usuarioController.crearCliente("Cliente2", "nombre2", "apellido2", "correo@correo2", 29, 2, 1996, "", "password2", "password2");
+        usuarioController.crearCliente("Cliente1", "nombre1", "apellido1", "correo@correo1", 10, 10, 1995, "images/perfil/default.png", "password1", "password1");
+        usuarioController.crearCliente("Cliente2", "nombre2", "apellido2", "correo@correo2", 29, 2, 1996, "images/perfil/default.png", "password2", "password2");
         // -- Proveedores --
         usuarioController.crearProveedor("Proveedor1", "nombre3", "apellido3",
                 "correo@correo3", 22, 10, 2000, "empresa1", "http://www.starwoodhotels.com/whotels/index.html?language=en_US", "images/providers/1.jpg", "password3", "password3");
