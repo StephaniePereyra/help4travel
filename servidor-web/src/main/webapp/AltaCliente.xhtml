@@ -55,11 +55,7 @@
                                 <td align="left"><p> Apellido </p>  
                                     <h:inputText required="true" requiredMessage="**" value="#{datosCliente.apellido}"></h:inputText> <br/> <br/></td>
                                 <td align="left"><p> Imagen de Perfil </p>
-                                    <h:inputFile id="imgPerfilId" value="#{datosCliente.imagen}">
-                                        <f:validator validatorId="imgPerfilValidator" />
-                                        <f:ajax event="change" render = "imgPerfilIdMessage"/>
-                                    </h:inputFile><br/>
-                                    <h:message style="color: red;font-size: small"  id="imgPerfilIdMessage" for="imgPerfilId"/>
+                                    <h:inputFile value="#{datosCliente.imagen}"></h:inputFile><br/>
                                 </td>
                             </tr>
                         </table>
