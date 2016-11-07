@@ -28,17 +28,17 @@ import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
 @ManagedBean
 @ViewScoped
 public class DatosCliente {
-    
-private MensajeDatosUsuario datosusuarioMnsj = new MensajeDatosUsuario();
-private String nickName,nombre,apellido,correo,ruta,passWord,passWordConfirm,mensaje,mensajeDefault = "*No pueden existir campos vacios*";
-private int dia,mes,anio;
-private boolean mostrarMensaje = false;
-@Jeringa (value = "usuariocontroller")
-private UsuarioControllerImpl usuariocontroller;
-private List<Integer> dias,meses,anios;
-private Part imagen;
 
-    public DatosCliente(){
+    private MensajeDatosUsuario datosusuarioMnsj = new MensajeDatosUsuario();
+    private String nickName, nombre, apellido, correo, ruta, passWord, passWordConfirm, mensaje, mensajeDefault = "*No pueden existir campos vacios*";
+    private int dia, mes, anio;
+    private boolean mostrarMensaje = false;
+    @Jeringa(value = "usuariocontroller")
+    private UsuarioControllerImpl usuariocontroller;
+    private List<Integer> dias, meses, anios;
+    private Part imagen;
+
+    public DatosCliente() {
         try {
             JeringaInjector.getInstance().inyectar(this);
         } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
@@ -47,17 +47,17 @@ private Part imagen;
         dias = new ArrayList();
         meses = new ArrayList();
         anios = new ArrayList();
-        for(int i =1;i<32;i++){
-          dias.add(i);
+        for (int i = 1; i < 32; i++) {
+            dias.add(i);
         }
-         for(int i =1;i<13;i++){
-          meses.add(i);
+        for (int i = 1; i < 13; i++) {
+            meses.add(i);
         }
-         for(int i =2016;i>=1900;i--){
-          anios.add(i);
-        } 
-    }    
-    
+        for (int i = 2016; i >= 1900; i--) {
+            anios.add(i);
+        }
+    }
+
     public String getPassWordConfirm() {
         return passWordConfirm;
     }
@@ -65,7 +65,7 @@ private Part imagen;
     public void setPassWordConfirm(String passWordConfirm) {
         this.passWordConfirm = passWordConfirm;
     }
-    
+
     public boolean isMostrarMensaje() {
         return mostrarMensaje;
     }
@@ -210,36 +210,46 @@ private Part imagen;
         this.imagen = imagen;
     }
 
-public void action() throws IOException{
-    InputStream input;
-    OutputStream output;
-    String rutaUp="";
-    
-    if (imagen == null) {
-         rutaUp= "images/perfil/default.png";
-    } else {
+    public void action() throws IOException {
+        InputStream input;
+        OutputStream output;
+        String rutaUp = "";
+        int resultado;
+        mostrarMensaje = true;
 
-        input = imagen.getInputStream();
-        Date date = new Date();
-        File perfil = new File("C:/Users/SCN/help4travel/servidor-web/src/main/webapp/images/perfil/" + date.getTime() + ".png");
-        output = new FileOutputStream(perfil);
+        if (imagen == null) {
+            rutaUp = "images/perfil/default.png";
+            resultado = usuariocontroller.crearCliente(nickName, nombre, apellido, correo, dia, mes, anio, rutaUp, passWord, passWordConfirm);
+        } else {
 
-        byte[] buffer = new byte[8 * 1024];
-        int bytesRead;
-        while ((bytesRead = input.read(buffer)) != -1) {
-            output.write(buffer, 0, bytesRead);
+            String tipo = imagen.getContentType();
+            String formato1 = "image/png";
+            String formato2 = "image/jpeg";
+            String formato3 = "image/jpg";
+
+            if (!formato1.equals(tipo) && !formato2.equals(tipo) && !formato3.equals(tipo)) {
+                resultado = 6;
+            } else {
+                input = imagen.getInputStream();
+                Date date = new Date();
+                File perfil = new File("C:/Users/SCN/help4travel/servidor-web/src/main/webapp/images/perfil/" + date.getTime() + ".png");
+                output = new FileOutputStream(perfil);
+
+                byte[] buffer = new byte[8 * 1024];
+                int bytesRead;
+                while ((bytesRead = input.read(buffer)) != -1) {
+                    output.write(buffer, 0, bytesRead);
+                }
+                rutaUp = "images/perfil/" + date.getTime() + ".png";
+                resultado = usuariocontroller.crearCliente(nickName, nombre, apellido, correo, dia, mes, anio, rutaUp, passWord, passWordConfirm);
+            }
         }
-        rutaUp = "images/perfil/" + date.getTime() + ".png";
 
+        if (nickName.equals("") || nombre.equals("") || apellido.equals("") || correo.equals("")) {
+            mensaje = mensajeDefault;
+        } else {
+            mensaje = datosusuarioMnsj.retornoMensajeUsuario(resultado);
+        }
     }
-    
-    int resultado = usuariocontroller.crearCliente(nickName, nombre, apellido, correo, dia, mes, anio, rutaUp,passWord,passWordConfirm);
-    mostrarMensaje = true;
-    if(nickName.equals("") || nombre.equals("") || apellido.equals("") || correo.equals("")){
-        mensaje = mensajeDefault;
-    }else{
-        mensaje = datosusuarioMnsj.retornoMensajeUsuario(resultado);
-    }
-}
 
 }
