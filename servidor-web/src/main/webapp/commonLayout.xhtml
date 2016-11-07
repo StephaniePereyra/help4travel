@@ -3,49 +3,69 @@
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"   
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <h:head>
         <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />     
-        <link href="style.css" rel="stylesheet" type="text/css" />
+
+        <link rel="stylesheet" href="css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="css/estilos.css"/>
     </h:head>
 
     <h:body>
 
-        <div id="site">     
-                <div id="header">
-                 </div>
+        <header>
+            <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navegacion-fm">
+                            <span class="sr-only">Desplegar / Ocultar Menu</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a href="#" class="navbar-brand">Help4Travel</a>
+                    </div>
+                    <!-- Inicia Menu -->
+                    <div class="collapse navbar-collapse" id="navegacion-fm">
+                        <ul class="nav navbar-nav">
+                            <li><a href="index.xhtml">Home</a></li>
+                            <li><a href="LogIn.xhtml">LogIn/Out</a></li>
+                            <li><a href="Carrito.xhtml">Cart</a></li>
+                            <li><a href="VerInfoProveedor.xhtml">Providers</a></li>
+                            <li><a href="TodosServicios.xhtml">Services</a></li>
+                            <li><a href="TodosPromocion.xhtml">Promotions</a></li>
+                            <li><h:link value="Profile" rendered="#{datosSesion.loged}" outcome="PerfilReservas.xhtml"></h:link></li>                        
+                            <li><h:link value="SignUp" rendered="#{!datosSesion.loged}" outcome="AltaCliente.xhtmll"></h:link></li>                                                   
+                        </ul>
 
-                <div id="menu">
-                    <ul>
-                        <li><a href="index.xhtml">Home</a></li>
-                        <li><a href="LogIn.xhtml">LogIn/Out</a></li>
-                        <li><a href="Carrito.xhtml">Cart</a></li>
-                        <li><a href="VerInfoProveedor.xhtml">Providers</a></li>
-                        <li><a href="TodosServicios.xhtml">Services</a></li>
-                        <li><a href="TodosPromocion.xhtml">Promotions</a></li>
-                        <li><h:link value="Profile" rendered="#{datosSesion.loged}" outcome="PerfilReservas.xhtml"></h:link></li>
-                        <li><a href="AltaCliente.xhtml">SingUp</a></li>
-                    </ul>
-                </div>
-                <div id="search">
-                    <h:form>
-                            <div id="search input" >
-                                <h:inputText id="promoServicio" value="#{logicaBuscador.wanted}"  style="width:218px;height:25px" ></h:inputText>
-                                <h:commandButton id="buttonBuscar" action="#{logicaBuscador.actionBuscar()}" image="images/search.png" > </h:commandButton> 
+                        <h:form class="navbar-form navbar-right" role="search">
+                            <div class="form-group">
+                                <h:inputText class="form-control" id="promoServicio" value="#{logicaBuscador.wanted}" ></h:inputText>  
                             </div>
-                    </h:form>
-                </div>          
-            <br></br><br></br>
-            <center>
-                <div id="content"> 
-                    <ui:insert name="content" >
-                        <ui:include src="commonContent.xhtml" />
-                    </ui:insert>
-                </div>
-            </center>
-        </div>
+                            <h:commandButton id="buttonBuscar" action="#{logicaBuscador.actionBuscar()}"
+                                             image="images/search.png"></h:commandButton>   
+                        </h:form>     
 
+                    </div>
+                </div>
+            </nav>
+        </header>           
+        <section class="jumbotron">
+            <div class="container">
+                <h1>help4travel</h1>
+                <p>Vuelos, Hoteles, Paquetes</p>
+            </div>
+        </section>
+        <center>
+            <div id="content"> 
+                <ui:insert name="content" >
+                    <ui:include src="commonContent.xhtml" />
+                </ui:insert>
+            </div>
+        </center>
     </h:body>
 
 </html>

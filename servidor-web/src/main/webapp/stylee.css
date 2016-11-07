@@ -8,7 +8,7 @@ body {background:url(images/nubes.jpg  );margin:auto;font-family:Arial,Helvetica
 img {border:none}
 a {color:#174f7b;font-size:12px}
 a:hover {color:#000;text-decoration:none}
-#site {width:1050px;margin:auto;background:#fff}
+#site {width:auto;margin:auto;background:#fff}
 #header {background:url(images/images.jpeg  ) center;height:430px;width:1050px}
 #sitename {margin:0;font-family:Arial,Helvetica,sans-serif;font-size:35px;padding-top:60px;padding-left:550px;color:#322d21;font-weight:normal}
 #menu {height:45px;background:#80BBE3}
@@ -29,6 +29,7 @@ p {color:#484439;font-family:Arial,Helvetica,sans-serif}
 #content_img {padding-top:17px;padding-bottom:17px;width:1050px;background:url(images/bg.jpg) repeat-x top;text-align:center}
 #content_img h1,h2{font:bold 80% 'helvetica neue',sans-serif;letter-spacing:3px;text-transform:uppercase}
 #content_img a{color:#348;text-decoration:none;outline:none}
+
 #content_img a:hover{color:#67a}
 .caption{font-style:italic;color:#887}
 .demo{position:relative;margin-top:2em}
@@ -69,7 +70,6 @@ top: -5px;
 -o-transition: .1s;
 -ms-transition: .1s;
 }
-
 
 
 .content div {
