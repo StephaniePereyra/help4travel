@@ -5,6 +5,7 @@
  */
 package uy.edu.cure.servidor.web;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
@@ -17,11 +18,15 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.HttpClientBuilder;
+import uy.edu.cure.servidor.central.dto.Cliente;
 import uy.edu.cure.servidor.central.dto.Oculta;
 import uy.edu.cure.servidor.central.dto.Promocion;
 import uy.edu.cure.servidor.central.dto.Servicio;
 import uy.edu.cure.servidor.central.lib.ReservaControllerImpl;
-import uy.edu.cure.servidor.central.lib.UsuarioControllerImpl;
 import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
 import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
 
@@ -35,8 +40,6 @@ public class DatosCarro implements Serializable {
 
     @ManagedProperty(value = "#{datosSesion}")
     DatosSesion datosSesion;
-    @Jeringa(value = "usuariocontroller")
-    private UsuarioControllerImpl usuariocontroller;
     @Jeringa(value = "reservacontroller")
     private ReservaControllerImpl reservacontroller;
     private List<Servicio> servicios;
@@ -48,13 +51,9 @@ public class DatosCarro implements Serializable {
     private List<Integer> cantidadPromos;
     private List<Oculta> oculto;
     private String redirect;
+    private Cliente clienteAux;
 
     public DatosCarro() {
-        try {
-            JeringaInjector.getInstance().inyectar(this);
-        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            e.printStackTrace();
-        }
     }
 
     @PostConstruct
@@ -68,11 +67,13 @@ public class DatosCarro implements Serializable {
             Oculta ocultoObj = new Oculta();
             oculto.add(ocultoObj);
             nickSession = datosSesion.getNickName();
-            servicios = usuariocontroller.obtenerCliente(nickSession).getCarrito().getServicios();
-            promociones = usuariocontroller.obtenerCliente(nickSession).getCarrito().getPromociones();
-            cantidadServicios = usuariocontroller.obtenerCliente(nickSession).getCarrito().getCantidadServicios();
-            cantidadPromos = usuariocontroller.obtenerCliente(nickSession).getCarrito().getCantidadPromociones();
-            totalCarro = usuariocontroller.obtenerCliente(nickSession).getCarrito().getPrecio();
+            clienteAux = restGetCliente();
+            servicios = clienteAux.getCarrito().getServicios();
+            promociones = clienteAux.getCarrito().getPromociones();
+            cantidadServicios = clienteAux.getCarrito().getCantidadServicios();
+            cantidadPromos = clienteAux.getCarrito().getCantidadPromociones();
+            totalCarro = clienteAux.getCarrito().getPrecio();
+
             if (servicios.isEmpty() && promociones.isEmpty()) {
                 try {
                     FacesContext.getCurrentInstance().getExternalContext().redirect("CarroEmpty.xhtml");
@@ -92,11 +93,11 @@ public class DatosCarro implements Serializable {
     public void eliminarServicio(Servicio servicio) {
 
         int index = servicios.indexOf(servicio);
-        servicios.remove(servicio);
-        totalCarro = totalCarro - (servicio.getPrecio() * usuariocontroller.obtenerCliente(nickSession).getCarrito().getCantidadServicios().get(index));
-        usuariocontroller.obtenerCliente(nickSession).getCarrito().setPrecio(totalCarro);
-        usuariocontroller.obtenerCliente(nickSession).getCarrito().getCantidadServicios().remove(index);
-        usuariocontroller.obtenerCliente(nickSession).getCarrito().getServicios().remove(servicio);
+        servicios.remove(servicio);   
+        totalCarro = totalCarro - (servicio.getPrecio() * clienteAux.getCarrito().getCantidadServicios().get(index));
+        clienteAux.getCarrito().setPrecio(totalCarro);
+        clienteAux.getCarrito().getCantidadServicios().remove(index);
+        clienteAux.getCarrito().getServicios().remove(servicio);
 
         if (servicios.isEmpty() && promociones.isEmpty()) {
             try {
@@ -110,11 +111,11 @@ public class DatosCarro implements Serializable {
     public void eliminarPromo(Promocion promocion) {
 
         int index = promociones.indexOf(promocion);
-        promociones.remove(promocion);
-        totalCarro = totalCarro - (promocion.getPrecioTotal() * usuariocontroller.obtenerCliente(nickSession).getCarrito().getCantidadPromociones().get(index));
-        usuariocontroller.obtenerCliente(nickSession).getCarrito().setPrecio(totalCarro);
-        usuariocontroller.obtenerCliente(nickSession).getCarrito().getCantidadPromociones().remove(index);
-        usuariocontroller.obtenerCliente(nickSession).getCarrito().getPromociones().remove(promocion);
+        promociones.remove(promocion);  
+        totalCarro = totalCarro - (promocion.getPrecioTotal() * clienteAux.getCarrito().getCantidadPromociones().get(index));
+        clienteAux.getCarrito().setPrecio(totalCarro);
+        clienteAux.getCarrito().getCantidadPromociones().remove(index);
+        clienteAux.getCarrito().getPromociones().remove(promocion);
 
         if (servicios.isEmpty() && promociones.isEmpty()) {
             try {
@@ -126,18 +127,36 @@ public class DatosCarro implements Serializable {
     }
 
     public int cantidadServ(Servicio servicio) {
-        int index = servicios.indexOf(servicio);
-        return usuariocontroller.obtenerCliente(nickSession).getCarrito().getCantidadServicios().get(index);
+        int index = servicios.indexOf(servicio);          
+        return clienteAux.getCarrito().getCantidadServicios().get(index);
     }
 
     public int cantidadPromo(Promocion promocion) {
         int index = promociones.indexOf(promocion);
-        return usuariocontroller.obtenerCliente(nickSession).getCarrito().getCantidadPromociones().get(index);
+        return clienteAux.getCarrito().getCantidadPromociones().get(index);
     }
 
     public String confirmarCarro() {
-        reservacontroller.agregarCarro(usuariocontroller.obtenerCliente(this.nickSession));
+        reservacontroller.agregarCarro(clienteAux);
         return "/index";
+    }
+    
+    private Cliente restGetCliente(){
+        
+        Cliente clienteAuxiliar= new Cliente();          
+        String url = "http://localhost:8080/servidor-central-webapp/rest/api/ObtenerCliente/" + nickSession;
+        HttpClient client = HttpClientBuilder.create().build();
+        HttpGet get = new HttpGet(url);
+        get.addHeader("content-type", "application/json");
+        try {
+            HttpResponse response = client.execute(get);
+            ObjectMapper map = new ObjectMapper();
+            clienteAuxiliar = map.readValue(response.getEntity().getContent(), Cliente.class);
+
+        } catch (IOException ex) {
+            Logger.getLogger(DatosCarro.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return clienteAuxiliar;
     }
 
     public List<Servicio> getServicios() {
@@ -219,4 +238,14 @@ public class DatosCarro implements Serializable {
     public void setDatosSesion(DatosSesion datosSesion) {
         this.datosSesion = datosSesion;
     }
+
+    public Cliente getClienteAux() {
+        return clienteAux;
+    }
+
+    public void setClienteAux(Cliente clienteAux) {
+        this.clienteAux = clienteAux;
+    }
+    
+    
 }

@@ -28,6 +28,15 @@ public class Usuario {
         this.fechanacimiento = fechanacimiento;
         this.passWord = passWord;
     }
+    
+    public Usuario(){
+        this.nickName = "";
+        this.nombre = "";
+        this.apellido = "";
+        this.correo = "";
+        this.fechanacimiento = new Date();
+        this.passWord = "";
+    }
 
     public String getNickName() {
         return nickName;
