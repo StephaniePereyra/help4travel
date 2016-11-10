@@ -13,7 +13,7 @@ import uy.edu.cure.servidor.central.lib.UsuarioControllerImpl;
  *
  * @author SCN
  */
-@WebService(endpointInterface = "uy.edu.cure.servidor.central.webapp.soap.server.UsuarioWSImplService")
+@WebService(endpointInterface = "uy.edu.cure.servidor.central.webapp.soap.server.UsuarioWS")
 public class UsuarioWSImpl implements UsuarioWS {
 
     @Override
