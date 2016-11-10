@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <endpoints version="2.0" xmlns="http://java.sun.com/xml/ns/jax-ws/ri/runtime">
   <endpoint implementation="uy.edu.cure.servidor.central.webapp.soap.server.HelloWSImpl" name="HelloWS" url-pattern="/soap/HelloService"/>
-  <endpoint implementation="uy.edu.cure.servidor.central.webapp.soap.server.UsuarioWSImpl" name="UsuarioWSImplService" url-pattern="/UsuarioWSImplService"/>
+  <endpoint implementation="uy.edu.cure.servidor.central.webapp.soap.server.UsuarioWSImpl" name="UsuarioWSImplService" url-pattern="/soap/UsuarioWSImplService"/>
+  <endpoint implementation="uy.edu.cure.servidor.central.webapp.soap.server.ReservaWSImpl" name="ReservaWSImplService" url-pattern="/soap/ReservaWSImplService"/>
+  <endpoint implementation="uy.edu.cure.servidor.central.webapp.soap.server.ServicioWSImpl" name="ServicioWSImplService" url-pattern="/soap/ServicioWSImplService"/>
+  <endpoint implementation="uy.edu.cure.servidor.central.webapp.soap.server.PromocionWSImpl" name="PromocionWSImplService" url-pattern="/soap/PromocionWSImplService"/>
 </endpoints>

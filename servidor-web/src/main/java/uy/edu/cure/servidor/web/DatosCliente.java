@@ -170,14 +170,6 @@ public class DatosCliente {
         this.mensajeDefault = mensajeDefault;
     }
 
-    public UsuarioControllerImpl getUsuariocontroller() {
-        return usuariocontroller;
-    }
-
-    public void setUsuariocontroller(UsuarioControllerImpl usuariocontroller) {
-        this.usuariocontroller = usuariocontroller;
-    }
-
     public List<Integer> getDias() {
         return dias;
     }

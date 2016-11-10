@@ -12,10 +12,14 @@ import javax.swing.JFrame;
 import java.awt.Image;
 import java.awt.Graphics;
 import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import javax.swing.ImageIcon;
 import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
 import uy.edu.cure.servidor.central.lib.*;
 import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
+import uy.edu.cure.servidor.central.soap.client.UsuarioWS;
+import uy.edu.cure.servidor.central.soap.client.UsuarioWSImplService;
 
 /**
  *
@@ -36,11 +40,22 @@ public class Principal extends javax.swing.JFrame {
     private CiudadControllerImpl ciudadController;
     @Jeringa (value = "categoriacontroller")
     private CategoriaControllerImpl categoriaController;
-
+    private UsuarioWSImplService usuarioWSImplService;
     /**
      * Creates new form Principal
      */
     public Principal() {
+
+        try {
+            usuarioWSImplService = new UsuarioWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/UsuarioWSImplService?wsdl"));
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        UsuarioWS port = usuarioWSImplService.getUsuarioWSImplPort();
+        String nick = port.obtenerClienteWS("NickPrueba").getNickName();
+        System.out.println("--------------------------------------------------");
+        System.out.print(nick);
+
         initComponents();
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         try {

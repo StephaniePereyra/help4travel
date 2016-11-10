@@ -31,6 +31,11 @@
 	  <artifactId>beansbinding</artifactId>
 	  <version>1.2.1</version>
 	 </dependency>
+	 <dependency>
+	  <groupId>${project.groupId}</groupId>
+	  <artifactId>servidor-central-soap-client</artifactId>
+	  <version>${project.version}</version>
+	 </dependency>
 	</dependencies>
 	<build>
 		<plugins>

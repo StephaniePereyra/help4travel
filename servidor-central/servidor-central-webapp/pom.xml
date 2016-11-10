@@ -101,6 +101,48 @@
 							</wsdlFiles>
 						</configuration>
 					</execution>
+                                        <execution>
+                                            <id>generate-wsdl-third</id>
+                                            <phase>process-classes</phase>
+                                            <goals>
+                                                <goal>wsgen</goal>
+                                            </goals>
+                                            <configuration>
+                                                <sei>uy.edu.cure.servidor.central.webapp.soap.server.ReservaWSImpl</sei>
+                                                <genWsdl>true</genWsdl>
+                                                <wsdlFiles>
+                                                    <wsdllFile>ReservaWSImpl.wsdl</wsdllFile>
+                                                </wsdlFiles>
+                                            </configuration>
+                                        </execution>
+                                        <execution>
+                                            <id>generate-wsdl-fourth</id>
+                                            <phase>process-classes</phase>
+                                            <goals>
+                                                <goal>wsgen</goal>
+                                            </goals>
+                                            <configuration>
+                                                <sei>uy.edu.cure.servidor.central.webapp.soap.server.ServicioWSImpl</sei>
+                                                <genWsdl>true</genWsdl>
+                                                <wsdlFiles>
+                                                    <wsdllFile>ServicioWSImpl.wsdl</wsdllFile>
+                                                </wsdlFiles>
+                                            </configuration>
+                                        </execution>
+                                        <execution>
+                                            <id>generate-wsdl-fifth</id>
+                                            <phase>process-classes</phase>
+                                            <goals>
+                                                <goal>wsgen</goal>
+                                            </goals>
+                                            <configuration>
+                                                <sei>uy.edu.cure.servidor.central.webapp.soap.server.PromocionWSImpl</sei>
+                                                <genWsdl>true</genWsdl>
+                                                <wsdlFiles>
+                                                    <wsdllFile>PromocionWSImpl.wsdl</wsdllFile>
+                                                </wsdlFiles>
+                                            </configuration>
+                                        </execution>    
 				</executions>
 			</plugin>
 		</plugins>
