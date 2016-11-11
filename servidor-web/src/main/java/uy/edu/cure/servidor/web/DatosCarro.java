@@ -21,10 +21,10 @@ import javax.faces.context.FacesContext;
 import uy.edu.cure.servidor.central.dto.Oculta;
 import uy.edu.cure.servidor.central.dto.Promocion;
 import uy.edu.cure.servidor.central.dto.Servicio;
-import uy.edu.cure.servidor.central.soap.client.ReservaWS;
-import uy.edu.cure.servidor.central.soap.client.ReservaWSImplService;
-import uy.edu.cure.servidor.central.soap.client.UsuarioWS;
-import uy.edu.cure.servidor.central.soap.client.UsuarioWSImplService;
+import uy.edu.cure.servidor.central.lib.ReservaControllerImpl;
+import uy.edu.cure.servidor.central.lib.UsuarioControllerImpl;
+import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
+import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
 
 /**
  *
@@ -36,6 +36,10 @@ public class DatosCarro implements Serializable {
 
     @ManagedProperty(value = "#{datosSesion}")
     DatosSesion datosSesion;
+    @Jeringa(value = "usuariocontroller")
+    private UsuarioControllerImpl usuariocontroller;
+    @Jeringa(value = "reservacontroller")
+    private ReservaControllerImpl reservacontroller;
     private List<Servicio> servicios;
     private List<Promocion> promociones;
     private boolean carritoEmpty;
@@ -45,12 +49,13 @@ public class DatosCarro implements Serializable {
     private List<Integer> cantidadPromos;
     private List<Oculta> oculto;
     private String redirect;
-    private UsuarioWSImplService usuarioWSImplService;
-    private UsuarioWS port;
-    private ReservaWSImplService reservaWSImplService;
-    private ReservaWS portReserva;
 
     public DatosCarro() {
+        try {
+            JeringaInjector.getInstance().inyectar(this);
+        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
     }
 
     @PostConstruct
@@ -64,29 +69,11 @@ public class DatosCarro implements Serializable {
             Oculta ocultoObj = new Oculta();
             oculto.add(ocultoObj);
             nickSession = datosSesion.getNickName();
-            
-            try {
-                 usuarioWSImplService = new UsuarioWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/UsuarioWSImplService?wsdl"));
-            } catch (MalformedURLException ex) {
-                Logger.getLogger(DatosCarro.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-            port = usuarioWSImplService.getUsuarioWSImplPort();
-            
-            try {
-                reservaWSImplService = new ReservaWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/ReservaWSImplService?wsdl"));
-            } catch (MalformedURLException ex) {
-                Logger.getLogger(DatosCarro.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-            portReserva = reservaWSImplService.getReservaWSImplPort();
-            
-            servicios = (List) port.obtenerServiciosCarroWS(nickSession);
-            promociones = (List) port.obtenerPromocionesCarroWS(nickSession);
-            cantidadServicios = port.obtenerClienteWS(nickSession).getCarrito().getCantidadServicios();
-            cantidadPromos = port.obtenerClienteWS(nickSession).getCarrito().getCantidadPromociones();
-            totalCarro = port.obtenerClienteWS(nickSession).getCarrito().getPrecio();
-
+            servicios = usuariocontroller.obtenerCliente(nickSession).getCarrito().getServicios();
+            promociones = usuariocontroller.obtenerCliente(nickSession).getCarrito().getPromociones();
+            cantidadServicios = usuariocontroller.obtenerCliente(nickSession).getCarrito().getCantidadServicios();
+            cantidadPromos = usuariocontroller.obtenerCliente(nickSession).getCarrito().getCantidadPromociones();
+            totalCarro = usuariocontroller.obtenerCliente(nickSession).getCarrito().getPrecio();
             if (servicios.isEmpty() && promociones.isEmpty()) {
                 try {
                     FacesContext.getCurrentInstance().getExternalContext().redirect("CarroEmpty.xhtml");
@@ -106,11 +93,11 @@ public class DatosCarro implements Serializable {
     public void eliminarServicio(Servicio servicio) {
 
         int index = servicios.indexOf(servicio);
-        servicios.remove(servicio);   
-        totalCarro = totalCarro - (servicio.getPrecio() * port.obtenerClienteWS(nickSession).getCarrito().getCantidadServicios().get(index));
-        port.obtenerClienteWS(nickSession).getCarrito().setPrecio(totalCarro);
-        port.obtenerClienteWS(nickSession).getCarrito().getCantidadServicios().remove(index);
-        port.obtenerServiciosCarroWS(nickSession).remove(servicio);
+        servicios.remove(servicio);
+        totalCarro = totalCarro - (servicio.getPrecio() * usuariocontroller.obtenerCliente(nickSession).getCarrito().getCantidadServicios().get(index));
+        usuariocontroller.obtenerCliente(nickSession).getCarrito().setPrecio(totalCarro);
+        usuariocontroller.obtenerCliente(nickSession).getCarrito().getCantidadServicios().remove(index);
+        usuariocontroller.obtenerCliente(nickSession).getCarrito().getServicios().remove(servicio);
 
         if (servicios.isEmpty() && promociones.isEmpty()) {
             try {
@@ -124,11 +111,11 @@ public class DatosCarro implements Serializable {
     public void eliminarPromo(Promocion promocion) {
 
         int index = promociones.indexOf(promocion);
-        promociones.remove(promocion);  
-        totalCarro = totalCarro - (promocion.getPrecioTotal() * port.obtenerClienteWS(nickSession).getCarrito().getCantidadPromociones().get(index));
-        port.obtenerClienteWS(nickSession).getCarrito().setPrecio(totalCarro);
-        port.obtenerClienteWS(nickSession).getCarrito().getCantidadPromociones().remove(index);
-        port.obtenerPromocionesCarroWS(nickSession).remove(promocion);
+        promociones.remove(promocion);
+        totalCarro = totalCarro - (promocion.getPrecioTotal() * usuariocontroller.obtenerCliente(nickSession).getCarrito().getCantidadPromociones().get(index));
+        usuariocontroller.obtenerCliente(nickSession).getCarrito().setPrecio(totalCarro);
+        usuariocontroller.obtenerCliente(nickSession).getCarrito().getCantidadPromociones().remove(index);
+        usuariocontroller.obtenerCliente(nickSession).getCarrito().getPromociones().remove(promocion);
 
         if (servicios.isEmpty() && promociones.isEmpty()) {
             try {
@@ -140,20 +127,20 @@ public class DatosCarro implements Serializable {
     }
 
     public int cantidadServ(Servicio servicio) {
-        int index = servicios.indexOf(servicio);          
-        return port.obtenerClienteWS(nickSession).getCarrito().getCantidadServicios().get(index);
+        int index = servicios.indexOf(servicio);
+        return usuariocontroller.obtenerCliente(nickSession).getCarrito().getCantidadServicios().get(index);
     }
 
     public int cantidadPromo(Promocion promocion) {
         int index = promociones.indexOf(promocion);
-        return port.obtenerClienteWS(nickSession).getCarrito().getCantidadPromociones().get(index);
+        return usuariocontroller.obtenerCliente(nickSession).getCarrito().getCantidadPromociones().get(index);
     }
 
     public String confirmarCarro() {
-        portReserva.agregarCarroWS(nickSession);
+        reservacontroller.agregarCarro(usuariocontroller.obtenerCliente(this.nickSession));
         return "/index";
     }
-    
+
     public List<Servicio> getServicios() {
         return servicios;
     }
@@ -233,6 +220,4 @@ public class DatosCarro implements Serializable {
     public void setDatosSesion(DatosSesion datosSesion) {
         this.datosSesion = datosSesion;
     }
-    
-    
 }

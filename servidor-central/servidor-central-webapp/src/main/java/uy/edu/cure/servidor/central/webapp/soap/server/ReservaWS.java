@@ -24,4 +24,6 @@ public interface ReservaWS {
     @WebMethod
     public List<Reserva> obtenerTodasReservasWS ();
     
+    @WebMethod
+    public List<Reserva> obteneReservasClienteWS(String nikc);
 }

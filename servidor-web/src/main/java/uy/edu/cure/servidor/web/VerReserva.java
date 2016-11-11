@@ -6,9 +6,13 @@
 package uy.edu.cure.servidor.web;
 
 import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -19,6 +23,8 @@ import uy.edu.cure.servidor.central.dto.Servicio;
 import uy.edu.cure.servidor.central.lib.ReservaControllerImpl;
 import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
 import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
+import uy.edu.cure.servidor.central.soap.client.ReservaWS;
+import uy.edu.cure.servidor.central.soap.client.ReservaWSImplService;
 
 /**
  *
@@ -41,23 +47,30 @@ public class VerReserva {
     private List<Integer> cantServicios = new ArrayList<>();
     private Integer nroReserva;
 
+
     public VerReserva() {
         try {
             JeringaInjector.getInstance().inyectar(this);
         } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
             e.printStackTrace();
         }
+        
+        
     }
 
     @PostConstruct
     public void listaReservas() {
-        reservas = new ArrayList<>();
-        setNombre(datosSesion.getNickName());
-        for (int i = 0; i < reservaController.obtenerTodasReservas().size(); i++) {
-            if ((reservaController.obtenerTodasReservas().get(i).getCliente().getNickName()).equals(nombre)) {
-                reservas.add(reservaController.obtenerTodasReservas().get(i));
-            }
+        setNombre(datosSesion.getNickName());         
+        ReservaWSImplService reservaWSImplService = null;
+        try {
+            reservaWSImplService = new ReservaWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/ReservaWSImplService?wsdl"));
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(VerReserva.class.getName()).log(Level.SEVERE, null, ex);
         }
+        reservas = (List) reservaWSImplService.getReservaWSImplPort().obteneReservasClienteWS(nombre);      
+        
+   
+                      
         if (!reservas.isEmpty()) {
             for (int i = 0; i < reservas.size(); i++) {
                 cantReservas.add(reservas.get(i).getNumero());
@@ -177,6 +190,5 @@ public class VerReserva {
                 reservaAux.setEstado("Cancelada");
             }
         }
-    }
-
+    }    
 }

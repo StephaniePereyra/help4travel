@@ -5,6 +5,7 @@
  */
 package uy.edu.cure.servidor.central.webapp.soap.server;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.jws.WebService;
 import uy.edu.cure.servidor.central.dto.Cliente;
@@ -35,6 +36,16 @@ public class ReservaWSImpl implements ReservaWS {
         reservasAux = reservacontroller.obtenerTodasReservas();
         return reservasAux;
     }
-
+     @Override
+    public List<Reserva> obteneReservasClienteWS(String nikc) {
+        ReservaControllerImpl reservaController = new ReservaControllerImpl();
+        List<Reserva> reservas = new ArrayList<>();
+         for (int i = 0; i < reservaController.obtenerTodasReservas().size(); i++) {
+            if ((reservaController.obtenerTodasReservas().get(i).getCliente().getNickName()).equals(nikc)) {
+                reservas.add(reservaController.obtenerTodasReservas().get(i));
+            }
+        }
+        return reservas;
+    }
 
 }
