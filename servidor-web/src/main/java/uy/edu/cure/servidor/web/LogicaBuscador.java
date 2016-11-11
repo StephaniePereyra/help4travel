@@ -6,11 +6,15 @@
 package uy.edu.cure.servidor.web;
 
 import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import uy.edu.cure.servidor.central.dto.Categoria;
@@ -24,6 +28,10 @@ import uy.edu.cure.servidor.central.lib.ServicioControllerImpl;
 import uy.edu.cure.servidor.central.lib.UsuarioControllerImpl;
 import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
 import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
+import uy.edu.cure.servidor.central.soap.client.ReservaWS;
+import uy.edu.cure.servidor.central.soap.client.ReservaWSImplService;
+import uy.edu.cure.servidor.central.soap.client.UsuarioWS;
+import uy.edu.cure.servidor.central.soap.client.UsuarioWSImplService;
 
 /**
  *
@@ -171,8 +179,16 @@ public class LogicaBuscador {
         ciudadController.crearCiudad("Montevideo", "Uruguay");
         ciudadController.crearCiudad("Rocha", "Uruguay");
         // -- Clientes --
-        usuarioController.crearCliente("Cliente1", "nombre1", "apellido1", "correo@correo1", 10, 10, 1995, "images/perfil/default.png", "password1", "password1");
-        usuarioController.crearCliente("Cliente2", "nombre2", "apellido2", "correo@correo2", 29, 2, 1996, "images/perfil/default.png", "password2", "password2");
+         UsuarioWSImplService usuarioWSImplService = null;
+        try {
+            usuarioWSImplService = new UsuarioWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/UsuarioWSImplService?wsdl"));
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(VerReserva.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        UsuarioWS port = usuarioWSImplService.getUsuarioWSImplPort();
+        port.crearClienteWS("Cliente1", "nombre1", "apellido1", "correo@correo1", 10, 10, 1995, "images/perfil/default.png", "password1", "password1");
+        port.crearClienteWS("Cliente2", "nombre2", "apellido2", "correo@correo2", 29, 2, 1996, "images/perfil/default.png", "password2", "password2");    
+        
         // -- Proveedores --
         usuarioController.crearProveedor("Proveedor1", "nombre3", "apellido3",
                 "correo@correo3", 22, 10, 2000, "empresa1", "http://www.starwoodhotels.com/whotels/index.html?language=en_US", "images/providers/1.jpg", "password3", "password3");

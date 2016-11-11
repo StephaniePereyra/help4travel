@@ -6,12 +6,18 @@
 package uy.edu.cure.servidor.web;
 
 import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import uy.edu.cure.servidor.central.dto.Cliente;
 import uy.edu.cure.servidor.central.lib.UsuarioControllerImpl;
 import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
 import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
+import uy.edu.cure.servidor.central.soap.client.UsuarioWS;
+import uy.edu.cure.servidor.central.soap.client.UsuarioWSImplService;
 
 /**
  *
@@ -41,11 +47,19 @@ public class DatosSesion {
 
     public String logIn() {
 
-        boolean resultadoCliente = usuariocontroller.LogInCliente(nickName, passWord);
+        //boolean resultadoCliente = usuariocontroller.LogInCliente(nickName, passWord);
+        UsuarioWSImplService usuarioWSImplService = null;
+        try {
+            usuarioWSImplService = new UsuarioWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/UsuarioWSImplService?wsdl"));
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(VerReserva.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        UsuarioWS port = usuarioWSImplService.getUsuarioWSImplPort();
+ 
         String retorno;
-        if (resultadoCliente) {
+        if (port.logInClienteWS(nickName, passWord)) {
             loged = true;
-            usuario = usuariocontroller.obtenerCliente(nickName);
+            //usuario = usuariocontroller.obtenerCliente(nickName);
             retorno = "index.xhtml";
         } else {
             mostrarError = true;

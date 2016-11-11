@@ -7,6 +7,7 @@ package uy.edu.cure.servidor.web;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -25,6 +26,8 @@ import uy.edu.cure.servidor.central.lib.ReservaControllerImpl;
 import uy.edu.cure.servidor.central.lib.UsuarioControllerImpl;
 import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
 import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
+import uy.edu.cure.servidor.central.soap.client.ReservaWS;
+import uy.edu.cure.servidor.central.soap.client.ReservaWSImplService;
 
 /**
  *
@@ -137,7 +140,15 @@ public class DatosCarro implements Serializable {
     }
 
     public String confirmarCarro() {
-        reservacontroller.agregarCarro(usuariocontroller.obtenerCliente(this.nickSession));
+        
+         ReservaWSImplService reservaWSImplService = null;
+        try {
+            reservaWSImplService = new ReservaWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/ReservaWSImplService?wsdl"));
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(VerReserva.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        ReservaWS port = reservaWSImplService.getReservaWSImplPort();
+        port.agregarCarroWS(nickSession);
         return "/index";
     }
 

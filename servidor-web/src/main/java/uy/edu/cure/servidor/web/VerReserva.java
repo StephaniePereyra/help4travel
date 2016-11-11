@@ -67,10 +67,9 @@ public class VerReserva {
         } catch (MalformedURLException ex) {
             Logger.getLogger(VerReserva.class.getName()).log(Level.SEVERE, null, ex);
         }
-        reservas = (List) reservaWSImplService.getReservaWSImplPort().obteneReservasClienteWS(nombre);      
+        reservas = (List) reservaWSImplService.getReservaWSImplPort().obteneReservasClienteWS(nombre);    
         
-   
-                      
+      
         if (!reservas.isEmpty()) {
             for (int i = 0; i < reservas.size(); i++) {
                 cantReservas.add(reservas.get(i).getNumero());
