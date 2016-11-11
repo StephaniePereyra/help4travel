@@ -8,8 +8,10 @@ package uy.edu.cure.servidor.central.webapp.soap.server;
 import java.util.List;
 import javax.jws.WebService;
 import uy.edu.cure.servidor.central.dto.Cliente;
+import uy.edu.cure.servidor.central.dto.Promocion;
 import uy.edu.cure.servidor.central.dto.Proveedor;
 import uy.edu.cure.servidor.central.dto.Reserva;
+import uy.edu.cure.servidor.central.dto.Servicio;
 import uy.edu.cure.servidor.central.lib.UsuarioControllerImpl;
 
 /**
@@ -106,6 +108,22 @@ public class UsuarioWSImpl implements UsuarioWS {
         UsuarioControllerImpl usuariocontroller = new UsuarioControllerImpl();
         retorno = usuariocontroller.existeProveedor(nickName);
         return retorno;
+    }
+
+    @Override
+    public List<Promocion> obtenerPromocionesCarroWS(String nickName) {
+        UsuarioControllerImpl usuariocontroller = new UsuarioControllerImpl();
+        List<Promocion> promocionesAux;
+        promocionesAux = usuariocontroller.obtenerCliente(nickName).getCarrito().getPromociones();
+        return promocionesAux;
+    }
+
+    @Override
+    public List<Servicio> obtenerServiciosCarroWS(String nickName) {
+        UsuarioControllerImpl usuariocontroller = new UsuarioControllerImpl();
+        List<Servicio> serviciosAux;
+        serviciosAux = usuariocontroller.obtenerCliente(nickName).getCarrito().getServicios();
+        return serviciosAux;
     }
 
 }

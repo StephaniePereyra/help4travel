@@ -10,6 +10,7 @@ import javax.jws.WebService;
 import uy.edu.cure.servidor.central.dto.Cliente;
 import uy.edu.cure.servidor.central.dto.Reserva;
 import uy.edu.cure.servidor.central.lib.ReservaControllerImpl;
+import uy.edu.cure.servidor.central.lib.UsuarioControllerImpl;
 
 /**
  *
@@ -19,9 +20,12 @@ import uy.edu.cure.servidor.central.lib.ReservaControllerImpl;
 public class ReservaWSImpl implements ReservaWS {
 
     @Override
-    public void agregarCarroWS(Cliente cliente) {
+    public void agregarCarroWS(String cliente) {
         ReservaControllerImpl reservacontroller = new ReservaControllerImpl();
-        reservacontroller.agregarCarro(cliente);
+        UsuarioControllerImpl usuariocontroller = new UsuarioControllerImpl();
+        Cliente clienteAux;
+        clienteAux = usuariocontroller.obtenerCliente(cliente);
+        reservacontroller.agregarCarro(clienteAux);
     }
 
     @Override

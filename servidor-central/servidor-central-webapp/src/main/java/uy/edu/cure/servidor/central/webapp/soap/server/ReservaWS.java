@@ -19,8 +19,9 @@ import uy.edu.cure.servidor.central.dto.Reserva;
 public interface ReservaWS {
     
     @WebMethod
-    public void agregarCarroWS (Cliente cliente);
+    public void agregarCarroWS (String cliente);
     
     @WebMethod
     public List<Reserva> obtenerTodasReservasWS ();
+    
 }

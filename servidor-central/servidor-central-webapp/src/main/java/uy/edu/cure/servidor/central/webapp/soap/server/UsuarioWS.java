@@ -9,8 +9,10 @@ import java.util.List;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import uy.edu.cure.servidor.central.dto.Cliente;
+import uy.edu.cure.servidor.central.dto.Promocion;
 import uy.edu.cure.servidor.central.dto.Proveedor;
 import uy.edu.cure.servidor.central.dto.Reserva;
+import uy.edu.cure.servidor.central.dto.Servicio;
 
 /**
  *
@@ -51,5 +53,11 @@ public interface UsuarioWS {
 
     @WebMethod
     public boolean existeProveedorWS(String nickName);
+    
+    @WebMethod
+    public List<Promocion> obtenerPromocionesCarroWS (String nickName);
+    
+    @WebMethod
+    public List<Servicio> obtenerServiciosCarroWS (String nickName);
 
 }

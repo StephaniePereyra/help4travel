@@ -53,6 +53,7 @@ public class Principal extends javax.swing.JFrame {
         }
         UsuarioWS port = usuarioWSImplService.getUsuarioWSImplPort();
         String nick = port.obtenerClienteWS("NickPrueba").getNickName();
+        
         System.out.println("--------------------------------------------------");
         System.out.print(nick);
 
