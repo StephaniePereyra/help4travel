@@ -5,4 +5,7 @@
   <endpoint implementation="uy.edu.cure.servidor.central.webapp.soap.server.ReservaWSImpl" name="ReservaWSImplService" url-pattern="/soap/ReservaWSImplService"/>
   <endpoint implementation="uy.edu.cure.servidor.central.webapp.soap.server.ServicioWSImpl" name="ServicioWSImplService" url-pattern="/soap/ServicioWSImplService"/>
   <endpoint implementation="uy.edu.cure.servidor.central.webapp.soap.server.PromocionWSImpl" name="PromocionWSImplService" url-pattern="/soap/PromocionWSImplService"/>
+  <endpoint implementation="uy.edu.cure.servidor.central.webapp.soap.server.PaisWSImpl" name="PaisWSImplService" url-pattern="/soap/PaisWSImplService"/>
+  <endpoint implementation="uy.edu.cure.servidor.central.webapp.soap.server.CiudadWSImpl" name="CiudadWSImplService" url-pattern="/soap/CiudadWSImplService"/>
+  <endpoint implementation="uy.edu.cure.servidor.central.webapp.soap.server.CategoriaWSImpl" name="CategoriaWSImplService" url-pattern="/soap/CategoriaWSImplService"/>
 </endpoints>

@@ -21,6 +21,21 @@
         <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
+    <servlet>
+        <servlet-name>PaisWSImplService</servlet-name>
+        <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet>
+        <servlet-name>CiudadWSImplService</servlet-name>
+        <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet>
+        <servlet-name>CategoriaWSImplService</servlet-name>
+        <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HelloWS</servlet-name>
         <url-pattern>/HelloWS</url-pattern>
@@ -40,6 +55,18 @@
     <servlet-mapping>
         <servlet-name>PromocionWSImplService</servlet-name>
         <url-pattern>/PromocionWSImplService</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PaisWSImplService</servlet-name>
+        <url-pattern>/PaisWSImplService</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CiudadWSImplService</servlet-name>
+        <url-pattern>/CiudadWSImplService</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CategoriaWSImplService</servlet-name>
+        <url-pattern>/CategoriaWSImplService</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>

@@ -5,7 +5,6 @@
  */
 package uy.edu.cure.servidor.web;
 
-import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.logging.Level;
@@ -13,9 +12,6 @@ import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import uy.edu.cure.servidor.central.dto.Cliente;
-import uy.edu.cure.servidor.central.lib.UsuarioControllerImpl;
-import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
-import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
 import uy.edu.cure.servidor.central.soap.client.UsuarioWS;
 import uy.edu.cure.servidor.central.soap.client.UsuarioWSImplService;
 
@@ -27,19 +23,12 @@ import uy.edu.cure.servidor.central.soap.client.UsuarioWSImplService;
 @SessionScoped
 public class DatosSesion {
 
-    @Jeringa(value="usuariocontroller")
-    UsuarioControllerImpl usuariocontroller;
+
     private String passWord, nickName,mnsjError;
     private boolean mostrarError,loged;
     private Cliente usuario;
 
     public DatosSesion() {
-                try {
-            JeringaInjector.getInstance().inyectar(this);
-        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            e.printStackTrace();
-        }
-   
         mostrarError = false;
         nickName = "";
         passWord = "";
@@ -47,7 +36,6 @@ public class DatosSesion {
 
     public String logIn() {
 
-        //boolean resultadoCliente = usuariocontroller.LogInCliente(nickName, passWord);
         UsuarioWSImplService usuarioWSImplService = null;
         try {
             usuarioWSImplService = new UsuarioWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/UsuarioWSImplService?wsdl"));
@@ -59,7 +47,6 @@ public class DatosSesion {
         String retorno;
         if (port.logInClienteWS(nickName, passWord)) {
             loged = true;
-            //usuario = usuariocontroller.obtenerCliente(nickName);
             retorno = "index.xhtml";
         } else {
             mostrarError = true;
@@ -77,17 +64,6 @@ public class DatosSesion {
         return "LogIn.xhtml";
     }
     
-   /* public String actionLog (){
-        String retorno;
-        if(loged){
-            logOut();
-            retorno = "index.xhtml";
-        }else{
-            retorno = "LogIn.xhtml";
-        }
-        return retorno;
-    }*/
-
     public String getPassWord() {
         return passWord;
     }

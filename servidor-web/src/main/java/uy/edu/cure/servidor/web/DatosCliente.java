@@ -10,16 +10,18 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.Part;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import uy.edu.cure.servidor.central.lib.UsuarioControllerImpl;
-import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
-import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
+import uy.edu.cure.servidor.central.soap.client.UsuarioWS;
+import uy.edu.cure.servidor.central.soap.client.UsuarioWSImplService;
 
 /**
  *
@@ -33,17 +35,20 @@ public class DatosCliente {
     private String nickName, nombre, apellido, correo, ruta, passWord, passWordConfirm, mensaje, mensajeDefault = "*No pueden existir campos vacios*";
     private int dia, mes, anio;
     private boolean mostrarMensaje = false;
-    @Jeringa(value = "usuariocontroller")
-    private UsuarioControllerImpl usuariocontroller;
     private List<Integer> dias, meses, anios;
     private Part imagen;
-
+    private UsuarioWSImplService usuarioWSImplService;
+    private UsuarioWS port;
+    
     public DatosCliente() {
+        
         try {
-            JeringaInjector.getInstance().inyectar(this);
-        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            e.printStackTrace();
+            usuarioWSImplService = new UsuarioWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/UsuarioWSImplService?wsdl"));
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(VerReserva.class.getName()).log(Level.SEVERE, null, ex);
         }
+         port = usuarioWSImplService.getUsuarioWSImplPort();
+
         dias = new ArrayList();
         meses = new ArrayList();
         anios = new ArrayList();
@@ -211,7 +216,7 @@ public class DatosCliente {
 
         if (imagen == null) {
             rutaUp = "images/perfil/default.png";
-            resultado = usuariocontroller.crearCliente(nickName, nombre, apellido, correo, dia, mes, anio, rutaUp, passWord, passWordConfirm);
+            resultado = port.crearClienteWS(nickName, nombre, apellido, correo, dia, mes, anio, rutaUp, passWord, passWordConfirm);
         } else {
 
             String tipo = imagen.getContentType();
@@ -233,7 +238,7 @@ public class DatosCliente {
                     output.write(buffer, 0, bytesRead);
                 }
                 rutaUp = "images/perfil/" + date.getTime() + ".png";
-                resultado = usuariocontroller.crearCliente(nickName, nombre, apellido, correo, dia, mes, anio, rutaUp, passWord, passWordConfirm);
+                resultado = port.crearClienteWS(nickName, nombre, apellido, correo, dia, mes, anio, rutaUp, passWord, passWordConfirm);
             }
         }
 

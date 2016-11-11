@@ -142,7 +142,49 @@
                                                     <wsdllFile>PromocionWSImpl.wsdl</wsdllFile>
                                                 </wsdlFiles>
                                             </configuration>
-                                        </execution>    
+                                        </execution>
+                                        <execution>
+                                            <id>generate-wsdl-sixth</id>
+                                            <phase>process-classes</phase>
+                                            <goals>
+                                                <goal>wsgen</goal>
+                                            </goals>
+                                            <configuration>
+                                                <sei>uy.edu.cure.servidor.central.webapp.soap.server.CiudadWSImpl</sei>
+                                                <genWsdl>true</genWsdl>
+                                                <wsdlFiles>
+                                                    <wsdllFile>CiudadWSImpl.wsdl</wsdllFile>
+                                                </wsdlFiles>
+                                            </configuration>
+                                        </execution>
+                                        <execution>
+                                            <id>generate-wsdl-seventh</id>
+                                            <phase>process-classes</phase>
+                                            <goals>
+                                                <goal>wsgen</goal>
+                                            </goals>
+                                            <configuration>
+                                                <sei>uy.edu.cure.servidor.central.webapp.soap.server.PaisWSImpl</sei>
+                                                <genWsdl>true</genWsdl>
+                                                <wsdlFiles>
+                                                    <wsdllFile>PaisWSImpl.wsdl</wsdllFile>
+                                                </wsdlFiles>
+                                            </configuration>
+                                        </execution>     
+                                        <execution>
+                                            <id>generate-wsdl-eighth</id>
+                                            <phase>process-classes</phase>
+                                            <goals>
+                                                <goal>wsgen</goal>
+                                            </goals>
+                                            <configuration>
+                                                <sei>uy.edu.cure.servidor.central.webapp.soap.server.CategoriaWSImpl</sei>
+                                                <genWsdl>true</genWsdl>
+                                                <wsdlFiles>
+                                                    <wsdllFile>CategoriaWSImpl.wsdl</wsdllFile>
+                                                </wsdlFiles>
+                                            </configuration>
+                                        </execution>  
 				</executions>
 			</plugin>
 		</plugins>
