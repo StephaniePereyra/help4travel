@@ -51,7 +51,8 @@ public class DatosSesion {
         String retorno;
         if (port.logInClienteWS(nickName, passWord)) {
             loged = true;
-            usuario = port.obtenerClienteWS(nickName);
+            Converter converter = new Converter();
+            usuario = converter.convertirCliente(port.obtenerClienteWS(nickName));
             retorno = "index.xhtml";
         } else {
             mostrarError = true;

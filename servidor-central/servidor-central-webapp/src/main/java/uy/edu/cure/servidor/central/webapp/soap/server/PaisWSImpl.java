@@ -5,9 +5,11 @@
  */
 package uy.edu.cure.servidor.central.webapp.soap.server;
 
+import java.util.List;
 import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
+import uy.edu.cure.servidor.central.dto.Ciudad;
 import uy.edu.cure.servidor.central.lib.PaisControllerImpl;
 
 /**
@@ -23,6 +25,14 @@ public class PaisWSImpl implements PaisWS{
         boolean retorno;
         retorno = paiscontroller.crearPais(nombre);
         return retorno;
+    }
+
+    @Override
+    public List<Ciudad> obtenerCiudadesWS(String nombre) {
+        PaisControllerImpl paiscontroller = new PaisControllerImpl();
+        List<Ciudad> ciudadesAux;
+        ciudadesAux = paiscontroller.obtenerPais(nombre).getCiudades();
+        return ciudadesAux;
     }
 
 

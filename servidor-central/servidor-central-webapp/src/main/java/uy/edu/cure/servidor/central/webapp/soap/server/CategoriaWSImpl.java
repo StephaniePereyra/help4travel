@@ -5,9 +5,11 @@
  */
 package uy.edu.cure.servidor.central.webapp.soap.server;
 
+import java.util.List;
 import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
+import uy.edu.cure.servidor.central.dto.Categoria;
 import uy.edu.cure.servidor.central.lib.CategoriaControllerImpl;
 
 /**
@@ -23,6 +25,14 @@ public class CategoriaWSImpl implements CategoriaWS {
         boolean retorno;
         retorno = categoriacontroller.darAltaCategoria(nombre, nombrePadre);
         return retorno;
+    }
+
+    @Override
+    public List<Categoria> obtenerHijosWS(String nombre) {
+        CategoriaControllerImpl categoriacontroller = new CategoriaControllerImpl();
+        List<Categoria> categoriasHijosAux;
+        categoriasHijosAux = categoriacontroller.obtenerCategoria(nombre).getHijos();
+        return categoriasHijosAux;
     }
 
 

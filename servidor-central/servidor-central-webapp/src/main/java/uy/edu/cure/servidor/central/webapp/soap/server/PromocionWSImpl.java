@@ -10,6 +10,7 @@ import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import uy.edu.cure.servidor.central.dto.Promocion;
+import uy.edu.cure.servidor.central.dto.Servicio;
 import uy.edu.cure.servidor.central.lib.PromocionControllerImpl;
 
 /**
@@ -34,6 +35,14 @@ public class PromocionWSImpl implements PromocionWS {
         String retorno;
         retorno = promocioncontroller.crearPromocion(nombre, descuento, nickProveedor, servicios);
         return retorno;
+    }
+
+    @Override
+    public List<Servicio> serviciosPromocionWS(String nombrePromocion, String nickProveedor) {
+        PromocionControllerImpl promocioncontroller = new PromocionControllerImpl();
+        List<Servicio> serviciosPromocionAux;
+        serviciosPromocionAux = promocioncontroller.obtenerPromocion(nombrePromocion, nickProveedor).getServicios();
+        return serviciosPromocionAux;
     }
 
 

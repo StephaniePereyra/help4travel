@@ -9,6 +9,7 @@ import java.util.List;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import uy.edu.cure.servidor.central.dto.Promocion;
+import uy.edu.cure.servidor.central.dto.Servicio;
 
 /**
  *
@@ -22,4 +23,7 @@ public interface PromocionWS {
 
     @WebMethod
     public String crearPromocionWS(String nombre, int descuento, String nickProveedor, List<String> servicios);
+    
+    @WebMethod
+    public List<Servicio> serviciosPromocionWS (String nombrePromocion, String nickProveedor);
 }

@@ -24,7 +24,13 @@ public class Categoria {
         this.hijos = new ArrayList<Categoria>();
 
     }
-
+    
+    public Categoria (){
+        this.nombre = "";
+        this.padre = null;
+        this.hijos = new ArrayList<Categoria>();
+    }
+    
     public String getNombre() {
         return nombre;
     }

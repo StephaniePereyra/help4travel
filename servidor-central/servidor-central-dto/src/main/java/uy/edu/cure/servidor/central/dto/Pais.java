@@ -21,6 +21,11 @@ public class Pais {
         this.nombre = nombre;
         ciudades = new ArrayList<Ciudad>();
     }
+    
+    public Pais(){
+        this.nombre = "";
+        ciudades = new ArrayList<Ciudad>();        
+    }
 
     public String getNombre() {
         return nombre;

@@ -9,7 +9,9 @@ import java.util.List;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import uy.edu.cure.servidor.central.dto.Cliente;
+import uy.edu.cure.servidor.central.dto.Promocion;
 import uy.edu.cure.servidor.central.dto.Reserva;
+import uy.edu.cure.servidor.central.dto.Servicio;
 
 /**
  *
@@ -26,4 +28,10 @@ public interface ReservaWS {
     
     @WebMethod
     public List<Reserva> obteneReservasClienteWS(String nikc);
+    
+    @WebMethod
+    public List<Servicio> obtenerServiciosReservaWS (int numero);
+    
+    @WebMethod
+    public List<Promocion> obtenerPromocionesReservaWS(int numero);
 }

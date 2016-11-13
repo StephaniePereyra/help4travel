@@ -126,4 +126,12 @@ public class UsuarioWSImpl implements UsuarioWS {
         return serviciosAux;
     }
 
+    @Override
+    public List<Servicio> serviciosProveedor(String nickName) {
+        UsuarioControllerImpl usuariocontroller = new UsuarioControllerImpl();
+        List<Servicio> serviciosAux;
+        serviciosAux = usuariocontroller.obtenerProveedor(nickName).getServicios();
+        return serviciosAux;
+    }
+
 }

@@ -18,6 +18,11 @@ public class Ciudad {
         this.nombre = nombre;
         this.pais = pais;
     }
+    
+    public Ciudad (){
+        this.nombre = "";
+        this.pais = null;
+    }
 
     public String getNombre() {
         return nombre;

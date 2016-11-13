@@ -9,7 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.jws.WebService;
 import uy.edu.cure.servidor.central.dto.Cliente;
+import uy.edu.cure.servidor.central.dto.Promocion;
 import uy.edu.cure.servidor.central.dto.Reserva;
+import uy.edu.cure.servidor.central.dto.Servicio;
 import uy.edu.cure.servidor.central.lib.ReservaControllerImpl;
 import uy.edu.cure.servidor.central.lib.UsuarioControllerImpl;
 
@@ -46,6 +48,22 @@ public class ReservaWSImpl implements ReservaWS {
             }
         }
         return reservas;
+    }
+
+    @Override
+    public List<Servicio> obtenerServiciosReservaWS(int numero) {
+        ReservaControllerImpl reservaController = new ReservaControllerImpl();
+        List<Servicio> serviciosAux;
+        serviciosAux = reservaController.obtenerReserva(numero).getServicios();
+        return serviciosAux;
+    }
+
+    @Override
+    public List<Promocion> obtenerPromocionesReservaWS(int numero) {
+        ReservaControllerImpl reservaController = new ReservaControllerImpl();
+        List<Promocion> promocionesAux;
+        promocionesAux = reservaController.obtenerReserva(numero).getPromociones();
+        return promocionesAux;
     }
 
 }

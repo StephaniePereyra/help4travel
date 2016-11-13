@@ -5,8 +5,10 @@
  */
 package uy.edu.cure.servidor.central.webapp.soap.server;
 
+import java.util.List;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
+import uy.edu.cure.servidor.central.dto.Ciudad;
 
 /**
  *
@@ -17,5 +19,8 @@ public interface PaisWS {
     
     @WebMethod
     public boolean crearPaisWS (String nombre);
+    
+    @WebMethod
+    public List<Ciudad> obtenerCiudadesWS (String nombre);
     
 }

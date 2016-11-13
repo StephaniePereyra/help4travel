@@ -8,6 +8,7 @@ package uy.edu.cure.servidor.central.webapp.soap.server;
 import java.util.List;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
+import uy.edu.cure.servidor.central.dto.Categoria;
 import uy.edu.cure.servidor.central.dto.Servicio;
 
 /**
@@ -25,4 +26,10 @@ public interface ServicioWS {
     
     @WebMethod
     public List<Servicio> obtenerTodosServiciosWS ();
+    
+    @WebMethod
+    public List<String> obtenerImagenesServicioWS (String nombreServicio, String nickProveedor);
+    
+    @WebMethod
+    public List<Categoria> obtenerCategoriasServicioWS (String nombreServicio, String nickProveedor);
 }

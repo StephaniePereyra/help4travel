@@ -26,6 +26,9 @@ public interface UsuarioWS {
 
     @WebMethod
     public Proveedor obtenerProveedorWS(String nickName);
+    
+    @WebMethod
+    public List<Servicio> serviciosProveedor (String nickName);
 
     @WebMethod
     public List<Proveedor> obtenerTodosProveedoresWS();

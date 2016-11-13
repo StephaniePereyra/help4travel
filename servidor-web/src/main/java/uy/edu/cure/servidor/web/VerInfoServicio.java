@@ -104,6 +104,7 @@ public class VerInfoServicio {
     }
      
     public List<Filtrado> listadoServicios() {
+        
         ServicioWSImplService servicioWSImplService = null;
         try {
             servicioWSImplService = new ServicioWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/ServicioWSImplService?wsdl"));
@@ -116,6 +117,12 @@ public class VerInfoServicio {
         List<Filtrado> listaServiciosAux = new ArrayList<>();
         //servicios =  portServicio.obtenerTodosServiciosWS();
         //servicios = servicioController.obtenerTodosServicios();
+        
+        Converter convertidor = new Converter();
+        for(int i=0;i<portServicio.obtenerTodosServiciosWS().size();i++){
+            servicios.add(convertidor.convertirServicio(portServicio.obtenerTodosServiciosWS().get(i)));
+        }
+        
         Iterator<Servicio> iteratorServicio = servicios.iterator();
         while (iteratorServicio.hasNext()) {
             Servicio servicioAuxiliar = iteratorServicio.next();

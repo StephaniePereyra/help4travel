@@ -28,6 +28,13 @@ public class Proveedor extends Usuario {
         this.imagenPerfil = imagenPerfil;
 
     }
+    
+    public Proveedor (){
+        this.nombreEmpresa = "";
+        this.linkEmpresa = "";
+        servicios = new ArrayList<Servicio>();
+        this.imagenPerfil = "";
+    }
 
     public String getImagenPerfil() {
         return imagenPerfil;

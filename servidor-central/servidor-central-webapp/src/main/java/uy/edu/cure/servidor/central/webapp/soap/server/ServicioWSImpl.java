@@ -9,6 +9,7 @@ import java.util.List;
 import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
+import uy.edu.cure.servidor.central.dto.Categoria;
 import uy.edu.cure.servidor.central.dto.Servicio;
 import uy.edu.cure.servidor.central.lib.ServicioControllerImpl;
 
@@ -41,6 +42,22 @@ public class ServicioWSImpl implements ServicioWS {
         List<Servicio> serviciosAux;
         serviciosAux = serviciocontroller.obtenerTodosServicios();
         return serviciosAux;
+    }
+
+    @Override
+    public List<String> obtenerImagenesServicioWS(String nombreServicio, String nickProveedor) {
+        ServicioControllerImpl serviciocontroller = new ServicioControllerImpl();
+        List<String> imagenesAux;
+        imagenesAux = serviciocontroller.obtenerServicio(nombreServicio, nickProveedor).getImagenes();
+        return imagenesAux;
+    }
+
+    @Override
+    public List<Categoria> obtenerCategoriasServicioWS(String nombreServicio, String nickProveedor) {
+        ServicioControllerImpl serviciocontroller = new ServicioControllerImpl();     
+        List<Categoria> categoriasAux;
+        categoriasAux = serviciocontroller.obtenerServicio(nombreServicio, nickProveedor).getCategorias();
+        return categoriasAux;
     }
 
 
