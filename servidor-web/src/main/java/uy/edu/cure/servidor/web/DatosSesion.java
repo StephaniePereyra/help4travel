@@ -11,6 +11,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 import uy.edu.cure.servidor.central.dto.Cliente;
 import uy.edu.cure.servidor.central.soap.client.UsuarioWS;
 import uy.edu.cure.servidor.central.soap.client.UsuarioWSImplService;
@@ -27,6 +29,7 @@ public class DatosSesion {
     private String passWord, nickName,mnsjError;
     private boolean mostrarError,loged;
     private Cliente usuario;
+    private HttpSession session;
 
     public DatosSesion() {
         mostrarError = false;
@@ -43,10 +46,12 @@ public class DatosSesion {
             Logger.getLogger(VerReserva.class.getName()).log(Level.SEVERE, null, ex);
         }
         UsuarioWS port = usuarioWSImplService.getUsuarioWSImplPort();
- 
+        
+        
         String retorno;
         if (port.logInClienteWS(nickName, passWord)) {
             loged = true;
+            usuario = port.obtenerClienteWS(nickName);
             retorno = "index.xhtml";
         } else {
             mostrarError = true;

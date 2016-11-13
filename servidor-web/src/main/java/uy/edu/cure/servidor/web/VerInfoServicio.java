@@ -6,10 +6,14 @@
 package uy.edu.cure.servidor.web;
 
 import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -18,6 +22,8 @@ import uy.edu.cure.servidor.central.dto.Servicio;
 import uy.edu.cure.servidor.central.lib.ServicioControllerImpl;
 import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
 import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
+import uy.edu.cure.servidor.central.soap.client.ServicioWS;
+import uy.edu.cure.servidor.central.soap.client.ServicioWSImplService;
 
 /**
  *
@@ -98,9 +104,18 @@ public class VerInfoServicio {
     }
      
     public List<Filtrado> listadoServicios() {
+        ServicioWSImplService servicioWSImplService = null;
+        try {
+            servicioWSImplService = new ServicioWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/ServicioWSImplService?wsdl"));
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(VerInfoServicio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        ServicioWS portServicio = servicioWSImplService.getServicioWSImplPort();
+
         List<Servicio> servicios = new ArrayList<>();
         List<Filtrado> listaServiciosAux = new ArrayList<>();
-        servicios = servicioController.obtenerTodosServicios();
+        //servicios =  portServicio.obtenerTodosServiciosWS();
+        //servicios = servicioController.obtenerTodosServicios();
         Iterator<Servicio> iteratorServicio = servicios.iterator();
         while (iteratorServicio.hasNext()) {
             Servicio servicioAuxiliar = iteratorServicio.next();
