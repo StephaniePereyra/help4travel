@@ -7,6 +7,7 @@ package uy.edu.cure.servidor.central.dto;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  *
@@ -36,12 +37,13 @@ public class Servicio {
     }
     
     public Servicio(){
-        this.nombre = "";
+        this.nombre = UUID.randomUUID().toString();;
         this.descripcion = "";
         this.precio = 0;
-        this.origen = null;
-        this.destino = null;
-        this.proveedor = null;
+        this.origen = new Ciudad();
+        this.destino = new Ciudad();
+        this.proveedor = new Proveedor();
+        this.proveedor.getServicios().add(this);
         categorias = new ArrayList<Categoria>();
         imagenes = new ArrayList<String>();
     }

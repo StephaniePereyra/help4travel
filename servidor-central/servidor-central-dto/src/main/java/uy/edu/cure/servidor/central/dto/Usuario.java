@@ -30,7 +30,7 @@ public class Usuario {
     }
     
     public Usuario(){
-        this.nickName = "";
+        this.nickName = UUID.randomUUID().toString();
         this.nombre = "";
         this.apellido = "";
         this.correo = "";

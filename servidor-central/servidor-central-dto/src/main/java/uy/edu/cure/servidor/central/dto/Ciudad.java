@@ -5,6 +5,8 @@
  */
 package uy.edu.cure.servidor.central.dto;
 
+import java.util.UUID;
+
 /**
  *
  * @author Rodrigo "Lobo Plateado" Pérez
@@ -20,7 +22,7 @@ public class Ciudad {
     }
     
     public Ciudad (){
-        this.nombre = "";
+        this.nombre = UUID.randomUUID().toString();
         this.pais = null;
     }
 

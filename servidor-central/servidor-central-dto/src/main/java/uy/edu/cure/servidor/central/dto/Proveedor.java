@@ -8,6 +8,7 @@ package uy.edu.cure.servidor.central.dto;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -17,6 +18,7 @@ public class Proveedor extends Usuario {
 
     private String nombreEmpresa;
     private String linkEmpresa;
+    @XmlTransient
     private List<Servicio> servicios;
     private String imagenPerfil;
 
@@ -68,6 +70,7 @@ public class Proveedor extends Usuario {
         this.servicios.add(servicio);
     }
 
+    @XmlTransient
     public List<Servicio> getServicios() {
         return servicios;
     }

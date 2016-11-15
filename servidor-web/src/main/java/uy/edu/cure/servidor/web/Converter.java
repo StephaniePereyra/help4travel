@@ -59,6 +59,7 @@ public class Converter {
     }
     
     public Cliente convertirCliente (uy.edu.cure.servidor.central.soap.client.Cliente cliente){
+        clienteAuxiliar = new Cliente();      
         clienteAuxiliar.setNickName(cliente.getNickName());
         clienteAuxiliar.setNombre(cliente.getNombre());
         clienteAuxiliar.setApellido(cliente.getApellido());
@@ -74,6 +75,7 @@ public class Converter {
     }
     
     public Proveedor convertirProveedor (uy.edu.cure.servidor.central.soap.client.Proveedor proveedor){
+        proveedorAuxiliar = new Proveedor();
         proveedorAuxiliar.setNickName(proveedor.getNickName());
         proveedorAuxiliar.setNombre(proveedor.getNombre());
         proveedorAuxiliar.setApellido(proveedor.getApellido());
@@ -87,7 +89,7 @@ public class Converter {
         proveedorAuxiliar.setNombreEmpresa(proveedor.getNombreEmpresa());
         proveedorAuxiliar.setLinkEmpresa(proveedor.getLinkEmpresa());
         
-        UsuarioWSImplService usuarioWSImplService = null;
+        /*UsuarioWSImplService usuarioWSImplService = null;
         try {
             usuarioWSImplService = new UsuarioWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/UsuarioWSImplService?wsdl"));
         } catch (MalformedURLException ex) {
@@ -97,14 +99,16 @@ public class Converter {
         
         for(int i=0;i<portUsuario.serviciosProveedor(proveedor.getNickName()).size();){
             proveedorAuxiliar.setServicio(this.convertirServicio(portUsuario.serviciosProveedor(proveedor.getNickName()).get(i)));
-        }
+        }*/
         
         return proveedorAuxiliar;
     }
     
     public Categoria convertirCategoria (uy.edu.cure.servidor.central.soap.client.Categoria categoria){
+        categoriaAuxiliar = new Categoria();
+
         categoriaAuxiliar.setNombre(categoria.getNombre());
-        
+
         CategoriaWSImplService categoriaWSImplService = null;
         try {
             categoriaWSImplService = new CategoriaWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/CategoriaWSImplService?wsdl"));
@@ -121,6 +125,8 @@ public class Converter {
     }
     
     public Pais convertirPais (uy.edu.cure.servidor.central.soap.client.Pais pais){
+        paisAuxiliar = new Pais();
+
         paisAuxiliar.setNombre(pais.getNombre());
         
         PaisWSImplService paisWSImplService = null;
@@ -139,12 +145,16 @@ public class Converter {
     }
     
     public Ciudad convertirCiudad (uy.edu.cure.servidor.central.soap.client.Ciudad ciudad){
+        ciudadAuxiliar = new Ciudad();
+        
         ciudadAuxiliar.setNombre(ciudad.getNombre());
         ciudadAuxiliar.setPais(this.convertirPais(ciudad.getPais()));
         return ciudadAuxiliar;
     }
     
     public Servicio convertirServicio (uy.edu.cure.servidor.central.soap.client.Servicio servicio){
+        servicioAuxiliar = new Servicio();
+        
         servicioAuxiliar.setNombre(servicio.getNombre());
         servicioAuxiliar.setPrecio(servicio.getPrecio());
         servicioAuxiliar.setDescripcion(servicio.getDescripcion());
@@ -164,13 +174,15 @@ public class Converter {
             servicioAuxiliar.setImagen(portServicio.obtenerImagenesServicioWS(servicio.getNombre(), servicio.getProveedor().getNickName()).get(i));
         }
         
-        for(int u =0;u<portServicio.obtenerCategoriasServicioWS(servicio.getNombre(), servicio.getProveedor().getNickName()).size();u++){
+        /*for(int u =0;u<portServicio.obtenerCategoriasServicioWS(servicio.getNombre(), servicio.getProveedor().getNickName()).size();u++){
             servicioAuxiliar.setCategorias(this.convertirCategoria(portServicio.obtenerCategoriasServicioWS(servicio.getNombre(), servicio.getProveedor().getNickName()).get(u)));
-        }
+        }*/
         return servicioAuxiliar;
     }
     
     public Promocion convertirPromocion (uy.edu.cure.servidor.central.soap.client.Promocion promocion){
+        promocionAuxiliar = new Promocion();
+       
         promocionAuxiliar.setNombre(promocion.getNombre());
         promocionAuxiliar.setDescuento(promocion.getDescuento());
         promocionAuxiliar.setPrecioTotal(promocion.getPrecioTotal());
@@ -192,7 +204,7 @@ public class Converter {
     }
     
     public Reserva convertirReserva (uy.edu.cure.servidor.central.soap.client.Reserva reserva){
-        
+        reservaAuxliar = new Reserva();
         reservaAuxliar.setNumero(reserva.getNumero());
         reservaAuxliar.setPrecio(reserva.getPrecio());
         reservaAuxliar.setEstado(reserva.getEstado());

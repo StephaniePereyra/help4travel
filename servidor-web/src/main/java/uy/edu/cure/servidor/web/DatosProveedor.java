@@ -6,8 +6,12 @@
 package uy.edu.cure.servidor.web;
 
 import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import uy.edu.cure.servidor.central.dto.Proveedor;
@@ -15,6 +19,8 @@ import uy.edu.cure.servidor.central.dto.Servicio;
 import uy.edu.cure.servidor.central.lib.UsuarioControllerImpl;
 import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
 import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
+import uy.edu.cure.servidor.central.soap.client.UsuarioWS;
+import uy.edu.cure.servidor.central.soap.client.UsuarioWSImplService;
 
 /**
  *
@@ -32,24 +38,31 @@ public class DatosProveedor {
     private List<Servicio> servicios;
     private String nickName;
     private String nombreServicio;
-    @Jeringa(value = "usuariocontroller")
-    private UsuarioControllerImpl usuariocontroller;
-
+    private UsuarioWSImplService usuarioWSImplService;
+    private UsuarioWS portUsuario;
+    private Converter convertidor;
+    
     public DatosProveedor() {
-        try {
-            JeringaInjector.getInstance().inyectar(this);
-        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            e.printStackTrace();
-        }
-
+        convertidor = new Converter();
         servicios = new ArrayList<>();
         proveedores = new ArrayList<>();
-        proveedores.addAll(usuariocontroller.obtenerProveedores());
+        try {
+            usuarioWSImplService = new UsuarioWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/UsuarioWSImplService?wsdl"));
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(DatosProveedor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        portUsuario = usuarioWSImplService.getUsuarioWSImplPort();
+        List auxiliar = portUsuario.obtenerTodosProveedoresWS();
+        
+        for(int i=0;i<auxiliar.size();i++){
+            proveedores.add(i,convertidor.convertirProveedor(portUsuario.obtenerTodosProveedoresWS().get(i)));
+        }
+        
     }
 
     public void accionProveedor() {
-        proveedor = usuariocontroller.obtenerProveedor(this.nickName);
-        this.servicios = proveedor.getServicios();
+        proveedor = convertidor.convertirProveedor(portUsuario.obtenerProveedorWS(nickName));
+        //this.servicios = proveedor.getServicios();
     }
     
     
@@ -62,7 +75,7 @@ public class DatosProveedor {
     public Proveedor getProveedor() {
         try {
             if (!this.proveedor.equals(null)) {
-                proveedor = usuariocontroller.obtenerProveedor(this.nickName);
+                proveedor = convertidor.convertirProveedor(portUsuario.obtenerProveedorWS(nickName));
                 return proveedor;
             }
         } catch (Exception e) {

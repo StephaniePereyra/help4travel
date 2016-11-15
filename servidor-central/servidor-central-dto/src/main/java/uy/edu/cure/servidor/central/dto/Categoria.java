@@ -7,6 +7,7 @@ package uy.edu.cure.servidor.central.dto;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  *
@@ -26,7 +27,7 @@ public class Categoria {
     }
     
     public Categoria (){
-        this.nombre = "";
+        this.nombre = UUID.randomUUID().toString();
         this.padre = null;
         this.hijos = new ArrayList<Categoria>();
     }
