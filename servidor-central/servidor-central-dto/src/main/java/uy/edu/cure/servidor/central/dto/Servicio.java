@@ -37,7 +37,7 @@ public class Servicio {
     }
     
     public Servicio(){
-        this.nombre = UUID.randomUUID().toString();;
+        this.nombre = UUID.randomUUID().toString();
         this.descripcion = "";
         this.precio = 0;
         this.origen = new Ciudad();

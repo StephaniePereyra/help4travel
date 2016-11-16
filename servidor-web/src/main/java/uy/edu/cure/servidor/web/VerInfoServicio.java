@@ -115,12 +115,11 @@ public class VerInfoServicio {
 
         List<Servicio> servicios = new ArrayList<>();
         List<Filtrado> listaServiciosAux = new ArrayList<>();
-        //servicios =  portServicio.obtenerTodosServiciosWS();
-        //servicios = servicioController.obtenerTodosServicios();
         
         Converter convertidor = new Converter();
-        for(int i=0;i<portServicio.obtenerTodosServiciosWS().size();i++){
-            servicios.add(convertidor.convertirServicio(portServicio.obtenerTodosServiciosWS().get(i)));
+        List<uy.edu.cure.servidor.central.soap.client.Servicio> aux = portServicio.obtenerTodosServiciosWS();
+        for(int i=0;i<aux.size();i++){
+            servicios.add(convertidor.convertirServicio(aux.get(i)));
         }
         
         Iterator<Servicio> iteratorServicio = servicios.iterator();

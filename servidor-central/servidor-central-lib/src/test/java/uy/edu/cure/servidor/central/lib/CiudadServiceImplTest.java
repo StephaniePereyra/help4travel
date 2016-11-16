@@ -58,7 +58,7 @@ public class CiudadServiceImplTest {
     public void testGuardarCiudad() {
         System.out.println("guardarCiudad");
         Pais uru = new Pais("Uruguay");
-        Ciudad ciudad = new Ciudad("Maldonado", uru);
+        Ciudad ciudad = new Ciudad("Maldonado", uru.getNombre());
         CiudadServiceImpl instance = new CiudadServiceImpl();
         boolean expResult = true;
         boolean result = instance.guardarCiudad(ciudad);
@@ -86,7 +86,7 @@ public class CiudadServiceImplTest {
         String nombre = "Maldonado";
         CiudadServiceImpl instance = new CiudadServiceImpl();
         Pais uru = new Pais("Uruguay");
-        Ciudad ciudad = new Ciudad("Maldonado", uru);
+        Ciudad ciudad = new Ciudad("Maldonado", uru.getNombre());
         instance.guardarCiudad(ciudad);
         boolean expResult = true;
         boolean result = instance.existeCiudad(nombre);
@@ -114,7 +114,7 @@ public class CiudadServiceImplTest {
         String nombre = "Maldonado";
         CiudadServiceImpl instance = new CiudadServiceImpl();
         Pais uru = new Pais("Uruguay");
-        Ciudad ciudad = new Ciudad("Maldonado", uru);
+        Ciudad ciudad = new Ciudad("Maldonado", uru.getNombre());
         instance.guardarCiudad(ciudad);
         String expResult = "Maldonado";
         Ciudad result = instance.obtenerCiudad(nombre);
@@ -140,7 +140,7 @@ public class CiudadServiceImplTest {
         System.out.println("obtenerTodosCiudadesEmpty");
         CiudadServiceImpl instance = new CiudadServiceImpl();
         Pais uru = new Pais("Uruguay");
-        Ciudad ciudad = new Ciudad("Maldonado", uru);
+        Ciudad ciudad = new Ciudad("Maldonado", uru.getNombre());
         instance.guardarCiudad(ciudad);
         int expResult = 1;
         List<Ciudad> result = instance.obtenerTodosCiudades();
@@ -156,7 +156,7 @@ public class CiudadServiceImplTest {
         System.out.println("vaciarPersistenciaCiudad");
         CiudadServiceImpl instance = new CiudadServiceImpl();
         Pais uru = new Pais("Uruguay");
-        Ciudad ciudad = new Ciudad("Maldonado", uru);
+        Ciudad ciudad = new Ciudad("Maldonado", uru.getNombre());
         instance.guardarCiudad(ciudad);
         instance.vaciarPersistenciaCiudad();
         int expResult = 0;

@@ -71,8 +71,8 @@ public class ReservaControllerImplTest {
         Cliente cliente = new Cliente("nickName", "nombre", "apellido", "correo@correo", date, "imagenPerfil", "Password");
         assertEquals(expResult, result);
         Pais pais = new Pais("nombrePais");
-        Ciudad origen = new Ciudad("ciudad1", pais);
-        Ciudad destino = new Ciudad("ciudad2", pais);
+        Ciudad origen = new Ciudad("ciudad1", pais.getNombre());
+        Ciudad destino = new Ciudad("ciudad2", pais.getNombre());
         Proveedor proveedor = new Proveedor("nickName", "nombre", "apellido", "correo@proveedor", date, "nombreEmpresa", "linkEmpresa", "imagenPerfil", "Password");
         Servicio servicio = new Servicio("servicioNombre", "esto es unadescripcion", 40, origen, destino, proveedor);
         servicios.add(servicio);
@@ -105,8 +105,8 @@ public class ReservaControllerImplTest {
          * Resultado 2/5
          */
         Pais pais = new Pais("nombrePais");
-        Ciudad origen = new Ciudad("ciudad1", pais);
-        Ciudad destino = new Ciudad("ciudad2", pais);
+        Ciudad origen = new Ciudad("ciudad1", pais.getNombre());
+        Ciudad destino = new Ciudad("ciudad2", pais.getNombre());
         Proveedor proveedor = new Proveedor("nickName", "nombre", "apellido", "correo@proveedor", date, "nombreEmpresa", "linkEmpresa", "imagenPerfil", "Password");
         Servicio servicio = new Servicio("servicioNombre", "esto es unadescripcion", 40, origen, destino, proveedor);
         servicios.add(servicio);
@@ -190,8 +190,8 @@ public class ReservaControllerImplTest {
         Date date = new Date();
         Cliente cliente = new Cliente("nickName", "nombre", "apellido", "correo@correo", date, "imagenPerfil", "Password");
         Pais pais = new Pais("nombrePais");
-        Ciudad origen = new Ciudad("ciudad1", pais);
-        Ciudad destino = new Ciudad("ciudad2", pais);
+        Ciudad origen = new Ciudad("ciudad1", pais.getNombre());
+        Ciudad destino = new Ciudad("ciudad2", pais.getNombre());
         Proveedor proveedor = new Proveedor("nickName", "nombre", "apellido", "correo@proveedor", date, "nombreEmpresa", "linkEmpresa", "imagenPerfil", "Password");
         Servicio servicio = new Servicio("servicioNombre", "esto es unadescripcion", 40, origen, destino, proveedor);
         servicios.add(servicio);
@@ -216,8 +216,8 @@ public class ReservaControllerImplTest {
         Date date = new Date();
         Cliente cliente = new Cliente("nickName", "nombre", "apellido", "correo@correo", date, "imagenPerfil", "Password");
         Pais pais = new Pais("nombrePais");
-        Ciudad origen = new Ciudad("ciudad1", pais);
-        Ciudad destino = new Ciudad("ciudad2", pais);
+        Ciudad origen = new Ciudad("ciudad1", pais.getNombre());
+        Ciudad destino = new Ciudad("ciudad2", pais.getNombre());
         Proveedor proveedor = new Proveedor("nickName", "nombre", "apellido", "correo@proveedor", date, "nombreEmpresa", "linkEmpresa", "imagenPerfil", "Password");
         Servicio servicio = new Servicio("servicioNombre", "esto es unadescripcion", 40, origen, destino, proveedor);
         servicios.add(servicio);

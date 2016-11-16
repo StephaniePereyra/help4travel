@@ -52,17 +52,17 @@ public class DatosProveedor {
             Logger.getLogger(DatosProveedor.class.getName()).log(Level.SEVERE, null, ex);
         }
         portUsuario = usuarioWSImplService.getUsuarioWSImplPort();
-        List auxiliar = portUsuario.obtenerTodosProveedoresWS();
+        List<uy.edu.cure.servidor.central.soap.client.Proveedor> auxiliar = portUsuario.obtenerTodosProveedoresWS();
         
         for(int i=0;i<auxiliar.size();i++){
-            proveedores.add(i,convertidor.convertirProveedor(portUsuario.obtenerTodosProveedoresWS().get(i)));
+            proveedores.add(i,convertidor.convertirProveedor(auxiliar.get(i)));
         }
         
     }
 
     public void accionProveedor() {
         proveedor = convertidor.convertirProveedor(portUsuario.obtenerProveedorWS(nickName));
-        //this.servicios = proveedor.getServicios();
+        this.servicios = proveedor.getServicios();
     }
     
     

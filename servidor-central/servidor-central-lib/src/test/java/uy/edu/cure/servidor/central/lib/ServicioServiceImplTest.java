@@ -54,7 +54,7 @@ public class ServicioServiceImplTest {
         Servicio result = null;
         Servicio expResult = null;
         Pais pais = new Pais("Uruguay");
-        Ciudad ciudad = new Ciudad("Maldonado", pais);
+        Ciudad ciudad = new Ciudad("Maldonado", pais.getNombre());
         pais.setCiudades(ciudad);
         Date date = new Date();
         Proveedor proveedor = new Proveedor("Manolo", "Giuseppe", "Ragazzo", "giuseppe@aol.co.uk", date, " Tortugones Manolo", "www.tortugonesManolo.com", "guruceaga.png", "Password");
@@ -74,7 +74,7 @@ public class ServicioServiceImplTest {
         System.out.println("existeServicio");
         boolean expResult = true;
         Pais pais = new Pais("Estados Unidos");
-        Ciudad ciudad = new Ciudad("California ", pais);
+        Ciudad ciudad = new Ciudad("California ", pais.getNombre());
         pais.setCiudades(ciudad);
         Date date = new Date();
         ServicioServiceImpl instance = new ServicioServiceImpl();
@@ -94,7 +94,7 @@ public class ServicioServiceImplTest {
         System.out.println("existeServicio false");
         boolean expResult = false;
         Pais pais = new Pais("United State");
-        Ciudad ciudad = new Ciudad("Los Angeles", pais);
+        Ciudad ciudad = new Ciudad("Los Angeles", pais.getNombre());
         pais.setCiudades(ciudad);
         Date date = new Date();
         ServicioServiceImpl instance = new ServicioServiceImpl();
@@ -113,7 +113,7 @@ public class ServicioServiceImplTest {
     public void testObtenerServicioTrue() {
         System.out.println("obtenerServicio");
         Pais pais = new Pais("Gran Bretaña");
-        Ciudad ciudad = new Ciudad("Escocia", pais);
+        Ciudad ciudad = new Ciudad("Escocia", pais.getNombre());
         pais.setCiudades(ciudad);
         Date date = new Date();
         ServicioServiceImpl instance = new ServicioServiceImpl();
@@ -133,7 +133,7 @@ public class ServicioServiceImplTest {
     public void testObtenerServicioFalse() {
         System.out.println("obtenerServicio");
         Pais pais = new Pais("Brasil");
-        Ciudad ciudad = new Ciudad("Porto Seguro", pais);
+        Ciudad ciudad = new Ciudad("Porto Seguro", pais.getNombre());
         pais.setCiudades(ciudad);
         Date date = new Date();
         ServicioServiceImpl instance = new ServicioServiceImpl();
@@ -154,7 +154,7 @@ public class ServicioServiceImplTest {
         System.out.println("obtenerTodosServicios");
         List<Servicio> expResult = new ArrayList<Servicio>();
         Pais pais = new Pais("Great Britain");
-        Ciudad ciudad = new Ciudad("Ireland", pais);
+        Ciudad ciudad = new Ciudad("Ireland", pais.getNombre());
         pais.setCiudades(ciudad);
         Date date = new Date();
         ServicioServiceImpl instance = new ServicioServiceImpl();
@@ -178,7 +178,7 @@ public class ServicioServiceImplTest {
     public void testCantidadServicios() {
         System.out.println("cantidadServicios");
         Pais pais = new Pais("Gran Bretaña");
-        Ciudad ciudad = new Ciudad("Irlanda", pais);
+        Ciudad ciudad = new Ciudad("Irlanda", pais.getNombre());
         pais.setCiudades(ciudad);
         Date date = new Date();
         ServicioServiceImpl instance = new ServicioServiceImpl();
@@ -202,7 +202,7 @@ public class ServicioServiceImplTest {
         System.out.println("vaciarPersistenciaServicio");
         ServicioServiceImpl instance = new ServicioServiceImpl();
         Pais pais = new Pais("Gran Bretaña");
-        Ciudad ciudad = new Ciudad("Irlanda", pais);
+        Ciudad ciudad = new Ciudad("Irlanda", pais.getNombre());
         pais.setCiudades(ciudad);
         Date date = new Date();
         List<Servicio> expResult = new ArrayList<Servicio>();

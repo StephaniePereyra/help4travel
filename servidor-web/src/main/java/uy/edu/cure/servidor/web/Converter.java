@@ -20,8 +20,6 @@ import uy.edu.cure.servidor.central.dto.Reserva;
 import uy.edu.cure.servidor.central.dto.Servicio;
 import uy.edu.cure.servidor.central.soap.client.CategoriaWS;
 import uy.edu.cure.servidor.central.soap.client.CategoriaWSImplService;
-import uy.edu.cure.servidor.central.soap.client.PaisWS;
-import uy.edu.cure.servidor.central.soap.client.PaisWSImplService;
 import uy.edu.cure.servidor.central.soap.client.PromocionWS;
 import uy.edu.cure.servidor.central.soap.client.PromocionWSImplService;
 import uy.edu.cure.servidor.central.soap.client.ReservaWS;
@@ -89,7 +87,7 @@ public class Converter {
         proveedorAuxiliar.setNombreEmpresa(proveedor.getNombreEmpresa());
         proveedorAuxiliar.setLinkEmpresa(proveedor.getLinkEmpresa());
         
-        /*UsuarioWSImplService usuarioWSImplService = null;
+        UsuarioWSImplService usuarioWSImplService = null;
         try {
             usuarioWSImplService = new UsuarioWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/UsuarioWSImplService?wsdl"));
         } catch (MalformedURLException ex) {
@@ -97,58 +95,23 @@ public class Converter {
         }
         UsuarioWS portUsuario = usuarioWSImplService.getUsuarioWSImplPort();
         
-        for(int i=0;i<portUsuario.serviciosProveedor(proveedor.getNickName()).size();){
+        for(int i=0;i<portUsuario.serviciosProveedor(proveedor.getNickName()).size();i++){
             proveedorAuxiliar.setServicio(this.convertirServicio(portUsuario.serviciosProveedor(proveedor.getNickName()).get(i)));
-        }*/
+        }
         
         return proveedorAuxiliar;
     }
     
-    public Categoria convertirCategoria (uy.edu.cure.servidor.central.soap.client.Categoria categoria){
-        categoriaAuxiliar = new Categoria();
-
-        categoriaAuxiliar.setNombre(categoria.getNombre());
-
-        CategoriaWSImplService categoriaWSImplService = null;
-        try {
-            categoriaWSImplService = new CategoriaWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/CategoriaWSImplService?wsdl"));
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(Converter.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        CategoriaWS portCategoria = categoriaWSImplService.getCategoriaWSImplPort();
-        
-        for(int i=0;i<portCategoria.obtenerHijosWS(categoria.getNombre()).size();i++){
-            categoriaAuxiliar.setHijos(this.convertirCategoria(portCategoria.obtenerHijosWS(categoria.getNombre()).get(i)));
-        }
-        categoriaAuxiliar.setPadre(this.convertirCategoria(categoria.getPadre()));
-        return categoriaAuxiliar;
-    }
-    
-    public Pais convertirPais (uy.edu.cure.servidor.central.soap.client.Pais pais){
-        paisAuxiliar = new Pais();
-
-        paisAuxiliar.setNombre(pais.getNombre());
-        
-        PaisWSImplService paisWSImplService = null;
-        try {
-            paisWSImplService = new PaisWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/PaisWSImplService?wsdl"));
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(Converter.class.getName()).log(Level.SEVERE, null, ex);
-        }
-                PaisWS portPais = paisWSImplService.getPaisWSImplPort();
-        
-                for(int i = 0;i<portPais.obtenerCiudadesWS(pais.getNombre()).size();i++){
-                   paisAuxiliar.setCiudades(convertirCiudad(portPais.obtenerCiudadesWS(pais.getNombre()).get(i)));
-                }
-                
-        return paisAuxiliar;
-    }
     
     public Ciudad convertirCiudad (uy.edu.cure.servidor.central.soap.client.Ciudad ciudad){
         ciudadAuxiliar = new Ciudad();
-        
+        if(ciudad != null){
         ciudadAuxiliar.setNombre(ciudad.getNombre());
-        ciudadAuxiliar.setPais(this.convertirPais(ciudad.getPais()));
+        ciudadAuxiliar.setPais(ciudad.getPais());  
+        }
+        else{
+            ciudadAuxiliar = null;
+        }
         return ciudadAuxiliar;
     }
     
@@ -160,8 +123,12 @@ public class Converter {
         servicioAuxiliar.setDescripcion(servicio.getDescripcion());
         servicioAuxiliar.setOrigen(this.convertirCiudad(servicio.getOrigen()));
         servicioAuxiliar.setDestino(this.convertirCiudad(servicio.getDestino()));
-        servicioAuxiliar.setProveedor(this.convertirProveedor(servicio.getProveedor()));
         
+        Proveedor proveedorAuxiliar2 = new Proveedor();
+        proveedorAuxiliar2.setNickName(servicio.getProveedor().getNickName());
+        
+        servicioAuxiliar.setProveedor(proveedorAuxiliar2);
+       
         ServicioWSImplService servicioWSImplService = null;
         try {
             servicioWSImplService = new ServicioWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/ServicioWSImplService?wsdl"));
@@ -173,10 +140,12 @@ public class Converter {
         for(int i =0;i<portServicio.obtenerImagenesServicioWS(servicio.getNombre(), servicio.getProveedor().getNickName()).size();i++){
             servicioAuxiliar.setImagen(portServicio.obtenerImagenesServicioWS(servicio.getNombre(), servicio.getProveedor().getNickName()).get(i));
         }
+                
+        for(int u =0;u<portServicio.obtenerCategoriasServicioWS(servicio.getNombre(), servicio.getProveedor().getNickName()).size();u++){
+          categoriaAuxiliar = new Categoria();
+          categoriaAuxiliar.setNombre(portServicio.obtenerCategoriasServicioWS(servicio.getNombre(), servicio.getProveedor().getNickName()).get(u).getNombre());
+        }
         
-        /*for(int u =0;u<portServicio.obtenerCategoriasServicioWS(servicio.getNombre(), servicio.getProveedor().getNickName()).size();u++){
-            servicioAuxiliar.setCategorias(this.convertirCategoria(portServicio.obtenerCategoriasServicioWS(servicio.getNombre(), servicio.getProveedor().getNickName()).get(u)));
-        }*/
         return servicioAuxiliar;
     }
     

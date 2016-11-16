@@ -201,7 +201,7 @@ public class ServicioControllerImplTest {
         usuarioService.guardarProveedor(proveedor);
         CiudadServiceImpl ciudadService = new CiudadServiceImpl();
         Pais pais = new Pais("pais");
-        Ciudad ciudad = new Ciudad(ciudadOrigen, pais);
+        Ciudad ciudad = new Ciudad(ciudadOrigen, pais.getNombre());
         ciudadService.guardarCiudad(ciudad);
         String expResult = "Elija ciudad de destino";
         String result = instance.crearServicio(nombreServicio, descripcion, precio, ciudadOrigen, ciudadDestino, categorias, imagenes, nickNameProveedor);
@@ -229,7 +229,7 @@ public class ServicioControllerImplTest {
         usuarioService.guardarProveedor(proveedor);
         CiudadServiceImpl ciudadService = new CiudadServiceImpl();
         Pais pais = new Pais("pais");
-        Ciudad ciudad = new Ciudad(ciudadOrigen, pais);
+        Ciudad ciudad = new Ciudad(ciudadOrigen, pais.getNombre());
         ciudadService.guardarCiudad(ciudad);
         String expResult = "Ciudad de destino invalido";
         String result = instance.crearServicio(nombreServicio, descripcion, precio, ciudadOrigen, ciudadDestino, categorias, imagenes, nickNameProveedor);
@@ -258,7 +258,7 @@ public class ServicioControllerImplTest {
         usuarioService.guardarProveedor(proveedor);
         CiudadServiceImpl ciudadService = new CiudadServiceImpl();
         Pais pais = new Pais("pais");
-        Ciudad ciudad = new Ciudad(ciudadOrigen, pais);
+        Ciudad ciudad = new Ciudad(ciudadOrigen, pais.getNombre());
         ciudadService.guardarCiudad(ciudad);
         String expResult = "Ciudad de origen debe ser diferente a ciudad de destino";
         String result = instance.crearServicio(nombreServicio, descripcion, precio, ciudadOrigen, ciudadDestino, categorias, imagenes, nickNameProveedor);
@@ -287,7 +287,7 @@ public class ServicioControllerImplTest {
         usuarioService.guardarProveedor(proveedor);
         CiudadServiceImpl ciudadService = new CiudadServiceImpl();
         Pais pais = new Pais("pais");
-        Ciudad ciudad = new Ciudad(ciudadOrigen, pais);
+        Ciudad ciudad = new Ciudad(ciudadOrigen, pais.getNombre());
         ciudadService.guardarCiudad(ciudad);
         String expResult = "Debe ingresar como minimo una categoria";
         String result = instance.crearServicio(nombreServicio, descripcion, precio, ciudadOrigen, ciudadDestino, categorias, imagenes, nickNameProveedor);
@@ -317,7 +317,7 @@ public class ServicioControllerImplTest {
         usuarioService.guardarProveedor(proveedor);
         CiudadServiceImpl ciudadService = new CiudadServiceImpl();
         Pais pais = new Pais("pais");
-        Ciudad ciudad = new Ciudad(ciudadOrigen, pais);
+        Ciudad ciudad = new Ciudad(ciudadOrigen, pais.getNombre());
         ciudadService.guardarCiudad(ciudad);
         CategoriaServiceImpl categoriaService = new CategoriaServiceImpl();
         Categoria categoria = new Categoria("categoria");
@@ -353,8 +353,8 @@ public class ServicioControllerImplTest {
         usuarioService.guardarProveedor(proveedor);
         CiudadServiceImpl ciudadService = new CiudadServiceImpl();
         Pais pais = new Pais("pais");
-        Ciudad ciudad = new Ciudad(ciudadOrigen, pais);
-        Ciudad ciudad2 = new Ciudad(ciudadDestino, pais);
+        Ciudad ciudad = new Ciudad(ciudadOrigen, pais.getNombre());
+        Ciudad ciudad2 = new Ciudad(ciudadDestino, pais.getNombre());
         ciudadService.guardarCiudad(ciudad);
         ciudadService.guardarCiudad(ciudad2);
         CategoriaServiceImpl categoriaService = new CategoriaServiceImpl();
@@ -378,7 +378,7 @@ public class ServicioControllerImplTest {
         boolean result = true;
         boolean expResult = true;
         Pais pais = new Pais("Estados Unidos");
-        Ciudad ciudad = new Ciudad("California ", pais);
+        Ciudad ciudad = new Ciudad("California ", pais.getNombre());
         pais.setCiudades(ciudad);
         Date date = new Date();
         ServicioServiceImpl instanceServicio = new ServicioServiceImpl();
@@ -406,7 +406,7 @@ public class ServicioControllerImplTest {
         boolean result = true;
         boolean expResult = false;
         Pais pais = new Pais("United State");
-        Ciudad ciudad = new Ciudad("Los Angeles", pais);
+        Ciudad ciudad = new Ciudad("Los Angeles", pais.getNombre());
         pais.setCiudades(ciudad);
         Date date = new Date();
         ServicioServiceImpl instanceServicio = new ServicioServiceImpl();
@@ -434,7 +434,7 @@ public class ServicioControllerImplTest {
         Servicio result = null;
         Servicio expResult = null;
         Pais pais = new Pais("Canada");
-        Ciudad ciudad = new Ciudad("Suiza", pais);
+        Ciudad ciudad = new Ciudad("Suiza", pais.getNombre());
         pais.setCiudades(ciudad);
         Date date = new Date();
         ServicioControllerImpl instanceController = new ServicioControllerImpl();
@@ -463,7 +463,7 @@ public class ServicioControllerImplTest {
         Servicio result = null;
         Servicio expResult = null;
         Pais pais = new Pais("Brasil");
-        Ciudad ciudad = new Ciudad("Porto Seguro", pais);
+        Ciudad ciudad = new Ciudad("Porto Seguro", pais.getNombre());
         pais.setCiudades(ciudad);
         Date date = new Date();
         ServicioServiceImpl instanceServicio = new ServicioServiceImpl();
@@ -492,7 +492,7 @@ public class ServicioControllerImplTest {
         List<Servicio> result = new ArrayList<Servicio>();
         List<Servicio> expResult = new ArrayList<Servicio>();
         Pais pais = new Pais("Great Britain");
-        Ciudad ciudad = new Ciudad("Ireland", pais);
+        Ciudad ciudad = new Ciudad("Ireland", pais.getNombre());
         pais.setCiudades(ciudad);
         Date date = new Date();
         ServicioServiceImpl instanceServicio = new ServicioServiceImpl();
@@ -525,7 +525,7 @@ public class ServicioControllerImplTest {
         int result = 0;
         int expResult = 0;
         Pais pais = new Pais("Gran Bretaña");
-        Ciudad ciudad = new Ciudad("Irlanda", pais);
+        Ciudad ciudad = new Ciudad("Irlanda", pais.getNombre());
         pais.setCiudades(ciudad);
         Date date = new Date();
         ServicioServiceImpl instanceService = new ServicioServiceImpl();
@@ -555,7 +555,7 @@ public class ServicioControllerImplTest {
         List<Servicio> result = new ArrayList<Servicio>();
         List<Servicio> expResult = new ArrayList<Servicio>();
         Pais pais = new Pais("Gran Bretaña");
-        Ciudad ciudad = new Ciudad("Irlanda", pais);
+        Ciudad ciudad = new Ciudad("Irlanda", pais.getNombre());
         pais.setCiudades(ciudad);
         Date date = new Date();
         ServicioServiceImpl instanceService = new ServicioServiceImpl();
@@ -588,7 +588,7 @@ public class ServicioControllerImplTest {
         ServicioControllerImpl instanceController = new ServicioControllerImpl();
         ServicioServiceImpl instanceService = new ServicioServiceImpl();
         Pais pais = new Pais("Gran Bretaña");
-        Ciudad ciudad = new Ciudad("Irlanda", pais);
+        Ciudad ciudad = new Ciudad("Irlanda", pais.getNombre());
         pais.setCiudades(ciudad);
         Date date = new Date();
         List<Servicio> result = new ArrayList<Servicio>();

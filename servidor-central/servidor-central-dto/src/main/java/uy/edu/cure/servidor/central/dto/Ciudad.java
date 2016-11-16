@@ -14,9 +14,9 @@ import java.util.UUID;
 public class Ciudad {
 
     private String nombre;
-    private Pais pais;
+    String  pais;
 
-    public Ciudad(String nombre, Pais pais) {
+    public Ciudad(String nombre, String pais) {
         this.nombre = nombre;
         this.pais = pais;
     }
@@ -34,11 +34,11 @@ public class Ciudad {
         this.nombre = nombre;
     }
 
-    public Pais getPais() {
+    public String getPais() {
         return pais;
     }
 
-    public void setPais(Pais pais) {
+    public void setPais(String pais) {
         this.pais = pais;
     }
 

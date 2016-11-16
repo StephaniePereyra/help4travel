@@ -33,7 +33,7 @@ public class CiudadControllerImpl implements CiudadController {
     @Override
     public boolean crearCiudad(String nombreCiudad, String nombrePais) {
         if (paisService.existePais(nombrePais) && !ciudadService.existeCiudad(nombreCiudad)) {
-            Ciudad ciudad = new Ciudad(nombreCiudad, paisService.obtenerPais(nombrePais));
+            Ciudad ciudad = new Ciudad(nombreCiudad, nombrePais);
             ciudadService.guardarCiudad(ciudad);
             paisService.obtenerPais(nombrePais).setCiudades(ciudad);
             return true;
