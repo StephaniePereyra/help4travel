@@ -134,4 +134,12 @@ public class UsuarioWSImpl implements UsuarioWS {
         return serviciosAux;
     }
 
+    @Override
+    public List<Reserva> obtenerReservasClienteWS(String nickName) {
+        UsuarioControllerImpl usuariocontroller = new UsuarioControllerImpl();
+        List<Reserva> reservasAux;
+        reservasAux = usuariocontroller.obtenerCliente(nickName).getReservas();
+        return reservasAux;
+    }
+
 }

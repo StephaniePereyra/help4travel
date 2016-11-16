@@ -5,16 +5,20 @@
  */
 package uy.edu.cure.servidor.web;
 
-import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import uy.edu.cure.servidor.central.dto.Categoria;
+import uy.edu.cure.servidor.central.dto.Promocion;
 import uy.edu.cure.servidor.central.dto.Servicio;
-import uy.edu.cure.servidor.central.lib.PromocionControllerImpl;
-import uy.edu.cure.servidor.central.lib.ServicioControllerImpl;
-import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
-import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
+import uy.edu.cure.servidor.central.soap.client.PromocionWS;
+import uy.edu.cure.servidor.central.soap.client.PromocionWSImplService;
+import uy.edu.cure.servidor.central.soap.client.ServicioWS;
+import uy.edu.cure.servidor.central.soap.client.ServicioWSImplService;
 
 /**
  *
@@ -22,23 +26,33 @@ import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
  */
 public class Filtrado {
 
-  @Jeringa(value = "promocioncontroller")
-    private PromocionControllerImpl promocionController;
-  @Jeringa(value = "serviciocontroller")
-    private ServicioControllerImpl servicioController;
     private String tipo;
     private String nombre;
     private String proveedor;
-
+    private ServicioWSImplService servicioWSImplService;
+    private ServicioWS portServicio;
+    private PromocionWSImplService promocionWSImplService;
+    private PromocionWS portPromocion;
+    
+    private Converter convertidor;
+    
     public Filtrado(String tipo, String nombre, String proveedor) {
-        try {
-            JeringaInjector.getInstance().inyectar(this);
-        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            e.printStackTrace();
-        }
         this.tipo = tipo;
         this.nombre = nombre;
         this.proveedor = proveedor;
+        try {
+            servicioWSImplService = new ServicioWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/ServicioWSImplService?wsdl"));
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(Filtrado.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        portServicio = servicioWSImplService.getServicioWSImplPort();
+        try {            
+            promocionWSImplService = new PromocionWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/PromocionWSImplService?wsdl"));
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(Filtrado.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        portPromocion = promocionWSImplService.getPromocionWSImplPort();
+        convertidor = new Converter();
     }
 
     public String getTipo() {
@@ -67,23 +81,24 @@ public class Filtrado {
 
     public double getPrecio() {
         if (tipo.equals("Servicio")) {
-            return servicioController.obtenerServicio(nombre, proveedor).getPrecio();
+            return convertidor.convertirServicio(portServicio.obtenerServicioWS(nombre, proveedor)).getPrecio();
         }
-        return promocionController.obtenerPromocion(nombre, proveedor).getPrecioTotal();
+        return convertidor.convertirPromocion(portPromocion.obtenerPromocionWS(nombre, proveedor)).getPrecioTotal();
     }
 
     public String getServicioDescripcion() {
         String descripcion = "";
         if (tipo.equals("Servicio")) {
-            descripcion = servicioController.obtenerServicio(nombre, proveedor).getDescripcion();
+            descripcion = convertidor.convertirServicio(portServicio.obtenerServicioWS(nombre, proveedor)).getDescripcion();
         }
         return descripcion;
     }
 
     public List<String> getServicioCategorias() {
         List<String> categorias = new ArrayList<>();
+        Servicio servicioAux = convertidor.convertirServicio(portServicio.obtenerServicioWS(nombre, proveedor));
         if (tipo.equals("Servicio")) {
-            Iterator<Categoria> iteratorCategorias = servicioController.obtenerServicio(nombre, proveedor).getCategorias().iterator();
+            Iterator<Categoria> iteratorCategorias = servicioAux.getCategorias().iterator();
             while (iteratorCategorias.hasNext()) {
                 Categoria categoriaAux = iteratorCategorias.next();
                 categorias.add(categoriaAux.getNombre());
@@ -94,8 +109,9 @@ public class Filtrado {
 
     public String getServicioLineCategorias() {
         String categorias = "";
+        Servicio servicioAux = convertidor.convertirServicio(portServicio.obtenerServicioWS(nombre, proveedor));
         if (tipo.equals("Servicio")) {
-            Iterator<Categoria> iteratorCategorias = servicioController.obtenerServicio(nombre, proveedor).getCategorias().iterator();
+            Iterator<Categoria> iteratorCategorias = servicioAux.getCategorias().iterator();
             while (iteratorCategorias.hasNext()) {
                 Categoria categoriaAux = iteratorCategorias.next();
                 categorias = categorias + categoriaAux.getNombre();
@@ -110,7 +126,7 @@ public class Filtrado {
     public String getServicioDestinos() {
         String destinos = "";
         if (tipo.equals("Servicio")) {
-            Servicio servicio = servicioController.obtenerServicio(nombre, proveedor);
+            Servicio servicio = convertidor.convertirServicio(portServicio.obtenerServicioWS(nombre, proveedor));
             if (servicio.getDestino() != null) {
                 destinos = servicio.getOrigen().getNombre() + " - " + servicio.getDestino().getNombre();
             } else {
@@ -128,15 +144,16 @@ public class Filtrado {
     public int getPromocionDescuento() {
         int descuento = 0;
         if (tipo.equals("Promocion")) {
-            descuento = promocionController.obtenerPromocion(nombre, proveedor).getDescuento();
+            descuento = convertidor.convertirPromocion(portPromocion.obtenerPromocionWS(nombre, proveedor)).getDescuento();
         }
         return descuento;
     }
 
     public List<String> getPromocionServicios() {
         List<String> servicios = new ArrayList<>();
+        Promocion promocionAux = convertidor.convertirPromocion(portPromocion.obtenerPromocionWS(nombre, proveedor));
         if (tipo.equals("Promocion")) {
-            Iterator<Servicio> iteratorServicios = promocionController.obtenerPromocion(nombre, proveedor).getServicios().iterator();
+            Iterator<Servicio> iteratorServicios = promocionAux.getServicios().iterator();
             while (iteratorServicios.hasNext()) {
                 Servicio servicioAux = iteratorServicios.next();
                 servicios.add(servicioAux.getNombre());
@@ -147,8 +164,9 @@ public class Filtrado {
 
     public String getPromocionLineServicios() {
         String servicios = "";
+        Promocion promocionAux = convertidor.convertirPromocion(portPromocion.obtenerPromocionWS(nombre, proveedor));
         if (tipo.equals("Promocion")) {
-            Iterator<Servicio> iteratorServicios = promocionController.obtenerPromocion(nombre, proveedor).getServicios().iterator();
+            Iterator<Servicio> iteratorServicios = promocionAux.getServicios().iterator();
             while (iteratorServicios.hasNext()) {
                 Servicio servicioAux = iteratorServicios.next();
                 servicios = servicios + servicioAux.getNombre();

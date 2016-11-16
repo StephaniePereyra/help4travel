@@ -69,6 +69,40 @@ public class Converter {
         clienteAuxiliar.setFechanacimiento(fechaAux);
         clienteAuxiliar.setImagenPerfil(cliente.getImagenPerfil());
         clienteAuxiliar.setPassWord(cliente.getPassWord());
+        Reserva reservaAuxiliar2 = new Reserva();
+        
+        UsuarioWSImplService usuarioWSImplService = null;
+        try {
+            usuarioWSImplService = new UsuarioWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/UsuarioWSImplService?wsdl"));
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(Converter.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        UsuarioWS portUsuario = usuarioWSImplService.getUsuarioWSImplPort();
+        
+        reservaAuxiliar2.setCantidadPromociones(portUsuario.obtenerCarritoClienteWS(cliente.getNickName()).getCantidadServicios());
+        reservaAuxiliar2.setCantidadPromociones(portUsuario.obtenerCarritoClienteWS(cliente.getNickName()).getCantidadPromociones());
+        reservaAuxiliar2.setEstado(portUsuario.obtenerCarritoClienteWS(cliente.getNickName()).getEstado());
+        Date fechaAuxiliar = new Date();
+        fechaAuxiliar.setDate(portUsuario.obtenerCarritoClienteWS(cliente.getNickName()).getFechaCreacion().getDay());
+        fechaAuxiliar.setMonth(portUsuario.obtenerCarritoClienteWS(cliente.getNickName()).getFechaCreacion().getMonth());
+        fechaAuxiliar.setYear(portUsuario.obtenerCarritoClienteWS(cliente.getNickName()).getFechaCreacion().getYear());
+        reservaAuxiliar2.setFechaCreacion(fechaAuxiliar);
+        reservaAuxiliar2.setNumero(portUsuario.obtenerCarritoClienteWS(cliente.getNickName()).getNumero());
+        reservaAuxiliar2.setPrecio(portUsuario.obtenerCarritoClienteWS(cliente.getNickName()).getPrecio());
+        Cliente clienteAuxiliarC = new Cliente();
+        clienteAuxiliarC.setNickName(portUsuario.obtenerCarritoClienteWS(cliente.getNickName()).getCliente().getNickName());
+        clienteAuxiliarC.setNombre(portUsuario.obtenerCarritoClienteWS(cliente.getNickName()).getCliente().getNombre());
+        clienteAuxiliarC.setApellido(portUsuario.obtenerCarritoClienteWS(cliente.getNickName()).getCliente().getApellido());
+        clienteAuxiliarC.setCorreo(portUsuario.obtenerCarritoClienteWS(cliente.getNickName()).getCliente().getCorreo());
+        Date fechaAuxClienteAux = new Date();
+        fechaAuxClienteAux.setDate(portUsuario.obtenerCarritoClienteWS(cliente.getNickName()).getCliente().getFechanacimiento().getDay());
+        fechaAuxClienteAux.setMonth(portUsuario.obtenerCarritoClienteWS(cliente.getNickName()).getCliente().getFechanacimiento().getMonth());
+        fechaAuxClienteAux.setYear(portUsuario.obtenerCarritoClienteWS(cliente.getNickName()).getCliente().getFechanacimiento().getYear());
+        clienteAuxiliarC.setFechanacimiento(fechaAuxClienteAux);
+        reservaAuxiliar2.setCliente(clienteAuxiliarC);
+        
+        clienteAuxiliar.setCarrito(reservaAuxiliar2);
+      
         return clienteAuxiliar;
     }
     
@@ -142,7 +176,7 @@ public class Converter {
         }
                 
         for(int u =0;u<portServicio.obtenerCategoriasServicioWS(servicio.getNombre(), servicio.getProveedor().getNickName()).size();u++){
-          categoriaAuxiliar = new Categoria();
+          Categoria categoriaAuxiliar2 = new Categoria();
           categoriaAuxiliar.setNombre(portServicio.obtenerCategoriasServicioWS(servicio.getNombre(), servicio.getProveedor().getNickName()).get(u).getNombre());
         }
         

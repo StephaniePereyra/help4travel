@@ -62,5 +62,9 @@ public interface UsuarioWS {
     
     @WebMethod
     public List<Servicio> obtenerServiciosCarroWS (String nickName);
+    
+    @WebMethod
+    public List<Reserva> obtenerReservasClienteWS (String nickName); 
+            
 
 }
