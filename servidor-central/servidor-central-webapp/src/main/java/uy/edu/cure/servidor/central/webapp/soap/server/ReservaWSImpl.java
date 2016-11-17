@@ -66,4 +66,10 @@ public class ReservaWSImpl implements ReservaWS {
         return promocionesAux;
     }
 
+    @Override
+    public Reserva obtenerReservaWS(int numero) {
+        ReservaControllerImpl reservaController = new ReservaControllerImpl();
+        return reservaController.obtenerReserva(numero);
+    }
+
 }
