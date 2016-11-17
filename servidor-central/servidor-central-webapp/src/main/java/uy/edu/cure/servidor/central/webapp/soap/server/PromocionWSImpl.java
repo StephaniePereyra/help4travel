@@ -53,5 +53,13 @@ public class PromocionWSImpl implements PromocionWS {
         return promocionesAux;
     }
 
+    @Override
+    public List<Servicio> obtenerServiciosPromoWS(String nombrePromocion, String nickProveedor) {
+        PromocionControllerImpl promocioncontroller = new PromocionControllerImpl();
+        List<Servicio> serviciosAux;
+        serviciosAux = promocioncontroller.obtenerPromocion(nombrePromocion, nickProveedor).getServicios();
+        return serviciosAux;
+    }
+
 
 }

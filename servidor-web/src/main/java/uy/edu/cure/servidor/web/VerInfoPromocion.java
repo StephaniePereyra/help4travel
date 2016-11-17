@@ -20,9 +20,6 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import uy.edu.cure.servidor.central.dto.Promocion;
 import uy.edu.cure.servidor.central.dto.Servicio;
-import uy.edu.cure.servidor.central.lib.PromocionControllerImpl;
-import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
-import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
 import uy.edu.cure.servidor.central.soap.client.PromocionWS;
 import uy.edu.cure.servidor.central.soap.client.PromocionWSImplService;
 
@@ -34,27 +31,19 @@ import uy.edu.cure.servidor.central.soap.client.PromocionWSImplService;
 @SessionScoped
 public class VerInfoPromocion {
     
-    @Jeringa(value = "promocioncontroller")
-    private PromocionControllerImpl promocionController;
     private String nombre;
     private String proveedor;
     private PromocionWSImplService promocionWSImplService;
     private PromocionWS portPromocion;
     private Converter convertidor;
 
-    public VerInfoPromocion() {
-        try {
-            JeringaInjector.getInstance().inyectar(this);
-        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            e.printStackTrace();
-        }
-        
+    public VerInfoPromocion() {    
         try {            
             promocionWSImplService = new PromocionWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/PromocionWSImplService?wsdl"));
         } catch (MalformedURLException ex) {
             Logger.getLogger(VerInfoPromocion.class.getName()).log(Level.SEVERE, null, ex);
         }
-        PromocionWS portPromocion = promocionWSImplService.getPromocionWSImplPort();
+        portPromocion = promocionWSImplService.getPromocionWSImplPort();
         convertidor = new Converter();
     }
 
@@ -83,16 +72,21 @@ public class VerInfoPromocion {
     }
     
     public double getPrecio() {
-        return promocionController.obtenerPromocion(nombre, proveedor).getPrecioTotal();
+        return convertidor.convertirPromocion(portPromocion.obtenerPromocionWS(nombre, proveedor)).getPrecioTotal();
     }
     
     public int getDescuento() {
-        return promocionController.obtenerPromocion(nombre, proveedor).getDescuento();
+        return convertidor.convertirPromocion(portPromocion.obtenerPromocionWS(nombre, proveedor)).getDescuento();
     }
     
     public List<String> getServicios() {
         List<String> servicios = new ArrayList<>();
-        Iterator<Servicio> iteratorServicios = promocionController.obtenerPromocion(nombre, proveedor).getServicios().iterator();
+        List<Servicio> serviciosPromoAux = new ArrayList();
+        List<uy.edu.cure.servidor.central.soap.client.Servicio> auxiliar = portPromocion.obtenerServiciosPromoWS(nombre, proveedor);
+        for(int i=0;i<auxiliar.size();i++){
+            serviciosPromoAux.add(convertidor.convertirServicio(auxiliar.get(i)));
+        }
+        Iterator<Servicio> iteratorServicios = serviciosPromoAux.iterator();
         while(iteratorServicios.hasNext()) {
             Servicio servicioAuxiliar = iteratorServicios.next();
             servicios.add(servicioAuxiliar.getNombre());
@@ -105,7 +99,7 @@ public class VerInfoPromocion {
         List<Filtrado> listaPromocionesAux = new ArrayList<>();
         List<uy.edu.cure.servidor.central.soap.client.Promocion> auxiliar = portPromocion.obtenerTodasPromociones();
         for(int i=0;i<auxiliar.size();i++){
-            promociones.add(convertidor.convertirPromocion(portPromocion.obtenerPromocionWS(nombre, proveedor)));
+            promociones.add(convertidor.convertirPromocion(auxiliar.get(i)));
         }
         Iterator<Promocion> iteratorPromocion = promociones.iterator();
         while (iteratorPromocion.hasNext()) {

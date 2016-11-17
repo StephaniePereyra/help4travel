@@ -5,7 +5,6 @@
  */
 package uy.edu.cure.servidor.web;
 
-import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -20,10 +19,6 @@ import javax.faces.bean.SessionScoped;
 import uy.edu.cure.servidor.central.dto.Categoria;
 import uy.edu.cure.servidor.central.dto.Promocion;
 import uy.edu.cure.servidor.central.dto.Servicio;
-import uy.edu.cure.servidor.central.lib.PromocionControllerImpl;
-import uy.edu.cure.servidor.central.lib.ServicioControllerImpl;
-import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
-import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
 import uy.edu.cure.servidor.central.soap.client.CategoriaWS;
 import uy.edu.cure.servidor.central.soap.client.CategoriaWSImplService;
 import uy.edu.cure.servidor.central.soap.client.CiudadWS;
@@ -45,18 +40,11 @@ import uy.edu.cure.servidor.central.soap.client.UsuarioWSImplService;
 @SessionScoped
 public class LogicaBuscador {
 
-    @Jeringa(value = "promocioncontroller")
-    private PromocionControllerImpl promocionController;
     private int tipoDeBusqueda;
     private String wanted;
     private List<Filtrado> serviciosFiltrados;
 
     public LogicaBuscador() {
-        try {
-            JeringaInjector.getInstance().inyectar(this);
-        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            e.printStackTrace();
-        }
         serviciosFiltrados = new ArrayList<Filtrado>();
     }
 
@@ -127,7 +115,20 @@ public class LogicaBuscador {
                     }
                 }
         }
-        Iterator<Promocion> iteratorPromociones = promocionController.obtenerTodasPromociones().iterator();
+        PromocionWSImplService promocionWSImplService = null;
+        try {            
+            promocionWSImplService = new PromocionWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/PromocionWSImplService?wsdl"));
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(LogicaBuscador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        PromocionWS portPromocion = promocionWSImplService.getPromocionWSImplPort();
+
+        List<Promocion> promocionesAux = new ArrayList();
+        List<uy.edu.cure.servidor.central.soap.client.Promocion> auxiliarPromos = portPromocion.obtenerTodasPromociones();
+        for(int i=0;i<auxiliarPromos.size();i++){
+            promocionesAux.add(convertidor.convertirPromocion(auxiliarPromos.get(i)));
+        }
+        Iterator<Promocion> iteratorPromociones = promocionesAux.iterator();
         while (iteratorPromociones.hasNext()) {
             Promocion promocionAuxiliar = iteratorPromociones.next();
             // Busqueda por nombre de promocion

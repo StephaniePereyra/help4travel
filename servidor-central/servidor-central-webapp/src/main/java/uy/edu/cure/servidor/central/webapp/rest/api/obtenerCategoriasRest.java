@@ -18,6 +18,7 @@ import uy.edu.cure.servidor.central.lib.CategoriaControllerImpl;
  *
  * @author SCN
  */
+
 @Path("/ObtenerCategorias")
 public class obtenerCategoriasRest {
     @GET

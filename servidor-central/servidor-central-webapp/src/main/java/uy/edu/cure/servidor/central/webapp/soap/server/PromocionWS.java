@@ -29,4 +29,7 @@ public interface PromocionWS {
     
     @WebMethod
     public List<Promocion> obtenerTodasPromociones ();
+    
+    @WebMethod
+    public List<Servicio> obtenerServiciosPromoWS (String nombrePromocion, String nickProveedor);
 }
