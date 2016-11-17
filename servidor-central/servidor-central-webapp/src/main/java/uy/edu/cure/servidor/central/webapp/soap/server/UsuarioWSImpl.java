@@ -142,4 +142,12 @@ public class UsuarioWSImpl implements UsuarioWS {
         return reservasAux;
     }
 
+    @Override
+    public List<Cliente> obtenerTodosClientes() {
+        UsuarioControllerImpl usuariocontroller = new UsuarioControllerImpl();
+        List<Cliente> clientesAux;
+        clientesAux = usuariocontroller.obtenerCientes();
+        return clientesAux;
+    }
+
 }

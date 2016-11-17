@@ -22,4 +22,13 @@ public interface CategoriaWS {
     
     @WebMethod
     public List<Categoria> obtenerHijosWS (String nombre);
+    
+    @WebMethod
+    public List<Categoria> obtenerTodasCategorias ();
+    
+    @WebMethod
+    public boolean existeCategoriaWS (String nombre);
+    
+    @WebMethod
+    public Categoria obtenerCategoria (String nombre);
 }

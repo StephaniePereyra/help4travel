@@ -26,4 +26,7 @@ public interface PromocionWS {
     
     @WebMethod
     public List<Servicio> serviciosPromocionWS (String nombrePromocion, String nickProveedor);
+    
+    @WebMethod
+    public List<Promocion> obtenerTodasPromociones ();
 }

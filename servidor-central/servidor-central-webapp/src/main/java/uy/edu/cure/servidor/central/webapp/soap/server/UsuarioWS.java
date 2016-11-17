@@ -65,6 +65,9 @@ public interface UsuarioWS {
     
     @WebMethod
     public List<Reserva> obtenerReservasClienteWS (String nickName); 
+    
+    @WebMethod
+    public List<Cliente> obtenerTodosClientes ();
             
 
 }

@@ -8,16 +8,23 @@ package uy.edu.cure.estacion.de.trabajo;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFrame;
 import java.awt.Image;
 import java.awt.Graphics;
-import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import javax.swing.ImageIcon;
-import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
-import uy.edu.cure.servidor.central.lib.*;
-import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
+import uy.edu.cure.servidor.central.soap.client.CategoriaWS;
+import uy.edu.cure.servidor.central.soap.client.CategoriaWSImplService;
+import uy.edu.cure.servidor.central.soap.client.CiudadWS;
+import uy.edu.cure.servidor.central.soap.client.CiudadWSImplService;
+import uy.edu.cure.servidor.central.soap.client.PaisWS;
+import uy.edu.cure.servidor.central.soap.client.PaisWSImplService;
+import uy.edu.cure.servidor.central.soap.client.PromocionWS;
+import uy.edu.cure.servidor.central.soap.client.PromocionWSImplService;
+import uy.edu.cure.servidor.central.soap.client.ReservaWS;
+import uy.edu.cure.servidor.central.soap.client.ReservaWSImplService;
+import uy.edu.cure.servidor.central.soap.client.ServicioWS;
+import uy.edu.cure.servidor.central.soap.client.ServicioWSImplService;
 import uy.edu.cure.servidor.central.soap.client.UsuarioWS;
 import uy.edu.cure.servidor.central.soap.client.UsuarioWSImplService;
 
@@ -26,100 +33,48 @@ import uy.edu.cure.servidor.central.soap.client.UsuarioWSImplService;
  * @author SCN
  */
 public class Principal extends javax.swing.JFrame {
-    @Jeringa (value = "usuariocontroller")
-    private UsuarioControllerImpl usuarioController;
-    @Jeringa (value = "serviciocontroller")
-    private ServicioControllerImpl servicioController;
-    @Jeringa (value = "reservacontroller")
-    private ReservaControllerImpl reservaController;
-    @Jeringa (value = "promocioncontroller")
-    private PromocionControllerImpl promocionController;
-    @Jeringa (value = "paiscontroller")
-    private PaisControllerImpl paisController;
-    @Jeringa (value = "ciudadcontroller")
-    private CiudadControllerImpl ciudadController;
-    @Jeringa (value = "categoriacontroller")
-    private CategoriaControllerImpl categoriaController;
-    private UsuarioWSImplService usuarioWSImplService;
+
     /**
      * Creates new form Principal
      */
+    private UsuarioWSImplService usuarioWSImplService;
+    private PaisWSImplService paisWSImplService;
+    private CiudadWSImplService ciudadWSImplService;
+    private CategoriaWSImplService categoriaWSImplService;
+    private ServicioWSImplService servicioWSImplService;
+    private PromocionWSImplService promocionWSImplService;
+    private ReservaWSImplService reservaWSImplService;
+    private UsuarioWS portUsuario;
+    private PaisWS portPais;
+    private CiudadWS portCiudad;
+    private CategoriaWS portCategoria;
+    private ServicioWS portServicio;
+    private PromocionWS portPromocion;
+    private ReservaWS portReserva;
+
     public Principal() {
+
+        initComponents();
 
         try {
             usuarioWSImplService = new UsuarioWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/UsuarioWSImplService?wsdl"));
+            paisWSImplService = new PaisWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/PaisWSImplService?wsdl"));
+            ciudadWSImplService = new CiudadWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/CiudadWSImplService?wsdl"));
+            categoriaWSImplService = new CategoriaWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/CategoriaWSImplService?wsdl"));
+            servicioWSImplService = new ServicioWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/ServicioWSImplService?wsdl"));
+            promocionWSImplService = new PromocionWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/PromocionWSImplService?wsdl"));
+            reservaWSImplService = new ReservaWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/ReservaWSImplService?wsdl"));
         } catch (MalformedURLException ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
-        UsuarioWS port = usuarioWSImplService.getUsuarioWSImplPort();
-        String nick = port.obtenerClienteWS("NickPrueba").getNickName();
-        
-        System.out.println("--------------------------------------------------");
-        System.out.print(nick);
 
-        initComponents();
-        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        try {
-            JeringaInjector.getInstance().inyectar(this);
-        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            e.printStackTrace();
-        }
-
-        /*/ Clientes de prueba
-        usuarioController.crearCliente("nicknameUsuario1", "nombreUsuario1", "apellidoUsuario1", "correo@correo1", 10, 10, 1995, null);
-        usuarioController.crearCliente("nicknameUsuario2", "nombreUsuario2", "apellidoUsuario2", "correo@correo2", 11, 11, 1996, null);
-        usuarioController.crearCliente("nicknameUsuario3", "nombreUsuario3", "apellidoUsuario3", "correo@correo3", 12, 12, 1997, null);
-        //
-        // Proveedores de Prueba
-        usuarioController.crearProveedor("nicknameProveedor1", "nombreProveedor1", "apellidoProveedor1", "correo@correo4", 7, 7, 1992, "nombreEmpresa1", "enlaceEmpresa1", null);
-        usuarioController.crearProveedor("nicknameProveedor2", "nombreProveedor1", "apellidoProveedor2", "correo@correo5", 8, 8, 1993, "nombreEmpresa2", "enlaceEmpresa2", null);
-        usuarioController.crearProveedor("nicknameProveedor3", "nombreProveedor1", "apellidoProveedor3", "correo@correo6", 9, 9, 1994, "nombreEmpresa3", "enlaceEmpresa3", null);
-        /*/
-        // Pais de Prueba
-        paisController.crearPais("pais1");
-        //
-        // Ciudades de Prueba
-        ciudadController.crearCiudad("ciudad1", "pais1");
-        ciudadController.crearCiudad("ciudad2", "pais1");
-        ciudadController.crearCiudad("ciudad3", "pais1");
-        ciudadController.crearCiudad("ciudad4", "pais1");
-        ciudadController.crearCiudad("ciudad5", "pais1");
-        //
-        /*/ Categorias de Prueba
-        categoriaController.darAltaCategoria("Vuelos", "");
-        categoriaController.darAltaCategoria("Empresa", "Vuelos");
-        categoriaController.darAltaCategoria("Iberian", "Empresa");
-        categoriaController.darAltaCategoria("AmericaAirlines", "Empresa");
-        categoriaController.darAltaCategoria("Tipo", "Vuelos");
-        categoriaController.darAltaCategoria("LowCost", "Tipo");
-        categoriaController.darAltaCategoria("Autos", "");
-        categoriaController.darAltaCategoria("Ubicacion", "Autos");
-        categoriaController.darAltaCategoria("Playa", "Ubicacion");
-        /*/
-        // Servicios de prueba
-        /*
-        servicioController.crearServicio("servicio1", "descripcion1", 750.0, "ciudad1", "ciudad2", "nicknameProveedor1");
-        servicioController.obtenerServicio("servicio1", "nicknameProveedor1").setCategorias(categoriaController.obtenerCategoria("AmericaAirlines"));
-        servicioController.crearServicio("servicio2", "descripcion2", 1000.5, "ciudad3", "ciudad5", "nicknameProveedor2");
-        servicioController.obtenerServicio("servicio2", "nicknameProveedor2").setCategorias(categoriaController.obtenerCategoria("Iberian"));
-        servicioController.obtenerServicio("servicio2", "nicknameProveedor2").setCategorias(categoriaController.obtenerCategoria("LowCost"));
-        servicioController.crearServicio("servicio3", "descripcion3", 1125.25, "ciudad4", "ciudad1", "nicknameProveedor2");
-        servicioController.obtenerServicio("servicio3", "nicknameProveedor2").setCategorias(categoriaController.obtenerCategoria("Iberian"));
-        servicioController.crearServicio("servicio4", "descripcion4", 900.0, "ciudad5", "<null>", "nicknameProveedor1");
-        servicioController.obtenerServicio("servicio4", "nicknameProveedor1").setCategorias(categoriaController.obtenerCategoria("Playa"));
-        servicioController.crearServicio("servicio5", "descripcion5", 1560.75, "ciudad2", "<null>", "nicknameProveedor3");
-        servicioController.obtenerServicio("servicio5", "nicknameProveedor3").setCategorias(categoriaController.obtenerCategoria("Playa"));
-         */
-        //
-        // Promociones de prueba
-        /*
-        promocionController.crearPromocion("promocion1", 10, 1404.675, "nicknameProveedor3");
-        promocionController.obtenerPromocion("promocion1", "nicknameProveedor3").setServicios(servicioController.obtenerServicio("servicio5", "nicknameProveedor3"));
-        promocionController.crearPromocion("promocion2", 25, 1237.5, "nicknameProveedor1");
-        promocionController.obtenerPromocion("promocion2", "nicknameProveedor1").setServicios(servicioController.obtenerServicio("servicio1", "nicknameProveedor1"));
-        promocionController.obtenerPromocion("promocion2", "nicknameProveedor1").setServicios(servicioController.obtenerServicio("servicio4", "nicknameProveedor1"));
-         */
-        //
+        portUsuario = usuarioWSImplService.getUsuarioWSImplPort();
+        portPais = paisWSImplService.getPaisWSImplPort();
+        portCiudad = ciudadWSImplService.getCiudadWSImplPort();
+        portCategoria = categoriaWSImplService.getCategoriaWSImplPort();
+        portServicio = servicioWSImplService.getServicioWSImplPort();
+        portPromocion = promocionWSImplService.getPromocionWSImplPort();
+        portReserva = reservaWSImplService.getReservaWSImplPort();
 
     }
 
@@ -327,7 +282,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        if (!usuarioController.obtenerCientes().isEmpty()) {
+        if (!portUsuario.obtenerTodosClientes().isEmpty()) {
             VerInfoCliente vercliente = new VerInfoCliente();
             vercliente.setVisible(true);
         } else {
@@ -336,7 +291,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        if (!usuarioController.obtenerProveedores().isEmpty()) {
+        if (!portUsuario.obtenerTodosProveedoresWS().isEmpty()) {
             VerInfoProveedor verproveedor = new VerInfoProveedor();
             verproveedor.setVisible(true);
         } else {
@@ -345,8 +300,8 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-        if (!usuarioController.obtenerProveedores().isEmpty()) {
-            if (!categoriaController.obtenerTodosCategorias().isEmpty()) {
+        if (!portUsuario.obtenerTodosProveedoresWS().isEmpty()) {
+            if (!portCategoria.obtenerTodasCategorias().isEmpty()) {
                 AltaServicio altaservicio;
                 try {
                     altaservicio = new AltaServicio();
@@ -363,8 +318,8 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-        if (!usuarioController.obtenerCientes().isEmpty()) {
-            if (!servicioController.obtenerTodosServicios().isEmpty() || !promocionController.obtenerTodasPromociones().isEmpty()) {
+        if (!portUsuario.obtenerTodosClientes().isEmpty()) {
+            if (!portServicio.obtenerTodosServiciosWS().isEmpty() || !portPromocion.obtenerTodasPromociones().isEmpty()) {
                 Reserva reserva = new Reserva();
                 reserva.setVisible(true);
             } else {
@@ -376,7 +331,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
-        if (!servicioController.obtenerTodosServicios().isEmpty()) {
+        if (!portServicio.obtenerTodosServiciosWS().isEmpty()) {
             VerInfoServicio infoservicio = new VerInfoServicio();
             infoservicio.setVisible(true);
         } else {
@@ -385,7 +340,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
-        if (!servicioController.obtenerTodosServicios().isEmpty()) {
+        if (!portServicio.obtenerTodosServiciosWS().isEmpty()) {
             AltaPromocion altapromocion = new AltaPromocion();
             altapromocion.setVisible(true);
         } else {
@@ -394,7 +349,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem8ActionPerformed
 
     private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
-        if (!reservaController.obtenerTodasReservas().isEmpty()) {
+        if (!portReserva.obtenerTodasReservasWS().isEmpty()) {
             EstadoReserva estadoReserva = new EstadoReserva();
             estadoReserva.setVisible(true);
         } else {
@@ -403,7 +358,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem9ActionPerformed
 
     private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
-        if (!servicioController.obtenerTodosServicios().isEmpty()) {
+        if (!portServicio.obtenerTodosServiciosWS().isEmpty()) {
             ActualizarServicio actualizarServicio;
             try {
                 actualizarServicio = new ActualizarServicio();
@@ -417,7 +372,8 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem10ActionPerformed
 
     private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
-        AltaCategoria categoria = new AltaCategoria();
+        AltaCategoria categoria;
+        categoria = new AltaCategoria();
         categoria.setVisible(true);
     }//GEN-LAST:event_jMenuItem11ActionPerformed
 
@@ -426,7 +382,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_BotonSalirActionPerformed
 
     private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
-        if (!promocionController.obtenerTodasPromociones().isEmpty()) {
+        if (!portPromocion.obtenerTodasPromociones().isEmpty()) {
             VerInfoPromocion verInfoPromocion = new VerInfoPromocion();
             verInfoPromocion.setVisible(true);
         } else {

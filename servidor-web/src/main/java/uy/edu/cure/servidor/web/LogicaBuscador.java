@@ -47,8 +47,6 @@ public class LogicaBuscador {
 
     @Jeringa(value = "promocioncontroller")
     private PromocionControllerImpl promocionController;
-    @Jeringa(value = "serviciocontroller")
-    private ServicioControllerImpl servicioController;
     private int tipoDeBusqueda;
     private String wanted;
     private List<Filtrado> serviciosFiltrados;
@@ -93,7 +91,20 @@ public class LogicaBuscador {
 
     public String actionBuscar() {
         serviciosFiltrados.clear();
-        Iterator<Servicio> iteratorServicios = servicioController.obtenerTodosServicios().iterator();
+        ServicioWSImplService servicioWSImplService = null;
+        try {
+            servicioWSImplService = new ServicioWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/ServicioWSImplService?wsdl"));
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(LogicaBuscador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        ServicioWS portServicio = servicioWSImplService.getServicioWSImplPort();
+        Converter convertidor = new Converter();
+        List<Servicio> serviciosAuxiliares = new ArrayList();
+        List<uy.edu.cure.servidor.central.soap.client.Servicio> aux = portServicio.obtenerTodosServiciosWS();
+        for(int i=0;i<aux.size();i++){
+            serviciosAuxiliares.add(convertidor.convertirServicio(portServicio.obtenerTodosServiciosWS().get(i)));
+        }
+        Iterator<Servicio> iteratorServicios = serviciosAuxiliares.iterator();
         while (iteratorServicios.hasNext()) {
             Servicio servicioAuxiliar = iteratorServicios.next();
             // Busqueda por nombre del servicio

@@ -10,7 +10,7 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.InvocationTargetException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.util.Date;
 import java.util.Properties;
@@ -19,9 +19,8 @@ import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import uy.edu.cure.servidor.central.lib.UsuarioControllerImpl;
-import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
-import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
+import uy.edu.cure.servidor.central.soap.client.UsuarioWS;
+import uy.edu.cure.servidor.central.soap.client.UsuarioWSImplService;
 
 /**
  *
@@ -35,10 +34,11 @@ public class AltaCliente extends javax.swing.JFrame {
     private String validez;
     private int dia, mes, anio;
     private boolean user, password, passwordConfirm, nombre, apellido, correo, fechad, fecham, fechaA;
-    @Jeringa(value = "usuariocontroller")
-    private UsuarioControllerImpl usuariocontrollerForm;
     private Properties progappProperties;
     private InputStream input = null;
+    private UsuarioWSImplService usuarioWSImplService;
+    private UsuarioWS portUsuario;
+
 
     /**
      * Creates new form AltaCliente
@@ -49,13 +49,8 @@ public class AltaCliente extends javax.swing.JFrame {
         progappProperties.load(input);
         initComponents();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-
-        try {
-            JeringaInjector.getInstance().inyectar(this);
-        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            e.printStackTrace();
-        }
-
+        usuarioWSImplService = new UsuarioWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/UsuarioWSImplService?wsdl"));
+        portUsuario = usuarioWSImplService.getUsuarioWSImplPort();
         //Filtro para FileChooser
         filtro = new FileNameExtensionFilter("Formato Imagen", "png", "jpg");
         rutaImagen = "";
@@ -398,7 +393,7 @@ public class AltaCliente extends javax.swing.JFrame {
             dia = Integer.parseInt(DiaForm.getText());
             mes = Integer.parseInt(MesForm.getText());
             anio = Integer.parseInt(AñioForm.getText());
-            int resultado = usuariocontrollerForm.crearCliente(UserNameForm.getText(), NombreForm.getText(), ApellidoForm.getText(), CorreoForm.getText(), dia, mes, anio, rutaImagen, textFieldPassword.getText(), textFieldPasswordConfirm.getText());
+            int resultado = portUsuario.crearClienteWS(UserNameForm.getText(), NombreForm.getText(), ApellidoForm.getText(), CorreoForm.getText(), dia, mes, anio, rutaImagen, textFieldPassword.getText(), textFieldPasswordConfirm.getText());
             switch (resultado) {
                 case -1:
                     javax.swing.JOptionPane.showMessageDialog(null, "Cliente dado de alta", "Alta cliente", 1);

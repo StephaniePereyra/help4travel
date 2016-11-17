@@ -45,5 +45,13 @@ public class PromocionWSImpl implements PromocionWS {
         return serviciosPromocionAux;
     }
 
+    @Override
+    public List<Promocion> obtenerTodasPromociones() {
+        PromocionControllerImpl promocioncontroller = new PromocionControllerImpl();
+        List<Promocion> promocionesAux;
+        promocionesAux = promocioncontroller.obtenerTodasPromociones();
+        return promocionesAux;
+    }
+
 
 }

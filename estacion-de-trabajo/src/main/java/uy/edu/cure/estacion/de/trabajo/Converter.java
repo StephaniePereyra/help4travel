@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package uy.edu.cure.servidor.web;
+package uy.edu.cure.estacion.de.trabajo;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -116,6 +116,28 @@ public class Converter {
         return ciudadAuxiliar;
     }
     
+        
+    public Categoria convertirCategoria (uy.edu.cure.servidor.central.soap.client.Categoria categoria){
+        categoriaAuxiliar = new Categoria();
+        if(categoria == null){
+            return null;
+        }else{
+            categoriaAuxiliar.setNombre(categoria.getNombre());
+            categoriaAuxiliar.setPadre(convertirPadreCat(categoria.getPadre()));
+            return categoriaAuxiliar;
+        }
+    }
+    
+    private Categoria convertirPadreCat (uy.edu.cure.servidor.central.soap.client.Categoria categoria){
+        categoriaAuxiliar = new Categoria();
+        if(categoria == null){
+            return null;
+        }else{
+            categoriaAuxiliar.setNombre(categoria.getNombre());
+            return categoriaAuxiliar;
+        }
+    }
+    
     public Servicio convertirServicio (uy.edu.cure.servidor.central.soap.client.Servicio servicio){
         servicioAuxiliar = new Servicio();
         
@@ -144,8 +166,7 @@ public class Converter {
                 
         for(int u =0;u<portServicio.obtenerCategoriasServicioWS(servicio.getNombre(), servicio.getProveedor().getNickName()).size();u++){
           Categoria categoriaAuxiliar2 = new Categoria();
-          categoriaAuxiliar2.setNombre(portServicio.obtenerCategoriasServicioWS(servicio.getNombre(), servicio.getProveedor().getNickName()).get(u).getNombre());
-          servicioAuxiliar.setCategorias(categoriaAuxiliar2);
+          categoriaAuxiliar.setNombre(portServicio.obtenerCategoriasServicioWS(servicio.getNombre(), servicio.getProveedor().getNickName()).get(u).getNombre());
         }
         
         return servicioAuxiliar;
@@ -173,7 +194,7 @@ public class Converter {
         
         return promocionAuxiliar;
     }
-
+    
     
     public Reserva convertirReserva (uy.edu.cure.servidor.central.soap.client.Reserva reserva){
         reservaAuxliar = new Reserva();

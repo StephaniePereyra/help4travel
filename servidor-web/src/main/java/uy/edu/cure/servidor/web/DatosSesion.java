@@ -47,7 +47,6 @@ public class DatosSesion {
         }
         UsuarioWS port = usuarioWSImplService.getUsuarioWSImplPort();
         
-        
         String retorno;
         if (port.logInClienteWS(nickName, passWord)) {
             loged = true;

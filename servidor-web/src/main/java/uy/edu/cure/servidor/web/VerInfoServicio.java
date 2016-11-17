@@ -37,6 +37,10 @@ public class VerInfoServicio {
     private ServicioControllerImpl servicioController;
     private String nombre;
     private String proveedor;
+    private ServicioWSImplService servicioWSImplService;
+    private ServicioWS portServicio;
+    private Converter convertidor;
+
 
     public VerInfoServicio() {
         try {
@@ -44,6 +48,14 @@ public class VerInfoServicio {
         } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
             e.printStackTrace();
         }
+        
+                try {
+            servicioWSImplService = new ServicioWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/ServicioWSImplService?wsdl"));
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(VerInfoServicio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         portServicio = servicioWSImplService.getServicioWSImplPort();
+         convertidor = new Converter();
     }
 
     public String getThatService() {
@@ -71,15 +83,15 @@ public class VerInfoServicio {
     }
 
     public String getDescripcion() {
-        return servicioController.obtenerServicio(nombre, proveedor).getDescripcion();
+        return portServicio.obtenerServicioWS(nombre, proveedor).getDescripcion();
     }
 
     public double getPrecio() {
-        return servicioController.obtenerServicio(nombre, proveedor).getPrecio();
+        return portServicio.obtenerServicioWS(nombre, proveedor).getPrecio();
     }
 
     public String getDestinos() {
-        Servicio servicio = servicioController.obtenerServicio(nombre, proveedor);
+        Servicio servicio = convertidor.convertirServicio(portServicio.obtenerServicioWS(nombre, proveedor));
         if (servicio.getDestino() == null) {
             return servicio.getOrigen().getNombre();
         }
@@ -88,7 +100,7 @@ public class VerInfoServicio {
 
     public List<String> getCategorias() {
         List<String> categorias = new ArrayList<>();
-        Servicio servicio = servicioController.obtenerServicio(nombre, proveedor);
+        Servicio servicio = convertidor.convertirServicio(portServicio.obtenerServicioWS(nombre, proveedor));
         Iterator<Categoria> iteratorCategorias = servicio.getCategorias().iterator();
         while (iteratorCategorias.hasNext()) {
             Categoria categoria = iteratorCategorias.next();
@@ -98,25 +110,16 @@ public class VerInfoServicio {
     }
     
     public List<String> getImagenes() {
-        Servicio servicio = servicioController.obtenerServicio(nombre, proveedor);
+        Servicio servicio = convertidor.convertirServicio(portServicio.obtenerServicioWS(nombre, proveedor));
         List<String> imagenes = servicio.getImagenes();
         return imagenes;
     }
      
     public List<Filtrado> listadoServicios() {
-        
-        ServicioWSImplService servicioWSImplService = null;
-        try {
-            servicioWSImplService = new ServicioWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/ServicioWSImplService?wsdl"));
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(VerInfoServicio.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        ServicioWS portServicio = servicioWSImplService.getServicioWSImplPort();
 
         List<Servicio> servicios = new ArrayList<>();
         List<Filtrado> listaServiciosAux = new ArrayList<>();
         
-        Converter convertidor = new Converter();
         List<uy.edu.cure.servidor.central.soap.client.Servicio> aux = portServicio.obtenerTodosServiciosWS();
         for(int i=0;i<aux.size();i++){
             servicios.add(convertidor.convertirServicio(aux.get(i)));

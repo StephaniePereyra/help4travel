@@ -35,5 +35,29 @@ public class CategoriaWSImpl implements CategoriaWS {
         return categoriasHijosAux;
     }
 
+    @Override
+    public List<Categoria> obtenerTodasCategorias() {
+        CategoriaControllerImpl categoriacontroller = new CategoriaControllerImpl();
+        List<Categoria> categoriasAux;
+        categoriasAux = categoriacontroller.obtenerTodosCategorias();
+        return categoriasAux;
+    }
+
+    @Override
+    public boolean existeCategoriaWS(String nombre) {
+        CategoriaControllerImpl categoriacontroller = new CategoriaControllerImpl();
+        boolean retorno;
+        retorno = categoriacontroller.existeCategoria(nombre);
+        return retorno;
+    }
+
+    @Override
+    public Categoria obtenerCategoria(String nombre) {
+       CategoriaControllerImpl categoriacontroller = new CategoriaControllerImpl();
+       Categoria categoriaAux;
+       categoriaAux = categoriacontroller.obtenerCategoria(nombre);
+       return categoriaAux;
+    }
+
 
 }

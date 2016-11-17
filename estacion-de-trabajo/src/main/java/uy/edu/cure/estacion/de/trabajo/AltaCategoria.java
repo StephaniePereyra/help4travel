@@ -1,37 +1,71 @@
 package uy.edu.cure.estacion.de.trabajo;
 
-import java.lang.reflect.InvocationTargetException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Enumeration;
 import java.util.Iterator;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.HttpClientBuilder;
 import uy.edu.cure.servidor.central.dto.Categoria;
-import uy.edu.cure.servidor.central.lib.CategoriaControllerImpl;
-import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
-import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
+import uy.edu.cure.servidor.central.soap.client.CategoriaWS;
+import uy.edu.cure.servidor.central.soap.client.CategoriaWSImplService;
+
 
 /**
  *
  * @author Stephanie
  */
 public class AltaCategoria extends javax.swing.JFrame {
-    @Jeringa(value="categoriacontroller")
-    private CategoriaControllerImpl categoriaControllerForm;
 
-    public AltaCategoria() {
+    private CategoriaWSImplService categoriaWSImplService;
+    private CategoriaWS portCategoria;
+    private Converter convertidor;
+    private String url;
+
+    public AltaCategoria(){
         initComponents();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
+        convertidor = new Converter();
         
-          try {
-            JeringaInjector.getInstance().inyectar(this);
-        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            e.printStackTrace();
+        try {
+            categoriaWSImplService = new CategoriaWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/CategoriaWSImplService?wsdl"));
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(AltaCategoria.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+        portCategoria = categoriaWSImplService.getCategoriaWSImplPort();
+
         DefaultTreeModel model = (DefaultTreeModel) treeCategorias.getModel();
         DefaultMutableTreeNode root = (DefaultMutableTreeNode) model.getRoot();
-        Iterator<Categoria> iteratorCategorias = categoriaControllerForm.obtenerTodosCategorias().iterator();
+        List categoriasAux = null;
+        
+        url = "http://localhost:8080/servidor-central-webapp/rest/api/ObtenerCategorias";
+        HttpClient client = HttpClientBuilder.create().build();
+        HttpGet request = new HttpGet(url);
+        ObjectMapper mapper = new ObjectMapper();
+        HttpResponse response = null; 
+        String result = null;
+        try {
+            response = client.execute(request);
+            result = getStringFromInputStream(response.getEntity().getContent());
+            categoriasAux = mapper.readValue(result, List.class);
+        } catch (IOException ex) {
+            Logger.getLogger(AltaCategoria.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        int i = categoriasAux.size();
+        Iterator<Categoria> iteratorCategorias = categoriasAux.iterator();
         while (iteratorCategorias.hasNext()) {
             Categoria categoriaAuxiliar = iteratorCategorias.next();
             if (categoriaAuxiliar.getPadre() == null) {
@@ -171,18 +205,18 @@ public class AltaCategoria extends javax.swing.JFrame {
         errorAceptar.setText(" ");
         DefaultMutableTreeNode nodoSeleccionado = (DefaultMutableTreeNode) treeCategorias.getLastSelectedPathComponent();
         if (!txtCategoria.getText().isEmpty()) {
-            if (!categoriaControllerForm.existeCategoria(txtCategoria.getText())) {
+            if (!portCategoria.existeCategoriaWS(txtCategoria.getText())) {
                 if (nodoSeleccionado != null) {
-                    categoriaControllerForm.darAltaCategoria(txtCategoria.getText(), nodoSeleccionado.toString());
+                    portCategoria.crearCategoriaWS(txtCategoria.getText(), nodoSeleccionado.toString());
                 } else {
-                    categoriaControllerForm.darAltaCategoria(txtCategoria.getText(), " ");
+                    portCategoria.crearCategoriaWS(txtCategoria.getText(), " ");
                 }
                 /**
                  * mostrar nuevo arbol *
                  */
                 DefaultTreeModel model = (DefaultTreeModel) treeCategorias.getModel();
                 DefaultMutableTreeNode root = (DefaultMutableTreeNode) model.getRoot();
-                if (categoriaControllerForm.obtenerCategoria(txtCategoria.getText()).getPadre() == null) {
+                if (convertidor.convertirCategoria(portCategoria.obtenerCategoria(txtCategoria.getText()).getPadre()) == null) {
                     model.insertNodeInto(new DefaultMutableTreeNode(txtCategoria.getText()),
                             root, root.getChildCount());
                 } else {
@@ -197,7 +231,35 @@ public class AltaCategoria extends javax.swing.JFrame {
             errorAceptar.setText("El nombre de la categoria no puede estar vacio");
         }
     }//GEN-LAST:event_bAceptarActionPerformed
+ 
+    private static String getStringFromInputStream(InputStream is) {
 
+        BufferedReader br = null;
+        StringBuilder sb = new StringBuilder();
+
+        String line;
+        try {
+
+            br = new BufferedReader(new InputStreamReader(is));
+            while ((line = br.readLine()) != null) {
+                sb.append(line);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return sb.toString();
+
+    }
     public static void main(String args[]) {
 
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -224,7 +286,7 @@ public class AltaCategoria extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new AltaCategoria().setVisible(true);
+                    new AltaCategoria().setVisible(true);
             }
         });
     }
