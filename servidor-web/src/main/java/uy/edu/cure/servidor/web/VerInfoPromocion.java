@@ -6,6 +6,7 @@
 
 package uy.edu.cure.servidor.web;
 
+import com.sun.javafx.scene.control.skin.VirtualFlow;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -36,6 +38,7 @@ public class VerInfoPromocion {
     private PromocionWSImplService promocionWSImplService;
     private PromocionWS portPromocion;
     private Converter convertidor;
+    private List<Filtrado> promociones;
 
     public VerInfoPromocion() {    
         try {            
@@ -45,6 +48,7 @@ public class VerInfoPromocion {
         }
         portPromocion = promocionWSImplService.getPromocionWSImplPort();
         convertidor = new Converter();
+        promociones = new ArrayList();
     }
 
     public String getThatPromo() {
@@ -93,8 +97,18 @@ public class VerInfoPromocion {
         }
         return servicios;
     }
+
+    public List<Filtrado> getPromociones() {
+        return promociones;
+    }
+
+    public void setPromociones(List<Filtrado> promociones) {
+        this.promociones = promociones;
+    }
     
-    public List<Filtrado> listadoPromociones() {
+    
+    @PostConstruct
+    public void listadoPromociones() {
         List<Promocion> promociones = new ArrayList<>();
         List<Filtrado> listaPromocionesAux = new ArrayList<>();
         List<uy.edu.cure.servidor.central.soap.client.Promocion> auxiliar = portPromocion.obtenerTodasPromociones();
@@ -107,7 +121,7 @@ public class VerInfoPromocion {
             Filtrado filtrado = new Filtrado("Promocion", promocionAuxiliar.getNombre(), promocionAuxiliar.getProveedor().getNickName());
             listaPromocionesAux.add(filtrado);
         }
-        return listaPromocionesAux;
+        this.promociones = listaPromocionesAux;
     }
     
 }

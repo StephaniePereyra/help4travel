@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -40,6 +41,7 @@ public class VerInfoServicio {
     private ServicioWSImplService servicioWSImplService;
     private ServicioWS portServicio;
     private Converter convertidor;
+    private List<Filtrado> servicios;
 
 
     public VerInfoServicio() {
@@ -56,6 +58,7 @@ public class VerInfoServicio {
         }
          portServicio = servicioWSImplService.getServicioWSImplPort();
          convertidor = new Converter();
+         servicios = new ArrayList(); 
     }
 
     public String getThatService() {
@@ -114,8 +117,17 @@ public class VerInfoServicio {
         List<String> imagenes = servicio.getImagenes();
         return imagenes;
     }
-     
-    public List<Filtrado> listadoServicios() {
+
+    public List<Filtrado> getServicios() {
+        return servicios;
+    }
+
+    public void setServicios(List<Filtrado> servicios) {
+        this.servicios = servicios;
+    }
+    
+    @PostConstruct 
+    public void listadoServicios() {
 
         List<Servicio> servicios = new ArrayList<>();
         List<Filtrado> listaServiciosAux = new ArrayList<>();
@@ -131,7 +143,7 @@ public class VerInfoServicio {
             Filtrado filtrado = new Filtrado("Servicio", servicioAuxiliar.getNombre(), servicioAuxiliar.getProveedor().getNickName());
             listaServiciosAux.add(filtrado);
         }
-        return listaServiciosAux;
+        this.servicios = listaServiciosAux;
     }
 
 }

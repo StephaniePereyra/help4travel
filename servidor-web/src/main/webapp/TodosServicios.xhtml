@@ -18,7 +18,7 @@
                 <ui:define name="content">
                     <h1>Servicios</h1>
                     <h:form>
-                        <c:forEach items="#{verInfoServicio.listadoServicios()}" var="itemFiltrado">
+                        <c:forEach items="#{verInfoServicio.servicios}" var="itemFiltrado">
                             <fieldset>
                                 <legend align="center">
                                     <h:commandLink style="font-size: large" action="#{verInfoServicio.getThatService()}" value="#{itemFiltrado.nombre}, #{itemFiltrado.proveedor}">
