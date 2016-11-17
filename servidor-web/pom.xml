@@ -90,7 +90,8 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>servidor-central-soap-client</artifactId>
-            <version>${project.version}</version>
+            <version>0.0.1-SNAPSHOT</version>
+            <type>jar</type>
         </dependency>
     </dependencies>
 </project>

@@ -12,6 +12,9 @@ import uy.edu.cure.servidor.central.dto.Promocion;
 import uy.edu.cure.servidor.central.dto.Proveedor;
 import uy.edu.cure.servidor.central.dto.Reserva;
 import uy.edu.cure.servidor.central.dto.Servicio;
+import uy.edu.cure.servidor.central.lib.PromocionController;
+import uy.edu.cure.servidor.central.lib.PromocionControllerImpl;
+import uy.edu.cure.servidor.central.lib.ServicioControllerImpl;
 import uy.edu.cure.servidor.central.lib.UsuarioControllerImpl;
 
 /**
@@ -149,5 +152,22 @@ public class UsuarioWSImpl implements UsuarioWS {
         clientesAux = usuariocontroller.obtenerCientes();
         return clientesAux;
     }
-
+    
+    @Override
+    public void agregarServicioWS(String nickName,String servicio,String proveedor){
+        UsuarioControllerImpl usuariocontroller = new UsuarioControllerImpl();
+        ServicioControllerImpl serviciocontroller = new ServicioControllerImpl();
+        Servicio servicioObj = new Servicio();
+        servicioObj = serviciocontroller.obtenerServicio(servicio, proveedor);
+        usuariocontroller.obtenerCliente(nickName).getCarrito().setServicio(servicioObj);
+    }
+    
+    @Override
+    public void agregarPromocionWS(String nickName,String promocion,String proveedor){
+        UsuarioControllerImpl usuariocontroller = new UsuarioControllerImpl();
+        PromocionController promocioncontroller = new PromocionControllerImpl();
+        Promocion promocionObj = new Promocion();
+        promocionObj = promocioncontroller.obtenerPromocion(promocion,proveedor);
+        usuariocontroller.obtenerCliente(nickName).getCarrito().setPromocion(promocionObj);
+    }
 }

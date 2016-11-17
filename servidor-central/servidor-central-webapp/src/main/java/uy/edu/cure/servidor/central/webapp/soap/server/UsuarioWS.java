@@ -68,6 +68,10 @@ public interface UsuarioWS {
     
     @WebMethod
     public List<Cliente> obtenerTodosClientes ();
-            
-
+    
+    @WebMethod
+    public void agregarServicioWS(String nickName,String servicio,String proveedor);
+    
+    @WebMethod
+    public void agregarPromocionWS(String nickName,String promocion,String proveedor);
 }

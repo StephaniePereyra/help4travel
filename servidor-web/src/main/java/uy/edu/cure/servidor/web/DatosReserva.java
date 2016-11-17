@@ -6,6 +6,10 @@
 package uy.edu.cure.servidor.web;
 
 import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -19,6 +23,12 @@ import uy.edu.cure.servidor.central.lib.PromocionControllerImpl;
 import uy.edu.cure.servidor.central.lib.UsuarioController;
 import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
 import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
+import uy.edu.cure.servidor.central.soap.client.PromocionWS;
+import uy.edu.cure.servidor.central.soap.client.PromocionWSImplService;
+import uy.edu.cure.servidor.central.soap.client.ServicioWS;
+import uy.edu.cure.servidor.central.soap.client.ServicioWSImplService;
+import uy.edu.cure.servidor.central.soap.client.UsuarioWS;
+import uy.edu.cure.servidor.central.soap.client.UsuarioWSImplService;
 
 /**
  *
@@ -28,8 +38,6 @@ import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
 @ViewScoped
 public class DatosReserva {
 
-    private Servicio servicio;
-    private Promocion promocion;
     int cantidad = 1;
     String nickName = "";
     Reserva carrito;
@@ -43,29 +51,29 @@ public class DatosReserva {
     @ManagedProperty(value = "#{datosSesion}")
     private DatosSesion datosSesion;
 
-    public DatosReserva() {
+    private UsuarioWSImplService usuarioWSImplService;
+    private UsuarioWS portUsuario;
+    private ServicioWSImplService servicioWSImplService;
+    private ServicioWS portServicio;
+    private PromocionWSImplService promocionWSImplService;
+    private PromocionWS portPromocion;
+    private Converter convertidor;
+
+    public DatosReserva() throws MalformedURLException {
         try {
+            convertidor = new Converter();
+            usuarioWSImplService = new UsuarioWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/UsuarioWSImplService?wsdl"));
+            servicioWSImplService = new ServicioWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/ServicioWSImplService?wsdl"));
+            promocionWSImplService = new PromocionWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/PromocionWSImplService?wsdl"));
+
             JeringaInjector.getInstance().inyectar(this);
         } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
             e.printStackTrace();
         }
-    }
+        portUsuario = usuarioWSImplService.getUsuarioWSImplPort();
+        portServicio = servicioWSImplService.getServicioWSImplPort();
+        portPromocion = promocionWSImplService.getPromocionWSImplPort();
 
-
-    public Servicio getServicio() {
-        return servicio;
-    }
-
-    public void setServicio(Servicio servicio) {
-        this.servicio = servicio;
-    }
-
-    public Promocion getPromocion() {
-        return promocion;
-    }
-
-    public void setPromocion(Promocion promocion) {
-        this.promocion = promocion;
     }
 
     public int getCantidad() {
@@ -99,7 +107,7 @@ public class DatosReserva {
     public void setDatosSesion(DatosSesion datosSesion) {
         this.datosSesion = datosSesion;
     }
-  
+
     @PostConstruct
     public void init() {
         setNickName(datosSesion.getNickName());
@@ -107,26 +115,32 @@ public class DatosReserva {
 
     public String agregarServicio(String servicio, String proveedor) {
         if (datosSesion.isLoged()) {
+
+            List<Servicio> servicios = new ArrayList<>();
+            Servicio servicioObj = new Servicio();
+            Reserva carro = new Reserva();
+            List<uy.edu.cure.servidor.central.soap.client.Servicio> aux = portUsuario.obtenerServiciosCarroWS(this.nickName);
+            for (int i = 0; i < aux.size(); i++) {
+                servicios.add(convertidor.convertirServicio(aux.get(i)));
+            }
+            servicioObj = convertidor.convertirServicio(portServicio.obtenerServicioWS(servicio, proveedor));
+            carro = convertidor.convertirReserva(portUsuario.obtenerCarritoClienteWS(this.nickName));
             if (this.cantidad > 0) {
-                Cliente cliente = usuariocontroller.obtenerCliente(this.nickName);
-                this.setServicio(serviciocontroller.obtenerServicio(servicio, proveedor));
-                if (cliente.getCarrito().getServicios().contains(this.servicio)) {
-                    int posicion = cliente.getCarrito().getServicios().indexOf(this.servicio);
-                    int cantidadServicio = cliente.getCarrito().getCantidadServicios().get(posicion) + this.cantidad;
-                    cliente.getCarrito().getCantidadServicios().remove(posicion);
-                    cliente.getCarrito().getCantidadServicios().add(posicion, cantidadServicio);
+                if (servicios.contains(servicioObj)) {
+                    int posicion = servicios.indexOf(servicioObj);
+                    int cantidadServicio = portUsuario.obtenerCarritoClienteWS(this.nickName).getCantidadServicios().get(posicion) + this.cantidad;
+                    carro.getCantidadServicios().remove(posicion);
+                    carro.getCantidadServicios().add(posicion, cantidadServicio);
                 } else {
-                    cliente.getCarrito().setServicio(this.servicio);
-                    cliente.getCarrito().getCantidadServicios().add(this.cantidad);
+                    portUsuario.agregarServicioWS(this.nickName, servicio, proveedor);
+                    carro.getCantidadServicios().add(this.cantidad);
                 }
                 for (int i = 1; i <= this.cantidad; i++) {
-                    cliente.getCarrito().setPrecio(cliente.getCarrito().getPrecio() + this.servicio.getPrecio());
+                    carro.setPrecio(portUsuario.obtenerCarritoClienteWS(this.nickName).getPrecio() + portServicio.obtenerServicioWS(servicio, proveedor).getPrecio());
                 }
 
-                
                 this.mayorCero = true;
-            }
-            else{
+            } else {
                 this.mayorCero = false;
             }
             return "";
@@ -140,26 +154,32 @@ public class DatosReserva {
     public String agregarPromocion(String promocion, String proveedor) {
 
         if (datosSesion.isLoged()) {
+            List<Promocion> promociones = new ArrayList<>();
+            Promocion promocionObj = new Promocion();
+            Reserva carro = new Reserva();
+            List<uy.edu.cure.servidor.central.soap.client.Promocion> aux = portUsuario.obtenerPromocionesCarroWS(this.nickName);
+            for (int i = 0; i < aux.size(); i++) {
+                promociones.add(convertidor.convertirPromocion(aux.get(i)));
+            }
+            promocionObj = convertidor.convertirPromocion(portPromocion.obtenerPromocionWS(promocion, proveedor));
+            carro = convertidor.convertirReserva(portUsuario.obtenerCarritoClienteWS(this.nickName));
             if (this.cantidad > 0) {
-                Cliente cliente = usuariocontroller.obtenerCliente(this.nickName);
-                this.setPromocion(promocioncontroller.obtenerPromocion(promocion, proveedor));
-                if (cliente.getCarrito().getPromociones().contains(this.promocion)) {
-                    int posicion = cliente.getCarrito().getPromociones().indexOf(this.promocion);
-                    int cantidadPromocion = cliente.getCarrito().getCantidadPromociones().get(posicion) + this.cantidad;
-                    cliente.getCarrito().getCantidadPromociones().remove(posicion);
-                    cliente.getCarrito().getCantidadPromociones().add(posicion, cantidadPromocion);
+                if (promociones.contains(promocionObj)) {
+                    int posicion = promociones.indexOf(promocionObj);
+                    int cantidadPromocion = portUsuario.obtenerCarritoClienteWS(this.nickName).getCantidadPromociones().get(posicion) + this.cantidad;
+                    carro.getCantidadPromociones().remove(posicion);
+                    carro.getCantidadPromociones().add(posicion, cantidadPromocion);
                 } else {
-                    cliente.getCarrito().setPromocion(this.promocion);
-                    cliente.getCarrito().getCantidadPromociones().add(this.cantidad);
+                    portUsuario.agregarPromocionWS(this.nickName, promocion, proveedor);
+                    carro.getCantidadPromociones().add(this.cantidad);
                 }
 
                 for (int i = 1; i <= this.cantidad; i++) {
-                    cliente.getCarrito().setPrecio(cliente.getCarrito().getPrecio() + this.promocion.getPrecioTotal());
+                    carro.setPrecio(portUsuario.obtenerCarritoClienteWS(this.nickName).getPrecio() + portPromocion.obtenerPromocionWS(promocion, proveedor).getPrecioTotal());
                 }
-                
+
                 this.mayorCero = true;
-            }
-            else{
+            } else {
                 this.mayorCero = false;
             }
             return "";

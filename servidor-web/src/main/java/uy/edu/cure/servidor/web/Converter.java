@@ -177,10 +177,13 @@ public class Converter {
     
     public Reserva convertirReserva (uy.edu.cure.servidor.central.soap.client.Reserva reserva){
         reservaAuxliar = new Reserva();
+        if(reserva.getCliente() != null){
         reservaAuxliar.setNumero(reserva.getNumero());
         reservaAuxliar.setPrecio(reserva.getPrecio());
         reservaAuxliar.setEstado(reserva.getEstado());
-        reservaAuxliar.setCliente(this.convertirCliente(reserva.getCliente()));
+        
+            reservaAuxliar.setCliente(this.convertirCliente(reserva.getCliente()));
+        
         Date fechaCreacion = new Date();
         fechaCreacion.setDate(reserva.getFechaCreacion().getDay());
         fechaCreacion.setMonth(reserva.getFechaCreacion().getMonth());
@@ -202,7 +205,7 @@ public class Converter {
         for(int u=0;u<portReserva.obtenerPromocionesReservaWS(reserva.getNumero()).size();u++){
             reservaAuxliar.setPromocion(this.convertirPromocion(portReserva.obtenerPromocionesReservaWS(reserva.getNumero()).get(u)));
         }
-        
+        }
         return reservaAuxliar;
     }
     
