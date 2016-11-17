@@ -20,9 +20,6 @@ import javax.annotation.PostConstruct;
 import uy.edu.cure.servidor.central.dto.Promocion;
 import uy.edu.cure.servidor.central.dto.Reserva;
 import uy.edu.cure.servidor.central.dto.Servicio;
-import uy.edu.cure.servidor.central.lib.ReservaControllerImpl;
-import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
-import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
 import uy.edu.cure.servidor.central.soap.client.ReservaWS;
 import uy.edu.cure.servidor.central.soap.client.ReservaWSImplService;
 
@@ -36,8 +33,6 @@ public class VerReserva {
 
     @ManagedProperty(value = "#{datosSesion}")
     DatosSesion datosSesion;
-    @Jeringa(value = "reservacontroller")
-    private ReservaControllerImpl reservaController;
     private String nombre;
     private String proveedor;
     private List<Reserva> reservas = new ArrayList<>();
@@ -46,30 +41,31 @@ public class VerReserva {
     private List<Integer> cantReservas = new ArrayList<>();
     private List<Integer> cantServicios = new ArrayList<>();
     private Integer nroReserva;
-
+    private Converter convertidor;
+    private ReservaWSImplService reservaWSImplService;
+    private ReservaWS portReserva;
 
     public VerReserva() {
-        try {
-            JeringaInjector.getInstance().inyectar(this);
-        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            e.printStackTrace();
-        }
-        
-        
+      
     }
 
     @PostConstruct
     public void listaReservas() {
-        setNombre(datosSesion.getNickName());         
-        ReservaWSImplService reservaWSImplService = null;
+        setNombre(datosSesion.getNickName());
+        convertidor = new Converter();
+        reservas = new ArrayList<>();
         try {
             reservaWSImplService = new ReservaWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/ReservaWSImplService?wsdl"));
         } catch (MalformedURLException ex) {
-            Logger.getLogger(VerReserva.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatosProveedor.class.getName()).log(Level.SEVERE, null, ex);
         }
-        reservas = (List) reservaWSImplService.getReservaWSImplPort().obteneReservasClienteWS(nombre);    
-        
-      
+        portReserva = reservaWSImplService.getReservaWSImplPort();
+        List<uy.edu.cure.servidor.central.soap.client.Reserva> auxiliar = portReserva.obteneReservasClienteWS(nombre);
+
+        for (int i = 0; i < auxiliar.size(); i++) {
+            reservas.add(i, convertidor.convertirReserva(auxiliar.get(i)));
+        }
+
         if (!reservas.isEmpty()) {
             for (int i = 0; i < reservas.size(); i++) {
                 cantReservas.add(reservas.get(i).getNumero());
@@ -78,23 +74,38 @@ public class VerReserva {
     }
 
     public void serviciosPromos() {
+        convertidor = new Converter();
+        reservas = new ArrayList<>();
+        try {
+            reservaWSImplService = new ReservaWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/ReservaWSImplService?wsdl"));
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(DatosProveedor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        portReserva = reservaWSImplService.getReservaWSImplPort();
+
         if (nroReserva != null) {
-            servicios = reservaController.obtenerReserva(nroReserva).getServicios();
-            promociones = reservaController.obtenerReserva(nroReserva).getPromociones();
-            if(!servicios.isEmpty()){
-                cantServicios = reservaController.obtenerReserva(nroReserva).getCantidadServicios();
+            for (int i = 0; i > portReserva.obtenerServiciosReservaWS(nroReserva).size(); i++) {
+                servicios.add(convertidor.convertirServicio(portReserva.obtenerServiciosReservaWS(nroReserva).get(i)));
+            }
+
+            for (int i = 0; i > portReserva.obtenerPromocionesReservaWS(nroReserva).size(); i++) {
+                promociones.add(convertidor.convertirPromocion(portReserva.obtenerPromocionesReservaWS(nroReserva).get(i)));
+            }
+
+            if (!servicios.isEmpty()) {
+                cantServicios = portReserva.obtenerReservaWS(nroReserva).getCantidadServicios();
             }
         }
     }
-    
-      public int cantidadServ(Servicio servicio) {
+
+    public int cantidadServ(Servicio servicio) {
         int index = servicios.indexOf(servicio);
-        return reservaController.obtenerReserva(nroReserva).getCantidadServicios().get(index);
+        return portReserva.obtenerReservaWS(nroReserva).getCantidadServicios().get(index);
     }
 
     public int cantidadPromo(Promocion promocion) {
         int index = promociones.indexOf(promocion);
-        return reservaController.obtenerReserva(nroReserva).getCantidadPromociones().get(index);
+        return portReserva.obtenerReservaWS(nroReserva).getCantidadPromociones().get(index);
     }
 
     public DatosSesion getDatosSesion() {
@@ -108,7 +119,7 @@ public class VerReserva {
     public String getEstado() {
         String estado = "";
         Iterator<Reserva> iteratorReserva = reservas.iterator();
-        while(iteratorReserva.hasNext()) {
+        while (iteratorReserva.hasNext()) {
             Reserva reservaAux = iteratorReserva.next();
             if (reservaAux.getNumero() == nroReserva) {
                 estado = reservaAux.getEstado();
@@ -180,14 +191,14 @@ public class VerReserva {
     public void setCantServicios(List<Integer> cantServicios) {
         this.cantServicios = cantServicios;
     }
-    
+
     public void actionCancelarReserva() {
         Iterator<Reserva> iteratorReserva = reservas.iterator();
-        while(iteratorReserva.hasNext()) {
+        while (iteratorReserva.hasNext()) {
             Reserva reservaAux = iteratorReserva.next();
             if (reservaAux.getNumero() == nroReserva) {
                 reservaAux.setEstado("Cancelada");
             }
         }
-    }    
+    }
 }

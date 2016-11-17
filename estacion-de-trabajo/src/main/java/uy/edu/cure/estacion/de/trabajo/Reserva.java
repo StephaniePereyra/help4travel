@@ -5,19 +5,21 @@
  */
 package uy.edu.cure.estacion.de.trabajo;
 
-import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import uy.edu.cure.servidor.central.dto.Promocion;
 import uy.edu.cure.servidor.central.dto.Servicio;
-import uy.edu.cure.servidor.central.lib.PromocionControllerImpl;
-import uy.edu.cure.servidor.central.lib.ReservaControllerImpl;
-import uy.edu.cure.servidor.central.lib.ServicioControllerImpl;
-import uy.edu.cure.servidor.central.lib.UsuarioControllerImpl;
-import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
-import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
+import uy.edu.cure.servidor.central.soap.client.PromocionWS;
+import uy.edu.cure.servidor.central.soap.client.PromocionWSImplService;
+import uy.edu.cure.servidor.central.soap.client.ReservaWS;
+import uy.edu.cure.servidor.central.soap.client.ReservaWSImplService;
+import uy.edu.cure.servidor.central.soap.client.ServicioWS;
+import uy.edu.cure.servidor.central.soap.client.ServicioWSImplService;
+
 
 /**
  *
@@ -35,15 +37,15 @@ public class Reserva extends javax.swing.JFrame {
     DefaultListModel listReserva;
     DefaultListModel listServiciosDePromo;
     DefaultListModel listClientes;
-    @Jeringa (value = "reservacontroller")
-    private ReservaControllerImpl reservaController;
-    @Jeringa (value = "serviciocontroller")
-    private ServicioControllerImpl servicioController;
-    @Jeringa (value = "promocioncontroller")
-    private PromocionControllerImpl promocionController;
-    @Jeringa (value = "usuariocontroller")
-    private  UsuarioControllerImpl usuarioController;
-    
+    Integer nroReserva;
+    Converter convertidor;
+    ReservaWSImplService reservaWSImplService;
+    ReservaWS portReserva;
+    ServicioWSImplService servicioWSImplService;
+    ServicioWS portServicio;
+    PromocionWSImplService promocionWSImplService;
+    PromocionWS portPromocion;
+
     public Reserva() {
         reservaServicios = new ArrayList<Servicio>();
         reservaPromocion = new ArrayList<>();
@@ -52,30 +54,49 @@ public class Reserva extends javax.swing.JFrame {
         listReserva = new DefaultListModel();
         listServiciosDePromo = new DefaultListModel();
         listClientes = new DefaultListModel();
-        
-          try {
-            JeringaInjector.getInstance().inyectar(this);
-        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            e.printStackTrace();
+
+        try {
+            reservaWSImplService = new ReservaWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/ReservaWSImplService?wsdl"));
+        } catch (MalformedURLException ex) {
+            
         }
+        portReserva = reservaWSImplService.getReservaWSImplPort();
         
+        try {
+            reservaWSImplService = new ReservaWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/ServicioWSImplService?wsdl"));
+        } catch (MalformedURLException ex) {
+            
+        }
+        portServicio = servicioWSImplService.getServicioWSImplPort();
+        
+         try {
+            reservaWSImplService = new ReservaWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/PromocionWSImplService?wsdl"));
+        } catch (MalformedURLException ex) {
+            
+        }
+        portPromocion = promocionWSImplService.getPromocionWSImplPort();
+
         initComponents();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
-        for (int i = 0; i < servicioController.obtenerTodosServicios().size(); i++) {
-            listServicios.add(i, servicioController.obtenerTodosServicios().get(i).getNombre());
+        for (int i = 0; i < portServicio.obtenerTodosServiciosWS().size(); i++) {
+            listServicios.add(i,portServicio.obtenerTodosServiciosWS().get(i).getNombre());
         }
         listaServicio.setModel(listServicios);
-        for (int i = 0; i < promocionController.obtenerTodasPromociones().size(); i++) {
-            listPromocion.add(i, promocionController.obtenerTodasPromociones().get(i).getNombre());
+        for (int i = 0; i < portPromocion.obtenerTodasPromociones().size(); i++) {
+            listPromocion.add(i, portPromocion.obtenerTodasPromociones().get(i).getNombre());
         }
         listaPromocion.setModel(listPromocion);
+        
+        /*
         for (int i = 0; i < usuarioController.obtenerCientes().size(); i++) {
             listClientes.addElement(usuarioController.obtenerCientes().get(i).getNickName());
         }
         listaClientes.setModel(listClientes);
         listaReserva.setModel(listReserva);
         serviciosDePromo.setModel(listServiciosDePromo);
+        
+        */
     }
 
     /**
@@ -370,33 +391,36 @@ public class Reserva extends javax.swing.JFrame {
 
     private void listaServicioValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaServicioValueChanged
         int indice = listaServicio.getSelectedIndex();
-        lblNombreServicio.setText(servicioController.obtenerTodosServicios().get(indice).getNombre());
-        lblDescripcioServicio.setText(servicioController.obtenerTodosServicios().get(indice).getDescripcion());
-        lblPrecioServicio.setText(String.valueOf(servicioController.obtenerTodosServicios().get(indice).getPrecio()));
-        lblOrigen.setText(servicioController.obtenerTodosServicios().get(indice).getOrigen().getNombre());
-        lblDestino.setText(servicioController.obtenerTodosServicios().get(indice).getDestino().getNombre());
-        lblProveedorServicio.setText(servicioController.obtenerTodosServicios().get(indice).getProveedor().getNickName());
+        lblNombreServicio.setText(portServicio.obtenerTodosServiciosWS().get(indice).getNombre());
+        lblDescripcioServicio.setText(portServicio.obtenerTodosServiciosWS().get(indice).getDescripcion());
+        lblPrecioServicio.setText(String.valueOf(portServicio.obtenerTodosServiciosWS().get(indice).getPrecio()));
+        lblOrigen.setText(portServicio.obtenerTodosServiciosWS().get(indice).getOrigen().getNombre());
+        lblDestino.setText(portServicio.obtenerTodosServiciosWS().get(indice).getDestino().getNombre());
+        lblProveedorServicio.setText(portServicio.obtenerTodosServiciosWS().get(indice).getProveedor().getNickName());
     }//GEN-LAST:event_listaServicioValueChanged
 
     private void listaPromocionValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaPromocionValueChanged
         int index = listaPromocion.getSelectedIndex();
-        lblNombrePromocion.setText(promocionController.obtenerTodasPromociones().get(index).getNombre());
-        lblDocPromocion.setText(String.valueOf(promocionController.obtenerTodasPromociones().get(index).getDescuento()));
-        lblPrecioPromocion.setText(String.valueOf(promocionController.obtenerTodasPromociones().get(index).getPrecioTotal()));
-        lblProveedorPromocion.setText(promocionController.obtenerTodasPromociones().get(index).getProveedor().getNickName());
+        lblNombrePromocion.setText(portPromocion.obtenerTodasPromociones().get(index).getNombre());
+        lblDocPromocion.setText(String.valueOf(portPromocion.obtenerTodasPromociones().get(index).getDescuento()));
+        lblPrecioPromocion.setText(String.valueOf(portPromocion.obtenerTodasPromociones().get(index).getPrecioTotal()));
+        lblProveedorPromocion.setText(portPromocion.obtenerTodasPromociones().get(index).getProveedor().getNickName());
         listServiciosDePromo = new DefaultListModel();
         serviciosDePromo.setModel(listServiciosDePromo);
-        String nombrePromocion = promocionController.obtenerTodasPromociones().get(index).getNombre();
-        for (int i = 0; i < promocionController.obtenerTodasPromociones().get(index).getServicios().size(); i++) {
-            listServiciosDePromo.add(i, promocionController.obtenerTodasPromociones().get(index).getServicios().get(i).getNombre());
+        String nombrePromocion = portPromocion.obtenerTodasPromociones().get(index).getNombre();
+        /*
+        for (int i = 0; i < portPromocion.obtenerTodasPromociones().get(index).getServicios().size(); i++) {
+            listServiciosDePromo.add(i, portPromocion.obtenerTodasPromociones().get(index).getServicios().get(i).getNombre());
         }
         serviciosDePromo.setModel(listServiciosDePromo);
+        */
     }//GEN-LAST:event_listaPromocionValueChanged
 
     private void reservaServicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reservaServicioActionPerformed
         if (listaServicio.getSelectedValue() != null) {
             int index = listaServicio.getSelectedIndex();
-            reservaServicios.add(servicioController.obtenerTodosServicios().get(index));
+            convertidor = new Converter();            
+            reservaServicios.add(convertidor.convertirServicio(portServicio.obtenerTodosServiciosWS().get(index)));
             listReserva.addElement(lblNombreServicio.getText());
             listaReserva.setModel(listReserva);
         } else {
@@ -407,7 +431,8 @@ public class Reserva extends javax.swing.JFrame {
     private void reservarPromocionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reservarPromocionActionPerformed
         if (listaPromocion.getSelectedValue() != null) {
             int index = listaPromocion.getSelectedIndex();
-            reservaPromocion.add(promocionController.obtenerTodasPromociones().get(index));
+            convertidor = new Converter();
+            reservaPromocion.add(convertidor.convertirPromocion(portPromocion.obtenerTodasPromociones().get(index)));
             listReserva.addElement(lblNombrePromocion.getText());
             listaReserva.setModel(listReserva);
         } else {
@@ -417,19 +442,20 @@ public class Reserva extends javax.swing.JFrame {
 
     private void ConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConfirmarActionPerformed
         // TODO add your handling code here:
+        /*
         if (listaClientes.getSelectedValue() != null) {
-            int indiceUsuario = listaClientes.getSelectedIndex();                       
-            boolean crearReserva = reservaController.crearReserva(reservaPromocion, reservaServicios,usuarioController.obtenerCientes().get(indiceUsuario));
-            if (crearReserva){
+            int indiceUsuario = listaClientes.getSelectedIndex();
+            boolean crearReserva = reservaController.crearReserva(reservaPromocion, reservaServicios, usuarioController.obtenerCientes().get(indiceUsuario));
+            if (crearReserva) {
                 JOptionPane.showMessageDialog(null, "Reserva creada");
-                this.dispose();  
-            }else{
-                JOptionPane.showMessageDialog(null, "Seleccione al menos una promocion o servicio");  
-            }          
-        }
-        else{
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(null, "Seleccione al menos una promocion o servicio");
+            }
+        } else {
             JOptionPane.showMessageDialog(null, "Seleccione un cliente");
         }
+        */
     }//GEN-LAST:event_ConfirmarActionPerformed
 
     private void CancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarActionPerformed
