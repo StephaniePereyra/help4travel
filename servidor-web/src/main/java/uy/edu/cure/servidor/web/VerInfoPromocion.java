@@ -6,8 +6,6 @@
 
 package uy.edu.cure.servidor.web;
 
-import com.sun.javafx.scene.control.skin.VirtualFlow;
-import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;

@@ -32,7 +32,7 @@ import uy.edu.cure.servidor.central.soap.client.ReservaWSImplService;
 public class VerReserva {
 
     @ManagedProperty(value = "#{datosSesion}")
-    DatosSesion datosSesion;
+    private DatosSesion datosSesion;
     private String nombre;
     private String proveedor;
     private List<Reserva> reservas = new ArrayList<>();
