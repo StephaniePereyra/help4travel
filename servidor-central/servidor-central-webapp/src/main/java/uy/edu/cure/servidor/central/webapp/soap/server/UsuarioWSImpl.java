@@ -154,21 +154,23 @@ public class UsuarioWSImpl implements UsuarioWS {
     }
     
     @Override
-    public void agregarServicioWS(String nickName,String servicio,String proveedor){
+    public void agregarServicioWS(String nickName,String servicio,String proveedor, int cantidad){
         UsuarioControllerImpl usuariocontroller = new UsuarioControllerImpl();
         ServicioControllerImpl serviciocontroller = new ServicioControllerImpl();
         Servicio servicioObj = new Servicio();
         servicioObj = serviciocontroller.obtenerServicio(servicio, proveedor);
         usuariocontroller.obtenerCliente(nickName).getCarrito().setServicio(servicioObj);
+        usuariocontroller.obtenerCliente(nickName).getCarrito().getCantidadServicios().add(cantidad);
     }
     
     @Override
-    public void agregarPromocionWS(String nickName,String promocion,String proveedor){
+    public void agregarPromocionWS(String nickName,String promocion,String proveedor, int cantidad){
         UsuarioControllerImpl usuariocontroller = new UsuarioControllerImpl();
         PromocionController promocioncontroller = new PromocionControllerImpl();
         Promocion promocionObj = new Promocion();
         promocionObj = promocioncontroller.obtenerPromocion(promocion,proveedor);
         usuariocontroller.obtenerCliente(nickName).getCarrito().setPromocion(promocionObj);
+        usuariocontroller.obtenerCliente(nickName).getCarrito().getCantidadPromociones().add(cantidad);
     }
 
     @Override
@@ -196,11 +198,85 @@ public class UsuarioWSImpl implements UsuarioWS {
     }
 
     @Override
-    public void eliminarPromoCarroWS(String nickName, String promocion, String proveedor) {
+    public void eliminarPromoCarroWS(String nickName, int index) {
+        UsuarioControllerImpl usuariocontroller = new UsuarioControllerImpl();
+        usuariocontroller.obtenerCliente(nickName).getCarrito().getPromociones().remove(index);
+    }
+
+    @Override
+    public boolean carroContieneServicioWS(String nickCliente, String nombreServicio, String proveedor) {
+        UsuarioControllerImpl usuariocontroller = new UsuarioControllerImpl();
+        ServicioControllerImpl serviciocontroller = new ServicioControllerImpl();
+        Servicio servicioAux;
+        servicioAux = serviciocontroller.obtenerServicio(nombreServicio, proveedor);
+        boolean retorno;
+        retorno = usuariocontroller.obtenerCliente(nickCliente).getCarrito().getServicios().contains(servicioAux);
+        return retorno;
+    }
+
+    @Override
+    public boolean carroContienePromocionWS(String nickCliente, String nombrePromo, String proveedor) {
         UsuarioControllerImpl usuariocontroller = new UsuarioControllerImpl();
         PromocionControllerImpl promocioncontrller = new PromocionControllerImpl();
-        Promocion auxiliar = promocioncontrller.obtenerPromocion(promocion, proveedor);
-        usuariocontroller.obtenerCliente(nickName).getCarrito().getPromociones().remove(auxiliar);
+        boolean retorno;
+        Promocion promocionAux;
+        promocionAux = promocioncontrller.obtenerPromocion(nombrePromo, proveedor);
+        retorno = usuariocontroller.obtenerCliente(nickCliente).getCarrito().getPromociones().contains(promocionAux);
+        return retorno;
+    }
+
+    @Override
+    public void modCantidadServicioCarro(String nickCliente, int index, int cantidad) {
+        UsuarioControllerImpl usuariocontroller = new UsuarioControllerImpl();
+        usuariocontroller.obtenerCliente(nickCliente).getCarrito().getCantidadServicios().remove(index);
+        usuariocontroller.obtenerCliente(nickCliente).getCarrito().getCantidadServicios().add(index, cantidad);
+    }
+
+    @Override
+    public void modCantidadPromoCarro(String nickCliente, int index, int cantidad) {
+        UsuarioControllerImpl usuariocontroller = new UsuarioControllerImpl();
+        usuariocontroller.obtenerCliente(nickCliente).getCarrito().getCantidadPromociones().remove(index);
+        usuariocontroller.obtenerCliente(nickCliente).getCarrito().getCantidadPromociones().add(index, cantidad);
+    }
+
+    @Override
+    public void setPrecioCarroWS(String nickCliente, double precio) {
+        UsuarioControllerImpl usuariocontroller = new UsuarioControllerImpl();
+        usuariocontroller.obtenerCliente(nickCliente).getCarrito().setPrecio(precio);
+    }
+
+    @Override
+    public int obtenerPosicionServicioEnCarro(String nickCliente, String nombreServicio, String proveedor) {
+        UsuarioControllerImpl usuariocontroller = new UsuarioControllerImpl();
+        int retorno;
+        Servicio aux;
+        ServicioControllerImpl serviciocontroller = new ServicioControllerImpl();
+        aux = serviciocontroller.obtenerServicio(nombreServicio, proveedor);
+        retorno = usuariocontroller.obtenerCliente(nickCliente).getCarrito().getServicios().indexOf(aux);
+        return retorno;
+    }
+
+    @Override
+    public int obtenerPosicionPromoEnCarro(String nickCliente, String nombrePromo, String proveedor) {
+        UsuarioControllerImpl usuariocontroller = new UsuarioControllerImpl();
+        int retorno;
+        PromocionControllerImpl promocioncontrller = new PromocionControllerImpl();
+        Promocion aux;
+        aux = promocioncontrller.obtenerPromocion(nombrePromo, proveedor);
+        retorno = usuariocontroller.obtenerCliente(nickCliente).getCarrito().getPromociones().indexOf(aux);
+        return retorno;
+    }
+
+    @Override
+    public void eliminarCantidadServicioCarro(String nickCliente, int index) {
+        UsuarioControllerImpl usuariocontroller = new UsuarioControllerImpl();
+        usuariocontroller.obtenerCliente(nickCliente).getCarrito().getCantidadServicios().remove(index);
+    }
+
+    @Override
+    public void eliminarCantidadPromoCarro(String nickCliente, int index) {
+        UsuarioControllerImpl usuariocontroller = new UsuarioControllerImpl();
+        usuariocontroller.obtenerCliente(nickCliente).getCarrito().getCantidadPromociones().remove(index);
     }
     
 }

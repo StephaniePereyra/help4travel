@@ -8,20 +8,13 @@ package uy.edu.cure.servidor.web;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import uy.edu.cure.servidor.central.dto.Cliente;
 import uy.edu.cure.servidor.central.dto.Promocion;
 import uy.edu.cure.servidor.central.dto.Reserva;
 import uy.edu.cure.servidor.central.dto.Servicio;
-import uy.edu.cure.servidor.central.lib.ServicioControllerImpl;
-import uy.edu.cure.servidor.central.lib.PromocionControllerImpl;
-import uy.edu.cure.servidor.central.lib.UsuarioController;
-import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
 import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
 import uy.edu.cure.servidor.central.soap.client.PromocionWS;
 import uy.edu.cure.servidor.central.soap.client.PromocionWSImplService;
@@ -34,6 +27,7 @@ import uy.edu.cure.servidor.central.soap.client.UsuarioWSImplService;
  *
  * @author JuanD
  */
+
 @ManagedBean
 @ViewScoped
 public class DatosReserva {
@@ -42,15 +36,8 @@ public class DatosReserva {
     String nickName = "";
     Reserva carrito;
     boolean mayorCero = true;
-    @Jeringa(value = "usuariocontroller")
-    private UsuarioController usuariocontroller;
-    @Jeringa(value = "serviciocontroller")
-    private ServicioControllerImpl serviciocontroller;
-    @Jeringa(value = "promocioncontroller")
-    private PromocionControllerImpl promocioncontroller;
     @ManagedProperty(value = "#{datosSesion}")
     private DatosSesion datosSesion;
-
     private UsuarioWSImplService usuarioWSImplService;
     private UsuarioWS portUsuario;
     private ServicioWSImplService servicioWSImplService;
@@ -116,27 +103,26 @@ public class DatosReserva {
     public String agregarServicio(String servicio, String proveedor) {
         if (datosSesion.isLoged()) {
 
-            List<Servicio> servicios = new ArrayList<>();
+          //  List<Servicio> servicios = new ArrayList<>();
             Servicio servicioObj = new Servicio();
-            Reserva carro = new Reserva();
-            List<uy.edu.cure.servidor.central.soap.client.Servicio> aux = portUsuario.obtenerServiciosCarroWS(this.nickName);
-            for (int i = 0; i < aux.size(); i++) {
+           // Reserva carro = new Reserva();
+           // List<uy.edu.cure.servidor.central.soap.client.Servicio> aux = portUsuario.obtenerServiciosCarroWS(this.nickName);
+            /*for (int i = 0; i < aux.size(); i++) {
                 servicios.add(convertidor.convertirServicio(aux.get(i)));
-            }
+            }*/
             servicioObj = convertidor.convertirServicio(portServicio.obtenerServicioWS(servicio, proveedor));
-            carro = convertidor.convertirReserva(portUsuario.obtenerCarritoClienteWS(this.nickName));
+            //carro = convertidor.convertirReserva(portUsuario.obtenerCarritoClienteWS(this.nickName));
             if (this.cantidad > 0) {
-                if (servicios.contains(servicioObj)) {
-                    int posicion = servicios.indexOf(servicioObj);
+                if (portUsuario.carroContieneServicioWS(nickName, servicioObj.getNombre(), servicioObj.getProveedor().getNickName())) {
+                    int posicion = portUsuario.obtenerPosicionServicioEnCarro(nickName, servicioObj.getNombre(), servicioObj.getProveedor().getNickName());
                     int cantidadServicio = portUsuario.obtenerCarritoClienteWS(this.nickName).getCantidadServicios().get(posicion) + this.cantidad;
-                    carro.getCantidadServicios().remove(posicion);
-                    carro.getCantidadServicios().add(posicion, cantidadServicio);
+                    portUsuario.modCantidadServicioCarro(nickName, posicion, cantidadServicio);
                 } else {
-                    portUsuario.agregarServicioWS(this.nickName, servicio, proveedor);
-                    carro.getCantidadServicios().add(this.cantidad);
+                    portUsuario.agregarServicioWS(this.nickName, servicio, proveedor, this.cantidad);
                 }
                 for (int i = 1; i <= this.cantidad; i++) {
-                    carro.setPrecio(portUsuario.obtenerCarritoClienteWS(this.nickName).getPrecio() + portServicio.obtenerServicioWS(servicio, proveedor).getPrecio());
+                    double precio = portUsuario.obtenerCarritoClienteWS(this.nickName).getPrecio() + portServicio.obtenerServicioWS(servicio, proveedor).getPrecio();
+                    portUsuario.setPrecioCarroWS(this.nickName, precio);
                 }
 
                 this.mayorCero = true;
@@ -154,30 +140,28 @@ public class DatosReserva {
     public String agregarPromocion(String promocion, String proveedor) {
 
         if (datosSesion.isLoged()) {
-            List<Promocion> promociones = new ArrayList<>();
+           // List<Promocion> promociones = new ArrayList<>();
             Promocion promocionObj = new Promocion();
-            Reserva carro = new Reserva();
-            List<uy.edu.cure.servidor.central.soap.client.Promocion> aux = portUsuario.obtenerPromocionesCarroWS(this.nickName);
-            for (int i = 0; i < aux.size(); i++) {
+            //Reserva carro = new Reserva();
+            //List<uy.edu.cure.servidor.central.soap.client.Promocion> aux = portUsuario.obtenerPromocionesCarroWS(this.nickName);
+           /* for (int i = 0; i < aux.size(); i++) {
                 promociones.add(convertidor.convertirPromocion(aux.get(i)));
-            }
+            }*/
             promocionObj = convertidor.convertirPromocion(portPromocion.obtenerPromocionWS(promocion, proveedor));
-            carro = convertidor.convertirReserva(portUsuario.obtenerCarritoClienteWS(this.nickName));
+            //carro = convertidor.convertirReserva(portUsuario.obtenerCarritoClienteWS(this.nickName));
             if (this.cantidad > 0) {
-                if (promociones.contains(promocionObj)) {
-                    int posicion = promociones.indexOf(promocionObj);
+                if (portUsuario.carroContienePromocionWS(nickName, promocionObj.getNombre(), promocionObj.getProveedor().getNickName())) {
+                    int posicion = portUsuario.obtenerPosicionPromoEnCarro(nickName, promocionObj.getNombre(), promocionObj.getProveedor().getNickName());
                     int cantidadPromocion = portUsuario.obtenerCarritoClienteWS(this.nickName).getCantidadPromociones().get(posicion) + this.cantidad;
-                    carro.getCantidadPromociones().remove(posicion);
-                    carro.getCantidadPromociones().add(posicion, cantidadPromocion);
+                    portUsuario.modCantidadPromoCarro(nickName, posicion, cantidadPromocion);
                 } else {
-                    portUsuario.agregarPromocionWS(this.nickName, promocion, proveedor);
-                    carro.getCantidadPromociones().add(this.cantidad);
+                    portUsuario.agregarPromocionWS(this.nickName, promocion, proveedor, this.cantidad);
                 }
 
                 for (int i = 1; i <= this.cantidad; i++) {
-                    carro.setPrecio(portUsuario.obtenerCarritoClienteWS(this.nickName).getPrecio() + portPromocion.obtenerPromocionWS(promocion, proveedor).getPrecioTotal());
+                    double precio = portUsuario.obtenerCarritoClienteWS(this.nickName).getPrecio() + portPromocion.obtenerPromocionWS(promocion, proveedor).getPrecioTotal();
+                    portUsuario.setPrecioCarroWS(this.nickName, precio);
                 }
-
                 this.mayorCero = true;
             } else {
                 this.mayorCero = false;

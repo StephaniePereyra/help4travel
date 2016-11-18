@@ -76,15 +76,41 @@ public interface UsuarioWS {
     public List<Cliente> obtenerTodosClientes ();
     
     @WebMethod
-    public void agregarServicioWS(String nickName,String servicio,String proveedor);
+    public void agregarServicioWS(String nickName,String servicio,String proveedor, int cantidad);
     
     @WebMethod
-    public void agregarPromocionWS(String nickName,String promocion,String proveedor);
+    public void agregarPromocionWS(String nickName,String promocion,String proveedor, int cantidad);
     
     @WebMethod
     public void eliminarServicioCarroWS (String nickName, String servicio, String proveedor);
     
     @WebMethod
-    public void eliminarPromoCarroWS (String nickName, String promocion, String proveedor);
+    public void eliminarPromoCarroWS (String nickName, int index);
     
+    @WebMethod
+    public boolean carroContieneServicioWS (String nickCliente, String nombreServicio, String proveedor);
+    
+    @WebMethod
+    public boolean carroContienePromocionWS (String nickCliente, String nombrePromo, String proveedor);
+    
+    @WebMethod
+    public void modCantidadServicioCarro (String nickCliente, int index, int cantidad);
+    
+    @WebMethod
+    public void modCantidadPromoCarro (String nickCliente, int index, int cantidad);
+    
+    @WebMethod
+    public void eliminarCantidadServicioCarro (String nickCliente, int index);
+    
+    @WebMethod
+    public void eliminarCantidadPromoCarro (String nickCliente, int index);
+    
+    @WebMethod
+    public void setPrecioCarroWS (String nickCliente, double precio);
+    
+    @WebMethod
+    public int obtenerPosicionServicioEnCarro (String nickCliente, String nombreServicio, String proveedor);
+    
+    @WebMethod
+    public int obtenerPosicionPromoEnCarro (String nickCliente, String nombrePromo, String proveedor);
 }

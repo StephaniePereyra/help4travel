@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -29,10 +30,12 @@ import uy.edu.cure.servidor.central.soap.client.UsuarioWSImplService;
  *
  * @author SCN
  */
-
 @ManagedBean
 @ViewScoped
 public class DatosCarro implements Serializable {
+
+    @ManagedProperty(value = "#{datosSesion}")
+    private DatosSesion datosSesion;
     private List<Servicio> servicios;
     private List<Promocion> promociones;
     private boolean carritoEmpty;
@@ -47,47 +50,48 @@ public class DatosCarro implements Serializable {
     private UsuarioWS portUsuario;
 
     public DatosCarro() {
-         if (true) {
-            servicios = new ArrayList();
-            promociones = new ArrayList();
-            cantidadServicios = new ArrayList();
-            cantidadPromos = new ArrayList();
-            oculto = new ArrayList();
-            Oculta ocultoObj = new Oculta();
-            oculto.add(ocultoObj);
-            nickSession = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("nickName");
 
-            convertidor = new Converter();
+        servicios = new ArrayList();
+        promociones = new ArrayList();
+        cantidadServicios = new ArrayList();
+        cantidadPromos = new ArrayList();
+        oculto = new ArrayList();
+        Oculta ocultoObj = new Oculta();
+        oculto.add(ocultoObj);
+        nickSession = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("nickName");
+
+        convertidor = new Converter();
+        try {
+            usuarioWSImplService = new UsuarioWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/UsuarioWSImplService?wsdl"));
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(DatosProveedor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        portUsuario = usuarioWSImplService.getUsuarioWSImplPort();
+        List<uy.edu.cure.servidor.central.soap.client.Servicio> serviciosCarroAux = portUsuario.obtenerServiciosCarroWS(nickSession);
+        for (int i = 0; i < serviciosCarroAux.size(); i++) {
+            servicios.add(convertidor.convertirServicio(serviciosCarroAux.get(i)));
+        }
+        List<uy.edu.cure.servidor.central.soap.client.Promocion> promosCarroAux = portUsuario.obtenerPromocionesCarroWS(nickSession);
+        for (int i = 0; i < promosCarroAux.size(); i++) {
+            promociones.add(convertidor.convertirPromocion(promosCarroAux.get(i)));
+        }
+
+        int size = portUsuario.obtenerCantServiciosCarroWS(nickSession).size();
+        cantidadServicios = portUsuario.obtenerCantServiciosCarroWS(nickSession);
+        cantidadPromos = portUsuario.obtenerCantPromosCarroWS(nickSession);
+        totalCarro = portUsuario.obtenerCarritoClienteWS(nickSession).getPrecio();
+        if (servicios.isEmpty() && promociones.isEmpty()) {
             try {
-                usuarioWSImplService = new UsuarioWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/UsuarioWSImplService?wsdl"));
-            } catch (MalformedURLException ex) {
-                Logger.getLogger(DatosProveedor.class.getName()).log(Level.SEVERE, null, ex);
+                FacesContext.getCurrentInstance().getExternalContext().redirect("CarroEmpty.xhtml");
+            } catch (IOException ex) {
+                Logger.getLogger(DatosCarro.class.getName()).log(Level.SEVERE, null, ex);
             }
-            portUsuario = usuarioWSImplService.getUsuarioWSImplPort();
-            List<uy.edu.cure.servidor.central.soap.client.Servicio> serviciosCarroAux = portUsuario.obtenerServiciosCarroWS(nickSession);
-            for (int i = 0; i < serviciosCarroAux.size(); i++) {
-                servicios.add(convertidor.convertirServicio(serviciosCarroAux.get(i)));
-            }
-            List<uy.edu.cure.servidor.central.soap.client.Promocion> promosCarroAux = portUsuario.obtenerPromocionesCarroWS(nickSession);
-            for (int i = 0; i < promosCarroAux.size(); i++) {
-                promociones.add(convertidor.convertirPromocion(promosCarroAux.get(i)));
-            }
-            
-            int size = portUsuario.obtenerCantServiciosCarroWS(nickSession).size();
-            
-            cantidadServicios = portUsuario.obtenerCantServiciosCarroWS(nickSession);
-            
-            cantidadPromos = portUsuario.obtenerCantPromosCarroWS(nickSession);
-            
-            totalCarro = portUsuario.obtenerCarritoClienteWS(nickSession).getPrecio();
-            if (servicios.isEmpty() && promociones.isEmpty()) {
-                try {
-                    FacesContext.getCurrentInstance().getExternalContext().redirect("CarroEmpty.xhtml");
-                } catch (IOException ex) {
-                    Logger.getLogger(DatosCarro.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        } else {
+        }
+    }
+
+    @PostConstruct
+    private void isLoged() {
+        if (!datosSesion.isLoged()) {
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("LogIn.xhtml");
             } catch (IOException ex) {
@@ -100,21 +104,10 @@ public class DatosCarro implements Serializable {
 
         int index = servicios.indexOf(servicio);
         servicios.remove(servicio);
-        convertidor = new Converter();
-            try {
-                usuarioWSImplService = new UsuarioWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/UsuarioWSImplService?wsdl"));
-            } catch (MalformedURLException ex) {
-                Logger.getLogger(DatosProveedor.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            portUsuario = usuarioWSImplService.getUsuarioWSImplPort();
-        
         totalCarro = totalCarro - (servicio.getPrecio() * portUsuario.obtenerClienteWS(nickSession).getCarrito().getCantidadServicios().get(index));
-        
-        portUsuario.obtenerCarritoClienteWS(nickSession).setPrecio(totalCarro);
-        
-        portUsuario.obtenerCarritoClienteWS(nickSession).getCantidadServicios().remove(index);
-        portUsuario.obtenerServiciosCarroWS(nickSession).remove(servicio);
-        
+        portUsuario.setPrecioCarroWS(nickSession, totalCarro);
+        portUsuario.eliminarCantidadServicioCarro(nickSession, index);
+        portUsuario.eliminarServicioCarroWS(nickSession, servicio.getNombre(), servicio.getProveedor().getNickName());
 
         if (servicios.isEmpty() && promociones.isEmpty()) {
             try {
@@ -130,21 +123,11 @@ public class DatosCarro implements Serializable {
 
         int index = promociones.indexOf(promocion);
         promociones.remove(promocion);
-        
-        convertidor = new Converter();
-            try {
-                usuarioWSImplService = new UsuarioWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/UsuarioWSImplService?wsdl"));
-            } catch (MalformedURLException ex) {
-                Logger.getLogger(DatosProveedor.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            portUsuario = usuarioWSImplService.getUsuarioWSImplPort();
-        
-        
         totalCarro = totalCarro - (promocion.getPrecioTotal() * portUsuario.obtenerCarritoClienteWS(nickSession).getCantidadPromociones().get(index));
-        portUsuario.obtenerCarritoClienteWS(nickSession).setPrecio(totalCarro);
-        portUsuario.obtenerCarritoClienteWS(nickSession).getCantidadPromociones().remove(index);
-        portUsuario.obtenerPromocionesCarroWS(nickSession).remove(promocion);
-        
+        portUsuario.setPrecioCarroWS(nickSession, totalCarro);
+        portUsuario.eliminarCantidadPromoCarro(nickSession, index);
+        portUsuario.eliminarPromoCarroWS(nickSession, index);
+
         if (servicios.isEmpty() && promociones.isEmpty()) {
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("CarroEmpty.xhtml");
@@ -157,12 +140,12 @@ public class DatosCarro implements Serializable {
     public int cantidadServ(Servicio servicio) {
         int index = servicios.indexOf(servicio);
         return portUsuario.obtenerCarritoClienteWS(nickSession).getCantidadServicios().get(index);
-                
+
     }
 
     public int cantidadPromo(Promocion promocion) {
         int index = promociones.indexOf(promocion);
-        return portUsuario.obtenerCarritoClienteWS(nickSession).getCantidadPromociones().get(index);                
+        return portUsuario.obtenerCarritoClienteWS(nickSession).getCantidadPromociones().get(index);
     }
 
     public String confirmarCarro() {
@@ -248,6 +231,14 @@ public class DatosCarro implements Serializable {
 
     public void setOculto(List<Oculta> oculto) {
         this.oculto = oculto;
+    }
+
+    public DatosSesion getDatosSesion() {
+        return datosSesion;
+    }
+
+    public void setDatosSesion(DatosSesion datosSesion) {
+        this.datosSesion = datosSesion;
     }
 
 }
