@@ -20,8 +20,6 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import uy.edu.cure.servidor.central.dto.Categoria;
 import uy.edu.cure.servidor.central.dto.Servicio;
-import uy.edu.cure.servidor.central.lib.ServicioControllerImpl;
-import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
 import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
 import uy.edu.cure.servidor.central.soap.client.ServicioWS;
 import uy.edu.cure.servidor.central.soap.client.ServicioWSImplService;
@@ -34,8 +32,6 @@ import uy.edu.cure.servidor.central.soap.client.ServicioWSImplService;
 @SessionScoped
 public class VerInfoServicio {
 
-    @Jeringa(value = "serviciocontroller")
-    private ServicioControllerImpl servicioController;
     private String nombre;
     private String proveedor;
     private ServicioWSImplService servicioWSImplService;
@@ -45,12 +41,6 @@ public class VerInfoServicio {
 
 
     public VerInfoServicio() {
-        try {
-            JeringaInjector.getInstance().inyectar(this);
-        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            e.printStackTrace();
-        }
-        
                 try {
             servicioWSImplService = new ServicioWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/ServicioWSImplService?wsdl"));
         } catch (MalformedURLException ex) {
@@ -126,7 +116,7 @@ public class VerInfoServicio {
         this.servicios = servicios;
     }
     
-    @PostConstruct 
+    @PostConstruct
     public void listadoServicios() {
 
         List<Servicio> servicios = new ArrayList<>();

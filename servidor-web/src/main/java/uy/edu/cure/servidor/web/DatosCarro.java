@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -29,11 +30,9 @@ import uy.edu.cure.servidor.central.soap.client.UsuarioWSImplService;
  * @author SCN
  */
 
+@ManagedBean
 @ViewScoped
 public class DatosCarro implements Serializable {
-
-    @ManagedProperty(value = "#{datosSesion}")
-    DatosSesion datosSesion;
     private List<Servicio> servicios;
     private List<Promocion> promociones;
     private boolean carritoEmpty;
@@ -48,7 +47,7 @@ public class DatosCarro implements Serializable {
     private UsuarioWS portUsuario;
 
     public DatosCarro() {
-         if (datosSesion.isLoged()) {
+         if (true) {
             servicios = new ArrayList();
             promociones = new ArrayList();
             cantidadServicios = new ArrayList();
@@ -65,17 +64,20 @@ public class DatosCarro implements Serializable {
                 Logger.getLogger(DatosProveedor.class.getName()).log(Level.SEVERE, null, ex);
             }
             portUsuario = usuarioWSImplService.getUsuarioWSImplPort();
-
-            for (int i = 0; i < portUsuario.obtenerServiciosCarroWS(nickSession).size(); i++) {
-                servicios.add(convertidor.convertirServicio(portUsuario.obtenerServiciosCarroWS(nickSession).get(i)));
+            List<uy.edu.cure.servidor.central.soap.client.Servicio> serviciosCarroAux = portUsuario.obtenerServiciosCarroWS(nickSession);
+            for (int i = 0; i < serviciosCarroAux.size(); i++) {
+                servicios.add(convertidor.convertirServicio(serviciosCarroAux.get(i)));
             }
-            for (int i = 0; i < portUsuario.obtenerServiciosCarroWS(nickSession).size(); i++) {
-                promociones.add(convertidor.convertirPromocion(portUsuario.obtenerPromocionesCarroWS(nickSession).get(i)));
+            List<uy.edu.cure.servidor.central.soap.client.Promocion> promosCarroAux = portUsuario.obtenerPromocionesCarroWS(nickSession);
+            for (int i = 0; i < promosCarroAux.size(); i++) {
+                promociones.add(convertidor.convertirPromocion(promosCarroAux.get(i)));
             }
             
-            cantidadServicios = portUsuario.obtenerCarritoClienteWS(nickSession).getCantidadServicios();
+            int size = portUsuario.obtenerCantServiciosCarroWS(nickSession).size();
             
-            cantidadPromos = portUsuario.obtenerCarritoClienteWS(nickSession).getCantidadPromociones();
+            cantidadServicios = portUsuario.obtenerCantServiciosCarroWS(nickSession);
+            
+            cantidadPromos = portUsuario.obtenerCantPromosCarroWS(nickSession);
             
             totalCarro = portUsuario.obtenerCarritoClienteWS(nickSession).getPrecio();
             if (servicios.isEmpty() && promociones.isEmpty()) {
@@ -248,11 +250,4 @@ public class DatosCarro implements Serializable {
         this.oculto = oculto;
     }
 
-    public DatosSesion getDatosSesion() {
-        return datosSesion;
-    }
-
-    public void setDatosSesion(DatosSesion datosSesion) {
-        this.datosSesion = datosSesion;
-    }
 }

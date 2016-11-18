@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
     <display-name>servidor-central-webapp</display-name>
+    <listener>
+        <listener-class>com.sun.xml.ws.transport.http.servlet.WSServletContextListener</listener-class>
+    </listener>
     <servlet>
         <servlet-name>UsuarioWSImplService</servlet-name>
         <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
@@ -36,7 +39,11 @@
         <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
-
+    <servlet>
+        <servlet-name>HelloWS</servlet-name>
+        <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UsuarioWSImplService</servlet-name>
         <url-pattern>/UsuarioWSImplService</url-pattern>
@@ -65,6 +72,10 @@
         <servlet-name>CategoriaWSImplService</servlet-name>
         <url-pattern>/CategoriaWSImplService</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HelloWS</servlet-name>
+        <url-pattern>/HelloWS</url-pattern>
+    </servlet-mapping>
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
         <welcome-file>index.htm</welcome-file>
@@ -73,10 +84,10 @@
         <welcome-file>default.htm</welcome-file>
         <welcome-file>default.jsp</welcome-file>
     </welcome-file-list>
-     <context-param>
+    <context-param>
         <param-name>resteasy.servlet.mapping.prefix</param-name>
         <param-value>/rest/api</param-value>
-    </context-param>        
+    </context-param>
     <listener>
         <listener-class>
             org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap
@@ -96,7 +107,6 @@
         <servlet-name>resteasy-servlet</servlet-name>
         <url-pattern>/rest/api/*</url-pattern>
     </servlet-mapping>
-
     <listener>
         <listener-class>
             com.sun.xml.ws.transport.http.servlet.WSServletContextListener

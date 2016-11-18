@@ -41,6 +41,12 @@ public interface UsuarioWS {
 
     @WebMethod
     public Reserva obtenerCarritoClienteWS(String nickName);
+    
+    @WebMethod
+    public List<Integer> obtenerCantServiciosCarroWS (String nickName);
+    
+    @WebMethod
+    public List<Integer> obtenerCantPromosCarroWS(String nickName);
 
     @WebMethod
     public boolean logInClienteWS(String nickName, String password);
@@ -74,4 +80,11 @@ public interface UsuarioWS {
     
     @WebMethod
     public void agregarPromocionWS(String nickName,String promocion,String proveedor);
+    
+    @WebMethod
+    public void eliminarServicioCarroWS (String nickName, String servicio, String proveedor);
+    
+    @WebMethod
+    public void eliminarPromoCarroWS (String nickName, String promocion, String proveedor);
+    
 }

@@ -170,4 +170,37 @@ public class UsuarioWSImpl implements UsuarioWS {
         promocionObj = promocioncontroller.obtenerPromocion(promocion,proveedor);
         usuariocontroller.obtenerCliente(nickName).getCarrito().setPromocion(promocionObj);
     }
+
+    @Override
+    public List<Integer> obtenerCantServiciosCarroWS(String nickName) {
+        UsuarioControllerImpl usuariocontroller = new UsuarioControllerImpl();
+        List<Integer> aux;
+        aux = usuariocontroller.obtenerCliente(nickName).getCarrito().getCantidadServicios();
+        return aux;
+    }
+
+    @Override
+    public List<Integer> obtenerCantPromosCarroWS(String nickName) {
+        UsuarioControllerImpl usuariocontroller = new UsuarioControllerImpl();
+        List<Integer> aux;
+        aux = usuariocontroller.obtenerCliente(nickName).getCarrito().getCantidadPromociones();
+        return aux;
+    }
+
+    @Override
+    public void eliminarServicioCarroWS(String nickName, String servicio, String proveedor) {
+        UsuarioControllerImpl usuariocontroller = new UsuarioControllerImpl();
+        ServicioControllerImpl serviciocontroller = new ServicioControllerImpl();
+        Servicio auxiliar = serviciocontroller.obtenerServicio(servicio, proveedor);
+        usuariocontroller.obtenerCliente(nickName).getCarrito().getServicios().remove(auxiliar);
+    }
+
+    @Override
+    public void eliminarPromoCarroWS(String nickName, String promocion, String proveedor) {
+        UsuarioControllerImpl usuariocontroller = new UsuarioControllerImpl();
+        PromocionControllerImpl promocioncontrller = new PromocionControllerImpl();
+        Promocion auxiliar = promocioncontrller.obtenerPromocion(promocion, proveedor);
+        usuariocontroller.obtenerCliente(nickName).getCarrito().getPromociones().remove(auxiliar);
+    }
+    
 }

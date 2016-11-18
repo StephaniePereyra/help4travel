@@ -104,7 +104,6 @@ public class VerInfoPromocion {
         this.promociones = promociones;
     }
     
-    
     @PostConstruct
     public void listadoPromociones() {
         List<Promocion> promociones = new ArrayList<>();
