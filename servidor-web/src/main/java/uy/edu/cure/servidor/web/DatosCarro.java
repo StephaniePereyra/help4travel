@@ -7,15 +7,12 @@ package uy.edu.cure.servidor.web;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -31,7 +28,7 @@ import uy.edu.cure.servidor.central.soap.client.UsuarioWSImplService;
  *
  * @author SCN
  */
-@ManagedBean
+
 @ViewScoped
 public class DatosCarro implements Serializable {
 
@@ -51,12 +48,7 @@ public class DatosCarro implements Serializable {
     private UsuarioWS portUsuario;
 
     public DatosCarro() {
-
-    }
-
-    @PostConstruct
-    public void cargarArray() {
-        if (datosSesion.isLoged()) {
+         if (datosSesion.isLoged()) {
             servicios = new ArrayList();
             promociones = new ArrayList();
             cantidadServicios = new ArrayList();
@@ -64,7 +56,7 @@ public class DatosCarro implements Serializable {
             oculto = new ArrayList();
             Oculta ocultoObj = new Oculta();
             oculto.add(ocultoObj);
-            nickSession = datosSesion.getNickName();
+            nickSession = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("nickName");
 
             convertidor = new Converter();
             try {
@@ -129,6 +121,7 @@ public class DatosCarro implements Serializable {
                 Logger.getLogger(DatosCarro.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+
     }
 
     public void eliminarPromo(Promocion promocion) {

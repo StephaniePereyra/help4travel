@@ -50,6 +50,7 @@ public class DatosSesion {
         String retorno;
         if (port.logInClienteWS(nickName, passWord)) {
             loged = true;
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("nickName", nickName);
             Converter converter = new Converter();
             usuario = converter.convertirCliente(port.obtenerClienteWS(nickName));
             retorno = "index.xhtml";
