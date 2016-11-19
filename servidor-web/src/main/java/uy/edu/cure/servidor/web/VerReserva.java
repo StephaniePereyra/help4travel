@@ -84,11 +84,11 @@ public class VerReserva {
         portReserva = reservaWSImplService.getReservaWSImplPort();
 
         if (nroReserva != null) {
-            for (int i = 0; i > portReserva.obtenerServiciosReservaWS(nroReserva).size(); i++) {
+            for (int i = 0; i < portReserva.obtenerServiciosReservaWS(nroReserva).size(); i++) {
                 servicios.add(convertidor.convertirServicio(portReserva.obtenerServiciosReservaWS(nroReserva).get(i)));
             }
 
-            for (int i = 0; i > portReserva.obtenerPromocionesReservaWS(nroReserva).size(); i++) {
+            for (int i = 0; i < portReserva.obtenerPromocionesReservaWS(nroReserva).size(); i++) {
                 promociones.add(convertidor.convertirPromocion(portReserva.obtenerPromocionesReservaWS(nroReserva).get(i)));
             }
 
