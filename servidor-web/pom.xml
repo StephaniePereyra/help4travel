@@ -24,12 +24,6 @@
         </dependency>
 
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-            <version>2.5</version>
-        </dependency>
-
-        <dependency>
             <groupId>javax.servlet.jsp</groupId>
             <artifactId>jsp-api</artifactId>
             <version>2.1</version>
@@ -66,11 +60,6 @@
             <version>2.2.13</version>
         </dependency>
         <dependency>
-            <groupId>com.hynnet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>4.0.0-b01</version>
-        </dependency>
-        <dependency>
             <groupId>org.lucee</groupId>
             <artifactId>commons-httpclient</artifactId>
             <version>3.1.0</version>
@@ -92,6 +81,11 @@
             <artifactId>servidor-central-soap-client</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.0.1</version>
         </dependency>
     </dependencies>
 </project>
