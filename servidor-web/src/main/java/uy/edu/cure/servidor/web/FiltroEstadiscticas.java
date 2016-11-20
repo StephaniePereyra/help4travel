@@ -19,6 +19,8 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
+import uy.edu.cure.servidor.central.lib.EstadisticaControllerImpl;
+import uy.edu.cure.servidor.central.lib.EstadisticasController;
 
 /**
  *
@@ -117,13 +119,24 @@ public class FiltroEstadiscticas implements Filter {
 
             // actualizamos claves e incrementamos
             urls = (HashMap<String, Integer>) contexto.getAttribute("estadistica");
-
+            
             if (urls.get(peticion.getRequestURL().toString()) == null) {
 
                 urls.put(peticion.getRequestURL().toString(), 1);
             } else {
                 urls.put(peticion.getRequestURL().toString(), urls.get(peticion.getRequestURL().toString()) + 1);
             }
+           // contexto.setAttribute("cliente", peticion.getHeader("User-Agent"));         
+            
+            //ip
+            String ipAdd = null; // IP del cliente
+            ipAdd = request.getRemoteAddr();
+            
+            
+            EstadisticaControllerImpl estadisticasController = new EstadisticaControllerImpl();
+            estadisticasController.crearEstadistica(ipAdd,peticion.getHeader("User-Agent"),peticion.getRequestURL().toString());          
+            
+            
         }
 
         chain.doFilter(request, response);

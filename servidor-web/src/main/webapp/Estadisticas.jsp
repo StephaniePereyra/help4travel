@@ -5,6 +5,12 @@
 --%>
 
 
+<%@page import="uy.edu.cure.servidor.central.dto.Estadisticas"%>
+<%@page import="java.util.List"%>
+<%@page import="java.util.List"%>
+<%@page import="uy.edu.cure.servidor.central.lib.EstadisticaServiceImpl"%>
+<%@page import="uy.edu.cure.servidor.central.lib.EstadisticaControllerImpl"%>
+<%@page import="java.util.Enumeration"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@page import="java.util.HashMap" %>
@@ -29,6 +35,18 @@
                 out.println("pagina :" + clave + " visitas :" + mapa.get(clave) + "<br/>");
 
             }
+            
+            EstadisticaServiceImpl estadisticaService = new EstadisticaServiceImpl();
+            
+            List<Estadisticas> estadisticas =  estadisticaService.obtenerTodosEstadisticas();
+            
+            for (int i = 0; i<estadisticas.size();i++){
+                
+                out.println("IP: " + estadisticas.get(i).getIpAdd() + "  URL:  " + estadisticas.get(i).getUrl() + "  Navegador:  " +
+                        estadisticas.get(i).getBrowser() + "  SO:  " + estadisticas.get(i).getSo() + "<br/>");
+            }
+            
+
         %>
     </body>
 </html>
