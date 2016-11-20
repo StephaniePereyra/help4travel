@@ -88,5 +88,10 @@
             <version>4.0.0-b01</version>
             <type>jar</type>
         </dependency>
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+            <version>1.5.6</version>
+        </dependency>
     </dependencies>
 </project>
