@@ -28,6 +28,11 @@ import uy.edu.cure.servidor.central.soap.client.ServicioWSImplService;
 import uy.edu.cure.servidor.central.soap.client.UsuarioWS;
 import uy.edu.cure.servidor.central.soap.client.UsuarioWSImplService;
 
+
+
+
+
+
 /**
  *
  * @author SCN

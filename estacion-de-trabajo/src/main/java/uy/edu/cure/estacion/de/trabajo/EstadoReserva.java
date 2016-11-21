@@ -6,11 +6,15 @@
 package uy.edu.cure.estacion.de.trabajo;
 
 import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
-import uy.edu.cure.servidor.central.lib.ReservaControllerImpl;
-import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
-import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
+import uy.edu.cure.servidor.central.soap.client.ReservaWS;
+import uy.edu.cure.servidor.central.soap.client.ReservaWSImplService;
+
 
 /**
  *
@@ -21,11 +25,13 @@ public class EstadoReserva extends javax.swing.JFrame {
     /**
      * Creates new form EstadoReserva
      */
+    private ReservaWS portReserva;
+    private ReservaWSImplService reservaWSImplService;
     DefaultListModel listReserva;
     DefaultListModel listServicio;
     DefaultListModel listPromocion;
-    @Jeringa (value = "reservacontroller")
-    private ReservaControllerImpl reservaController;
+    
+    
     
     public EstadoReserva() {
         listReserva = new DefaultListModel();
@@ -36,13 +42,14 @@ public class EstadoReserva extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         
           try {
-            JeringaInjector.getInstance().inyectar(this);
-        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            e.printStackTrace();
+             reservaWSImplService = new ReservaWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/ReservaWSImplService?wsdl"));
+        } catch (MalformedURLException e) {
+            Logger.getLogger(EstadoReserva.class.getName()).log(Level.SEVERE,null,e);
         }
+        portReserva = reservaWSImplService.getReservaWSImplPort();
         
-        for (int i = 0; i < reservaController.obtenerTodasReservas().size(); i++) {
-            listReserva.add(i, reservaController.obtenerTodasReservas().get(i).getNumero());
+        for (int i = 0; i < portReserva.obtenerTodasReservasWS().size(); i++) {
+            listReserva.add(i, portReserva.obtenerTodasReservasWS().get(i).getNumero());
         }
         listaReservas.setModel(listReserva);
     }
@@ -237,20 +244,20 @@ public class EstadoReserva extends javax.swing.JFrame {
 
     private void listaReservasValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaReservasValueChanged
         int indice = listaReservas.getSelectedIndex();
-        Numero.setText(Integer.toString(reservaController.obtenerTodasReservas().get(indice).getNumero()));
-        int mes = reservaController.obtenerTodasReservas().get(indice).getFechaCreacion().getMonth() + 1;
-        int año = reservaController.obtenerTodasReservas().get(indice).getFechaCreacion().getYear() + 1900;
-        Fecha.setText(String.valueOf(reservaController.obtenerTodasReservas().get(indice).getFechaCreacion().getDate()) + "/" + String.valueOf(mes) + "/" + String.valueOf(año));
-        Precio.setText(Double.toString(reservaController.obtenerTodasReservas().get(indice).getPrecio()));
-        Estado.setText(reservaController.obtenerTodasReservas().get(indice).getEstado());
+        Numero.setText(Integer.toString(portReserva.obtenerTodasReservasWS().get(indice).getNumero()));
+        int mes = portReserva.obtenerTodasReservasWS().get(indice).getFechaCreacion().getMonth() + 1;
+        int año = portReserva.obtenerTodasReservasWS().get(indice).getFechaCreacion().getYear() + 1900;
+        Fecha.setText(String.valueOf(portReserva.obtenerTodasReservasWS().get(indice).getFechaCreacion().getDay()) + "/" + String.valueOf(mes) + "/" + String.valueOf(año));
+        Precio.setText(Double.toString(portReserva.obtenerTodasReservasWS().get(indice).getPrecio()));
+        Estado.setText(portReserva.obtenerTodasReservasWS().get(indice).getEstado());
         listPromocion.clear();
-        for (int i = 0; i < reservaController.obtenerTodasReservas().get(indice).getPromociones().size(); i++) {
-            listPromocion.add(i, reservaController.obtenerTodasReservas().get(indice).getPromociones().get(i).getNombre());
+        for (int i = 0; i < portReserva.obtenerTodasReservasWS().get(indice).getPromociones().size(); i++) {
+            listPromocion.add(i, portReserva.obtenerTodasReservasWS().get(indice).getPromociones().get(i).getNombre());
         }
         listaPromocion.setModel(listPromocion);
         listServicio.clear();
-        for (int i = 0; i < reservaController.obtenerTodasReservas().get(indice).getServicios().size(); i++) {
-            listServicio.add(i, reservaController.obtenerTodasReservas().get(indice).getServicios().get(i).getNombre());
+        for (int i = 0; i < portReserva.obtenerTodasReservasWS().get(indice).getServicios().size(); i++) {
+            listServicio.add(i, portReserva.obtenerTodasReservasWS().get(indice).getServicios().get(i).getNombre());
         }
         listaServicios.setModel(listServicio);
     }//GEN-LAST:event_listaReservasValueChanged
@@ -258,7 +265,7 @@ public class EstadoReserva extends javax.swing.JFrame {
     private void facturarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_facturarActionPerformed
          if (!listaReservas.getSelectedValuesList().isEmpty()) {
             int index = listaReservas.getSelectedIndex();
-            if (reservaController.cambiarEstado(reservaController.obtenerTodasReservas().get(index), "Facturada")) {
+            if (portReserva.cambiarEstadoWS(portReserva.obtenerTodasReservasWS().get(index), "Facturada")) {
                 JOptionPane.showMessageDialog(null, "Facturada");
                 this.dispose();
             }
@@ -274,7 +281,7 @@ public class EstadoReserva extends javax.swing.JFrame {
     private void cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarActionPerformed
         if (!listaReservas.getSelectedValuesList().isEmpty()) {
             int index = listaReservas.getSelectedIndex();
-            if (reservaController.cambiarEstado(reservaController.obtenerTodasReservas().get(index), "Cancelar")) {
+            if (portReserva.cambiarEstadoWS(portReserva.obtenerTodasReservasWS().get(index), "Cancelar")) {
                 JOptionPane.showMessageDialog(null, "Cancelada");
                 this.dispose();
             }

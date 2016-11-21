@@ -7,31 +7,39 @@ package uy.edu.cure.estacion.de.trabajo;
 
 import java.awt.Image;
 import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import uy.edu.cure.servidor.central.dto.*;
-import uy.edu.cure.servidor.central.lib.*;
-import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
-import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
+import uy.edu.cure.servidor.central.soap.client.CategoriaWS;
+import uy.edu.cure.servidor.central.soap.client.CategoriaWSImplService;
+import uy.edu.cure.servidor.central.soap.client.ServicioWS;
+import uy.edu.cure.servidor.central.soap.client.ServicioWSImplService;
+//import uy.edu.cure.servidor.web.Converter;
+
 
 /**
  *
  * @author Rodrigo "Lobo Plateado" Pérez
  */
 public class VerInfoServicio extends javax.swing.JFrame {
-
+    private CategoriaWS portCategoria;
+    private ServicioWS portServicio;
+    
+    private CategoriaWSImplService categoriaWSImplService;
+    private ServicioWSImplService servicioWSImplService;
+    
     private List<JLabel> labels;
-    @Jeringa (value = "categoriacontroller")
-    private CategoriaControllerImpl categoriaController;
-    @Jeringa (value = "serviciocontroller")
-    private ServicioControllerImpl servicioController;
 
     /**
      * Creates new form VerInfoServicio
@@ -41,10 +49,13 @@ public class VerInfoServicio extends javax.swing.JFrame {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         
           try {
-            JeringaInjector.getInstance().inyectar(this);
-        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            e.printStackTrace();
+              servicioWSImplService = new ServicioWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/ServicioWSImplService?wsdl"));
+              categoriaWSImplService = new CategoriaWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/CategoriaWSImplService?wsdl"));
+        } catch (MalformedURLException e) {
+            Logger.getLogger(VerInfoServicio.class.getName()).log(Level.SEVERE,null,e);
         }
+        portServicio = servicioWSImplService.getServicioWSImplPort();
+        portCategoria = categoriaWSImplService.getCategoriaWSImplPort();
         
         setLocationRelativeTo(null);
         labels = new ArrayList<JLabel>();
@@ -55,9 +66,9 @@ public class VerInfoServicio extends javax.swing.JFrame {
         listProveedores.setVisible(false);
         DefaultTreeModel model = (DefaultTreeModel) treeCategorias.getModel();
         DefaultMutableTreeNode root = (DefaultMutableTreeNode) model.getRoot();
-        Iterator<Categoria> iteratorCategorias = categoriaController.obtenerTodosCategorias().iterator();
+        Iterator<uy.edu.cure.servidor.central.soap.client.Categoria> iteratorCategorias = portCategoria.obtenerTodasCategorias().iterator();
         while (iteratorCategorias.hasNext()) {
-            Categoria categoriaAuxiliar = iteratorCategorias.next();
+            uy.edu.cure.servidor.central.soap.client.Categoria categoriaAuxiliar = iteratorCategorias.next();
             if (categoriaAuxiliar.getPadre() == null) {
                 root.add(new DefaultMutableTreeNode(categoriaAuxiliar.getNombre()));
             } else {
@@ -244,12 +255,12 @@ public class VerInfoServicio extends javax.swing.JFrame {
         DefaultListModel listaServicios = new DefaultListModel();
         DefaultListModel listaProveedores = new DefaultListModel();
         DefaultMutableTreeNode nodoSeleccionado = (DefaultMutableTreeNode) treeCategorias.getLastSelectedPathComponent();
-        Iterator<Servicio> iteratorServicios = servicioController.obtenerTodosServicios().iterator();
+        Iterator<uy.edu.cure.servidor.central.soap.client.Servicio> iteratorServicios = portServicio.obtenerTodosServiciosWS().iterator();
         while (iteratorServicios.hasNext()) {
-            Servicio servicioAuxiliar = iteratorServicios.next();
-            Iterator<Categoria> iteratorCategorias = servicioAuxiliar.getCategorias().iterator();
+            uy.edu.cure.servidor.central.soap.client.Servicio servicioAuxiliar = iteratorServicios.next();
+            Iterator<uy.edu.cure.servidor.central.soap.client.Categoria> iteratorCategorias = servicioAuxiliar.getCategorias().iterator();
             while (iteratorCategorias.hasNext()) {
-                Categoria categoriaAuxiliar = iteratorCategorias.next();
+                uy.edu.cure.servidor.central.soap.client.Categoria categoriaAuxiliar = iteratorCategorias.next();
                 if (categoriaAuxiliar.getNombre().equals(nodoSeleccionado.toString())) {
                     listaServicios.addElement(servicioAuxiliar.getNombre());
                     listaProveedores.addElement(servicioAuxiliar.getProveedor().getNickName());
@@ -272,16 +283,16 @@ public class VerInfoServicio extends javax.swing.JFrame {
         if (indice >= 0) {
             DefaultListModel listaProveedores = (DefaultListModel) listProveedores.getModel();
             labelProveedor.setText("Proveedor: " + listaProveedores.get(indice).toString());
-            labelDescripcion.setText("Descripcion: " + servicioController.obtenerServicio(listServicios.getSelectedValue(), listaProveedores.get(indice).toString()).getDescripcion());
-            labelPrecio.setText("Precio: " + servicioController.obtenerServicio(listServicios.getSelectedValue(), listaProveedores.get(indice).toString()).getPrecio());
-            labelCiudadOrigen.setText("Ciudad de origen: " + servicioController.obtenerServicio(listServicios.getSelectedValue(), listaProveedores.get(indice).toString()).getOrigen().getNombre());
-            if (servicioController.obtenerServicio(listServicios.getSelectedValue(), listaProveedores.get(indice).toString()).getDestino() == null) {
+            labelDescripcion.setText("Descripcion: " + portServicio.obtenerServicioWS(listServicios.getSelectedValue(), listaProveedores.get(indice).toString()).getDescripcion());
+            labelPrecio.setText("Precio: " + portServicio.obtenerServicioWS(listServicios.getSelectedValue(), listaProveedores.get(indice).toString()).getPrecio());
+            labelCiudadOrigen.setText("Ciudad de origen: " + portServicio.obtenerServicioWS(listServicios.getSelectedValue(), listaProveedores.get(indice).toString()).getOrigen().getNombre());
+            if (portServicio.obtenerServicioWS(listServicios.getSelectedValue(), listaProveedores.get(indice).toString()).getDestino() == null) {
                 labelCiudadDestino.setText("No hay ciudad de destino");
             } else {
-                labelCiudadDestino.setText("Ciudad de Destino: " + servicioController.obtenerServicio(listServicios.getSelectedValue(), listaProveedores.get(indice).toString()).getDestino().getNombre());
+                labelCiudadDestino.setText("Ciudad de Destino: " + portServicio.obtenerServicioWS(listServicios.getSelectedValue(), listaProveedores.get(indice).toString()).getDestino().getNombre());
             }
-            for (int i = 0; i < servicioController.obtenerServicio(listServicios.getSelectedValue(), listaProveedores.get(indice).toString()).getImagenes().size(); i++) {
-                ImageIcon imageIcon = new ImageIcon(servicioController.obtenerServicio(listServicios.getSelectedValue(), listaProveedores.get(indice).toString()).getImagenes().get(i));
+            for (int i = 0; i < portServicio.obtenerServicioWS(listServicios.getSelectedValue(), listaProveedores.get(indice).toString()).getImagenes().size(); i++) {
+                ImageIcon imageIcon = new ImageIcon(portServicio.obtenerServicioWS(listServicios.getSelectedValue(), listaProveedores.get(indice).toString()).getImagenes().get(i));
                 Image image = imageIcon.getImage();
                 Image imageFinal = image.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH);
                 ImageIcon imageIconFinal = new ImageIcon(imageFinal);

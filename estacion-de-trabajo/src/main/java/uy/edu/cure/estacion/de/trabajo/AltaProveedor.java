@@ -11,6 +11,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.util.Date;
 import java.util.Properties;
@@ -19,9 +21,8 @@ import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import uy.edu.cure.servidor.central.lib.UsuarioControllerImpl;
-import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
-import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
+import uy.edu.cure.servidor.central.soap.client.UsuarioWS;
+import uy.edu.cure.servidor.central.soap.client.UsuarioWSImplService;
 
 /**
  *
@@ -29,9 +30,9 @@ import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
  */
 public class AltaProveedor extends javax.swing.JFrame {
 
+    private UsuarioWS portUsuario;
+    private UsuarioWSImplService usuarioWSImplService;
     private FileNameExtensionFilter filtro;
-    @Jeringa(value = "usuariocontroller")
-    private UsuarioControllerImpl usuariocontrollerForm;
     private String rutaImagen;
     private String rutaArchivo;
     private String validez;
@@ -43,22 +44,25 @@ public class AltaProveedor extends javax.swing.JFrame {
     /**
      * Creates new form AltaProveedor
      */
-    public AltaProveedor() {
+    public AltaProveedor() throws IOException {
         this.progappProperties = new Properties();
         input = this.getClass().getClassLoader().getResourceAsStream("progapp.properties");
         try {
             progappProperties.load(input);
+
         } catch (IOException ex) {
-            Logger.getLogger(AltaProveedor.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
+
         initComponents();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         filtro = new FileNameExtensionFilter("Formato Imagen", "png", "jpg");
         try {
-            JeringaInjector.getInstance().inyectar(this);
-        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            e.printStackTrace();
+            usuarioWSImplService = new UsuarioWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/UsuarioWSImplService?wsdl"));
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(AltaProveedor.class.getName()).log(Level.SEVERE, null, ex);
         }
+        portUsuario = usuarioWSImplService.getUsuarioWSImplPort();
         rutaImagen = "";
         rutaArchivo = "";
         validez = "";
@@ -447,7 +451,7 @@ public class AltaProveedor extends javax.swing.JFrame {
             dia = Integer.parseInt(DiaProveedorForm.getText());
             mes = Integer.parseInt(MesProveedorForm.getText());
             anio = Integer.parseInt(AñioProveedorForm.getText());
-            int resultado = usuariocontrollerForm.crearProveedor(UserNameProveedorForm.getText(), NombreProveedorForm.getText(), ApellidoProveedorForm.getText(), CorreoProveedorForm.getText(), dia, mes, anio, NombreEmpresaProveedorForm.getText(), LinkEmpresaProveedorForm.getText(), rutaImagen, textFieldPassword.getText(), textFieldPasswordConfirm.getText());
+            int resultado = portUsuario.crearProveedorWS(UserNameProveedorForm.getText(), NombreProveedorForm.getText(), ApellidoProveedorForm.getText(), CorreoProveedorForm.getText(), dia, mes, anio, NombreEmpresaProveedorForm.getText(), LinkEmpresaProveedorForm.getText(), rutaImagen, textFieldPassword.getText(), textFieldPasswordConfirm.getText());
             switch (resultado) {
                 case -1:
                     javax.swing.JOptionPane.showMessageDialog(null, "Cliente dado de alta", "Alta cliente", 1);
@@ -579,7 +583,11 @@ public class AltaProveedor extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AltaProveedor().setVisible(true);
+                try {
+                    new AltaProveedor().setVisible(true);
+                } catch (IOException ex) {
+                    Logger.getLogger(AltaProveedor.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }

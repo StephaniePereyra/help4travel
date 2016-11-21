@@ -11,6 +11,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Date;
@@ -28,9 +30,12 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import uy.edu.cure.servidor.central.dto.*;
-import uy.edu.cure.servidor.central.lib.*;
-import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
-import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
+import uy.edu.cure.servidor.central.soap.client.CategoriaWS;
+import uy.edu.cure.servidor.central.soap.client.CategoriaWSImplService;
+import uy.edu.cure.servidor.central.soap.client.CiudadWS;
+import uy.edu.cure.servidor.central.soap.client.CiudadWSImplService;
+import uy.edu.cure.servidor.central.soap.client.ServicioWS;
+import uy.edu.cure.servidor.central.soap.client.ServicioWSImplService;
 
 /**
  *
@@ -38,13 +43,15 @@ import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
  */
 public class ActualizarServicio extends javax.swing.JFrame {
 
+    private CiudadWS portCiudad;
+    private CategoriaWS portCategoria;
+    private ServicioWS portServicio;
+
+    private CiudadWSImplService ciudadWSImplService;
+    private CategoriaWSImplService categoriaWSImplService;
+    private ServicioWSImplService servicioWSImplService;
+
     private List<JLabel> imagenes;
-    @Jeringa(value = "serviciocontroller")
-    private ServicioControllerImpl servicioController;
-    @Jeringa(value = "categoriacontroller")
-    private CategoriaControllerImpl categoriaController;
-    @Jeringa(value = "ciudadcontroller")
-    private CiudadControllerImpl ciudadController;
     private Properties progappProperties;
     private InputStream input = null;
 
@@ -52,15 +59,21 @@ public class ActualizarServicio extends javax.swing.JFrame {
      * Creates new form ActualizarServicio
      */
     public ActualizarServicio() throws IOException {
+
         initComponents();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        
-          try {
-            JeringaInjector.getInstance().inyectar(this);
-        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            e.printStackTrace();
+
+        try {
+            ciudadWSImplService = new CiudadWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/CiudadWSImplService?wsdl"));
+            categoriaWSImplService = new CategoriaWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/CategoriaWSImplService?wsdl"));
+            servicioWSImplService = new ServicioWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/ServicioWSImplService?wsdl"));
+        } catch (MalformedURLException e) {
+            Logger.getLogger(ActualizarServicio.class.getName()).log(Level.SEVERE, null, e);
         }
-        
+        portCiudad = ciudadWSImplService.getCiudadWSImplPort();
+        portCategoria = categoriaWSImplService.getCategoriaWSImplPort();
+        portServicio = servicioWSImplService.getServicioWSImplPort();
+
         setLocationRelativeTo(null);
         this.progappProperties = new Properties();
         input = this.getClass().getClassLoader().getResourceAsStream("progapp.properties");
@@ -70,8 +83,9 @@ public class ActualizarServicio extends javax.swing.JFrame {
         imagenes.add(labelImage1);
         imagenes.add(labelImage2);
         imagenes.add(labelImage3);
+
         DefaultListModel listaServicios = new DefaultListModel();
-        Iterator<Servicio> iteratorServicios = servicioController.obtenerTodosServicios().iterator();
+        Iterator<Servicio> iteratorServicios = portServicio.obtenerTodosServiciosWS().iterator();
         while (iteratorServicios.hasNext()) {
             Servicio servicioAuxiliar = iteratorServicios.next();
             listaServicios.addElement(servicioAuxiliar.getNombre());
@@ -79,7 +93,7 @@ public class ActualizarServicio extends javax.swing.JFrame {
         listServicios.setModel(listaServicios);
         DefaultTreeModel model = (DefaultTreeModel) treeCategorias.getModel();
         DefaultMutableTreeNode root = (DefaultMutableTreeNode) model.getRoot();
-        Iterator<Categoria> iteratorCategorias = categoriaController.obtenerTodosCategorias().iterator();
+        Iterator<Categoria> iteratorCategorias = portCategoria.obtenerTodasCategorias().iterator();
         while (iteratorCategorias.hasNext()) {
             Categoria categoriaAuxiliar = iteratorCategorias.next();
             if (categoriaAuxiliar.getPadre() == null) {
@@ -97,7 +111,7 @@ public class ActualizarServicio extends javax.swing.JFrame {
         model.reload();
         DefaultListModel listCiudadesOrigen = new DefaultListModel();
         DefaultListModel listCiudadesDestino = new DefaultListModel();
-        Iterator<Ciudad> iteratorCiudades = ciudadController.obtenerTodosCiudades().iterator();
+        Iterator<Ciudad> iteratorCiudades = portCiudad.obtenerTodasCiudadesWS().iterator();
         while (iteratorCiudades.hasNext()) {
             Ciudad ciudadAuxiliar = iteratorCiudades.next();
             listCiudadesOrigen.addElement(ciudadAuxiliar.getNombre());
@@ -467,23 +481,23 @@ public class ActualizarServicio extends javax.swing.JFrame {
         labelImage1.setIcon(null);
         labelImage2.setIcon(null);
         labelImage3.setIcon(null);
-        labelDescripcion.setText("Descripcion: " + servicioController.obtenerTodosServicios().get(indice).getDescripcion());
-        labelPrecio.setText("Precio: " + String.valueOf(servicioController.obtenerTodosServicios().get(indice).getPrecio()));
-        labelOrigen.setText("Ciudad de Origen: " + servicioController.obtenerTodosServicios().get(indice).getOrigen().getNombre());
-        if (servicioController.obtenerTodosServicios().get(indice).getDestino() == null) {
+        labelDescripcion.setText("Descripcion: " + portServicio.obtenerTodosServiciosWS().get(indice).getDescripcion());
+        labelPrecio.setText("Precio: " + String.valueOf(portServicio.obtenerTodosServiciosWS().get(indice).getPrecio()));
+        labelOrigen.setText("Ciudad de Origen: " + portServicio.obtenerTodosServiciosWS().get(indice).getOrigen().getNombre());
+        if (portServicio.obtenerTodosServiciosWS().get(indice).getDestino() == null) {
             labelDestino.setText("Ciudad de Destino: Sin ciudad de destino");
         } else {
-            labelDestino.setText("Ciudad de Destino: " + servicioController.obtenerTodosServicios().get(indice).getDestino().getNombre());
+            labelDestino.setText("Ciudad de Destino: " + portServicio.obtenerTodosServiciosWS().get(indice).getDestino().getNombre());
         }
         DefaultListModel listaCategorias = new DefaultListModel();
-        Iterator<Categoria> iteratorCategorias = servicioController.obtenerTodosServicios().get(indice).getCategorias().iterator();
+        Iterator<Categoria> iteratorCategorias = portServicio.obtenerTodosServiciosWS().get(indice).getCategorias().iterator();
         while (iteratorCategorias.hasNext()) {
             Categoria categoriaAuxiliar = iteratorCategorias.next();
             listaCategorias.addElement(categoriaAuxiliar.getNombre());
         }
         listCategorias.setModel(listaCategorias);
-        for (int i = 0; i < servicioController.obtenerTodosServicios().get(indice).getImagenes().size(); i++) {
-            ImageIcon imageIcon = new ImageIcon(servicioController.obtenerTodosServicios().get(indice).getImagenes().get(i));
+        for (int i = 0; i < portServicio.obtenerTodosServiciosWS().get(indice).getImagenes().size(); i++) {
+            ImageIcon imageIcon = new ImageIcon(portServicio.obtenerTodosServiciosWS().get(indice).getImagenes().get(i));
             Image image = imageIcon.getImage();
             Image imageFinal = image.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH);
             ImageIcon imageIconFinal = new ImageIcon(imageFinal);
@@ -511,7 +525,7 @@ public class ActualizarServicio extends javax.swing.JFrame {
             if (!textFieldDescripcion.getText().isEmpty()) {
                 int indiceServicio = listServicios.getSelectedIndex();
                 String nuevaDescripcion = textFieldDescripcion.getText();
-                servicioController.obtenerTodosServicios().get(indiceServicio).setDescripcion(nuevaDescripcion);
+                portServicio.obtenerTodosServiciosWS().get(indiceServicio).setDescripcion(nuevaDescripcion);
                 labelDescripcion.setText("Descripcion: " + nuevaDescripcion);
             } else {
                 labelMessageError.setText("Descripcion no puede quedar vacio");
@@ -534,7 +548,7 @@ public class ActualizarServicio extends javax.swing.JFrame {
                 if (validadorPrecio <= 1 && !textFieldPrecio.getText().endsWith(".") && !textFieldPrecio.getText().startsWith(".")) {
                     int indiceServicio = listServicios.getSelectedIndex();
                     double precioAuxiliar = Double.parseDouble(textFieldPrecio.getText());
-                    servicioController.obtenerTodosServicios().get(indiceServicio).setPrecio(precioAuxiliar);
+                    portServicio.obtenerTodosServiciosWS().get(indiceServicio).setPrecio(precioAuxiliar);
                     labelPrecio.setText("Precio: " + String.valueOf(precioAuxiliar));
                 } else {
                     labelMessageError.setText("Precio debe ser un numero valido");
@@ -553,11 +567,11 @@ public class ActualizarServicio extends javax.swing.JFrame {
             if (listOrigen.getSelectedValue() != null) {
                 int indiceServicio = listServicios.getSelectedIndex();
                 String nuevaCiudad = listOrigen.getSelectedValue();
-                if (servicioController.obtenerTodosServicios().get(indiceServicio).getDestino() == null) {
-                    servicioController.obtenerTodosServicios().get(indiceServicio).setOrigen(ciudadController.obtenerCiudad(nuevaCiudad));
+                if (portServicio.obtenerTodosServiciosWS().get(indiceServicio).getDestino() == null) {
+                    portServicio.obtenerTodosServiciosWS().get(indiceServicio).setOrigen(portCiudad.obtenerCiudadWS(nuevaCiudad));
                     labelOrigen.setText("Ciudad de Origen: " + nuevaCiudad);
-                } else if (!nuevaCiudad.equals(servicioController.obtenerTodosServicios().get(indiceServicio).getDestino().getNombre())) {
-                    servicioController.obtenerTodosServicios().get(indiceServicio).setOrigen(ciudadController.obtenerCiudad(nuevaCiudad));
+                } else if (!nuevaCiudad.equals(portServicio.obtenerTodosServiciosWS().get(indiceServicio).getDestino().getNombre())) {
+                    portServicio.obtenerTodosServiciosWS().get(indiceServicio).setOrigen(portCiudad.obtenerCiudadWS(nuevaCiudad));
                     labelOrigen.setText("Ciudad de Origen: " + nuevaCiudad);
                 } else {
                     labelMessageError.setText("Ciudad de origen y destino deben de ser diferentes");
@@ -576,12 +590,12 @@ public class ActualizarServicio extends javax.swing.JFrame {
             if (listDestino.getSelectedValue() != null) {
                 int indiceServicio = listServicios.getSelectedIndex();
                 String nuevaCiudad = listDestino.getSelectedValue();
-                if (!nuevaCiudad.equals(servicioController.obtenerTodosServicios().get(indiceServicio).getOrigen().getNombre())) {
+                if (!nuevaCiudad.equals(portServicio.obtenerTodosServiciosWS().get(indiceServicio).getOrigen().getNombre())) {
                     if (nuevaCiudad.equals("<null>")) {
-                        servicioController.obtenerTodosServicios().get(indiceServicio).setDestino(null);
+                        portServicio.obtenerTodosServiciosWS().get(indiceServicio).setDestino(null);
                         labelDestino.setText("Ciudad de Destino: Sin ciudad de destino");
                     } else {
-                        servicioController.obtenerTodosServicios().get(indiceServicio).setDestino(ciudadController.obtenerCiudad(nuevaCiudad));
+                        portServicio.obtenerTodosServiciosWS().get(indiceServicio).setDestino(portCiudad.obtenerCiudadWS(nuevaCiudad));
                         labelDestino.setText("Ciudad de Destino: " + nuevaCiudad);
                     }
                 } else {
@@ -600,10 +614,10 @@ public class ActualizarServicio extends javax.swing.JFrame {
         if (listServicios.getSelectedValue() != null) {
             if (listCategorias.getModel().getSize() != 0) {
                 int indiceServicio = listServicios.getSelectedIndex();
-                servicioController.obtenerTodosServicios().get(indiceServicio).getCategorias().clear();
+               portServicio.obtenerTodosServiciosWS().get(indiceServicio).getCategorias().clear();
                 DefaultListModel listaCategorias = (DefaultListModel) listCategorias.getModel();
                 for (int i = 0; i < listaCategorias.size(); i++) {
-                    servicioController.obtenerTodosServicios().get(indiceServicio).setCategorias(categoriaController.obtenerCategoria(
+                   portServicio.obtenerTodosServiciosWS().get(indiceServicio).setCategorias(portCategoria.obtenerCategoria(
                             listaCategorias.get(i).toString()));
                 }
             } else {
@@ -618,7 +632,7 @@ public class ActualizarServicio extends javax.swing.JFrame {
         labelMessageError.setText(" ");
         if (listServicios.getSelectedValue() != null) {
             int indiceServicio = listServicios.getSelectedIndex();
-            if (servicioController.obtenerTodosServicios().get(indiceServicio).getImagenes().size() < 3) {
+            if (portServicio.obtenerTodosServiciosWS().get(indiceServicio).getImagenes().size() < 3) {
                 JFileChooser selectorImage = new JFileChooser();
                 FileNameExtensionFilter filtro = new FileNameExtensionFilter("Formato imagen", "png", "jpg");
                 selectorImage.setFileFilter(filtro);
@@ -635,9 +649,9 @@ public class ActualizarServicio extends javax.swing.JFrame {
                     } catch (IOException ex) {
                         Logger.getLogger(ActualizarServicio.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    servicioController.obtenerTodosServicios().get(indiceServicio).setImagen(ruta);
-                    for (int i = 0; i < servicioController.obtenerTodosServicios().get(indiceServicio).getImagenes().size(); i++) {
-                        ImageIcon imageIcon = new ImageIcon(servicioController.obtenerTodosServicios().get(indiceServicio).getImagenes().get(i));
+                    portServicio.obtenerTodosServiciosWS().get(indiceServicio).setImagen(ruta);
+                    for (int i = 0; i < portServicio.obtenerTodosServiciosWS().get(indiceServicio).getImagenes().size(); i++) {
+                        ImageIcon imageIcon = new ImageIcon(portServicio.obtenerTodosServiciosWS().get(indiceServicio).getImagenes().get(i));
                         Image image = imageIcon.getImage();
                         Image imageFinal = image.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH);
                         ImageIcon imageIconFinal = new ImageIcon(imageFinal);
@@ -657,16 +671,16 @@ public class ActualizarServicio extends javax.swing.JFrame {
         if (listServicios.getSelectedValue() != null) {
             if (!textFieldIndexImage.getText().isEmpty()) {
                 int indiceServicio = listServicios.getSelectedIndex();
-                if (!servicioController.obtenerTodosServicios().get(indiceServicio).getImagenes().isEmpty()) {
+                if (!portServicio.obtenerTodosServiciosWS().get(indiceServicio).getImagenes().isEmpty()) {
                     int indiceImagen = Integer.parseInt(textFieldIndexImage.getText());
-                    if (indiceImagen <= servicioController.obtenerTodosServicios().get(indiceServicio).getImagenes().size()
+                    if (indiceImagen <= portServicio.obtenerTodosServiciosWS().get(indiceServicio).getImagenes().size()
                             && indiceImagen != 0) {
-                        servicioController.obtenerTodosServicios().get(indiceServicio).getImagenes().remove(indiceImagen - 1);
+                        portServicio.obtenerTodosServiciosWS().get(indiceServicio).getImagenes().remove(indiceImagen - 1);
                         for (int i = 0; i < 3; i++) {
                             imagenes.get(i).setIcon(null);
                         }
-                        for (int i = 0; i < servicioController.obtenerTodosServicios().get(indiceServicio).getImagenes().size(); i++) {
-                            ImageIcon imageIcon = new ImageIcon(servicioController.obtenerTodosServicios().get(indiceServicio).getImagenes().get(i));
+                        for (int i = 0; i < portServicio.obtenerTodosServiciosWS().get(indiceServicio).getImagenes().size(); i++) {
+                            ImageIcon imageIcon = new ImageIcon(portServicio.obtenerTodosServiciosWS().get(indiceServicio).getImagenes().get(i));
                             Image image = imageIcon.getImage();
                             Image imageFinal = image.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH);
                             ImageIcon imageIconFinal = new ImageIcon(imageFinal);

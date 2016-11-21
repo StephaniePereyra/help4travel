@@ -11,6 +11,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Date;
@@ -28,9 +30,17 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import uy.edu.cure.servidor.central.dto.*;
-import uy.edu.cure.servidor.central.lib.*;
-import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
-import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
+
+import uy.edu.cure.servidor.central.soap.client.UsuarioWS;
+import uy.edu.cure.servidor.central.soap.client.UsuarioWSImplService;
+import uy.edu.cure.servidor.central.soap.client.CiudadWS;
+import uy.edu.cure.servidor.central.soap.client.CiudadWSImplService;
+import uy.edu.cure.servidor.central.soap.client.PaisWS;
+import uy.edu.cure.servidor.central.soap.client.PaisWSImplService;
+import uy.edu.cure.servidor.central.soap.client.CategoriaWS;
+import uy.edu.cure.servidor.central.soap.client.CategoriaWSImplService;
+import uy.edu.cure.servidor.central.soap.client.ServicioWS;
+import uy.edu.cure.servidor.central.soap.client.ServicioWSImplService;
 
 /**
  *
@@ -38,18 +48,20 @@ import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
  */
 public class AltaServicio extends javax.swing.JFrame {
 
+    private UsuarioWS portUsuario;
+    private PaisWS portPais;
+    private CiudadWS portCiudad;
+    private CategoriaWS portCategoria;
+    private ServicioWS portServicio;
+    
+    private UsuarioWSImplService usuarioWSImplService;
+    private PaisWSImplService paisWSImplService;
+    private CiudadWSImplService ciudadWSImplService; 
+    private CategoriaWSImplService categoriaWSImplService;
+    private ServicioWSImplService servicioWSImplService;
+            
     private List<String> rutasImagenes;
     private List<JLabel> imagenes;
-    @Jeringa (value = "usuariocontroller")
-    private UsuarioControllerImpl usuarioController;
-    @Jeringa (value = "paiscontroller")
-    private PaisControllerImpl paisController;
-    @Jeringa (value = "ciudadcontroller")
-    private CiudadControllerImpl ciudadController;
-    @Jeringa (value = "categoriacontroller")
-    private CategoriaControllerImpl categoriaController;
-    @Jeringa (value = "serviciocontroller")
-    private ServicioControllerImpl servicioController;
     private Properties progappProperties;
     private InputStream input = null;
 
@@ -65,38 +77,47 @@ public class AltaServicio extends javax.swing.JFrame {
         progappProperties.load(input);
  
           try {
-            JeringaInjector.getInstance().inyectar(this);
-        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            e.printStackTrace();
+            usuarioWSImplService = new UsuarioWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/UsuarioWSImplService?wsdl"));
+            paisWSImplService = new PaisWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/PaisWSImplService?wsdl"));
+            ciudadWSImplService = new CiudadWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/CiudadWSImplService?wsdl"));
+            categoriaWSImplService = new CategoriaWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/CategoriaWSImplService?wsdl"));
+            servicioWSImplService = new ServicioWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/ServicioWSImplService?wsdl"));
+        } catch (MalformedURLException e) {
+            Logger.getLogger(AltaServicio.class.getName()).log(Level.SEVERE,null,e);
         }
-        
+        portUsuario = usuarioWSImplService.getUsuarioWSImplPort();
+        portPais = paisWSImplService.getPaisWSImplPort();
+        portCiudad = ciudadWSImplService.getCiudadWSImplPort();
+        portCategoria = categoriaWSImplService.getCategoriaWSImplPort();
+        portServicio = servicioWSImplService.getServicioWSImplPort();
+                
         rutasImagenes = new ArrayList<String>();
         imagenes = new ArrayList<JLabel>();
         imagenes.add(labelImage1);
         imagenes.add(labelImage2);
         imagenes.add(labelImage3);
         DefaultListModel listaProveedores = new DefaultListModel();
-        for (int i = 0; i < usuarioController.obtenerProveedores().size(); i++) {
-            listaProveedores.add(i, usuarioController.obtenerProveedores().get(i).getNickName());
+        for (int i = 0; i < portUsuario.obtenerTodosProveedoresWS().size(); i++) {
+            listaProveedores.add(i, portUsuario.obtenerTodosProveedoresWS().get(i).getNickName());
         }
         listProveedores.setModel(listaProveedores);
         DefaultListModel listaCiudadesOrigen = new DefaultListModel();
-        for (int i = 0; i < ciudadController.obtenerTodosCiudades().size(); i++) {
-            listaCiudadesOrigen.add(i, ciudadController.obtenerTodosCiudades().get(i).getNombre());
+        for (int i = 0; i < portCiudad.obtenerTodasCiudadesWS().size(); i++) {
+            listaCiudadesOrigen.add(i, portCiudad.obtenerTodasCiudadesWS().get(i).getNombre());
         }
         listCiudadOrigen.setModel(listaCiudadesOrigen);
         DefaultListModel listaCiudadesDestino = new DefaultListModel();
         int indiceDestino;
-        for (indiceDestino = 0; indiceDestino < ciudadController.obtenerTodosCiudades().size(); indiceDestino++) {
-            listaCiudadesDestino.add(indiceDestino, ciudadController.obtenerTodosCiudades().get(indiceDestino).getNombre());
+        for (indiceDestino = 0; indiceDestino < portCiudad.obtenerTodasCiudadesWS().size(); indiceDestino++) {
+            listaCiudadesDestino.add(indiceDestino, portCiudad.obtenerTodasCiudadesWS().get(indiceDestino).getNombre());
         }
         listaCiudadesDestino.add(indiceDestino, "<null>");
         listCiudadDestino.setModel(listaCiudadesDestino);
         DefaultTreeModel model = (DefaultTreeModel) treeCategorias.getModel();
         DefaultMutableTreeNode root = (DefaultMutableTreeNode) model.getRoot();
-        Iterator<Categoria> iteratorCategorias = categoriaController.obtenerTodosCategorias().iterator();
+        Iterator<uy.edu.cure.servidor.central.soap.client.Categoria> iteratorCategorias = portCategoria.obtenerTodasCategorias().iterator();
         while (iteratorCategorias.hasNext()) {
-            Categoria categoriaAuxiliar = iteratorCategorias.next();
+            uy.edu.cure.servidor.central.soap.client.Categoria categoriaAuxiliar = iteratorCategorias.next();
             if (categoriaAuxiliar.getPadre() == null) {
                 root.add(new DefaultMutableTreeNode(categoriaAuxiliar.getNombre()));
             } else {
@@ -418,7 +439,7 @@ public class AltaServicio extends javax.swing.JFrame {
 
     private void buttonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAceptarActionPerformed
         labelMessageError.setText(" ");
-        String precioValido = servicioController.verificarPrecio(textFieldPrecio.getText());
+        String precioValido = portServicio.verificarPrecio(textFieldPrecio.getText());
         if (precioValido.equals("OK")) {
             String nombreServicio = textFieldNombreServicio.getText();
             String nickNameProveedor = listProveedores.getSelectedValue();
@@ -430,7 +451,7 @@ public class AltaServicio extends javax.swing.JFrame {
             for (int i = 0; i < listCategorias.getModel().getSize(); i++) {
                 categorias.add(listCategorias.getModel().getElementAt(i));
             }
-            String resultado = servicioController.crearServicio(nombreServicio, descripcion, precio, ciudadOrigen, ciudadDestino, categorias, rutasImagenes, nickNameProveedor);
+            String resultado = portServicio.crearServicioWS(nombreServicio, descripcion, precio, ciudadOrigen, ciudadDestino, categorias, rutasImagenes, nickNameProveedor);
             if (resultado.equals("OK")) {
                 javax.swing.JOptionPane.showMessageDialog(null, "Servicio creado exitosamente", "Alta Servicio", 1);
                 this.dispose();

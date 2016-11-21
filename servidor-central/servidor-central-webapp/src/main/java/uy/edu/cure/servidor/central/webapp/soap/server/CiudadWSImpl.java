@@ -5,9 +5,11 @@
  */
 package uy.edu.cure.servidor.central.webapp.soap.server;
 
+import java.util.List;
 import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
+import uy.edu.cure.servidor.central.dto.Ciudad;
 import uy.edu.cure.servidor.central.lib.CiudadControllerImpl;
 
 /**
@@ -24,6 +26,18 @@ public class CiudadWSImpl implements CiudadWS {
         retorno = ciudadcontroller.crearCiudad(nombreCiudad, nombrePais);
         return retorno;
     }
-
+    
+    @Override
+    public List<Ciudad> obtenerTodasCiudadesWS() {
+        CiudadControllerImpl ciudadController = new CiudadControllerImpl();
+        return ciudadController.obtenerTodosCiudades();
+    }
+    
+    @Override
+    public Ciudad obtenerCiudadWS(String nombre){
+        CiudadControllerImpl ciudadController = new CiudadControllerImpl();
+        return ciudadController.obtenerCiudad(nombre);
+        
+    }
 
 }

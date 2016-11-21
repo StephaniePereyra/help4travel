@@ -59,6 +59,11 @@ public class ServicioWSImpl implements ServicioWS {
         categoriasAux = serviciocontroller.obtenerServicio(nombreServicio, nickProveedor).getCategorias();
         return categoriasAux;
     }
-
+    
+    @Override
+    public String verificarPrecio(String precio){
+        ServicioControllerImpl servicioController = new ServicioControllerImpl();
+        return servicioController.verificarPrecio(precio);
+    }
 
 }

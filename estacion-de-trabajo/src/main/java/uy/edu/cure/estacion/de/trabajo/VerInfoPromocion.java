@@ -7,15 +7,18 @@ package uy.edu.cure.estacion.de.trabajo;
 
 import java.awt.Image;
 import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import uy.edu.cure.servidor.central.dto.Servicio;
-import uy.edu.cure.servidor.central.lib.*;
-import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
-import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
+import uy.edu.cure.servidor.central.soap.client.PromocionWS;
+import uy.edu.cure.servidor.central.soap.client.PromocionWSImplService;
 
 /**
  *
@@ -23,9 +26,9 @@ import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
  */
 public class VerInfoPromocion extends javax.swing.JFrame {
 
-    @Jeringa (value = "promocioncontroller")
-    PromocionControllerImpl promocionController;
-    @Jeringa (value = "serviciocontroller")
+    private PromocionWSImplService promocionWSImplService;
+    private PromocionWS portPromocion;
+    
     ServicioControllerImpl servicioController;
     List<JLabel> imagenes;
 
@@ -37,19 +40,19 @@ public class VerInfoPromocion extends javax.swing.JFrame {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         
           try {
-            JeringaInjector.getInstance().inyectar(this);
-        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            e.printStackTrace();
+               promocionWSImplService = new PromocionWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/PromocionWSImplService?wsdl"));
+        } catch (MalformedURLException e) {
+            Logger.getLogger(VerInfoPromocion.class.getName()).log(Level.SEVERE, null, e);
         }
-        
+        portPromocion = promocionWSImplService.getPromocionWSImplPort();
         setLocationRelativeTo(null);
         imagenes = new ArrayList<JLabel>();
         imagenes.add(labelServicioImage1);
         imagenes.add(labelServicioImage2);
         imagenes.add(labelServicioImage3);
         DefaultListModel listaPromociones = new DefaultListModel();
-        for (int i = 0; i < promocionController.obtenerTodasPromociones().size(); i++) {
-            String nombrePromocion = promocionController.obtenerTodasPromociones().get(i).getNombre();
+        for (int i = 0; i < portPromocion.obtenerTodasPromociones().size(); i++) {
+            String nombrePromocion = portPromocion.obtenerTodasPromociones().get(i).getNombre();
             listaPromociones.addElement(nombrePromocion);
         }
         listPromociones.setModel(listaPromociones);
@@ -236,15 +239,15 @@ public class VerInfoPromocion extends javax.swing.JFrame {
         labelServicioDestino.setText(" ");
         labelServicioCategorias.setText(" ");
         int indicePromocion = listPromociones.getSelectedIndex();
-        String proveedor = promocionController.obtenerTodasPromociones().get(indicePromocion).getProveedor().getNickName();
+        String proveedor = portPromocion.obtenerTodasPromociones().get(indicePromocion).getProveedor().getNickName();
         labelProveedor.setText("Proveedor: " + proveedor);
-        double precio = promocionController.obtenerTodasPromociones().get(indicePromocion).getPrecioTotal();
+        double precio = portPromocion.obtenerTodasPromociones().get(indicePromocion).getPrecioTotal();
         labelPrecio.setText("Precio: " + precio);
-        int descuento = promocionController.obtenerTodasPromociones().get(indicePromocion).getDescuento();
+        int descuento = portPromocion.obtenerTodasPromociones().get(indicePromocion).getDescuento();
         labelDescuento.setText("Descuento: " + descuento);
         DefaultListModel listaServicios = new DefaultListModel();
-        for (int i = 0; i < promocionController.obtenerTodasPromociones().get(indicePromocion).getServicios().size(); i++) {
-            String servicio = promocionController.obtenerTodasPromociones().get(indicePromocion).getServicios().get(i).getNombre();
+        for (int i = 0; i < portPromocion.obtenerTodasPromociones().get(indicePromocion).getServicios().size(); i++) {
+            String servicio = portPromocion.obtenerTodasPromociones().get(indicePromocion).getServicios().get(i).getNombre();
             listaServicios.addElement(servicio);
         }
         listServicios.setModel(listaServicios);
@@ -254,7 +257,7 @@ public class VerInfoPromocion extends javax.swing.JFrame {
         if (listServicios.getSelectedIndex() >= 0) {
             String nombreServicio = listServicios.getSelectedValue();
             int indicePromocion = listPromociones.getSelectedIndex();
-            String nombreProveedor = promocionController.obtenerTodasPromociones().get(indicePromocion).getProveedor().getNickName();
+            String nombreProveedor = portPromocion.obtenerTodasPromociones().get(indicePromocion).getProveedor().getNickName();
             Servicio servicio = servicioController.obtenerServicio(nombreServicio, nombreProveedor);
             labelServicioDescripcion.setText(servicio.getDescripcion());
             labelServicioPrecio.setText("Precio: " + String.valueOf(servicio.getPrecio()));

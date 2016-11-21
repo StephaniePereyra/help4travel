@@ -32,4 +32,7 @@ public interface ServicioWS {
     
     @WebMethod
     public List<Categoria> obtenerCategoriasServicioWS (String nombreServicio, String nickProveedor);
+    
+    @WebMethod
+    public String verificarPrecio(String precio);
 }

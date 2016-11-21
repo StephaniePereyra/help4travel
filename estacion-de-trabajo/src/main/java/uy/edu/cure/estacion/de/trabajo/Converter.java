@@ -108,7 +108,7 @@ public class Converter {
         ciudadAuxiliar = new Ciudad();
         if(ciudad != null){
         ciudadAuxiliar.setNombre(ciudad.getNombre());
-        ciudadAuxiliar.setPais(ciudad.getPais());  
+        ciudadAuxiliar.setPais(ciudad.getPais().getNombre());  
         }
         else{
             ciudadAuxiliar = null;

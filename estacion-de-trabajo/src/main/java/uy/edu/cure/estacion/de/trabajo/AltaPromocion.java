@@ -7,12 +7,19 @@ package uy.edu.cure.estacion.de.trabajo;
 
 import java.awt.event.KeyEvent;
 import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
-import uy.edu.cure.servidor.central.lib.*;
-import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
-import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
+import uy.edu.cure.servidor.central.soap.client.UsuarioWS;
+import uy.edu.cure.servidor.central.soap.client.UsuarioWSImplService;
+import uy.edu.cure.servidor.central.soap.client.ServicioWS;
+import uy.edu.cure.servidor.central.soap.client.ServicioWSImplService;
+import uy.edu.cure.servidor.central.soap.client.PromocionWS;
+import uy.edu.cure.servidor.central.soap.client.PromocionWSImplService;
 
 /**
  *
@@ -20,13 +27,13 @@ import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
  */
 public class AltaPromocion extends javax.swing.JFrame {
 
-    @Jeringa (value = "usuariocontroller")
-    private UsuarioControllerImpl usuarioController;
-    @Jeringa (value = "serviciocontroller")
-    private ServicioControllerImpl servicioController;
-    @Jeringa (value = "promocioncontroller")
-    private PromocionControllerImpl promocionController;
+    private UsuarioWS portUsuario;
+    private ServicioWS portServicio;
+    private PromocionWS portPromocion;
 
+    private UsuarioWSImplService usuarioWSImplService;
+    private ServicioWSImplService servicioWSImplService;
+    private PromocionWSImplService promocionWSImplService;
     /**
      * Creates new form AltaPromocion
      */
@@ -35,15 +42,17 @@ public class AltaPromocion extends javax.swing.JFrame {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
-          try {
-            JeringaInjector.getInstance().inyectar(this);
-        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            e.printStackTrace();
+        try {
+            usuarioWSImplService = new UsuarioWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/UsuarioWSImplService?wsdl"));
+            servicioWSImplService = new ServicioWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/ServicioWSImplService?wsdl"));
+            promocionWSImplService = new PromocionWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/PromocionWSImplService?wsdl"));
+        } catch (MalformedURLException e) {
+            Logger.getLogger(AltaPromocion.class.getName()).log(Level.SEVERE, null, e);
         }
-        
+
         DefaultListModel listaProveedores = new DefaultListModel();
-        for (int i = 0; i < usuarioController.obtenerProveedores().size(); i++) {
-            listaProveedores.addElement(usuarioController.obtenerProveedores().get(i).getNickName());
+        for (int i = 0; i < portUsuario.obtenerTodosProveedoresWS().size(); i++) {
+            listaProveedores.addElement(portUsuario.obtenerTodosProveedoresWS().get(i).getNickName());
         }
         listProveedores.setModel(listaProveedores);
     }
@@ -236,7 +245,7 @@ public class AltaPromocion extends javax.swing.JFrame {
             for (int i = 0; i < listServiciosPromocion.getModel().getSize(); i++) {
                 servicios.add(listServiciosPromocion.getModel().getElementAt(i));
             }
-            String resultado = promocionController.crearPromocion(nombrePromocion, descuento, nickProveedor, servicios);
+            String resultado = portPromocion.crearPromocionWS(nombrePromocion, descuento, nickProveedor, servicios);
             if (resultado.equals("OK")) {
                 javax.swing.JOptionPane.showMessageDialog(null, "Promocion creada exitosamente", "Alta Promocion", 1);
                 this.dispose();
@@ -262,8 +271,8 @@ public class AltaPromocion extends javax.swing.JFrame {
     private void listProveedoresValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listProveedoresValueChanged
         int indiceProveedor = listProveedores.getSelectedIndex();
         DefaultListModel listaServicios = new DefaultListModel();
-        for (int i = 0; i < usuarioController.obtenerProveedores().get(indiceProveedor).getServicios().size(); i++) {
-            listaServicios.addElement(usuarioController.obtenerProveedores().get(indiceProveedor).getServicios().get(i).getNombre());
+        for (int i = 0; i < portUsuario.obtenerTodosProveedoresWS().get(indiceProveedor).getServicios().size(); i++) {
+            listaServicios.addElement(portUsuario.obtenerTodosProveedoresWS().get(indiceProveedor).getServicios().get(i).getNombre());
         }
         listServiciosDisponibles.setModel(listaServicios);
         listServiciosPromocion.setModel(new DefaultListModel());
@@ -316,7 +325,7 @@ public class AltaPromocion extends javax.swing.JFrame {
                 if (descuentoAuxiliar < 100 && descuentoAuxiliar > 0) {
                     double precioTotal = 0;
                     for (int i = 0; i < listaServicios.getSize(); i++) {
-                        precioTotal = precioTotal + servicioController.obtenerServicio(listaServicios.get(i).toString(), listProveedores.getSelectedValue()).getPrecio();
+                        precioTotal = precioTotal + portServicio.obtenerServicioWS(listaServicios.get(i).toString(), listProveedores.getSelectedValue()).getPrecio();
                     }
                     precioTotal = precioTotal - (precioTotal * descuentoAuxiliar) / 100;
                     javax.swing.JOptionPane.showMessageDialog(null, String.valueOf(precioTotal), "Precio total", 1);

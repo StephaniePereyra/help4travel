@@ -5,13 +5,17 @@
  */
 package uy.edu.cure.estacion.de.trabajo;
 
+import com.sun.org.apache.xerces.internal.util.URI;
 import java.awt.Image;
 import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
-import uy.edu.cure.servidor.central.lib.UsuarioControllerImpl;
-import uy.edu.cure.servidor.central.lib.jeringa.Jeringa;
-import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
+import uy.edu.cure.servidor.central.soap.client.UsuarioWS;
+import uy.edu.cure.servidor.central.soap.client.UsuarioWSImplService;
 
 /**
  *
@@ -22,24 +26,25 @@ public class VerInfoProveedor extends javax.swing.JFrame {
     /**
      * Creates new form VerInfoProveedor
      */
-    @Jeringa (value = "usuariocontroller")
-    private  UsuarioControllerImpl usuariocontroller; 
+    private UsuarioWSImplService usuarioWsImplService;
+    private UsuarioWS portUsuario;
     private int indiceProv;
     
-    public VerInfoProveedor() {
+    public VerInfoProveedor() throws MalformedURLException {
         initComponents();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         
           try {
-            JeringaInjector.getInstance().inyectar(this);
-        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            e.printStackTrace();
+            usuarioWsImplService = new UsuarioWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/UsuarioWSImplService?wsdl"));
+        } catch (MalformedURLException e) {
+            Logger.getLogger(VerInfoProveedor.class.getName()).log(Level.SEVERE,null,e);
         }
+        portUsuario = usuarioWsImplService.getUsuarioWSImplPort();
         
         setLocationRelativeTo(null);
         DefaultListModel listaproveedores = new DefaultListModel();
-        for (int i = 0; i < usuariocontroller.obtenerProveedores().size(); i++) {
-            listaproveedores.add(i, usuariocontroller.obtenerProveedores().get(i).getNickName());
+        for (int i = 0; i < portUsuario.obtenerTodosProveedoresWS().size(); i++) {
+            listaproveedores.add(i, portUsuario.obtenerTodosProveedoresWS().get(i).getNickName());
         }
         ListaProveedores.setModel(listaproveedores);
     }
@@ -258,20 +263,20 @@ public class VerInfoProveedor extends javax.swing.JFrame {
 
     private void ListaProveedoresValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_ListaProveedoresValueChanged
         int indice = ListaProveedores.getSelectedIndex();
-        NombreAllenar.setText(usuariocontroller.obtenerProveedores().get(indice).getNombre());
-        ApellidoAllenar.setText(usuariocontroller.obtenerProveedores().get(indice).getApellido());
-        CorreoAllenar.setText(usuariocontroller.obtenerProveedores().get(indice).getCorreo());
-        String dia = Integer.toString(usuariocontroller.obtenerProveedores().get(indice).getFechanacimiento().getDate());
-        String mes = Integer.toString(usuariocontroller.obtenerProveedores().get(indice).getFechanacimiento().getMonth());
-        String anio = Integer.toString(usuariocontroller.obtenerProveedores().get(indice).getFechanacimiento().getYear());
+        NombreAllenar.setText(portUsuario.obtenerTodosProveedoresWS().get(indice).getNombre());
+        ApellidoAllenar.setText(portUsuario.obtenerTodosProveedoresWS().get(indice).getApellido());
+        CorreoAllenar.setText(portUsuario.obtenerTodosProveedoresWS().get(indice).getCorreo());
+        String dia = Integer.toString(portUsuario.obtenerTodosProveedoresWS().get(indice).getFechanacimiento().getDay());
+        String mes = Integer.toString(portUsuario.obtenerTodosProveedoresWS().get(indice).getFechanacimiento().getMonth());
+        String anio = Integer.toString(portUsuario.obtenerTodosProveedoresWS().get(indice).getFechanacimiento().getYear());
         FechaAllenar.setText(dia + "/" + mes + "/" + anio);
-        EmpresaAllenar.setText(usuariocontroller.obtenerProveedores().get(indice).getNombreEmpresa());
+        EmpresaAllenar.setText(portUsuario.obtenerTodosProveedoresWS().get(indice).getNombreEmpresa());
         NombServicioAllenar.setText("");
         DescServicioAllenar.setText("");
         PrecioServicioAllenar.setText("");
         OrigenServicioAllenar.setText("");
         DestinoServicioAllenar.setText("");
-        ImageIcon iconoPerfil = new ImageIcon(usuariocontroller.obtenerProveedores().get(indice).getImagenPerfil());
+        ImageIcon iconoPerfil = new ImageIcon(portUsuario.obtenerTodosProveedoresWS().get(indice).getImagenPerfil());
         Image imagenPerfil = iconoPerfil.getImage();
         Image nuevaPerfil = imagenPerfil.getScaledInstance(155, 175, java.awt.Image.SCALE_SMOOTH);
         ImageIcon nuevoIcono = new ImageIcon(nuevaPerfil);
@@ -279,8 +284,8 @@ public class VerInfoProveedor extends javax.swing.JFrame {
         ImagenPerfil.setSize(155, 175);
         //Aqui carga la lista de servicios dependiendo de que proveedor este seleccionado.
         DefaultListModel listaservicios = new DefaultListModel();
-        for (int i = 0; i < usuariocontroller.obtenerProveedores().get(indice).getServicios().size(); i++) {
-            listaservicios.add(i, usuariocontroller.obtenerProveedores().get(indice).getServicios().get(i).getNombre());
+        for (int i = 0; i < portUsuario.obtenerTodosProveedoresWS().get(indice).getServicios().size(); i++) {
+            listaservicios.add(i, portUsuario.obtenerTodosProveedoresWS().get(indice).getServicios().get(i).getNombre());
         }
         ListaServicios.setModel(listaservicios);
     }//GEN-LAST:event_ListaProveedoresValueChanged
@@ -289,11 +294,11 @@ public class VerInfoProveedor extends javax.swing.JFrame {
         int index = ListaServicios.getSelectedIndex();
         indiceProv = ListaProveedores.getSelectedIndex();
         if(ListaServicios.getSelectedIndex() >= 0) {
-            NombServicioAllenar.setText(usuariocontroller.obtenerProveedores().get(indiceProv).getServicios().get(index).getNombre());
-            DescServicioAllenar.setText(usuariocontroller.obtenerProveedores().get(indiceProv).getServicios().get(index).getDescripcion());
-            PrecioServicioAllenar.setText(Double.toString(usuariocontroller.obtenerProveedores().get(indiceProv).getServicios().get(index).getPrecio()));
-            OrigenServicioAllenar.setText(usuariocontroller.obtenerProveedores().get(indiceProv).getServicios().get(index).getOrigen().getNombre());
-            DestinoServicioAllenar.setText(usuariocontroller.obtenerProveedores().get(indiceProv).getServicios().get(index).getDestino().getNombre());
+            NombServicioAllenar.setText(portUsuario.obtenerTodosProveedoresWS().get(indiceProv).getServicios().get(index).getNombre());
+            DescServicioAllenar.setText(portUsuario.obtenerTodosProveedoresWS().get(indiceProv).getServicios().get(index).getDescripcion());
+            PrecioServicioAllenar.setText(Double.toString(portUsuario.obtenerTodosProveedoresWS().get(indiceProv).getServicios().get(index).getPrecio()));
+            OrigenServicioAllenar.setText(portUsuario.obtenerTodosProveedoresWS().get(indiceProv).getServicios().get(index).getOrigen().getNombre());
+            DestinoServicioAllenar.setText(portUsuario.obtenerTodosProveedoresWS().get(indiceProv).getServicios().get(index).getDestino().getNombre());
         }
     }//GEN-LAST:event_ListaServiciosValueChanged
 
@@ -331,7 +336,11 @@ public class VerInfoProveedor extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new VerInfoProveedor().setVisible(true);
+                try {
+                    new VerInfoProveedor().setVisible(true);
+                } catch (MalformedURLException ex) {
+                    Logger.getLogger(VerInfoProveedor.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
