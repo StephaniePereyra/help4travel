@@ -6,6 +6,9 @@
 		</Console>
 	</Appenders>
 	<Loggers>
+		<logger name="javax.persistence">
+			<level value="debug" />
+		</logger>
 		<Root level="debug">
 			<AppenderRef ref="Console" />
 		</Root>
