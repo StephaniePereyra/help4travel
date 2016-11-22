@@ -124,7 +124,7 @@ public class AltaServicio extends javax.swing.JFrame {
                 Enumeration<DefaultMutableTreeNode> enumerationNodo = root.depthFirstEnumeration();
                 while (enumerationNodo.hasMoreElements()) {
                     DefaultMutableTreeNode nodoAuxiliar = enumerationNodo.nextElement();
-                    if (nodoAuxiliar.toString().equals(categoriaAuxiliar.getPadre().getNombre())) {
+                    if (nodoAuxiliar.toString().equals(categoriaAuxiliar.getPadre())) {
                         model.insertNodeInto(new DefaultMutableTreeNode(categoriaAuxiliar.getNombre()), nodoAuxiliar, nodoAuxiliar.getChildCount());
                     }
                 }

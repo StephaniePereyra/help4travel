@@ -59,7 +59,7 @@ public class ActualizarServicio extends javax.swing.JFrame {
      * Creates new form ActualizarServicio
      */
     public ActualizarServicio() throws IOException {
-
+/*
         initComponents();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
@@ -119,7 +119,7 @@ public class ActualizarServicio extends javax.swing.JFrame {
         }
         listOrigen.setModel(listCiudadesOrigen);
         listCiudadesDestino.addElement("<null>");
-        listDestino.setModel(listCiudadesDestino);
+        listDestino.setModel(listCiudadesDestino);*/
     }
 
     /**
@@ -477,7 +477,7 @@ public class ActualizarServicio extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonBackActionPerformed
 
     private void listServiciosValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listServiciosValueChanged
-        int indice = listServicios.getSelectedIndex();
+        /*int indice = listServicios.getSelectedIndex();
         labelImage1.setIcon(null);
         labelImage2.setIcon(null);
         labelImage3.setIcon(null);
@@ -502,7 +502,7 @@ public class ActualizarServicio extends javax.swing.JFrame {
             Image imageFinal = image.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH);
             ImageIcon imageIconFinal = new ImageIcon(imageFinal);
             imagenes.get(i).setIcon(imageIconFinal);
-        }
+        }*/
     }//GEN-LAST:event_listServiciosValueChanged
 
     private void textFieldPrecioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFieldPrecioKeyTyped
@@ -610,7 +610,7 @@ public class ActualizarServicio extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonChangeDestinoActionPerformed
 
     private void buttonChangeCategoriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonChangeCategoriasActionPerformed
-        labelMessageError.setText(" ");
+       /* labelMessageError.setText(" ");
         if (listServicios.getSelectedValue() != null) {
             if (listCategorias.getModel().getSize() != 0) {
                 int indiceServicio = listServicios.getSelectedIndex();
@@ -625,11 +625,11 @@ public class ActualizarServicio extends javax.swing.JFrame {
             }
         } else {
             labelMessageError.setText("Seleccione un servicio");
-        }
+        }*/
     }//GEN-LAST:event_buttonChangeCategoriasActionPerformed
 
     private void buttonAddImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddImageActionPerformed
-        labelMessageError.setText(" ");
+      /*  labelMessageError.setText(" ");
         if (listServicios.getSelectedValue() != null) {
             int indiceServicio = listServicios.getSelectedIndex();
             if (portServicio.obtenerTodosServiciosWS().get(indiceServicio).getImagenes().size() < 3) {
@@ -663,11 +663,11 @@ public class ActualizarServicio extends javax.swing.JFrame {
             }
         } else {
             labelMessageError.setText("Seleccione un servicio");
-        }
+        }*/
     }//GEN-LAST:event_buttonAddImageActionPerformed
 
     private void buttonRemoveImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRemoveImageActionPerformed
-        labelMessageError.setText(" ");
+       /* labelMessageError.setText(" ");
         if (listServicios.getSelectedValue() != null) {
             if (!textFieldIndexImage.getText().isEmpty()) {
                 int indiceServicio = listServicios.getSelectedIndex();
@@ -697,7 +697,7 @@ public class ActualizarServicio extends javax.swing.JFrame {
             }
         } else {
             labelMessageError.setText("Seleccione un servicio");
-        }
+        }*/
     }//GEN-LAST:event_buttonRemoveImageActionPerformed
 
     /**

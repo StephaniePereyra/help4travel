@@ -229,13 +229,13 @@ public class EstadoReserva extends javax.swing.JFrame {
     private void pagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pagarActionPerformed
          if (!listaReservas.getSelectedValuesList().isEmpty()) {
             int index = listaReservas.getSelectedIndex();
-            if (reservaController.cambiarEstado(reservaController.obtenerTodasReservas().get(index), "Paga")) {
+            /*if (reservaController.cambiarEstado(reservaController.obtenerTodasReservas().get(index), "Paga")) {
                 JOptionPane.showMessageDialog(null, "Paga");
                 this.dispose();
             }
             else {
                 JOptionPane.showMessageDialog(null, "Error");
-            }
+            }*/
         }
         else {
             JOptionPane.showMessageDialog(null, "Error: seleccione una reserva");
@@ -251,14 +251,14 @@ public class EstadoReserva extends javax.swing.JFrame {
         Precio.setText(Double.toString(portReserva.obtenerTodasReservasWS().get(indice).getPrecio()));
         Estado.setText(portReserva.obtenerTodasReservasWS().get(indice).getEstado());
         listPromocion.clear();
-        for (int i = 0; i < portReserva.obtenerTodasReservasWS().get(indice).getPromociones().size(); i++) {
+      /*  for (int i = 0; i < portReserva.obtenerTodasReservasWS().get(indice).getPromociones().size(); i++) {
             listPromocion.add(i, portReserva.obtenerTodasReservasWS().get(indice).getPromociones().get(i).getNombre());
         }
         listaPromocion.setModel(listPromocion);
         listServicio.clear();
         for (int i = 0; i < portReserva.obtenerTodasReservasWS().get(indice).getServicios().size(); i++) {
             listServicio.add(i, portReserva.obtenerTodasReservasWS().get(indice).getServicios().get(i).getNombre());
-        }
+        }*/
         listaServicios.setModel(listServicio);
     }//GEN-LAST:event_listaReservasValueChanged
 

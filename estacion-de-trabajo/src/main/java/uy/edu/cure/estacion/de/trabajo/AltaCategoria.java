@@ -19,6 +19,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClientBuilder;
 import uy.edu.cure.servidor.central.dto.Categoria;
+import uy.edu.cure.servidor.central.dto.DatosRest;
 import uy.edu.cure.servidor.central.soap.client.CategoriaWS;
 import uy.edu.cure.servidor.central.soap.client.CategoriaWSImplService;
 
@@ -49,9 +50,9 @@ public class AltaCategoria extends javax.swing.JFrame {
 
         DefaultTreeModel model = (DefaultTreeModel) treeCategorias.getModel();
         DefaultMutableTreeNode root = (DefaultMutableTreeNode) model.getRoot();
-        List categoriasAux = null;
+        DatosRest categoriasAux = null;
         
-        url = "http://localhost:8080/servidor-central-webapp/rest/api/ObtenerCategorias";
+        url = "http://localhost:8080/servidor-central-webapp/rest/api/ObtenerCategorias/traer";
         HttpClient client = HttpClientBuilder.create().build();
         HttpGet request = new HttpGet(url);
         ObjectMapper mapper = new ObjectMapper();
@@ -60,21 +61,21 @@ public class AltaCategoria extends javax.swing.JFrame {
         try {
             response = client.execute(request);
             result = getStringFromInputStream(response.getEntity().getContent());
-            categoriasAux = mapper.readValue(result, List.class);
+            categoriasAux = mapper.readValue(result, DatosRest.class);
         } catch (IOException ex) {
             Logger.getLogger(AltaCategoria.class.getName()).log(Level.SEVERE, null, ex);
         }
-        int i = categoriasAux.size();
-        Iterator<Categoria> iteratorCategorias = categoriasAux.iterator();
+        int i = categoriasAux.getCategorias().size();
+        Iterator<Categoria> iteratorCategorias = categoriasAux.getCategorias().iterator();
         while (iteratorCategorias.hasNext()) {
             Categoria categoriaAuxiliar = iteratorCategorias.next();
-            if (categoriaAuxiliar.getPadre() == null) {
+            if (categoriaAuxiliar.getPadre() == "") {
                 root.add(new DefaultMutableTreeNode(categoriaAuxiliar.getNombre()));
             } else {
                 Enumeration<DefaultMutableTreeNode> enumerationNodo = root.depthFirstEnumeration();
                 while (enumerationNodo.hasMoreElements()) {
                     DefaultMutableTreeNode nodoAuxiliar = enumerationNodo.nextElement();
-                    if (nodoAuxiliar.toString().equals(categoriaAuxiliar.getPadre().getNombre())) {
+                    if (nodoAuxiliar.toString().equals(categoriaAuxiliar.getPadre())) {
                         model.insertNodeInto(new DefaultMutableTreeNode(categoriaAuxiliar.getNombre()), nodoAuxiliar, nodoAuxiliar.getChildCount());
                     }
                 }
@@ -216,7 +217,7 @@ public class AltaCategoria extends javax.swing.JFrame {
                  */
                 DefaultTreeModel model = (DefaultTreeModel) treeCategorias.getModel();
                 DefaultMutableTreeNode root = (DefaultMutableTreeNode) model.getRoot();
-                if (convertidor.convertirCategoria(portCategoria.obtenerCategoria(txtCategoria.getText()).getPadre()) == null) {
+                if (portCategoria.obtenerCategoria(txtCategoria.getText()).getPadre() == "") {
                     model.insertNodeInto(new DefaultMutableTreeNode(txtCategoria.getText()),
                             root, root.getChildCount());
                 } else {

@@ -451,7 +451,7 @@ public class AltaProveedor extends javax.swing.JFrame {
             dia = Integer.parseInt(DiaProveedorForm.getText());
             mes = Integer.parseInt(MesProveedorForm.getText());
             anio = Integer.parseInt(AñioProveedorForm.getText());
-            int resultado = portUsuario.crearProveedorWS(UserNameProveedorForm.getText(), NombreProveedorForm.getText(), ApellidoProveedorForm.getText(), CorreoProveedorForm.getText(), dia, mes, anio, NombreEmpresaProveedorForm.getText(), LinkEmpresaProveedorForm.getText(), rutaImagen, textFieldPassword.getText(), textFieldPasswordConfirm.getText());
+            int resultado = portUsuario.crearProeveedorWS(UserNameProveedorForm.getText(), NombreProveedorForm.getText(), ApellidoProveedorForm.getText(), CorreoProveedorForm.getText(), dia, mes, anio, NombreEmpresaProveedorForm.getText(), LinkEmpresaProveedorForm.getText(), rutaImagen, textFieldPassword.getText(), textFieldPasswordConfirm.getText());
             switch (resultado) {
                 case -1:
                     javax.swing.JOptionPane.showMessageDialog(null, "Cliente dado de alta", "Alta cliente", 1);

@@ -75,7 +75,7 @@ public class VerInfoServicio extends javax.swing.JFrame {
                 Enumeration<DefaultMutableTreeNode> enumerationNodo = root.depthFirstEnumeration();
                 while (enumerationNodo.hasMoreElements()) {
                     DefaultMutableTreeNode nodoAuxiliar = enumerationNodo.nextElement();
-                    if (nodoAuxiliar.toString().equals(categoriaAuxiliar.getPadre().getNombre())) {
+                    if (nodoAuxiliar.toString().equals(categoriaAuxiliar.getPadre())) {
                         model.insertNodeInto(new DefaultMutableTreeNode(categoriaAuxiliar.getNombre()), nodoAuxiliar, nodoAuxiliar.getChildCount());
                     }
                 }
@@ -256,7 +256,7 @@ public class VerInfoServicio extends javax.swing.JFrame {
         DefaultListModel listaProveedores = new DefaultListModel();
         DefaultMutableTreeNode nodoSeleccionado = (DefaultMutableTreeNode) treeCategorias.getLastSelectedPathComponent();
         Iterator<uy.edu.cure.servidor.central.soap.client.Servicio> iteratorServicios = portServicio.obtenerTodosServiciosWS().iterator();
-        while (iteratorServicios.hasNext()) {
+        /*while (iteratorServicios.hasNext()) {
             uy.edu.cure.servidor.central.soap.client.Servicio servicioAuxiliar = iteratorServicios.next();
             Iterator<uy.edu.cure.servidor.central.soap.client.Categoria> iteratorCategorias = servicioAuxiliar.getCategorias().iterator();
             while (iteratorCategorias.hasNext()) {
@@ -266,7 +266,7 @@ public class VerInfoServicio extends javax.swing.JFrame {
                     listaProveedores.addElement(servicioAuxiliar.getProveedor().getNickName());
                 }
             }
-        }
+        }*/
         listServicios.setModel(listaServicios);
         listProveedores.setModel(listaProveedores);
     }//GEN-LAST:event_treeCategoriasValueChanged
@@ -291,13 +291,13 @@ public class VerInfoServicio extends javax.swing.JFrame {
             } else {
                 labelCiudadDestino.setText("Ciudad de Destino: " + portServicio.obtenerServicioWS(listServicios.getSelectedValue(), listaProveedores.get(indice).toString()).getDestino().getNombre());
             }
-            for (int i = 0; i < portServicio.obtenerServicioWS(listServicios.getSelectedValue(), listaProveedores.get(indice).toString()).getImagenes().size(); i++) {
+            /*for (int i = 0; i < portServicio.obtenerServicioWS(listServicios.getSelectedValue(), listaProveedores.get(indice).toString()).getImagenes().size(); i++) {
                 ImageIcon imageIcon = new ImageIcon(portServicio.obtenerServicioWS(listServicios.getSelectedValue(), listaProveedores.get(indice).toString()).getImagenes().get(i));
                 Image image = imageIcon.getImage();
                 Image imageFinal = image.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH);
                 ImageIcon imageIconFinal = new ImageIcon(imageFinal);
                 labels.get(i).setIcon(imageIconFinal);
-            }
+            }*/
         }
     }//GEN-LAST:event_listServiciosValueChanged
 

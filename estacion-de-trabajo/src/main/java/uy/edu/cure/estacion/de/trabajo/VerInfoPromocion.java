@@ -29,7 +29,7 @@ public class VerInfoPromocion extends javax.swing.JFrame {
     private PromocionWSImplService promocionWSImplService;
     private PromocionWS portPromocion;
     
-    ServicioControllerImpl servicioController;
+   // ServicioControllerImpl servicioController;
     List<JLabel> imagenes;
 
     /**
@@ -246,15 +246,15 @@ public class VerInfoPromocion extends javax.swing.JFrame {
         int descuento = portPromocion.obtenerTodasPromociones().get(indicePromocion).getDescuento();
         labelDescuento.setText("Descuento: " + descuento);
         DefaultListModel listaServicios = new DefaultListModel();
-        for (int i = 0; i < portPromocion.obtenerTodasPromociones().get(indicePromocion).getServicios().size(); i++) {
+/*        for (int i = 0; i < portPromocion.obtenerTodasPromociones().get(indicePromocion).getServicios().size(); i++) {
             String servicio = portPromocion.obtenerTodasPromociones().get(indicePromocion).getServicios().get(i).getNombre();
             listaServicios.addElement(servicio);
-        }
+        }*/
         listServicios.setModel(listaServicios);
     }//GEN-LAST:event_listPromocionesValueChanged
 
     private void listServiciosValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listServiciosValueChanged
-        if (listServicios.getSelectedIndex() >= 0) {
+       /* if (listServicios.getSelectedIndex() >= 0) {
             String nombreServicio = listServicios.getSelectedValue();
             int indicePromocion = listPromociones.getSelectedIndex();
             String nombreProveedor = portPromocion.obtenerTodasPromociones().get(indicePromocion).getProveedor().getNickName();
@@ -280,7 +280,7 @@ public class VerInfoPromocion extends javax.swing.JFrame {
                 ImageIcon imageIconFinal = new ImageIcon(imageFinal);
                 imagenes.get(i).setIcon(imageIconFinal);
             }
-        }
+        }*/
     }//GEN-LAST:event_listServiciosValueChanged
 
     /**

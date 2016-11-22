@@ -63,8 +63,8 @@ public class CategoriaControllerImplTest {
         boolean result = false;
         boolean prueba = false;
         CategoriaControllerImpl instance = new CategoriaControllerImpl();
-        prueba = instance.darAltaCategoria("Pedicuria", " ");
-        result = instance.darAltaCategoria("Pedicuria", " ");
+        prueba = instance.darAltaCategoria("Pedicuria", "");
+        result = instance.darAltaCategoria("Pedicuria", "");
         assertEquals(expResult, result);
         instance.vaciarPersistenciaCategoria();
     }

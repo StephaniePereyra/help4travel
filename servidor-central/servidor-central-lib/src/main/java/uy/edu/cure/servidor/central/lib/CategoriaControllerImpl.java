@@ -22,13 +22,13 @@ public class CategoriaControllerImpl implements CategoriaController {
     @Override
     public boolean darAltaCategoria(String nombre, String nombrePadre) {
         Categoria categoria = new Categoria(nombre);
-        Categoria categoriaPadre = categoriaService.obtenerCategoria(nombrePadre);
+        //Categoria categoriaPadre = categoriaService.obtenerCategoria(nombrePadre);
         if (!categoriaService.existeCategoria(nombre)) {
-            if (categoriaPadre == null) {
-                categoria.setPadre(null);
+            if (nombrePadre.isEmpty()) {
+                categoria.setPadre("");
             } else {
-                categoriaPadre.setHijos(categoria);
-                categoria.setPadre(categoriaPadre);
+                categoriaService.obtenerCategoria(nombrePadre).setHijosdeAuno(categoria);
+                categoria.setPadre(nombrePadre);
             }
             guardarCategoria(categoria);
             return true;

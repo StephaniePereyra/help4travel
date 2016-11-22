@@ -10,7 +10,6 @@ import javax.faces.bean.SessionScoped;
 @SessionScoped
 public class EnviadorMail {
     
-    
     final String miCorreo = "progapplabo@gmail.com";
     final String miContraseña = "programaciondeaplicaciones123";
     final String servidorSMTP = "smtp.gmail.com";

@@ -108,7 +108,7 @@ public class Converter {
         ciudadAuxiliar = new Ciudad();
         if(ciudad != null){
         ciudadAuxiliar.setNombre(ciudad.getNombre());
-        ciudadAuxiliar.setPais(ciudad.getPais().getNombre());  
+       // ciudadAuxiliar.setPais(ciudad.getPais().getNombre());  
         }
         else{
             ciudadAuxiliar = null;
@@ -123,7 +123,7 @@ public class Converter {
             return null;
         }else{
             categoriaAuxiliar.setNombre(categoria.getNombre());
-            categoriaAuxiliar.setPadre(convertirPadreCat(categoria.getPadre()));
+            //categoriaAuxiliar.setPadre(categoria.getPadre());
             return categoriaAuxiliar;
         }
     }

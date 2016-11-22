@@ -271,9 +271,9 @@ public class AltaPromocion extends javax.swing.JFrame {
     private void listProveedoresValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listProveedoresValueChanged
         int indiceProveedor = listProveedores.getSelectedIndex();
         DefaultListModel listaServicios = new DefaultListModel();
-        for (int i = 0; i < portUsuario.obtenerTodosProveedoresWS().get(indiceProveedor).getServicios().size(); i++) {
+/*        for (int i = 0; i < portUsuario.obtenerTodosProveedoresWS().get(indiceProveedor).getServicios().size(); i++) {
             listaServicios.addElement(portUsuario.obtenerTodosProveedoresWS().get(indiceProveedor).getServicios().get(i).getNombre());
-        }
+        }*/
         listServiciosDisponibles.setModel(listaServicios);
         listServiciosPromocion.setModel(new DefaultListModel());
     }//GEN-LAST:event_listProveedoresValueChanged

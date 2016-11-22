@@ -284,22 +284,22 @@ public class VerInfoProveedor extends javax.swing.JFrame {
         ImagenPerfil.setSize(155, 175);
         //Aqui carga la lista de servicios dependiendo de que proveedor este seleccionado.
         DefaultListModel listaservicios = new DefaultListModel();
-        for (int i = 0; i < portUsuario.obtenerTodosProveedoresWS().get(indice).getServicios().size(); i++) {
+   /*     for (int i = 0; i < portUsuario.obtenerTodosProveedoresWS().get(indice).getServicios().size(); i++) {
             listaservicios.add(i, portUsuario.obtenerTodosProveedoresWS().get(indice).getServicios().get(i).getNombre());
-        }
+        }*/
         ListaServicios.setModel(listaservicios);
     }//GEN-LAST:event_ListaProveedoresValueChanged
 
     private void ListaServiciosValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_ListaServiciosValueChanged
         int index = ListaServicios.getSelectedIndex();
         indiceProv = ListaProveedores.getSelectedIndex();
-        if(ListaServicios.getSelectedIndex() >= 0) {
+        /*if(ListaServicios.getSelectedIndex() >= 0) {
             NombServicioAllenar.setText(portUsuario.obtenerTodosProveedoresWS().get(indiceProv).getServicios().get(index).getNombre());
             DescServicioAllenar.setText(portUsuario.obtenerTodosProveedoresWS().get(indiceProv).getServicios().get(index).getDescripcion());
             PrecioServicioAllenar.setText(Double.toString(portUsuario.obtenerTodosProveedoresWS().get(indiceProv).getServicios().get(index).getPrecio()));
             OrigenServicioAllenar.setText(portUsuario.obtenerTodosProveedoresWS().get(indiceProv).getServicios().get(index).getOrigen().getNombre());
             DestinoServicioAllenar.setText(portUsuario.obtenerTodosProveedoresWS().get(indiceProv).getServicios().get(index).getDestino().getNombre());
-        }
+        }*/
     }//GEN-LAST:event_ListaServiciosValueChanged
 
     private void BotonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonCancelarActionPerformed

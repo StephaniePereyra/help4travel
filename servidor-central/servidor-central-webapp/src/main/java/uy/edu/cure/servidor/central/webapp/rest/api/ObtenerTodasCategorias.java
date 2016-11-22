@@ -12,6 +12,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import uy.edu.cure.servidor.central.dto.Categoria;
+import uy.edu.cure.servidor.central.dto.DatosRest;
 import uy.edu.cure.servidor.central.lib.CategoriaControllerImpl;
 
 /**
@@ -25,8 +26,8 @@ public class ObtenerTodasCategorias {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getTodas(){
         CategoriaControllerImpl categoriaController = new CategoriaControllerImpl();
-        List<Categoria> categoriasAux;
-        categoriasAux = categoriaController.obtenerTodosCategorias();
+        DatosRest categoriasAux = new DatosRest();
+        categoriasAux.setCategorias(categoriaController.obtenerTodosCategorias());
         return Response.status(Response.Status.OK).entity(categoriasAux).build();
     }
     

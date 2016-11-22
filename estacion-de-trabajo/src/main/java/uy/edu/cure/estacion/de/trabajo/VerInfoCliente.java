@@ -244,9 +244,9 @@ public class VerInfoCliente extends javax.swing.JFrame {
         ImagenPerfil.setIcon(nuevoIcono);
         ImagenPerfil.setSize(155, 175);
         DefaultListModel listReservas = new DefaultListModel();
-        for (int i = 0; i < portUsuario.obtenerTodosClientes().get(ListaClientes.getSelectedIndex()).getReservas().size(); i++) {
+       /* for (int i = 0; i < portUsuario.obtenerTodosClientes().get(ListaClientes.getSelectedIndex()).getReservas().size(); i++) {
             listReservas.addElement(portUsuario.obtenerTodosClientes().get(indice).getReservas().get(i).getNumero());
-        }
+        }*/
         listaReserva.setModel(listReservas);
     }//GEN-LAST:event_ListaClientesValueChanged
 
@@ -257,11 +257,11 @@ public class VerInfoCliente extends javax.swing.JFrame {
     private void listaReservaValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaReservaValueChanged
         int indice = listaReserva.getSelectedIndex();
         int indiceCliente = ListaClientes.getSelectedIndex();
-        fechaReservaALlenar.setText(String.valueOf(portUsuario.obtenerTodosClientes().get(indiceCliente).getReservas().get(indice).getFechaCreacion().getDay()) + "/"
+/*        fechaReservaALlenar.setText(String.valueOf(portUsuario.obtenerTodosClientes().get(indiceCliente).getReservas().get(indice).getFechaCreacion().getDay()) + "/"
                 + String.valueOf(portUsuario.obtenerTodosClientes().get(indiceCliente).getReservas().get(indice).getFechaCreacion().getMonth()) + "/"
                 + String.valueOf(portUsuario.obtenerTodosClientes().get(indiceCliente).getReservas().get(indice).getFechaCreacion().getYear()));
         precioReservaALlenar.setText(String.valueOf(portUsuario.obtenerTodosClientes().get(indiceCliente).getReservas().get(indice).getPrecio()));
-        estadoReservaALlenar.setText(portUsuario.obtenerTodosClientes().get(indiceCliente).getReservas().get(indice).getEstado());
+        estadoReservaALlenar.setText(portUsuario.obtenerTodosClientes().get(indiceCliente).getReservas().get(indice).getEstado());*/
     }//GEN-LAST:event_listaReservaValueChanged
 
     /**
