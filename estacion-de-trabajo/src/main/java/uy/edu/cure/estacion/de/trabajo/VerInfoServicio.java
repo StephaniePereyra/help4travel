@@ -5,7 +5,12 @@
  */
 package uy.edu.cure.estacion.de.trabajo;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.awt.Image;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -20,26 +25,43 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.HttpClientBuilder;
 import uy.edu.cure.servidor.central.dto.*;
 import uy.edu.cure.servidor.central.soap.client.CategoriaWS;
 import uy.edu.cure.servidor.central.soap.client.CategoriaWSImplService;
+
+import uy.edu.cure.servidor.central.soap.client.PromocionWS;
+import uy.edu.cure.servidor.central.soap.client.PromocionWSImplService;
+import uy.edu.cure.servidor.central.soap.client.UsuarioWS;
+import uy.edu.cure.servidor.central.soap.client.UsuarioWSImplService;
 import uy.edu.cure.servidor.central.soap.client.ServicioWS;
 import uy.edu.cure.servidor.central.soap.client.ServicioWSImplService;
-//import uy.edu.cure.servidor.web.Converter;
 
-
-/**
- *
- * @author Rodrigo "Lobo Plateado" Pérez
- */
 public class VerInfoServicio extends javax.swing.JFrame {
-    private CategoriaWS portCategoria;
-    private ServicioWS portServicio;
-    
-    private CategoriaWSImplService categoriaWSImplService;
+
+    private UsuarioWSImplService usuarioWSImplService;
+    private UsuarioWS portUsuario;
     private ServicioWSImplService servicioWSImplService;
-    
-    private List<JLabel> labels;
+    private ServicioWS portServicio;
+    private PromocionWSImplService promocionWSImplService;
+    private PromocionWS portPromocion;
+    private CategoriaWSImplService categoriaWSImplService;
+    private CategoriaWS portCategoria;
+
+    private String Separador = " // ";
+    //Separador es usado para separar el nombre de la promocion del nick del proveedor
+    //de esta forma se puede cumplir con los requerimientos actuales de la busqueda de una promocion
+
+    private String proveedorAux;
+    private String servicioAux;
+
+    private List<JLabel> imagenes;
+
+    private Converter convertidor;
+    private String url;
 
     /**
      * Creates new form VerInfoServicio
@@ -47,29 +69,47 @@ public class VerInfoServicio extends javax.swing.JFrame {
     public VerInfoServicio() {
         initComponents();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        
-          try {
-              servicioWSImplService = new ServicioWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/ServicioWSImplService?wsdl"));
-              categoriaWSImplService = new CategoriaWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/CategoriaWSImplService?wsdl"));
-        } catch (MalformedURLException e) {
-            Logger.getLogger(VerInfoServicio.class.getName()).log(Level.SEVERE,null,e);
-        }
-        portServicio = servicioWSImplService.getServicioWSImplPort();
-        portCategoria = categoriaWSImplService.getCategoriaWSImplPort();
-        
+
         setLocationRelativeTo(null);
-        labels = new ArrayList<JLabel>();
-        labels.add(labelImage1);
-        labels.add(labelImage2);
-        labels.add(labelImage3);
+        imagenes = new ArrayList<JLabel>();
+        imagenes.add(labelImage1);
+        imagenes.add(labelImage2);
+        imagenes.add(labelImage3);
         scrollPaneProveedores.setVisible(false);
         listProveedores.setVisible(false);
         DefaultTreeModel model = (DefaultTreeModel) treeCategorias.getModel();
         DefaultMutableTreeNode root = (DefaultMutableTreeNode) model.getRoot();
-        Iterator<uy.edu.cure.servidor.central.soap.client.Categoria> iteratorCategorias = portCategoria.obtenerTodasCategorias().iterator();
+        
+        setLocationRelativeTo(null);
+        convertidor = new Converter();
+
+        try {
+            categoriaWSImplService = new CategoriaWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/CategoriaWSImplService?wsdl"));
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(AltaCategoria.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        portCategoria = categoriaWSImplService.getCategoriaWSImplPort();
+
+        DatosRest categoriasAux = null;
+
+        url = "http://localhost:8080/servidor-central-webapp/rest/api/ObtenerCategorias/traer";
+        HttpClient client = HttpClientBuilder.create().build();
+        HttpGet request = new HttpGet(url);
+        ObjectMapper mapper = new ObjectMapper();
+        HttpResponse response = null;
+        String result = null;
+        try {
+            response = client.execute(request);
+            result = getStringFromInputStream(response.getEntity().getContent());
+            categoriasAux = mapper.readValue(result, DatosRest.class);
+        } catch (IOException ex) {
+            Logger.getLogger(AltaCategoria.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        int i = categoriasAux.getCategorias().size();
+        Iterator<Categoria> iteratorCategorias = categoriasAux.getCategorias().iterator();
         while (iteratorCategorias.hasNext()) {
-            uy.edu.cure.servidor.central.soap.client.Categoria categoriaAuxiliar = iteratorCategorias.next();
-            if (categoriaAuxiliar.getPadre() == null) {
+            Categoria categoriaAuxiliar = iteratorCategorias.next();
+            if (categoriaAuxiliar.getPadre() == "") {
                 root.add(new DefaultMutableTreeNode(categoriaAuxiliar.getNombre()));
             } else {
                 Enumeration<DefaultMutableTreeNode> enumerationNodo = root.depthFirstEnumeration();
@@ -82,6 +122,7 @@ public class VerInfoServicio extends javax.swing.JFrame {
             }
         }
         model.reload();
+        treeCategorias.setRootVisible(false);
     }
 
     /**
@@ -102,8 +143,8 @@ public class VerInfoServicio extends javax.swing.JFrame {
         labelProveedor = new javax.swing.JLabel();
         labelDescripcion = new javax.swing.JLabel();
         labelPrecio = new javax.swing.JLabel();
-        labelCiudadOrigen = new javax.swing.JLabel();
-        labelCiudadDestino = new javax.swing.JLabel();
+        labelOrigen = new javax.swing.JLabel();
+        labelDestino = new javax.swing.JLabel();
         buttonAtras = new javax.swing.JButton();
         scrollPaneProveedores = new javax.swing.JScrollPane();
         listProveedores = new javax.swing.JList<>();
@@ -141,9 +182,9 @@ public class VerInfoServicio extends javax.swing.JFrame {
 
         labelPrecio.setText("Precio: ");
 
-        labelCiudadOrigen.setText("Ciudad de origen: ");
+        labelOrigen.setText("Ciudad de origen: ");
 
-        labelCiudadDestino.setText("Ciudad de destino: ");
+        labelDestino.setText("Ciudad de destino: ");
 
         buttonAtras.setText("Atras");
         buttonAtras.addActionListener(new java.awt.event.ActionListener() {
@@ -194,8 +235,8 @@ public class VerInfoServicio extends javax.swing.JFrame {
                                         .addComponent(scrollPaneProveedores, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(labelDescripcion)
                                     .addComponent(labelPrecio)
-                                    .addComponent(labelCiudadOrigen)
-                                    .addComponent(labelCiudadDestino))
+                                    .addComponent(labelOrigen)
+                                    .addComponent(labelDestino))
                                 .addGap(64, 64, 64))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(labelImage1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -227,9 +268,9 @@ public class VerInfoServicio extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(labelPrecio)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(labelCiudadOrigen)
+                        .addComponent(labelOrigen)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(labelCiudadDestino)))
+                        .addComponent(labelDestino)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelImage1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -247,28 +288,43 @@ public class VerInfoServicio extends javax.swing.JFrame {
         labelProveedor.setText("Proveedor: ");
         labelDescripcion.setText("Descripcion: ");
         labelPrecio.setText("Precio: ");
-        labelCiudadOrigen.setText("Ciudad de origen: ");
-        labelCiudadDestino.setText("Ciudad de destino: ");
+        labelOrigen.setText("Ciudad de origen: ");
+        labelDestino.setText("Ciudad de destino: ");
         labelImage1.setIcon(null);
         labelImage2.setIcon(null);
         labelImage3.setIcon(null);
+
         DefaultListModel listaServicios = new DefaultListModel();
-        DefaultListModel listaProveedores = new DefaultListModel();
+        //DefaultListModel listaProveedores = new DefaultListModel();
+
+        try {
+            servicioWSImplService = new ServicioWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/ServicioWSImplService?wsdl"));
+        } catch (MalformedURLException ex) {
+            //Logger.getLogger(VerInfoProveedor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        portServicio = servicioWSImplService.getServicioWSImplPort();
+
         DefaultMutableTreeNode nodoSeleccionado = (DefaultMutableTreeNode) treeCategorias.getLastSelectedPathComponent();
+        portServicio.obtenerTodosServiciosWS();
         Iterator<uy.edu.cure.servidor.central.soap.client.Servicio> iteratorServicios = portServicio.obtenerTodosServiciosWS().iterator();
-        /*while (iteratorServicios.hasNext()) {
+        //Iterator<Servicio> iteratorServicios = servicioController.obtenerTodosServicios().iterator();
+        while (iteratorServicios.hasNext()) {
             uy.edu.cure.servidor.central.soap.client.Servicio servicioAuxiliar = iteratorServicios.next();
-            Iterator<uy.edu.cure.servidor.central.soap.client.Categoria> iteratorCategorias = servicioAuxiliar.getCategorias().iterator();
+            Iterator<uy.edu.cure.servidor.central.soap.client.Categoria> iteratorCategorias = portServicio.obtenerCategoriasServicioWS(servicioAuxiliar.getNombre(), servicioAuxiliar.getProveedor().getNickName()).iterator();
             while (iteratorCategorias.hasNext()) {
                 uy.edu.cure.servidor.central.soap.client.Categoria categoriaAuxiliar = iteratorCategorias.next();
                 if (categoriaAuxiliar.getNombre().equals(nodoSeleccionado.toString())) {
-                    listaServicios.addElement(servicioAuxiliar.getNombre());
-                    listaProveedores.addElement(servicioAuxiliar.getProveedor().getNickName());
+                    String nomServAux = servicioAuxiliar.getNombre();
+                    String nickProvAux = servicioAuxiliar.getProveedor().getNickName();
+                    listaServicios.addElement(nomServAux + Separador + nickProvAux);
+                    //listaServicios.addElement(servicioAuxiliar.getNombre());
+                    //listaProveedores.addElement(servicioAuxiliar.getProveedor().getNickName());
                 }
             }
-        }*/
+        }
         listServicios.setModel(listaServicios);
-        listProveedores.setModel(listaProveedores);
+        //listProveedores.setModel(listaProveedores);
+
     }//GEN-LAST:event_treeCategoriasValueChanged
 
     private void buttonAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAtrasActionPerformed
@@ -276,29 +332,73 @@ public class VerInfoServicio extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonAtrasActionPerformed
 
     private void listServiciosValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listServiciosValueChanged
-        labelImage1.setIcon(null);
-        labelImage2.setIcon(null);
-        labelImage3.setIcon(null);
-        int indice = listServicios.getSelectedIndex();
-        if (indice >= 0) {
-            DefaultListModel listaProveedores = (DefaultListModel) listProveedores.getModel();
-            labelProveedor.setText("Proveedor: " + listaProveedores.get(indice).toString());
-            labelDescripcion.setText("Descripcion: " + portServicio.obtenerServicioWS(listServicios.getSelectedValue(), listaProveedores.get(indice).toString()).getDescripcion());
-            labelPrecio.setText("Precio: " + portServicio.obtenerServicioWS(listServicios.getSelectedValue(), listaProveedores.get(indice).toString()).getPrecio());
-            labelCiudadOrigen.setText("Ciudad de origen: " + portServicio.obtenerServicioWS(listServicios.getSelectedValue(), listaProveedores.get(indice).toString()).getOrigen().getNombre());
-            if (portServicio.obtenerServicioWS(listServicios.getSelectedValue(), listaProveedores.get(indice).toString()).getDestino() == null) {
-                labelCiudadDestino.setText("No hay ciudad de destino");
-            } else {
-                labelCiudadDestino.setText("Ciudad de Destino: " + portServicio.obtenerServicioWS(listServicios.getSelectedValue(), listaProveedores.get(indice).toString()).getDestino().getNombre());
-            }
-            /*for (int i = 0; i < portServicio.obtenerServicioWS(listServicios.getSelectedValue(), listaProveedores.get(indice).toString()).getImagenes().size(); i++) {
-                ImageIcon imageIcon = new ImageIcon(portServicio.obtenerServicioWS(listServicios.getSelectedValue(), listaProveedores.get(indice).toString()).getImagenes().get(i));
-                Image image = imageIcon.getImage();
-                Image imageFinal = image.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH);
-                ImageIcon imageIconFinal = new ImageIcon(imageFinal);
-                labels.get(i).setIcon(imageIconFinal);
-            }*/
+        /*try {
+            servicioWSImplService = new ServicioWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/ServicioWSImplService?wsdl"));
+        } catch (MalformedURLException ex) {
+            //Logger.getLogger(VerInfoProveedor.class.getName()).log(Level.SEVERE, null, ex);
         }
+        portServicio = servicioWSImplService.getServicioWSImplPort();
+
+        servicioAux = listServicios.getSelectedValue();
+
+        labelDescripcion.setText(portServicio.obtenerServicioWS(servicioAux, proveedorAux).getDescripcion());
+        labelPrecio.setText("Precio: " + String.valueOf(portServicio.obtenerServicioWS(servicioAux, proveedorAux).getPrecio()));
+        labelOrigen.setText("Ciudad de origen: " + portServicio.obtenerServicioWS(servicioAux, proveedorAux).getOrigen().getNombre());
+        if (portServicio.obtenerServicioWS(servicioAux, proveedorAux).getDestino() == null) {
+            labelDestino.setText("No hay ciudad de destino");
+        } else {
+            labelDestino.setText("Ciudad de destino: " + portServicio.obtenerServicioWS(servicioAux, proveedorAux).getDestino().getNombre());
+        }
+
+        //Imagenes del servicio
+        for (int i = 0; i < portServicio.obtenerImagenesServicioWS(servicioAux, proveedorAux).size(); i++) {
+            ImageIcon imageIcon = new ImageIcon(portServicio.obtenerImagenesServicioWS(servicioAux, proveedorAux).get(i));
+            Image image = imageIcon.getImage();
+            Image imageFinal = image.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH);
+            ImageIcon imageIconFinal = new ImageIcon(imageFinal);
+            imagenes.get(i).setIcon(imageIconFinal);
+        }*/
+
+        try {
+            servicioWSImplService = new ServicioWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/ServicioWSImplService?wsdl"));
+        } catch (MalformedURLException ex) {
+            //Logger.getLogger(VerInfoProveedor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        portServicio = servicioWSImplService.getServicioWSImplPort();
+
+        String aux = listServicios.getSelectedValue();
+        String[] arrayPromocionAux = aux.split(Separador);
+        servicioAux = arrayPromocionAux[0];
+        proveedorAux = arrayPromocionAux[1];
+
+        labelProveedor.setText("Proveedor: " + proveedorAux);
+        labelDescripcion.setText("Descripcion: " + portServicio.obtenerServicioWS(servicioAux, proveedorAux).getDescripcion());
+        labelPrecio.setText("Precio: " + String.valueOf(portServicio.obtenerServicioWS(servicioAux, proveedorAux).getPrecio()));
+        labelOrigen.setText("Ciudad de origen: " + portServicio.obtenerServicioWS(servicioAux, proveedorAux).getOrigen().getNombre());
+        if (portServicio.obtenerServicioWS(servicioAux, proveedorAux).getDestino() == null) {
+            labelDestino.setText("No hay ciudad de destino");
+        } else {
+            labelDestino.setText("Ciudad de destino: " + portServicio.obtenerServicioWS(servicioAux, proveedorAux).getDestino().getNombre());
+        }
+
+        //Categorias del servicio
+        //String categorias = "Categorias: ";
+        /*
+            for (int i = 0; i < servicio.getCategorias().size(); i++) {
+                categorias = categorias + servicio.getCategorias().get(i).getNombre();
+                categorias = categorias + " ";
+            }*/
+        //labelServicioCategorias.setText(categorias);
+        //Imagenes del servicio
+        for (int i = 0; i < portServicio.obtenerImagenesServicioWS(servicioAux, proveedorAux).size(); i++) {
+            ImageIcon imageIcon = new ImageIcon(portServicio.obtenerImagenesServicioWS(servicioAux, proveedorAux).get(i));
+            Image image = imageIcon.getImage();
+            Image imageFinal = image.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH);
+            ImageIcon imageIconFinal = new ImageIcon(imageFinal);
+            imagenes.get(i).setIcon(imageIconFinal);
+        }
+
+
     }//GEN-LAST:event_listServiciosValueChanged
 
     /**
@@ -341,12 +441,12 @@ public class VerInfoServicio extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel labelCategorias;
-    private javax.swing.JLabel labelCiudadDestino;
-    private javax.swing.JLabel labelCiudadOrigen;
     private javax.swing.JLabel labelDescripcion;
+    private javax.swing.JLabel labelDestino;
     private javax.swing.JLabel labelImage1;
     private javax.swing.JLabel labelImage2;
     private javax.swing.JLabel labelImage3;
+    private javax.swing.JLabel labelOrigen;
     private javax.swing.JLabel labelPrecio;
     private javax.swing.JLabel labelProveedor;
     private javax.swing.JLabel labelServicios;
@@ -355,4 +455,33 @@ public class VerInfoServicio extends javax.swing.JFrame {
     private javax.swing.JScrollPane scrollPaneProveedores;
     private javax.swing.JTree treeCategorias;
     // End of variables declaration//GEN-END:variables
+
+    private String getStringFromInputStream(InputStream is) {
+        BufferedReader br = null;
+        StringBuilder sb = new StringBuilder();
+
+        String line;
+        try {
+
+            br = new BufferedReader(new InputStreamReader(is));
+            while ((line = br.readLine()) != null) {
+                sb.append(line);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return sb.toString();
+
+    }
+
 }

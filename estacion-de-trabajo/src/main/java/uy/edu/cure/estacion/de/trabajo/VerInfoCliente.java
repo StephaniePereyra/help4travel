@@ -14,26 +14,18 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
+
 import uy.edu.cure.servidor.central.soap.client.UsuarioWS;
 import uy.edu.cure.servidor.central.soap.client.UsuarioWSImplService;
 import uy.edu.cure.servidor.central.soap.client.ReservaWS;
 import uy.edu.cure.servidor.central.soap.client.ReservaWSImplService;
 
-/**
- *
- * @author SCN
- */
 public class VerInfoCliente extends javax.swing.JFrame {
 
     private UsuarioWSImplService usuarioWSImplService;
-    private ReservaWSImplService reservaWSImplService;
     private UsuarioWS portUsuario;
+    private ReservaWSImplService reservaWSImplService;
     private ReservaWS portReserva;
-//      private ReservaWS portReserva;
-//    @Jeringa (value = "reservacontroller")
-//    private ReservaControllerImpl reservaController;
-//    @Jeringa (value = "usuariocontroller")
-//    private UsuarioControllerImpl usuariocontroller;
 
     /**
      * Creates new form VerInfoCliente
@@ -41,22 +33,22 @@ public class VerInfoCliente extends javax.swing.JFrame {
     public VerInfoCliente() {
         initComponents();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-
+        
         try {
-            // JeringaInjector.getInstance().inyectar(this);
             usuarioWSImplService = new UsuarioWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/UsuarioWSImplService?wsdl"));
-        } catch (MalformedURLException e) {
-            Logger.getLogger(VerInfoCliente.class.getName()).log(Level.SEVERE, null, e);
+        } catch (MalformedURLException ex) {
+            //Logger.getLogger(VerInfoCliente.class.getName()).log(Level.SEVERE, null, ex);
         }
         portUsuario = usuarioWSImplService.getUsuarioWSImplPort();
-        portReserva = reservaWSImplService.getReservaWSImplPort();
 
         setLocationRelativeTo(null);
+
         DefaultListModel listaclientes = new DefaultListModel();
         for (int i = 0; i < portUsuario.obtenerTodosClientes().size(); i++) {
             listaclientes.add(i, portUsuario.obtenerTodosClientes().get(i).getNickName());
         }
         ListaClientes.setModel(listaclientes);
+
     }
 
     /**
@@ -229,25 +221,32 @@ public class VerInfoCliente extends javax.swing.JFrame {
         fechaReservaALlenar.setText(" ");
         precioReservaALlenar.setText(" ");
         estadoReservaALlenar.setText(" ");
-        int indice = ListaClientes.getSelectedIndex();
-        NombreAllenar.setText(portUsuario.obtenerTodosClientes().get(indice).getNombre());
-        ApellidoAllenar.setText(portUsuario.obtenerTodosClientes().get(indice).getApellido());
-        CorreoAllenar.setText(portUsuario.obtenerTodosClientes().get(indice).getCorreo());
-        String dia = Integer.toString(portUsuario.obtenerTodosClientes().get(indice).getFechanacimiento().getDay());
-        String mes = Integer.toString(portUsuario.obtenerTodosClientes().get(indice).getFechanacimiento().getMonth());
-        String anio = Integer.toString(portUsuario.obtenerTodosClientes().get(indice).getFechanacimiento().getYear());
+        String nickAux = ListaClientes.getSelectedValue();;
+
+        NombreAllenar.setText(portUsuario.obtenerClienteWS(nickAux).getNombre());
+        ApellidoAllenar.setText(portUsuario.obtenerClienteWS(nickAux).getApellido());
+        CorreoAllenar.setText(portUsuario.obtenerClienteWS(nickAux).getCorreo());
+        String dia = Integer.toString(portUsuario.obtenerClienteWS(nickAux).getFechanacimiento().getYear());
+        String mes = Integer.toString(portUsuario.obtenerClienteWS(nickAux).getFechanacimiento().getMonth());
+        String anio = Integer.toString(portUsuario.obtenerClienteWS(nickAux).getFechanacimiento().getYear());
         FechaAllenar.setText(dia + "/" + mes + "/" + anio);
-        ImageIcon iconoPerfil = new ImageIcon(portUsuario.obtenerTodosClientes().get(indice).getImagenPerfil());
+        
+        //Aca modificar para que lebante imagen
+        ImageIcon iconoPerfil = new ImageIcon(portUsuario.obtenerClienteWS(nickAux).getImagenPerfil());
         Image imagenPerfil = iconoPerfil.getImage();
         Image nuevaPerfil = imagenPerfil.getScaledInstance(155, 175, java.awt.Image.SCALE_SMOOTH);
         ImageIcon nuevoIcono = new ImageIcon(nuevaPerfil);
         ImagenPerfil.setIcon(nuevoIcono);
         ImagenPerfil.setSize(155, 175);
+
         DefaultListModel listReservas = new DefaultListModel();
-       /* for (int i = 0; i < portUsuario.obtenerTodosClientes().get(ListaClientes.getSelectedIndex()).getReservas().size(); i++) {
-            listReservas.addElement(portUsuario.obtenerTodosClientes().get(indice).getReservas().get(i).getNumero());
-        }*/
+        portUsuario.obtenerClienteWS(nickAux);
+        portUsuario.obtenerReservasClienteWS(nickAux).size();
+        for (int i = 0; i < portUsuario.obtenerReservasClienteWS(nickAux).size(); i++) {
+            listReservas.addElement(portUsuario.obtenerReservasClienteWS(nickAux).get(i).getNumero());
+        }
         listaReserva.setModel(listReservas);
+
     }//GEN-LAST:event_ListaClientesValueChanged
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -256,12 +255,14 @@ public class VerInfoCliente extends javax.swing.JFrame {
 
     private void listaReservaValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaReservaValueChanged
         int indice = listaReserva.getSelectedIndex();
-        int indiceCliente = ListaClientes.getSelectedIndex();
-/*        fechaReservaALlenar.setText(String.valueOf(portUsuario.obtenerTodosClientes().get(indiceCliente).getReservas().get(indice).getFechaCreacion().getDay()) + "/"
-                + String.valueOf(portUsuario.obtenerTodosClientes().get(indiceCliente).getReservas().get(indice).getFechaCreacion().getMonth()) + "/"
-                + String.valueOf(portUsuario.obtenerTodosClientes().get(indiceCliente).getReservas().get(indice).getFechaCreacion().getYear()));
-        precioReservaALlenar.setText(String.valueOf(portUsuario.obtenerTodosClientes().get(indiceCliente).getReservas().get(indice).getPrecio()));
-        estadoReservaALlenar.setText(portUsuario.obtenerTodosClientes().get(indiceCliente).getReservas().get(indice).getEstado());*/
+        String nickAux = ListaClientes.getSelectedValue();
+        portUsuario.obtenerReservasClienteWS(nickAux).get(indice).getFechaCreacion().getDay();
+        fechaReservaALlenar.setText(String.valueOf(portUsuario.obtenerReservasClienteWS(nickAux).get(indice).getFechaCreacion().getDay()) + "/"
+                + String.valueOf(portUsuario.obtenerReservasClienteWS(nickAux).get(indice).getFechaCreacion().getMonth()) + "/"
+                + String.valueOf(portUsuario.obtenerReservasClienteWS(nickAux).get(indice).getFechaCreacion().getYear()));
+        precioReservaALlenar.setText(String.valueOf(portUsuario.obtenerReservasClienteWS(nickAux).get(indice).getPrecio()));
+        estadoReservaALlenar.setText(portUsuario.obtenerReservasClienteWS(nickAux).get(indice).getEstado());
+
     }//GEN-LAST:event_listaReservaValueChanged
 
     /**

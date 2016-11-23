@@ -272,8 +272,13 @@ public class Principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-//        AltaProveedor altaproveedor = new AltaProveedor();
-       // altaproveedor.setVisible(true);
+        AltaProveedor altaproveedor = null;
+        try {
+            altaproveedor = new AltaProveedor();
+        } catch (IOException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        altaproveedor.setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
@@ -297,8 +302,13 @@ public class Principal extends javax.swing.JFrame {
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         if (!portUsuario.obtenerTodosProveedoresWS().isEmpty()) {
-           // VerInfoProveedor verproveedor = new VerInfoProveedor();
-            //verproveedor.setVisible(true);
+            VerInfoProveedor verproveedor = null;
+            try {
+                verproveedor = new VerInfoProveedor();
+            } catch (MalformedURLException ex) {
+                Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            verproveedor.setVisible(true);
         } else {
             javax.swing.JOptionPane.showMessageDialog(null, "No hay proveedores ingresados", "Ver Proveedores", 0);
         }

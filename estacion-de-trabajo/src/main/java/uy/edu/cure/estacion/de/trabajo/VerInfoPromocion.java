@@ -16,20 +16,31 @@ import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import uy.edu.cure.servidor.central.dto.Servicio;
+
+import uy.edu.cure.servidor.central.soap.client.UsuarioWS;
+import uy.edu.cure.servidor.central.soap.client.UsuarioWSImplService;
+import uy.edu.cure.servidor.central.soap.client.ServicioWS;
+import uy.edu.cure.servidor.central.soap.client.ServicioWSImplService;
 import uy.edu.cure.servidor.central.soap.client.PromocionWS;
 import uy.edu.cure.servidor.central.soap.client.PromocionWSImplService;
 
-/**
- *
- * @author Rodrigo "Lobo Plateado" Pérez
- */
 public class VerInfoPromocion extends javax.swing.JFrame {
 
+    private UsuarioWSImplService usuarioWSImplService;
+    private UsuarioWS portUsuario;
+    private ServicioWSImplService servicioWSImplService;
+    private ServicioWS portServicio;
     private PromocionWSImplService promocionWSImplService;
     private PromocionWS portPromocion;
-    
-   // ServicioControllerImpl servicioController;
+
+    private String Separador = " // ";
+    //Separador es usado para separar el nombre de la promocion del nick del proveedor
+    //de esta forma se puede cumplir con los requerimientos actuales de la busqueda de una promocion
+
+    private String proveedorAux;
+    private String servicioAux;
+    private String promocionAux;
+
     List<JLabel> imagenes;
 
     /**
@@ -38,22 +49,25 @@ public class VerInfoPromocion extends javax.swing.JFrame {
     public VerInfoPromocion() {
         initComponents();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        
-          try {
-               promocionWSImplService = new PromocionWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/PromocionWSImplService?wsdl"));
-        } catch (MalformedURLException e) {
-            Logger.getLogger(VerInfoPromocion.class.getName()).log(Level.SEVERE, null, e);
+
+        try {
+            promocionWSImplService = new PromocionWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/PromocionWSImplService?wsdl"));
+        } catch (MalformedURLException ex) {
+            //Logger.getLogger(VerInfoPromocion.class.getName()).log(Level.SEVERE, null, ex);
         }
         portPromocion = promocionWSImplService.getPromocionWSImplPort();
+
         setLocationRelativeTo(null);
-        imagenes = new ArrayList<JLabel>();
+        /*imagenes = new ArrayList<JLabel>();
         imagenes.add(labelServicioImage1);
         imagenes.add(labelServicioImage2);
-        imagenes.add(labelServicioImage3);
+        imagenes.add(labelServicioImage3);*/
         DefaultListModel listaPromociones = new DefaultListModel();
+
         for (int i = 0; i < portPromocion.obtenerTodasPromociones().size(); i++) {
             String nombrePromocion = portPromocion.obtenerTodasPromociones().get(i).getNombre();
-            listaPromociones.addElement(nombrePromocion);
+            String nickProveedor = portPromocion.obtenerTodasPromociones().get(i).getProveedor().getNickName();
+            listaPromociones.addElement(nombrePromocion + Separador + nickProveedor);
         }
         listPromociones.setModel(listaPromociones);
     }
@@ -238,49 +252,70 @@ public class VerInfoPromocion extends javax.swing.JFrame {
         labelServicioOrigen.setText(" ");
         labelServicioDestino.setText(" ");
         labelServicioCategorias.setText(" ");
-        int indicePromocion = listPromociones.getSelectedIndex();
-        String proveedor = portPromocion.obtenerTodasPromociones().get(indicePromocion).getProveedor().getNickName();
+
+        String aux = listPromociones.getSelectedValue();
+        String[] arrayPromocionAux = aux.split(Separador);
+        promocionAux = arrayPromocionAux[0];
+        proveedorAux = arrayPromocionAux[1];
+
+        portPromocion.obtenerPromocionWS(promocionAux, proveedorAux);
+
+        String proveedor = portPromocion.obtenerPromocionWS(promocionAux, proveedorAux).getProveedor().getNickName();
         labelProveedor.setText("Proveedor: " + proveedor);
-        double precio = portPromocion.obtenerTodasPromociones().get(indicePromocion).getPrecioTotal();
+        double precio = portPromocion.obtenerPromocionWS(promocionAux, proveedorAux).getPrecioTotal();
         labelPrecio.setText("Precio: " + precio);
-        int descuento = portPromocion.obtenerTodasPromociones().get(indicePromocion).getDescuento();
+        int descuento = portPromocion.obtenerPromocionWS(promocionAux, proveedorAux).getDescuento();
         labelDescuento.setText("Descuento: " + descuento);
+
         DefaultListModel listaServicios = new DefaultListModel();
-/*        for (int i = 0; i < portPromocion.obtenerTodasPromociones().get(indicePromocion).getServicios().size(); i++) {
-            String servicio = portPromocion.obtenerTodasPromociones().get(indicePromocion).getServicios().get(i).getNombre();
+        for (int i = 0; i < portPromocion.obtenerServiciosPromoWS(promocionAux, proveedorAux).size(); i++) {
+            String servicio = portPromocion.obtenerServiciosPromoWS(promocionAux, proveedorAux).get(i).getNombre();
             listaServicios.addElement(servicio);
-        }*/
+        }
         listServicios.setModel(listaServicios);
+
     }//GEN-LAST:event_listPromocionesValueChanged
 
     private void listServiciosValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listServiciosValueChanged
-       /* if (listServicios.getSelectedIndex() >= 0) {
-            String nombreServicio = listServicios.getSelectedValue();
-            int indicePromocion = listPromociones.getSelectedIndex();
-            String nombreProveedor = portPromocion.obtenerTodasPromociones().get(indicePromocion).getProveedor().getNickName();
-            Servicio servicio = servicioController.obtenerServicio(nombreServicio, nombreProveedor);
-            labelServicioDescripcion.setText(servicio.getDescripcion());
-            labelServicioPrecio.setText("Precio: " + String.valueOf(servicio.getPrecio()));
-            labelServicioOrigen.setText("Ciudad de origen: " + servicio.getOrigen().getNombre());
-            if (servicio.getDestino() == null) {
-                labelServicioDestino.setText("No hay ciudad de destino");
-            } else {
-                labelServicioDestino.setText("Ciudad de destino: " + servicio.getDestino().getNombre());
+        try {
+            servicioWSImplService = new ServicioWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/ServicioWSImplService?wsdl"));
+        } catch (MalformedURLException ex) {
+            //Logger.getLogger(VerInfoProveedor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        portServicio = servicioWSImplService.getServicioWSImplPort();
+
+        servicioAux = listServicios.getSelectedValue();
+
+        labelServicioDescripcion.setText(portServicio.obtenerServicioWS(servicioAux, proveedorAux).getDescripcion());
+        labelServicioPrecio.setText("Precio: " + String.valueOf(portServicio.obtenerServicioWS(servicioAux, proveedorAux).getPrecio()));
+        labelServicioOrigen.setText("Ciudad de origen: " + portServicio.obtenerServicioWS(servicioAux, proveedorAux).getOrigen().getNombre());
+        if (portServicio.obtenerServicioWS(servicioAux, proveedorAux).getDestino() == null) {
+            labelServicioDestino.setText("No hay ciudad de destino");
+        } else {
+            labelServicioDestino.setText("Ciudad de destino: " + portServicio.obtenerServicioWS(servicioAux, proveedorAux).getDestino().getNombre());
+        }
+
+        //Categorias del servicio
+        String categorias = "Categorias: ";
+
+        for (int i = 0; i < portServicio.obtenerCategoriasServicioWS(servicioAux, proveedorAux).size(); i++) {
+            if (i > 0) {
+                categorias = categorias + ", ";
             }
-            String categorias = "Categorias: ";
-            for (int i = 0; i < servicio.getCategorias().size(); i++) {
-                categorias = categorias + servicio.getCategorias().get(i).getNombre();
-                categorias = categorias + " ";
-            }
-            labelServicioCategorias.setText(categorias);
-            for (int i = 0; i < servicio.getImagenes().size(); i++) {
-                ImageIcon imageIcon = new ImageIcon(servicio.getImagenes().get(i));
-                Image image = imageIcon.getImage();
-                Image imageFinal = image.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH);
-                ImageIcon imageIconFinal = new ImageIcon(imageFinal);
-                imagenes.get(i).setIcon(imageIconFinal);
-            }
-        }*/
+            categorias = categorias + portServicio.obtenerCategoriasServicioWS(servicioAux, proveedorAux).get(i).getNombre();
+
+        }
+        labelServicioCategorias.setText(categorias);
+
+        //Imagenes del servicio
+        for (int i = 0; i < portServicio.obtenerImagenesServicioWS(servicioAux, proveedorAux).size(); i++) {
+            ImageIcon imageIcon = new ImageIcon(portServicio.obtenerImagenesServicioWS(servicioAux, proveedorAux).get(i));
+            Image image = imageIcon.getImage();
+            Image imageFinal = image.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH);
+            ImageIcon imageIconFinal = new ImageIcon(imageFinal);
+            imagenes.get(i).setIcon(imageIconFinal);
+        }
+
     }//GEN-LAST:event_listServiciosValueChanged
 
     /**

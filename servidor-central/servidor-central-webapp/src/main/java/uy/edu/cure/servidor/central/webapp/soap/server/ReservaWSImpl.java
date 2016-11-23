@@ -12,7 +12,9 @@ import uy.edu.cure.servidor.central.dto.Cliente;
 import uy.edu.cure.servidor.central.dto.Promocion;
 import uy.edu.cure.servidor.central.dto.Reserva;
 import uy.edu.cure.servidor.central.dto.Servicio;
+import uy.edu.cure.servidor.central.lib.PromocionControllerImpl;
 import uy.edu.cure.servidor.central.lib.ReservaControllerImpl;
+import uy.edu.cure.servidor.central.lib.ServicioControllerImpl;
 import uy.edu.cure.servidor.central.lib.UsuarioControllerImpl;
 
 /**
@@ -76,6 +78,45 @@ public class ReservaWSImpl implements ReservaWS {
     public boolean cambiarEstadoWS(Reserva reserva, String estado) {
         ReservaControllerImpl reservaController = new ReservaControllerImpl();
         return reservaController.cambiarEstado(reserva, estado);
+    }
+    
+    @Override
+    public boolean crearReservaWS(List<String> promociones, List<String> servicios, String cliente) {
+        String Separador = " // ";
+        String promocionAux;
+        String servicioAux;
+        String proveedorAux;
+        List<Servicio> serviciosAux = new ArrayList();
+        List<Promocion> promocionesAux = new ArrayList();
+        Cliente clienteAux;
+        boolean respuesta;
+
+        UsuarioControllerImpl usuarioController = new UsuarioControllerImpl();
+        ServicioControllerImpl servicioController = new ServicioControllerImpl();
+        PromocionControllerImpl promocionController = new PromocionControllerImpl();
+        ReservaControllerImpl reservaController = new ReservaControllerImpl();
+
+        clienteAux = usuarioController.obtenerCliente(cliente);
+
+        for (int i = 0; i < servicios.size(); i++) {
+            String aux = servicios.get(i);
+            String[] arrayServicioAux = aux.split(Separador);
+            servicioAux = arrayServicioAux[0];
+            proveedorAux = arrayServicioAux[1];
+            serviciosAux.add(servicioController.obtenerServicio(servicioAux, proveedorAux));
+        }
+
+        for (int i = 0; i < promociones.size(); i++) {
+            String aux = promociones.get(i);
+            String[] arrayPromocionAux = aux.split(Separador);
+            promocionAux = arrayPromocionAux[0];
+            proveedorAux = arrayPromocionAux[1];
+            promocionesAux.add(promocionController.obtenerPromocion(promocionAux, proveedorAux));
+        }
+        
+        respuesta = reservaController.crearReserva(promocionesAux, serviciosAux, clienteAux);
+
+        return respuesta;
     }
 
 }

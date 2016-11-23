@@ -5,11 +5,14 @@
  */
 package uy.edu.cure.estacion.de.trabajo;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.glass.events.KeyEvent;
 import java.awt.Image;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -29,6 +32,10 @@ import javax.swing.JLabel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.HttpClientBuilder;
 import uy.edu.cure.servidor.central.dto.*;
 
 import uy.edu.cure.servidor.central.soap.client.UsuarioWS;
@@ -59,12 +66,15 @@ public class AltaServicio extends javax.swing.JFrame {
     private CiudadWSImplService ciudadWSImplService; 
     private CategoriaWSImplService categoriaWSImplService;
     private ServicioWSImplService servicioWSImplService;
-            
+    
     private List<String> rutasImagenes;
     private List<JLabel> imagenes;
     private Properties progappProperties;
     private InputStream input = null;
-
+    
+    private Converter convertidor;
+    private String url;
+    
     /**
      * Creates new form AltaServicio
      */
@@ -101,6 +111,8 @@ public class AltaServicio extends javax.swing.JFrame {
             listaProveedores.add(i, portUsuario.obtenerTodosProveedoresWS().get(i).getNickName());
         }
         listProveedores.setModel(listaProveedores);
+        
+        //Carga lista de ciudades
         DefaultListModel listaCiudadesOrigen = new DefaultListModel();
         for (int i = 0; i < portCiudad.obtenerTodasCiudadesWS().size(); i++) {
             listaCiudadesOrigen.add(i, portCiudad.obtenerTodasCiudadesWS().get(i).getNombre());
@@ -113,12 +125,42 @@ public class AltaServicio extends javax.swing.JFrame {
         }
         listaCiudadesDestino.add(indiceDestino, "<null>");
         listCiudadDestino.setModel(listaCiudadesDestino);
+        
+        //Carga categorias, recordar metodo auxiliar getStringFromInputStream y variable String url
         DefaultTreeModel model = (DefaultTreeModel) treeCategorias.getModel();
         DefaultMutableTreeNode root = (DefaultMutableTreeNode) model.getRoot();
-        Iterator<uy.edu.cure.servidor.central.soap.client.Categoria> iteratorCategorias = portCategoria.obtenerTodasCategorias().iterator();
+        
+        setLocationRelativeTo(null);
+        convertidor = new Converter();
+        
+        try {
+            categoriaWSImplService = new CategoriaWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/CategoriaWSImplService?wsdl"));
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(AltaCategoria.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        portCategoria = categoriaWSImplService.getCategoriaWSImplPort();
+
+        DatosRest categoriasAux = null;
+        
+        url = "http://localhost:8080/servidor-central-webapp/rest/api/ObtenerCategorias/traer";
+        HttpClient client = HttpClientBuilder.create().build();
+        HttpGet request = new HttpGet(url);
+        ObjectMapper mapper = new ObjectMapper();
+        HttpResponse response = null; 
+        String result = null;
+        try {
+            response = client.execute(request);
+            result = getStringFromInputStream(response.getEntity().getContent());
+            categoriasAux = mapper.readValue(result, DatosRest.class);
+        } catch (IOException ex) {
+            Logger.getLogger(AltaCategoria.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        int i = categoriasAux.getCategorias().size();
+        
+        Iterator<Categoria> iteratorCategorias = categoriasAux.getCategorias().iterator();
         while (iteratorCategorias.hasNext()) {
-            uy.edu.cure.servidor.central.soap.client.Categoria categoriaAuxiliar = iteratorCategorias.next();
-            if (categoriaAuxiliar.getPadre() == null) {
+            Categoria categoriaAuxiliar = iteratorCategorias.next();
+            if (categoriaAuxiliar.getPadre() == "") {
                 root.add(new DefaultMutableTreeNode(categoriaAuxiliar.getNombre()));
             } else {
                 Enumeration<DefaultMutableTreeNode> enumerationNodo = root.depthFirstEnumeration();
@@ -131,6 +173,8 @@ public class AltaServicio extends javax.swing.JFrame {
             }
         }
         model.reload();
+        treeCategorias.setRootVisible(false);
+        
     }
 
     /**
@@ -611,4 +655,32 @@ public class AltaServicio extends javax.swing.JFrame {
     private javax.swing.JTextField textFieldPrecio;
     private javax.swing.JTree treeCategorias;
     // End of variables declaration//GEN-END:variables
+
+    private String getStringFromInputStream(InputStream is) {
+        BufferedReader br = null;
+        StringBuilder sb = new StringBuilder();
+
+        String line;
+        try {
+
+            br = new BufferedReader(new InputStreamReader(is));
+            while ((line = br.readLine()) != null) {
+                sb.append(line);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return sb.toString();
+
+    }
 }

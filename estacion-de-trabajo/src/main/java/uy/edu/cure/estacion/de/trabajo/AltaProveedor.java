@@ -21,17 +21,12 @@ import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
 import uy.edu.cure.servidor.central.soap.client.UsuarioWS;
 import uy.edu.cure.servidor.central.soap.client.UsuarioWSImplService;
 
-/**
- *
- * @author SCN
- */
 public class AltaProveedor extends javax.swing.JFrame {
 
-    private UsuarioWS portUsuario;
-    private UsuarioWSImplService usuarioWSImplService;
     private FileNameExtensionFilter filtro;
     private String rutaImagen;
     private String rutaArchivo;
@@ -40,6 +35,8 @@ public class AltaProveedor extends javax.swing.JFrame {
     private int dia, mes, anio;
     private Properties progappProperties;
     private InputStream input = null;
+    private UsuarioWSImplService usuarioWSImplService;
+    private UsuarioWS portUsuario;
 
     /**
      * Creates new form AltaProveedor
@@ -49,24 +46,26 @@ public class AltaProveedor extends javax.swing.JFrame {
         input = this.getClass().getClassLoader().getResourceAsStream("progapp.properties");
         try {
             progappProperties.load(input);
-
         } catch (IOException ex) {
-            ex.printStackTrace();
+            Logger.getLogger(AltaProveedor.class.getName()).log(Level.SEVERE, null, ex);
         }
-
         initComponents();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        filtro = new FileNameExtensionFilter("Formato Imagen", "png", "jpg");
+
         try {
             usuarioWSImplService = new UsuarioWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/UsuarioWSImplService?wsdl"));
         } catch (MalformedURLException ex) {
-            Logger.getLogger(AltaProveedor.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(AltaProveedor.class.getName()).log(Level.SEVERE, null, ex);
         }
         portUsuario = usuarioWSImplService.getUsuarioWSImplPort();
+
+        filtro = new FileNameExtensionFilter("Formato Imagen", "png", "jpg");
+
         rutaImagen = "";
         rutaArchivo = "";
         validez = "";
         setLocationRelativeTo(null);
+
     }
 
     /**
@@ -454,7 +453,7 @@ public class AltaProveedor extends javax.swing.JFrame {
             int resultado = portUsuario.crearProeveedorWS(UserNameProveedorForm.getText(), NombreProveedorForm.getText(), ApellidoProveedorForm.getText(), CorreoProveedorForm.getText(), dia, mes, anio, NombreEmpresaProveedorForm.getText(), LinkEmpresaProveedorForm.getText(), rutaImagen, textFieldPassword.getText(), textFieldPasswordConfirm.getText());
             switch (resultado) {
                 case -1:
-                    javax.swing.JOptionPane.showMessageDialog(null, "Cliente dado de alta", "Alta cliente", 1);
+                    javax.swing.JOptionPane.showMessageDialog(null, "Proveedor dado de alta", "Alta proveedor", 1);
                     break;
                 case 1:
                     WarningUsername.setText("*Nombre de usuario ya registrado");
@@ -473,6 +472,7 @@ public class AltaProveedor extends javax.swing.JFrame {
                     break;
             }
         }
+
     }//GEN-LAST:event_BotonCrearProveedorActionPerformed
 
     private void BotonAgregarImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonAgregarImagenActionPerformed
@@ -502,6 +502,7 @@ public class AltaProveedor extends javax.swing.JFrame {
             PreviewImagen.setSize(155, 175);
             PreviewImagen.setVisible(true);
         }
+
     }//GEN-LAST:event_BotonAgregarImagenActionPerformed
 
     private void BotonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonCancelarActionPerformed
@@ -530,6 +531,7 @@ public class AltaProveedor extends javax.swing.JFrame {
         WarningEmpresa.setText("");
         WarningLink.setText("");
         PreviewImagen.setIcon(null);
+
     }//GEN-LAST:event_BotonResetActionPerformed
 
     private void AñioProveedorFormKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_AñioProveedorFormKeyTyped
@@ -589,6 +591,7 @@ public class AltaProveedor extends javax.swing.JFrame {
                     Logger.getLogger(AltaProveedor.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
+
         });
     }
 

@@ -5,11 +5,14 @@
  */
 package uy.edu.cure.estacion.de.trabajo;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.glass.events.KeyEvent;
 import java.awt.Image;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -29,6 +32,10 @@ import javax.swing.JLabel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.HttpClientBuilder;
 import uy.edu.cure.servidor.central.dto.*;
 import uy.edu.cure.servidor.central.soap.client.CategoriaWS;
 import uy.edu.cure.servidor.central.soap.client.CategoriaWSImplService;
@@ -51,17 +58,34 @@ public class ActualizarServicio extends javax.swing.JFrame {
     private CategoriaWSImplService categoriaWSImplService;
     private ServicioWSImplService servicioWSImplService;
 
+    private List<String> rutasImagenes;
     private List<JLabel> imagenes;
     private Properties progappProperties;
     private InputStream input = null;
+
+    private Converter convertidor;
+    private String url;
+
+    private String proveedorAux;
+    private String servicioAux;
+    private String Separador = " // ";
 
     /**
      * Creates new form ActualizarServicio
      */
     public ActualizarServicio() throws IOException {
-/*
         initComponents();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+        this.progappProperties = new Properties();
+        input = this.getClass().getClassLoader().getResourceAsStream("progapp.properties");
+        progappProperties.load(input);
+
+        rutasImagenes = new ArrayList<String>();
+        imagenes = new ArrayList<JLabel>();
+        imagenes.add(labelImage1);
+        imagenes.add(labelImage2);
+        imagenes.add(labelImage3);
 
         try {
             ciudadWSImplService = new CiudadWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/CiudadWSImplService?wsdl"));
@@ -85,41 +109,76 @@ public class ActualizarServicio extends javax.swing.JFrame {
         imagenes.add(labelImage3);
 
         DefaultListModel listaServicios = new DefaultListModel();
-        Iterator<Servicio> iteratorServicios = portServicio.obtenerTodosServiciosWS().iterator();
-        while (iteratorServicios.hasNext()) {
-            Servicio servicioAuxiliar = iteratorServicios.next();
-            listaServicios.addElement(servicioAuxiliar.getNombre());
+
+        for (int i = 0; i < portServicio.obtenerTodosServiciosWS().size(); i++) {
+            servicioAux = portServicio.obtenerTodosServiciosWS().get(i).getNombre();
+            proveedorAux = portServicio.obtenerTodosServiciosWS().get(i).getProveedor().getNickName();
+            listaServicios.add(i, servicioAux + Separador + proveedorAux);
         }
         listServicios.setModel(listaServicios);
+
+        DefaultListModel listaCiudadesOrigen = new DefaultListModel();
+        for (int i = 0; i < portCiudad.obtenerTodasCiudadesWS().size(); i++) {
+            listaCiudadesOrigen.add(i, portCiudad.obtenerTodasCiudadesWS().get(i).getNombre());
+        }
+        listOrigen.setModel(listaCiudadesOrigen);
+        DefaultListModel listaCiudadesDestino = new DefaultListModel();
+        int indiceDestino;
+        for (indiceDestino = 0; indiceDestino < portCiudad.obtenerTodasCiudadesWS().size(); indiceDestino++) {
+            listaCiudadesDestino.add(indiceDestino, portCiudad.obtenerTodasCiudadesWS().get(indiceDestino).getNombre());
+        }
+        listaCiudadesDestino.add(indiceDestino, "<null>");
+        listDestino.setModel(listaCiudadesDestino);
+
+        //Carga categorias
         DefaultTreeModel model = (DefaultTreeModel) treeCategorias.getModel();
         DefaultMutableTreeNode root = (DefaultMutableTreeNode) model.getRoot();
-        Iterator<Categoria> iteratorCategorias = portCategoria.obtenerTodasCategorias().iterator();
+
+        setLocationRelativeTo(null);
+        convertidor = new Converter();
+
+        try {
+            categoriaWSImplService = new CategoriaWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/CategoriaWSImplService?wsdl"));
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(AltaCategoria.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        portCategoria = categoriaWSImplService.getCategoriaWSImplPort();
+
+        DatosRest categoriasAux = null;
+
+        url = "http://localhost:8080/servidor-central-webapp/rest/api/ObtenerCategorias/traer";
+        HttpClient client = HttpClientBuilder.create().build();
+        HttpGet request = new HttpGet(url);
+        ObjectMapper mapper = new ObjectMapper();
+        HttpResponse response = null;
+        String result = null;
+        try {
+            response = client.execute(request);
+            result = getStringFromInputStream(response.getEntity().getContent());
+            categoriasAux = mapper.readValue(result, DatosRest.class);
+        } catch (IOException ex) {
+            Logger.getLogger(AltaCategoria.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        int i = categoriasAux.getCategorias().size();
+
+        Iterator<Categoria> iteratorCategorias = categoriasAux.getCategorias().iterator();
         while (iteratorCategorias.hasNext()) {
             Categoria categoriaAuxiliar = iteratorCategorias.next();
-            if (categoriaAuxiliar.getPadre() == null) {
+            if (categoriaAuxiliar.getPadre() == "") {
                 root.add(new DefaultMutableTreeNode(categoriaAuxiliar.getNombre()));
             } else {
                 Enumeration<DefaultMutableTreeNode> enumerationNodo = root.depthFirstEnumeration();
                 while (enumerationNodo.hasMoreElements()) {
                     DefaultMutableTreeNode nodoAuxiliar = enumerationNodo.nextElement();
-                    if (nodoAuxiliar.toString().equals(categoriaAuxiliar.getPadre().getNombre())) {
+                    if (nodoAuxiliar.toString().equals(categoriaAuxiliar.getPadre())) {
                         model.insertNodeInto(new DefaultMutableTreeNode(categoriaAuxiliar.getNombre()), nodoAuxiliar, nodoAuxiliar.getChildCount());
                     }
                 }
             }
         }
         model.reload();
-        DefaultListModel listCiudadesOrigen = new DefaultListModel();
-        DefaultListModel listCiudadesDestino = new DefaultListModel();
-        Iterator<Ciudad> iteratorCiudades = portCiudad.obtenerTodasCiudadesWS().iterator();
-        while (iteratorCiudades.hasNext()) {
-            Ciudad ciudadAuxiliar = iteratorCiudades.next();
-            listCiudadesOrigen.addElement(ciudadAuxiliar.getNombre());
-            listCiudadesDestino.addElement(ciudadAuxiliar.getNombre());
-        }
-        listOrigen.setModel(listCiudadesOrigen);
-        listCiudadesDestino.addElement("<null>");
-        listDestino.setModel(listCiudadesDestino);*/
+        treeCategorias.setRootVisible(false);
+
     }
 
     /**
@@ -429,12 +488,16 @@ public class ActualizarServicio extends javax.swing.JFrame {
 
     private void buttonAddCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddCategoriaActionPerformed
         labelMessageError.setText(" ");
-        if (listServicios.getSelectedValue() != null) {
-            DefaultMutableTreeNode nodoSeleccionado = (DefaultMutableTreeNode) treeCategorias.getLastSelectedPathComponent();
-            if (nodoSeleccionado != null) {
-                if (nodoSeleccionado.isLeaf()) {
+        DefaultListModel listaCategorias = new DefaultListModel();
+        DefaultMutableTreeNode nodoSeleccionado = (DefaultMutableTreeNode) treeCategorias.getLastSelectedPathComponent();
+        if (nodoSeleccionado != null) {
+            if (nodoSeleccionado.isLeaf()) {
+                if (listCategorias.getModel().getSize() == 0) {
+                    listaCategorias.add(0, nodoSeleccionado.toString());
+                    listCategorias.setModel(listaCategorias);
+                } else {
                     boolean existeCategoria = false;
-                    DefaultListModel listaCategorias = (DefaultListModel) listCategorias.getModel();
+                    listaCategorias = (DefaultListModel) listCategorias.getModel();
                     for (int i = 0; i < listaCategorias.size(); i++) {
                         if (listaCategorias.get(i).equals(nodoSeleccionado.toString())) {
                             existeCategoria = true;
@@ -446,29 +509,23 @@ public class ActualizarServicio extends javax.swing.JFrame {
                     } else {
                         labelMessageError.setText("No se puede ingresar la misma categoria");
                     }
-                } else {
-                    labelMessageError.setText("La categoria seleccionada debe ser un nodo hoja");
                 }
             } else {
-                labelMessageError.setText("Debe seleccionar una categoria");
+                labelMessageError.setText("La categoria seleccionada debe ser un nodo hoja");
             }
         } else {
-            labelMessageError.setText("Seleccione un servicio");
+            labelMessageError.setText("Debe seleccionar una categoria");
         }
     }//GEN-LAST:event_buttonAddCategoriaActionPerformed
 
     private void buttonRemoveCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRemoveCategoriaActionPerformed
         labelMessageError.setText(" ");
-        if (listServicios.getSelectedValue() != null) {
-            if (listCategorias.getSelectedValue() != null) {
-                DefaultListModel listaCategorias = (DefaultListModel) listCategorias.getModel();
-                listaCategorias.removeElementAt(listCategorias.getSelectedIndex());
-                listCategorias.setModel(listaCategorias);
-            } else {
-                labelMessageError.setText("Debe seleccionar una categoria");
-            }
+        if (listCategorias.getSelectedValue() != null) {
+            DefaultListModel listaCategorias = (DefaultListModel) listCategorias.getModel();
+            listaCategorias.remove(listCategorias.getSelectedIndex());
+            listCategorias.setModel(listaCategorias);
         } else {
-            labelMessageError.setText("Seleccione un servicio");
+            labelMessageError.setText("No se ha seleccionado categoria para remover");
         }
     }//GEN-LAST:event_buttonRemoveCategoriaActionPerformed
 
@@ -477,32 +534,37 @@ public class ActualizarServicio extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonBackActionPerformed
 
     private void listServiciosValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listServiciosValueChanged
-        /*int indice = listServicios.getSelectedIndex();
-        labelImage1.setIcon(null);
-        labelImage2.setIcon(null);
-        labelImage3.setIcon(null);
-        labelDescripcion.setText("Descripcion: " + portServicio.obtenerTodosServiciosWS().get(indice).getDescripcion());
-        labelPrecio.setText("Precio: " + String.valueOf(portServicio.obtenerTodosServiciosWS().get(indice).getPrecio()));
-        labelOrigen.setText("Ciudad de Origen: " + portServicio.obtenerTodosServiciosWS().get(indice).getOrigen().getNombre());
-        if (portServicio.obtenerTodosServiciosWS().get(indice).getDestino() == null) {
-            labelDestino.setText("Ciudad de Destino: Sin ciudad de destino");
+
+        try {
+            servicioWSImplService = new ServicioWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/ServicioWSImplService?wsdl"));
+        } catch (MalformedURLException ex) {
+            //Logger.getLogger(VerInfoProveedor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        portServicio = servicioWSImplService.getServicioWSImplPort();
+
+        String aux = listServicios.getSelectedValue();
+        String[] arrayPromocionAux = aux.split(Separador);
+        servicioAux = arrayPromocionAux[0];
+        proveedorAux = arrayPromocionAux[1];
+
+        labelDescripcion.setText("Descripcion: " + portServicio.obtenerServicioWS(servicioAux, proveedorAux).getDescripcion());
+        labelPrecio.setText("Precio: " + String.valueOf(portServicio.obtenerServicioWS(servicioAux, proveedorAux).getPrecio()));
+        labelOrigen.setText("Ciudad de origen: " + portServicio.obtenerServicioWS(servicioAux, proveedorAux).getOrigen().getNombre());
+        if (portServicio.obtenerServicioWS(servicioAux, proveedorAux).getDestino() == null) {
+            labelDestino.setText("No hay ciudad de destino");
         } else {
-            labelDestino.setText("Ciudad de Destino: " + portServicio.obtenerTodosServiciosWS().get(indice).getDestino().getNombre());
+            labelDestino.setText("Ciudad de destino: " + portServicio.obtenerServicioWS(servicioAux, proveedorAux).getDestino().getNombre());
         }
-        DefaultListModel listaCategorias = new DefaultListModel();
-        Iterator<Categoria> iteratorCategorias = portServicio.obtenerTodosServiciosWS().get(indice).getCategorias().iterator();
-        while (iteratorCategorias.hasNext()) {
-            Categoria categoriaAuxiliar = iteratorCategorias.next();
-            listaCategorias.addElement(categoriaAuxiliar.getNombre());
-        }
-        listCategorias.setModel(listaCategorias);
-        for (int i = 0; i < portServicio.obtenerTodosServiciosWS().get(indice).getImagenes().size(); i++) {
-            ImageIcon imageIcon = new ImageIcon(portServicio.obtenerTodosServiciosWS().get(indice).getImagenes().get(i));
+
+        for (int i = 0; i < portServicio.obtenerImagenesServicioWS(servicioAux, proveedorAux).size(); i++) {
+            ImageIcon imageIcon = new ImageIcon(portServicio.obtenerImagenesServicioWS(servicioAux, proveedorAux).get(i));
             Image image = imageIcon.getImage();
             Image imageFinal = image.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH);
             ImageIcon imageIconFinal = new ImageIcon(imageFinal);
             imagenes.get(i).setIcon(imageIconFinal);
-        }*/
+        }
+
+
     }//GEN-LAST:event_listServiciosValueChanged
 
     private void textFieldPrecioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFieldPrecioKeyTyped
@@ -523,9 +585,10 @@ public class ActualizarServicio extends javax.swing.JFrame {
         labelMessageError.setText(" ");
         if (listServicios.getSelectedValue() != null) {
             if (!textFieldDescripcion.getText().isEmpty()) {
-                int indiceServicio = listServicios.getSelectedIndex();
+                //int indiceServicio = listServicios.getSelectedIndex();
                 String nuevaDescripcion = textFieldDescripcion.getText();
-                portServicio.obtenerTodosServiciosWS().get(indiceServicio).setDescripcion(nuevaDescripcion);
+                portServicio.obtenerServicioWS(servicioAux, proveedorAux).setDescripcion(nuevaDescripcion);
+                //portServicio.obtenerTodosServiciosWS().get(indiceServicio).setDescripcion(nuevaDescripcion);
                 labelDescripcion.setText("Descripcion: " + nuevaDescripcion);
             } else {
                 labelMessageError.setText("Descripcion no puede quedar vacio");
@@ -546,9 +609,10 @@ public class ActualizarServicio extends javax.swing.JFrame {
                     }
                 }
                 if (validadorPrecio <= 1 && !textFieldPrecio.getText().endsWith(".") && !textFieldPrecio.getText().startsWith(".")) {
-                    int indiceServicio = listServicios.getSelectedIndex();
+                    //int indiceServicio = listServicios.getSelectedIndex();
                     double precioAuxiliar = Double.parseDouble(textFieldPrecio.getText());
-                    portServicio.obtenerTodosServiciosWS().get(indiceServicio).setPrecio(precioAuxiliar);
+                    portServicio.obtenerServicioWS(servicioAux, proveedorAux).setPrecio(precioAuxiliar);
+                    //portServicio.obtenerTodosServiciosWS().get(indiceServicio).setPrecio(precioAuxiliar);
                     labelPrecio.setText("Precio: " + String.valueOf(precioAuxiliar));
                 } else {
                     labelMessageError.setText("Precio debe ser un numero valido");
@@ -567,11 +631,9 @@ public class ActualizarServicio extends javax.swing.JFrame {
             if (listOrigen.getSelectedValue() != null) {
                 int indiceServicio = listServicios.getSelectedIndex();
                 String nuevaCiudad = listOrigen.getSelectedValue();
-                if (portServicio.obtenerTodosServiciosWS().get(indiceServicio).getDestino() == null) {
-                    portServicio.obtenerTodosServiciosWS().get(indiceServicio).setOrigen(portCiudad.obtenerCiudadWS(nuevaCiudad));
-                    labelOrigen.setText("Ciudad de Origen: " + nuevaCiudad);
-                } else if (!nuevaCiudad.equals(portServicio.obtenerTodosServiciosWS().get(indiceServicio).getDestino().getNombre())) {
-                    portServicio.obtenerTodosServiciosWS().get(indiceServicio).setOrigen(portCiudad.obtenerCiudadWS(nuevaCiudad));
+                if (!nuevaCiudad.equals(portServicio.obtenerTodosServiciosWS().get(indiceServicio).getDestino().getNombre())) {
+                    portServicio.obtenerServicioWS(servicioAux, proveedorAux).setOrigen(portCiudad.obtenerCiudadWS(nuevaCiudad));
+                    //portServicio.obtenerTodosServiciosWS().get(indiceServicio).setOrigen(portCiudad.obtenerCiudadWS(nuevaCiudad));
                     labelOrigen.setText("Ciudad de Origen: " + nuevaCiudad);
                 } else {
                     labelMessageError.setText("Ciudad de origen y destino deben de ser diferentes");
@@ -592,10 +654,12 @@ public class ActualizarServicio extends javax.swing.JFrame {
                 String nuevaCiudad = listDestino.getSelectedValue();
                 if (!nuevaCiudad.equals(portServicio.obtenerTodosServiciosWS().get(indiceServicio).getOrigen().getNombre())) {
                     if (nuevaCiudad.equals("<null>")) {
-                        portServicio.obtenerTodosServiciosWS().get(indiceServicio).setDestino(null);
+                        portServicio.obtenerServicioWS(servicioAux, proveedorAux).setDestino(null);
+                        //portServicio.obtenerTodosServiciosWS().get(indiceServicio).setDestino(null);
                         labelDestino.setText("Ciudad de Destino: Sin ciudad de destino");
                     } else {
-                        portServicio.obtenerTodosServiciosWS().get(indiceServicio).setDestino(portCiudad.obtenerCiudadWS(nuevaCiudad));
+                        portServicio.obtenerServicioWS(servicioAux, proveedorAux).setDestino(portCiudad.obtenerCiudadWS(nuevaCiudad));
+                        //portServicio.obtenerTodosServiciosWS().get(indiceServicio).setDestino(portCiudad.obtenerCiudadWS(nuevaCiudad));
                         labelDestino.setText("Ciudad de Destino: " + nuevaCiudad);
                     }
                 } else {
@@ -610,26 +674,33 @@ public class ActualizarServicio extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonChangeDestinoActionPerformed
 
     private void buttonChangeCategoriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonChangeCategoriasActionPerformed
-       /* labelMessageError.setText(" ");
+        labelMessageError.setText(" ");
         if (listServicios.getSelectedValue() != null) {
             if (listCategorias.getModel().getSize() != 0) {
                 int indiceServicio = listServicios.getSelectedIndex();
-               portServicio.obtenerTodosServiciosWS().get(indiceServicio).getCategorias().clear();
+                //portServicio.obtenerTodosServiciosWS().get(indiceServicio).getCategorias().clear();
+                portServicio.obtenerCategoriasServicioWS(servicioAux, proveedorAux).clear();
                 DefaultListModel listaCategorias = (DefaultListModel) listCategorias.getModel();
-                for (int i = 0; i < listaCategorias.size(); i++) {
-                   portServicio.obtenerTodosServiciosWS().get(indiceServicio).setCategorias(portCategoria.obtenerCategoria(
-                            listaCategorias.get(i).toString()));
+                
+                
+                //Necesita un metodo para editar categorias que reciba lista de String
+                List<String> categorias = new ArrayList<String>();
+                for (int i = 0; i < listCategorias.getModel().getSize(); i++) {
+                    categorias.add(listCategorias.getModel().getElementAt(i));
+                    //portServicio.obtenerServicioWS(servicioAux, proveedorAux).setCategorias(categorias);
                 }
+                
+                
             } else {
                 labelMessageError.setText("Debe elegir una categoria como minimo");
             }
         } else {
             labelMessageError.setText("Seleccione un servicio");
-        }*/
+        }
     }//GEN-LAST:event_buttonChangeCategoriasActionPerformed
 
     private void buttonAddImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddImageActionPerformed
-      /*  labelMessageError.setText(" ");
+        /*  labelMessageError.setText(" ");
         if (listServicios.getSelectedValue() != null) {
             int indiceServicio = listServicios.getSelectedIndex();
             if (portServicio.obtenerTodosServiciosWS().get(indiceServicio).getImagenes().size() < 3) {
@@ -667,7 +738,7 @@ public class ActualizarServicio extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonAddImageActionPerformed
 
     private void buttonRemoveImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRemoveImageActionPerformed
-       /* labelMessageError.setText(" ");
+        /* labelMessageError.setText(" ");
         if (listServicios.getSelectedValue() != null) {
             if (!textFieldIndexImage.getText().isEmpty()) {
                 int indiceServicio = listServicios.getSelectedIndex();
@@ -773,4 +844,32 @@ public class ActualizarServicio extends javax.swing.JFrame {
     private javax.swing.JTextField textFieldPrecio;
     private javax.swing.JTree treeCategorias;
     // End of variables declaration//GEN-END:variables
+
+    private String getStringFromInputStream(InputStream is) {
+        BufferedReader br = null;
+        StringBuilder sb = new StringBuilder();
+
+        String line;
+        try {
+
+            br = new BufferedReader(new InputStreamReader(is));
+            while ((line = br.readLine()) != null) {
+                sb.append(line);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return sb.toString();
+
+    }
 }

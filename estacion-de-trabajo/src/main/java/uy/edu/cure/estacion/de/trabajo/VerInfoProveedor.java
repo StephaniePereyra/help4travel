@@ -14,6 +14,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
+import uy.edu.cure.servidor.central.soap.client.PromocionWS;
+import uy.edu.cure.servidor.central.soap.client.PromocionWSImplService;
+import uy.edu.cure.servidor.central.soap.client.ServicioWS;
+import uy.edu.cure.servidor.central.soap.client.ServicioWSImplService;
 import uy.edu.cure.servidor.central.soap.client.UsuarioWS;
 import uy.edu.cure.servidor.central.soap.client.UsuarioWSImplService;
 
@@ -26,27 +30,37 @@ public class VerInfoProveedor extends javax.swing.JFrame {
     /**
      * Creates new form VerInfoProveedor
      */
-    private UsuarioWSImplService usuarioWsImplService;
+    private UsuarioWSImplService usuarioWSImplService;
     private UsuarioWS portUsuario;
-    private int indiceProv;
-    
+    private ServicioWSImplService servicioWSImplService;
+    private ServicioWS portServicio;
+    private PromocionWSImplService promocionWSImplService;
+    private PromocionWS portPromocion;
+
+    private String nickAux;
+    private String servAux;
+
     public VerInfoProveedor() throws MalformedURLException {
         initComponents();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        
-          try {
-            usuarioWsImplService = new UsuarioWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/UsuarioWSImplService?wsdl"));
-        } catch (MalformedURLException e) {
-            Logger.getLogger(VerInfoProveedor.class.getName()).log(Level.SEVERE,null,e);
+
+        try {
+            usuarioWSImplService = new UsuarioWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/UsuarioWSImplService?wsdl"));
+        } catch (MalformedURLException ex) {
+            //Logger.getLogger(VerInfoProveedor.class.getName()).log(Level.SEVERE, null, ex);
         }
-        portUsuario = usuarioWsImplService.getUsuarioWSImplPort();
-        
+        portUsuario = usuarioWSImplService.getUsuarioWSImplPort();
+
         setLocationRelativeTo(null);
+
         DefaultListModel listaproveedores = new DefaultListModel();
+
+        DefaultListModel listaclientes = new DefaultListModel();
         for (int i = 0; i < portUsuario.obtenerTodosProveedoresWS().size(); i++) {
             listaproveedores.add(i, portUsuario.obtenerTodosProveedoresWS().get(i).getNickName());
         }
         ListaProveedores.setModel(listaproveedores);
+
     }
 
     /**
@@ -262,44 +276,59 @@ public class VerInfoProveedor extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void ListaProveedoresValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_ListaProveedoresValueChanged
-        int indice = ListaProveedores.getSelectedIndex();
-        NombreAllenar.setText(portUsuario.obtenerTodosProveedoresWS().get(indice).getNombre());
-        ApellidoAllenar.setText(portUsuario.obtenerTodosProveedoresWS().get(indice).getApellido());
-        CorreoAllenar.setText(portUsuario.obtenerTodosProveedoresWS().get(indice).getCorreo());
-        String dia = Integer.toString(portUsuario.obtenerTodosProveedoresWS().get(indice).getFechanacimiento().getDay());
-        String mes = Integer.toString(portUsuario.obtenerTodosProveedoresWS().get(indice).getFechanacimiento().getMonth());
-        String anio = Integer.toString(portUsuario.obtenerTodosProveedoresWS().get(indice).getFechanacimiento().getYear());
+        nickAux = ListaProveedores.getSelectedValue();
+        NombreAllenar.setText(portUsuario.obtenerProveedorWS(nickAux).getNombre());
+        ApellidoAllenar.setText(portUsuario.obtenerProveedorWS(nickAux).getApellido());
+        CorreoAllenar.setText(portUsuario.obtenerProveedorWS(nickAux).getCorreo());
+        String dia = Integer.toString(portUsuario.obtenerProveedorWS(nickAux).getFechanacimiento().getYear());
+        String mes = Integer.toString(portUsuario.obtenerProveedorWS(nickAux).getFechanacimiento().getMonth());
+        String anio = Integer.toString(portUsuario.obtenerProveedorWS(nickAux).getFechanacimiento().getYear());
         FechaAllenar.setText(dia + "/" + mes + "/" + anio);
-        EmpresaAllenar.setText(portUsuario.obtenerTodosProveedoresWS().get(indice).getNombreEmpresa());
+        EmpresaAllenar.setText(portUsuario.obtenerProveedorWS(nickAux).getNombreEmpresa());
         NombServicioAllenar.setText("");
         DescServicioAllenar.setText("");
         PrecioServicioAllenar.setText("");
         OrigenServicioAllenar.setText("");
         DestinoServicioAllenar.setText("");
-        ImageIcon iconoPerfil = new ImageIcon(portUsuario.obtenerTodosProveedoresWS().get(indice).getImagenPerfil());
+
+        ImageIcon iconoPerfil = new ImageIcon(portUsuario.obtenerProveedorWS(nickAux).getImagenPerfil());
         Image imagenPerfil = iconoPerfil.getImage();
         Image nuevaPerfil = imagenPerfil.getScaledInstance(155, 175, java.awt.Image.SCALE_SMOOTH);
         ImageIcon nuevoIcono = new ImageIcon(nuevaPerfil);
         ImagenPerfil.setIcon(nuevoIcono);
         ImagenPerfil.setSize(155, 175);
-        //Aqui carga la lista de servicios dependiendo de que proveedor este seleccionado.
+
+        //Carga la lista de servicios del que proveedor seleccionado.
         DefaultListModel listaservicios = new DefaultListModel();
-   /*     for (int i = 0; i < portUsuario.obtenerTodosProveedoresWS().get(indice).getServicios().size(); i++) {
-            listaservicios.add(i, portUsuario.obtenerTodosProveedoresWS().get(indice).getServicios().get(i).getNombre());
-        }*/
+        portUsuario.serviciosProveedor(nickAux);
+        for (int i = 0; i < portUsuario.serviciosProveedor(nickAux).size(); i++) {
+            listaservicios.add(i, portUsuario.serviciosProveedor(nickAux).get(i).getNombre());
+        }
         ListaServicios.setModel(listaservicios);
+
     }//GEN-LAST:event_ListaProveedoresValueChanged
 
     private void ListaServiciosValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_ListaServiciosValueChanged
-        int index = ListaServicios.getSelectedIndex();
-        indiceProv = ListaProveedores.getSelectedIndex();
-        /*if(ListaServicios.getSelectedIndex() >= 0) {
-            NombServicioAllenar.setText(portUsuario.obtenerTodosProveedoresWS().get(indiceProv).getServicios().get(index).getNombre());
-            DescServicioAllenar.setText(portUsuario.obtenerTodosProveedoresWS().get(indiceProv).getServicios().get(index).getDescripcion());
-            PrecioServicioAllenar.setText(Double.toString(portUsuario.obtenerTodosProveedoresWS().get(indiceProv).getServicios().get(index).getPrecio()));
-            OrigenServicioAllenar.setText(portUsuario.obtenerTodosProveedoresWS().get(indiceProv).getServicios().get(index).getOrigen().getNombre());
-            DestinoServicioAllenar.setText(portUsuario.obtenerTodosProveedoresWS().get(indiceProv).getServicios().get(index).getDestino().getNombre());
-        }*/
+        //int index = ListaServicios.getSelectedIndex();
+        //String nickAux = ListaProveedores.getSelectedValue();
+        servAux = ListaServicios.getSelectedValue();
+
+        try {
+            servicioWSImplService = new ServicioWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/ServicioWSImplService?wsdl"));
+        } catch (MalformedURLException ex) {
+            //Logger.getLogger(VerInfoProveedor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        portServicio = servicioWSImplService.getServicioWSImplPort();
+
+        portServicio.obtenerServicioWS(servAux, nickAux);
+        if (ListaServicios.getSelectedIndex() >= 0) {
+            NombServicioAllenar.setText(portServicio.obtenerServicioWS(servAux, nickAux).getNombre());
+            DescServicioAllenar.setText(portServicio.obtenerServicioWS(servAux, nickAux).getDescripcion());
+            PrecioServicioAllenar.setText(Double.toString(portServicio.obtenerServicioWS(servAux, nickAux).getPrecio()));
+            OrigenServicioAllenar.setText(portServicio.obtenerServicioWS(servAux, nickAux).getOrigen().getNombre());
+            DestinoServicioAllenar.setText(portServicio.obtenerServicioWS(servAux, nickAux).getDestino().getNombre());
+        }
+
     }//GEN-LAST:event_ListaServiciosValueChanged
 
     private void BotonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonCancelarActionPerformed
@@ -344,6 +373,7 @@ public class VerInfoProveedor extends javax.swing.JFrame {
             }
         });
     }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel ApellidoAllenar;

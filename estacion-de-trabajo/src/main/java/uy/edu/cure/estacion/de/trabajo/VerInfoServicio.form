@@ -50,8 +50,8 @@
                                   </Group>
                                   <Component id="labelDescripcion" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="labelPrecio" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="labelCiudadOrigen" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="labelCiudadDestino" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="labelOrigen" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="labelDestino" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="64" max="-2" attributes="0"/>
                           </Group>
@@ -93,9 +93,9 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="labelPrecio" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="labelCiudadOrigen" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelOrigen" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="labelCiudadDestino" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelDestino" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -185,12 +185,12 @@
         <Property name="text" type="java.lang.String" value="Precio: "/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="labelCiudadOrigen">
+    <Component class="javax.swing.JLabel" name="labelOrigen">
       <Properties>
         <Property name="text" type="java.lang.String" value="Ciudad de origen: "/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="labelCiudadDestino">
+    <Component class="javax.swing.JLabel" name="labelDestino">
       <Properties>
         <Property name="text" type="java.lang.String" value="Ciudad de destino: "/>
       </Properties>

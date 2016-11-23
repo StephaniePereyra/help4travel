@@ -19,13 +19,10 @@ import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
 import uy.edu.cure.servidor.central.soap.client.UsuarioWS;
 import uy.edu.cure.servidor.central.soap.client.UsuarioWSImplService;
 
-/**
- *
- * @author SCN
- */
 public class AltaCliente extends javax.swing.JFrame {
 
     private FileNameExtensionFilter filtro;
@@ -57,6 +54,7 @@ public class AltaCliente extends javax.swing.JFrame {
         rutaArchivo = "";
         validez = "";
         setLocationRelativeTo(null);
+        
     }
 
     /**
@@ -415,6 +413,7 @@ public class AltaCliente extends javax.swing.JFrame {
                     break;
             }
         }
+        
     }//GEN-LAST:event_BotonCrearActionPerformed
 
 
@@ -429,7 +428,7 @@ public class AltaCliente extends javax.swing.JFrame {
             String nombreImagen = Long.toString(d.getTime());
             String ruta = progappProperties.getProperty("ruta.imagenes");
             ruta = ruta + nombreImagen + ".png";
-            rutaImagen = ruta;
+            rutaImagen = "imeges/perfil/"+nombreImagen+".png";
             File destino = new File(ruta);
             File JFile = new File(rutaArchivo);
 
@@ -472,6 +471,7 @@ public class AltaCliente extends javax.swing.JFrame {
         WarningCorreo.setText("");
         WarningFecha.setText("");
         PreviewImagen.setIcon(null);
+        
     }//GEN-LAST:event_BotonResetActionPerformed
 
     private void AñioFormKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_AñioFormKeyTyped

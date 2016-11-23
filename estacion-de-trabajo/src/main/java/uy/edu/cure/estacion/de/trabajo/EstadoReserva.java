@@ -15,7 +15,6 @@ import javax.swing.JOptionPane;
 import uy.edu.cure.servidor.central.soap.client.ReservaWS;
 import uy.edu.cure.servidor.central.soap.client.ReservaWSImplService;
 
-
 /**
  *
  * @author juan
@@ -30,9 +29,9 @@ public class EstadoReserva extends javax.swing.JFrame {
     DefaultListModel listReserva;
     DefaultListModel listServicio;
     DefaultListModel listPromocion;
-    
-    
-    
+
+    private int numeroReservaAux;
+
     public EstadoReserva() {
         listReserva = new DefaultListModel();
         listServicio = new DefaultListModel();
@@ -40,14 +39,14 @@ public class EstadoReserva extends javax.swing.JFrame {
         initComponents();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
-        
-          try {
-             reservaWSImplService = new ReservaWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/ReservaWSImplService?wsdl"));
+
+        try {
+            reservaWSImplService = new ReservaWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/ReservaWSImplService?wsdl"));
         } catch (MalformedURLException e) {
-            Logger.getLogger(EstadoReserva.class.getName()).log(Level.SEVERE,null,e);
+            Logger.getLogger(EstadoReserva.class.getName()).log(Level.SEVERE, null, e);
         }
         portReserva = reservaWSImplService.getReservaWSImplPort();
-        
+
         for (int i = 0; i < portReserva.obtenerTodasReservasWS().size(); i++) {
             listReserva.add(i, portReserva.obtenerTodasReservasWS().get(i).getNumero());
         }
@@ -227,69 +226,56 @@ public class EstadoReserva extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void pagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pagarActionPerformed
-         if (!listaReservas.getSelectedValuesList().isEmpty()) {
-            int index = listaReservas.getSelectedIndex();
-            /*if (reservaController.cambiarEstado(reservaController.obtenerTodasReservas().get(index), "Paga")) {
-                JOptionPane.showMessageDialog(null, "Paga");
-                this.dispose();
-            }
-            else {
-                JOptionPane.showMessageDialog(null, "Error");
-            }*/
-        }
-        else {
+if (!listaReservas.getSelectedValuesList().isEmpty()) {
+            portReserva.cambiarEstadoWS(portReserva.obtenerReservaWS(numeroReservaAux), "Paga");
+            JOptionPane.showMessageDialog(null, "Paga");
+        } else {
             JOptionPane.showMessageDialog(null, "Error: seleccione una reserva");
         }
+
     }//GEN-LAST:event_pagarActionPerformed
 
     private void listaReservasValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaReservasValueChanged
         int indice = listaReservas.getSelectedIndex();
         Numero.setText(Integer.toString(portReserva.obtenerTodasReservasWS().get(indice).getNumero()));
+        numeroReservaAux = Integer.parseInt(Numero.getText());
         int mes = portReserva.obtenerTodasReservasWS().get(indice).getFechaCreacion().getMonth() + 1;
         int año = portReserva.obtenerTodasReservasWS().get(indice).getFechaCreacion().getYear() + 1900;
         Fecha.setText(String.valueOf(portReserva.obtenerTodasReservasWS().get(indice).getFechaCreacion().getDay()) + "/" + String.valueOf(mes) + "/" + String.valueOf(año));
         Precio.setText(Double.toString(portReserva.obtenerTodasReservasWS().get(indice).getPrecio()));
-        Estado.setText(portReserva.obtenerTodasReservasWS().get(indice).getEstado());
+        Estado.setText(portReserva.obtenerReservaWS(numeroReservaAux).getEstado());
+        //Estado.setText(portReserva.obtenerTodasReservasWS().get(indice).getEstado());
         listPromocion.clear();
-      /*  for (int i = 0; i < portReserva.obtenerTodasReservasWS().get(indice).getPromociones().size(); i++) {
-            listPromocion.add(i, portReserva.obtenerTodasReservasWS().get(indice).getPromociones().get(i).getNombre());
+
+        for (int i = 0; i < portReserva.obtenerPromocionesReservaWS(numeroReservaAux).size(); i++) {
+            listPromocion.add(i, portReserva.obtenerPromocionesReservaWS(numeroReservaAux).get(i).getNombre());
         }
         listaPromocion.setModel(listPromocion);
         listServicio.clear();
-        for (int i = 0; i < portReserva.obtenerTodasReservasWS().get(indice).getServicios().size(); i++) {
-            listServicio.add(i, portReserva.obtenerTodasReservasWS().get(indice).getServicios().get(i).getNombre());
-        }*/
+        for (int i = 0; i < portReserva.obtenerServiciosReservaWS(numeroReservaAux).size(); i++) {
+            listServicio.add(i, portReserva.obtenerServiciosReservaWS(numeroReservaAux).get(i).getNombre());
+        }
         listaServicios.setModel(listServicio);
+        
     }//GEN-LAST:event_listaReservasValueChanged
 
     private void facturarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_facturarActionPerformed
-         if (!listaReservas.getSelectedValuesList().isEmpty()) {
-            int index = listaReservas.getSelectedIndex();
-            if (portReserva.cambiarEstadoWS(portReserva.obtenerTodasReservasWS().get(index), "Facturada")) {
-                JOptionPane.showMessageDialog(null, "Facturada");
-                this.dispose();
-            }
-            else {
-                JOptionPane.showMessageDialog(null, "Error");
-            }
-        }
-        else {
+        if (!listaReservas.getSelectedValuesList().isEmpty()) {
+            portReserva.cambiarEstadoWS(portReserva.obtenerReservaWS(numeroReservaAux), "Facturada");
+            JOptionPane.showMessageDialog(null, "Facturada");
+
+        } else {
             JOptionPane.showMessageDialog(null, "Error: seleccione una reserva");
         }
+        
     }//GEN-LAST:event_facturarActionPerformed
 
     private void cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarActionPerformed
         if (!listaReservas.getSelectedValuesList().isEmpty()) {
-            int index = listaReservas.getSelectedIndex();
-            if (portReserva.cambiarEstadoWS(portReserva.obtenerTodasReservasWS().get(index), "Cancelar")) {
-                JOptionPane.showMessageDialog(null, "Cancelada");
-                this.dispose();
-            }
-            else {
-                JOptionPane.showMessageDialog(null, "Error");
-            }
-        }
-        else {
+            portReserva.cambiarEstadoWS(portReserva.obtenerReservaWS(numeroReservaAux), "Cancelada");
+            JOptionPane.showMessageDialog(null, "Cancelada");
+
+        } else {
             JOptionPane.showMessageDialog(null, "Error: seleccione una reserva");
         }
     }//GEN-LAST:event_cancelarActionPerformed

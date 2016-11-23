@@ -14,26 +14,25 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
-import uy.edu.cure.servidor.central.soap.client.UsuarioWS;
-import uy.edu.cure.servidor.central.soap.client.UsuarioWSImplService;
-import uy.edu.cure.servidor.central.soap.client.ServicioWS;
-import uy.edu.cure.servidor.central.soap.client.ServicioWSImplService;
+
 import uy.edu.cure.servidor.central.soap.client.PromocionWS;
 import uy.edu.cure.servidor.central.soap.client.PromocionWSImplService;
+import uy.edu.cure.servidor.central.soap.client.ServicioWS;
+import uy.edu.cure.servidor.central.soap.client.ServicioWSImplService;
+import uy.edu.cure.servidor.central.soap.client.UsuarioWS;
+import uy.edu.cure.servidor.central.soap.client.UsuarioWSImplService;
 
-/**
- *
- * @author Rodrigo "Lobo Plateado" Pérez
- */
 public class AltaPromocion extends javax.swing.JFrame {
 
+    private UsuarioWSImplService usuarioWSImplService;
     private UsuarioWS portUsuario;
+    private ServicioWSImplService servicioWSImplService;
     private ServicioWS portServicio;
+    private PromocionWSImplService promocionWSImplService;
     private PromocionWS portPromocion;
 
-    private UsuarioWSImplService usuarioWSImplService;
-    private ServicioWSImplService servicioWSImplService;
-    private PromocionWSImplService promocionWSImplService;
+    private String proveedorAux;
+
     /**
      * Creates new form AltaPromocion
      */
@@ -44,17 +43,17 @@ public class AltaPromocion extends javax.swing.JFrame {
 
         try {
             usuarioWSImplService = new UsuarioWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/UsuarioWSImplService?wsdl"));
-            servicioWSImplService = new ServicioWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/ServicioWSImplService?wsdl"));
-            promocionWSImplService = new PromocionWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/PromocionWSImplService?wsdl"));
-        } catch (MalformedURLException e) {
-            Logger.getLogger(AltaPromocion.class.getName()).log(Level.SEVERE, null, e);
+        } catch (MalformedURLException ex) {
+            //Logger.getLogger(VerInfoProveedor.class.getName()).log(Level.SEVERE, null, ex);
         }
+        portUsuario = usuarioWSImplService.getUsuarioWSImplPort();
 
         DefaultListModel listaProveedores = new DefaultListModel();
         for (int i = 0; i < portUsuario.obtenerTodosProveedoresWS().size(); i++) {
             listaProveedores.addElement(portUsuario.obtenerTodosProveedoresWS().get(i).getNickName());
         }
         listProveedores.setModel(listaProveedores);
+        
     }
 
     /**
@@ -245,6 +244,12 @@ public class AltaPromocion extends javax.swing.JFrame {
             for (int i = 0; i < listServiciosPromocion.getModel().getSize(); i++) {
                 servicios.add(listServiciosPromocion.getModel().getElementAt(i));
             }
+            try {
+                promocionWSImplService = new PromocionWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/PromocionWSImplService?wsdl"));
+            } catch (MalformedURLException ex) {
+                //Logger.getLogger(VerInfoPromocion.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            portPromocion = promocionWSImplService.getPromocionWSImplPort();
             String resultado = portPromocion.crearPromocionWS(nombrePromocion, descuento, nickProveedor, servicios);
             if (resultado.equals("OK")) {
                 javax.swing.JOptionPane.showMessageDialog(null, "Promocion creada exitosamente", "Alta Promocion", 1);
@@ -255,6 +260,7 @@ public class AltaPromocion extends javax.swing.JFrame {
         } else {
             javax.swing.JOptionPane.showMessageDialog(null, "Descuento no puede quedar vacio", "Alta Promocion", 0);
         }
+        
     }//GEN-LAST:event_buttonCrearActionPerformed
 
     private void buttonAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAtrasActionPerformed
@@ -269,13 +275,15 @@ public class AltaPromocion extends javax.swing.JFrame {
     }//GEN-LAST:event_textFieldDescuentoKeyTyped
 
     private void listProveedoresValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listProveedoresValueChanged
-        int indiceProveedor = listProveedores.getSelectedIndex();
+        proveedorAux = listProveedores.getSelectedValue();
         DefaultListModel listaServicios = new DefaultListModel();
-/*        for (int i = 0; i < portUsuario.obtenerTodosProveedoresWS().get(indiceProveedor).getServicios().size(); i++) {
-            listaServicios.addElement(portUsuario.obtenerTodosProveedoresWS().get(indiceProveedor).getServicios().get(i).getNombre());
-        }*/
+
+        for (int i = 0; i < portUsuario.serviciosProveedor(listProveedores.getSelectedValue()).size(); i++) {
+            listaServicios.addElement(portUsuario.serviciosProveedor(listProveedores.getSelectedValue()).get(i).getNombre());
+        }
         listServiciosDisponibles.setModel(listaServicios);
         listServiciosPromocion.setModel(new DefaultListModel());
+        
     }//GEN-LAST:event_listProveedoresValueChanged
 
     private void buttonAddServicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddServicioActionPerformed
@@ -303,6 +311,7 @@ public class AltaPromocion extends javax.swing.JFrame {
         } else {
             labelMessageError.setText("Seleccione un servicio para agregar");
         }
+        
     }//GEN-LAST:event_buttonAddServicioActionPerformed
 
     private void buttonRemoveServicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRemoveServicioActionPerformed
@@ -314,6 +323,7 @@ public class AltaPromocion extends javax.swing.JFrame {
         } else {
             labelMessageError.setText("Seleccione servicio a quitar");
         }
+        
     }//GEN-LAST:event_buttonRemoveServicioActionPerformed
 
     private void buttonPrecioTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonPrecioTotalActionPerformed
@@ -324,8 +334,14 @@ public class AltaPromocion extends javax.swing.JFrame {
                 int descuentoAuxiliar = Integer.parseInt(textFieldDescuento.getText());
                 if (descuentoAuxiliar < 100 && descuentoAuxiliar > 0) {
                     double precioTotal = 0;
+                    try {
+                        servicioWSImplService = new ServicioWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/ServicioWSImplService?wsdl"));
+                    } catch (MalformedURLException ex) {
+                        //Logger.getLogger(VerInfoProveedor.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    portServicio = servicioWSImplService.getServicioWSImplPort();
                     for (int i = 0; i < listaServicios.getSize(); i++) {
-                        precioTotal = precioTotal + portServicio.obtenerServicioWS(listaServicios.get(i).toString(), listProveedores.getSelectedValue()).getPrecio();
+                        precioTotal = precioTotal + portServicio.obtenerServicioWS(listaServicios.get(i).toString(), proveedorAux).getPrecio();
                     }
                     precioTotal = precioTotal - (precioTotal * descuentoAuxiliar) / 100;
                     javax.swing.JOptionPane.showMessageDialog(null, String.valueOf(precioTotal), "Precio total", 1);
@@ -338,6 +354,7 @@ public class AltaPromocion extends javax.swing.JFrame {
         } else {
             labelMessageError.setText("No hay servicios en la promocion");
         }
+        
     }//GEN-LAST:event_buttonPrecioTotalActionPerformed
 
     /**

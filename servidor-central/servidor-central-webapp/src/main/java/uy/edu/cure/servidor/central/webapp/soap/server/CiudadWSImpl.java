@@ -26,18 +26,20 @@ public class CiudadWSImpl implements CiudadWS {
         retorno = ciudadcontroller.crearCiudad(nombreCiudad, nombrePais);
         return retorno;
     }
-    
-    @Override
-    public List<Ciudad> obtenerTodasCiudadesWS() {
-        CiudadControllerImpl ciudadController = new CiudadControllerImpl();
-        return ciudadController.obtenerTodosCiudades();
-    }
-    
+  
     @Override
     public Ciudad obtenerCiudadWS(String nombre){
         CiudadControllerImpl ciudadController = new CiudadControllerImpl();
         return ciudadController.obtenerCiudad(nombre);
         
+    }
+
+    @Override
+    public List<Ciudad> obtenerTodasCiudadesWS() {
+        CiudadControllerImpl ciudadController = new CiudadControllerImpl();
+        List<Ciudad> CiudadesAux;
+        CiudadesAux = ciudadController.obtenerTodosCiudades();
+        return CiudadesAux;
     }
 
 }

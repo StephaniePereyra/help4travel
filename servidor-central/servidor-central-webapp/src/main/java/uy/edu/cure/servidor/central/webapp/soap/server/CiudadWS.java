@@ -21,8 +21,9 @@ public interface CiudadWS {
     public boolean crearCiudadWS(String nombreCiudad, String nombrePais);
 
     @WebMethod
-    public List<Ciudad> obtenerTodasCiudadesWS();
-    
-    @WebMethod
     public Ciudad obtenerCiudadWS(String nombre);
+
+    @WebMethod
+    public List<Ciudad> obtenerTodasCiudadesWS();
+
 }
