@@ -39,4 +39,7 @@ public interface ReservaWS {
     
     @WebMethod
     public boolean cambiarEstadoWS(Reserva reserva, String estado);
+    
+    @WebMethod
+    public List<Reserva> obtenerResevasProveedor(String nickNameProveedor);
 }

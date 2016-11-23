@@ -5,6 +5,7 @@
  */
 package uy.edu.cure.servidor.central.webapp.soap.server;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.jws.WebService;
 import uy.edu.cure.servidor.central.dto.Cliente;
@@ -62,6 +63,14 @@ public class UsuarioWSImpl implements UsuarioWS {
         boolean retorno;
         UsuarioControllerImpl usuariocontroller = new UsuarioControllerImpl();
         retorno = usuariocontroller.LogInCliente(nickName, password);
+        return retorno;
+    }
+    
+    @Override
+    public boolean logInProveedorWS(String nickName, String password) {
+        boolean retorno;
+        UsuarioControllerImpl usuariocontroller = new UsuarioControllerImpl();
+        retorno = usuariocontroller.LogInProveedor(nickName, password);
         return retorno;
     }
 
@@ -279,4 +288,21 @@ public class UsuarioWSImpl implements UsuarioWS {
         usuariocontroller.obtenerCliente(nickCliente).getCarrito().getCantidadPromociones().remove(index);
     }
     
+    @Override
+    public List<Promocion> obtenerPormoProveedor (String nickProveedor) {
+        UsuarioControllerImpl usuariocontroller = new UsuarioControllerImpl();
+        PromocionController promocioncontroller = new PromocionControllerImpl();
+        List<Promocion> promociones = new ArrayList();
+        List<Promocion> auxiliar = new ArrayList();
+        
+        auxiliar = promocioncontroller.obtenerTodasPromociones();
+        
+        for(int x=0;x<auxiliar.size();x++){
+            if(auxiliar.get(x).getProveedor() == usuariocontroller.obtenerProveedor(nickProveedor)){
+                promociones.add(auxiliar.get(x));
+            }
+        }
+        return promociones;
+    }
+
 }
