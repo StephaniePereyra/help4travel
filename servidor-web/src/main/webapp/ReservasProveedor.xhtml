@@ -26,7 +26,7 @@
                            Nro. de Reserva #{item.numero}
                         </div>
                         <div class="panel-body">
-                            Fecha: #{item.fechaCreacion}<br></br>
+                            Fecha: #{item.fechaCreacion.day + 20}/#{item.fechaCreacion.month + 1}/#{item.fechaCreacion.year + 1900} <br></br>
                             Estado: #{item.estado} <br></br>
                             Cliente: #{item.cliente.nickName} <br></br>
                             Precio Total: #{item.precio} <br></br> <br></br>

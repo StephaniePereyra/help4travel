@@ -184,12 +184,10 @@ public class Converter {
         
             reservaAuxliar.setCliente(this.convertirCliente(reserva.getCliente()));
         
-        Date fechaCreacion = new Date();
-        fechaCreacion.setDate(reserva.getFechaCreacion().getDay());
-        fechaCreacion.setMonth(reserva.getFechaCreacion().getMonth());
-        fechaCreacion.setYear(reserva.getFechaCreacion().getYear());
-        reservaAuxliar.setFechaCreacion(fechaCreacion);
-        
+        if(reserva.getFechaCreacion() != null){
+            Date fechaCreacion = (reserva.getFechaCreacion().toGregorianCalendar().getTime());       
+                reservaAuxliar.setFechaCreacion(fechaCreacion);
+         }
        ReservaWSImplService reservaWSImplService = null;
         try {
             reservaWSImplService = new ReservaWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/ReservaWSImplService?wsdl"));
