@@ -29,10 +29,10 @@
                             </h:commandLink> <br/>
                         </c:forEach>
                         <br/> 
-                        <p> Cantidad </p> 
-                        <h:inputText value="#{datosReserva.cantidad}"></h:inputText> <br/>
+                        <h:outputText value="Cantidad: " rendered="#{datosSesion.tipo != 'Proveedor'}"></h:outputText>
+                        <h:inputText value="#{datosReserva.cantidad}" rendered="#{datosSesion.tipo != 'Proveedor'}"></h:inputText> <br/>
                         <h:outputLabel style="color: red " value="La cantidad debe ser mayor a 0" rendered="#{!datosReserva.mayorCero}"></h:outputLabel> <br/>
-                        <h:commandLink action="#{datosReserva.agregarPromocion(verInfoPromocion.nombre,verInfoPromocion.proveedor)}"><h:graphicImage width="130" height="42" value="images/carritomas.png" /></h:commandLink>
+                        <h:commandLink action="#{datosReserva.agregarPromocion(verInfoPromocion.nombre,verInfoPromocion.proveedor)}" rendered="#{datosSesion.tipo != 'Proveedor'}"><h:graphicImage width="130" height="42" value="images/carritomas.png" /></h:commandLink>
                     </h:form>
                 </ui:define>
             </ui:composition>

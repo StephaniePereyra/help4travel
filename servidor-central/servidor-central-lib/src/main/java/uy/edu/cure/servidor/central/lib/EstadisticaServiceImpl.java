@@ -29,7 +29,6 @@ public class EstadisticaServiceImpl implements EstadisticaService{
 
     @Override
     public List<Estadisticas> obtenerTodosEstadisticas() {
-        estadisticas.size();
         return estadisticas;
         
     }

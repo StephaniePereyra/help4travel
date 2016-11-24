@@ -119,4 +119,32 @@ public class ReservaWSImpl implements ReservaWS {
         return respuesta;
     }
 
+    
+    @Override
+    public List<Reserva> obtenerResevasProveedor(String nickNameProveedor){
+        ReservaControllerImpl reservaController = new ReservaControllerImpl();
+        List<Reserva> todasReservas = new ArrayList<Reserva>();
+        List<Reserva> reservas = new ArrayList<Reserva>();
+        todasReservas = reservaController.obtenerTodasReservas();
+        
+        for (int i = 0; i < todasReservas.size(); i++) {
+            for(int x = 0; x < todasReservas.get(i).getServicios().size(); x++){
+                if ((todasReservas.get(i).getServicios().get(x).getProveedor().getNickName()).equals(nickNameProveedor)) {
+                    if(!reservas.contains(todasReservas.get(i))){
+                        reservas.add(reservaController.obtenerTodasReservas().get(i));
+                    }
+                }
+            }
+            
+            for(int y = 0; y < todasReservas.get(i).getPromociones().size(); y++){
+                if((todasReservas.get(i).getPromociones().get(y).getProveedor().getNickName()).equals(nickNameProveedor)){
+                    if(!reservas.contains(todasReservas.get(i))){
+                        reservas.add(reservaController.obtenerTodasReservas().get(i));
+                    }
+                }
+            }
+        }
+        
+        return reservas;
+    }
 }

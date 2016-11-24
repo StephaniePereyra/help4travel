@@ -20,6 +20,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import uy.edu.cure.servidor.central.dto.Categoria;
 import uy.edu.cure.servidor.central.dto.Servicio;
+import uy.edu.cure.servidor.central.lib.RankigControllerImpl;
 import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
 import uy.edu.cure.servidor.central.soap.client.ServicioWS;
 import uy.edu.cure.servidor.central.soap.client.ServicioWSImplService;
@@ -51,11 +52,13 @@ public class VerInfoServicio {
          servicios = new ArrayList(); 
     }
 
-    public String getThatService() {
+    public String getThatService() {        
         FacesContext facec = FacesContext.getCurrentInstance();
         Map<String,String> params = facec.getExternalContext().getRequestParameterMap();
         nombre =  params.get("nombreServicio"); 
         proveedor =  params.get("proveedorServicio");
+        RankigControllerImpl rankigController = new RankigControllerImpl();
+        rankigController.rankear(nombre, proveedor);
         return "InfoServicio";
     }
 

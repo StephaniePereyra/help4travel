@@ -50,6 +50,9 @@ public interface UsuarioWS {
 
     @WebMethod
     public boolean logInClienteWS(String nickName, String password);
+    
+    @WebMethod
+    public boolean logInProveedorWS(String nickName, String password);
 
     @WebMethod
     public boolean existeCorreoWS(String correo);
@@ -113,4 +116,7 @@ public interface UsuarioWS {
     
     @WebMethod
     public int obtenerPosicionPromoEnCarro (String nickCliente, String nombrePromo, String proveedor);
+    
+    @WebMethod
+    public List<Promocion> obtenerPormoProveedor (String nickProveedor);
 }

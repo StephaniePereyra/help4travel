@@ -43,4 +43,7 @@ public interface ReservaWS {
     @WebMethod
     public boolean crearReservaWS(List<String> promociones, List<String> servicios, String cliente);
     
+    
+    @WebMethod
+    public List<Reserva> obtenerResevasProveedor(String nickNameProveedor);
 }

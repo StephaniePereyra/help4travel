@@ -33,11 +33,14 @@
                         <ul class="nav navbar-nav">
                             <li><a href="index.xhtml">Home</a></li>
                             <li><a href="LogIn.xhtml">LogIn/Out</a></li>
-                            <li><a href="Carrito.xhtml">Cart</a></li>
-                            <li><a href="VerInfoProveedor.xhtml">Providers</a></li>
-                            <li><a href="TodosServicios.xhtml">Services</a></li>
-                            <li><a href="TodosPromocion.xhtml">Promotions</a></li>
-                            <li><h:link value="Profile" rendered="#{datosSesion.loged}" outcome="PerfilReservas.xhtml"></h:link></li>                        
+                            <li><h:link value="Cart" rendered="#{datosSesion.loged and datosSesion.tipo !='Proveedor'}" outcome="Carrito.xhtml"></h:link></li>
+                            <li><h:link value="Providers" rendered="#{datosSesion.tipo !='Proveedor'}" outcome="VerInfoProveedor.xhtml"></h:link></li>
+                            <li><h:link value="Services" rendered="#{datosSesion.tipo !='Proveedor'}" outcome="TodosServicios.xhtml"></h:link></li>
+                            <li><h:link value="Promotions" rendered="#{datosSesion.tipo !='Proveedor'}" outcome="TodosPromocion.xhtml"></h:link></li>
+                            <li><h:link value="Servicios Proveedor" rendered="#{datosSesion.loged and datosSesion.tipo=='Proveedor'}" outcome="VerServicioProveedor.xhtml"></h:link></li>
+                            <li><h:link value="Promociones Proveedor" rendered="#{datosSesion.loged and datosSesion.tipo=='Proveedor'}" outcome="VerPromocionProveedor.xhtml"></h:link></li>
+                            <li><h:link value="Reservas Proveedor" rendered="#{datosSesion.loged and datosSesion.tipo=='Proveedor'}" outcome="ReservasProveedor.xhtml"></h:link></li>
+                            <li><h:link value="Profile" rendered="#{datosSesion.loged and datosSesion.tipo=='Cliente'}" outcome="PerfilReservas.xhtml"></h:link></li>                        
                             <li><h:link value="SignUp" rendered="#{!datosSesion.loged}" outcome="AltaCliente.xhtmll"></h:link></li>                                                   
                         </ul>
 

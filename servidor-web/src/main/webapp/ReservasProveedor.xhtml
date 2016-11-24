@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <head>
+
+        <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+       <link rel="stylesheet" href="css/bootstrap.min.css"/>
+	<link rel="stylesheet" href="css/estilos.css"/>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <div id="site"> 
+            <ui:composition template="commonLayout.xhtml"> 
+                <ui:define name="content">
+                    <c:forEach items="#{proveedorMovil.reservas}" var="item" >
+                    <div class="container">
+                        <h2>Reservas del proveedor #{proveedorMovil.nickName}</h2>
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                           Nro. de Reserva #{item.numero}
+                        </div>
+                        <div class="panel-body">
+                            Fecha: #{item.fechaCreacion}<br></br>
+                            Estado: #{item.estado} <br></br>
+                            Cliente: #{item.cliente.nickName} <br></br>
+                            Precio Total: #{item.precio} <br></br> <br></br>
+                            Servicios<br></br>
+                           
+                                <h:form>
+                                    <div class="panel-footer">
+                                    <ui:repeat value="#{proveedorMovil.obtenerServicios(item)}" var="itemServicio">  
+                                    <h:commandLink
+                                        action="#{verInfoServicio.getThatService()}" value="#{itemServicio.nombre}" > 
+                                        <f:param name="nombreServicio" value="#{itemServicio.nombre}" >
+                                        </f:param> <f:param name="proveedorServicio" value="#{proveedorMovil.nickName}" ></f:param> 
+                                    </h:commandLink>  <br/>
+                                    </ui:repeat>
+                                    </div>
+                                </h:form>
+                            Promociones<br></br>
+                                <h:form>
+                                    <div class="panel-footer">
+                                    <ui:repeat value="#{proveedorMovil.obtenerPromociones(item)}" var="itemPromocion">  
+                                    <h:commandLink
+                                        action="#{verInfoPromocion.getThatPromo()}" value="#{itemPromocion.nombre}" > 
+                                        <f:param name="nombrePromocion" value="#{itemPromocion.nombre}" >
+                                        </f:param> <f:param name="proveedorPromocion" value="#{proveedorMovil.nickName}" ></f:param> 
+                                    </h:commandLink>  <br/>
+                                    </ui:repeat>
+                                    </div>
+                                </h:form>
+                        
+                        </div>
+                            
+                        </div>
+                    </div>
+                    
+                   </c:forEach>
+                    <h:outputText value="No se han realizado reservas a sus Servicios o Promociones." 
+                                  rendered="#{proveedorMovil.vacioReserva}" style="font-size:160%;"></h:outputText>
+                </ui:define>
+            </ui:composition> 
+        </div>
+    </body>
+</html>

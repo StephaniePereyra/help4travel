@@ -26,10 +26,13 @@ import uy.edu.cure.servidor.central.soap.client.UsuarioWSImplService;
 public class DatosSesion {
 
 
-    private String passWord, nickName,mnsjError;
+    private String passWord, nickName,mnsjError,tipo;
+    private String cliente = "Cliente";
+    private String proveedor = "Proveedor";
     private boolean mostrarError,loged;
     private Cliente usuario;
     private HttpSession session;
+    
 
     public DatosSesion() {
         mostrarError = false;
@@ -51,14 +54,27 @@ public class DatosSesion {
         if (port.logInClienteWS(nickName, passWord)) {
             loged = true;
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("nickName", nickName);
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("tipo", cliente);
+            tipo = "Cliente";
             Converter converter = new Converter();
             usuario = converter.convertirCliente(port.obtenerClienteWS(nickName));
             retorno = "index.xhtml";
         } else {
-            mostrarError = true;
-            loged = false;
-            mnsjError = "*NickName o Password incorrectas*";
-            retorno = "";
+            if(port.logInProveedorWS(nickName, passWord)){
+                loged = true;
+                FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("nickName", nickName);
+                FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("tipo", proveedor);
+                tipo = "Proveedor";
+                Converter converter = new Converter();
+               // usuario = converter.convertirProveedor(port.obtenerProveedorWS(nickName));
+            retorno = "index.xhtml";
+            }
+            else{
+                mostrarError = true;
+                loged = false;
+                mnsjError = "*NickName o Password incorrectas*";
+                retorno = "";
+            }
         }
         return retorno;
     }
@@ -117,5 +133,32 @@ public class DatosSesion {
     public void setUsuario(Cliente usuario) {
         this.usuario = usuario;
     }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public String getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(String cliente) {
+        this.cliente = cliente;
+    }
+
+    public String getProveedor() {
+        return proveedor;
+    }
+
+    public void setProveedor(String proveedor) {
+        this.proveedor = proveedor;
+    }
+
+    
+    
     
 }

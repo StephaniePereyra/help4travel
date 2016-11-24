@@ -32,10 +32,10 @@
                                 <li>#{categoriasServicio}</li>
                             </c:forEach> 
                         </ul>
-                        <p> Cantidad </p> 
-                        <h:inputText value="#{datosReserva.cantidad}"></h:inputText> <br/> <br/>
+                        <h:outputText value="Cantidad: " rendered="#{datosSesion.tipo != 'Proveedor'}"></h:outputText>
+                        <h:inputText value="#{datosReserva.cantidad}" rendered="#{datosSesion.tipo != 'Proveedor'}"></h:inputText> <br/> <br/>
                         <h:outputLabel style="color: red " value="La cantidad debe ser mayor a 0" rendered="#{!datosReserva.mayorCero}"></h:outputLabel> <br/> <br/>
-                        <h:commandLink action="#{datosReserva.agregarServicio(verInfoServicio.nombre,verInfoServicio.proveedor)}"> <h:graphicImage width="130" height="42" value="images/carritomas.png" /></h:commandLink> <br/> <br/>
+                        <h:commandLink action="#{datosReserva.agregarServicio(verInfoServicio.nombre,verInfoServicio.proveedor)}" rendered="#{datosSesion.tipo != 'Proveedor'}" > <h:graphicImage width="130" height="42" value="images/carritomas.png" /></h:commandLink> <br/> <br/>
                         <c:forEach items="#{verInfoServicio.imagenes}" var="imagen">
                             <img src="#{imagen}" width="210" height="105" border="0"/>
                         </c:forEach>
