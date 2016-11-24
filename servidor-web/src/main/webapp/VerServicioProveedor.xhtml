@@ -19,7 +19,7 @@
                     <h:form>
                         <ui:repeat value="#{proveedorMovil.servicios}" var="item">  
                             <h:commandLink
-                                action="#{verInfoServicio.getThatService()}" value="#{item.nombre}" > 
+                                action="#{verInfoServicio.getThatService()}" value="#{item.nombre}" style="font-size:160%;" > 
                                 <f:param name="nombreServicio" value="#{item.nombre}" >
                                 </f:param> <f:param name="proveedorServicio" value="#{item.proveedor.getNickName()}" ></f:param> 
                             </h:commandLink>  <br/>

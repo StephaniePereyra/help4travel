@@ -46,6 +46,7 @@ public class ProveedorMovil {
     private List<Reserva> reservas;
     private boolean vacioServicio;
     private boolean vacioPromocion;
+    private boolean vacioReserva;
     
     
     public ProveedorMovil() throws MalformedURLException {
@@ -92,6 +93,10 @@ public class ProveedorMovil {
             
             if(promociones.isEmpty()){
                 vacioPromocion = true;
+            }
+            
+            if(reservas.isEmpty()){
+                vacioReserva = true;
             }
             
             
@@ -170,6 +175,14 @@ public class ProveedorMovil {
     public void setReservas(List<Reserva> reservas) {
         
        this.reservas = reservas;
+    }
+
+    public boolean isVacioReserva() {
+        return vacioReserva;
+    }
+
+    public void setVacioReserva(boolean vacioReserva) {
+        this.vacioReserva = vacioReserva;
     }
 
     

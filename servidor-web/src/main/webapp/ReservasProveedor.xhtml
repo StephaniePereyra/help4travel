@@ -18,7 +18,7 @@
         <div id="site"> 
             <ui:composition template="commonLayout.xhtml"> 
                 <ui:define name="content">
-                    <c:forEach items="#{proveedorMovil.reservas}" var="item">
+                    <c:forEach items="#{proveedorMovil.reservas}" var="item" >
                     <div class="container">
                         <h2>Reservas del proveedor #{proveedorMovil.nickName}</h2>
                     <div class="panel panel-primary">
@@ -62,6 +62,8 @@
                     </div>
                     
                    </c:forEach>
+                    <h:outputText value="No se han realizado reservas a sus Servicios o Promociones." 
+                                  rendered="#{proveedorMovil.vacioReserva}" style="font-size:160%;"></h:outputText>
                 </ui:define>
             </ui:composition> 
         </div>
