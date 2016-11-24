@@ -20,7 +20,6 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import uy.edu.cure.servidor.central.lib.EstadisticaControllerImpl;
-import uy.edu.cure.servidor.central.lib.EstadisticasController;
 
 /**
  *
@@ -104,40 +103,14 @@ public class FiltroEstadiscticas implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain)
             throws IOException, ServletException {
-        
+
         HttpServletRequest peticion = (HttpServletRequest) request;
-        ServletContext contexto = request.getServletContext();
 
-        HashMap<String, Integer> urls;
-        if (contexto.getAttribute("estadistica") == null) {
-            //creamos un objeto en el contexto
-            urls = new HashMap<String, Integer>();
+        String ipAdd = null; // IP del cliente
+        ipAdd = request.getRemoteAddr();
 
-            urls.put(peticion.getRequestURL().toString(), 1);
-            contexto.setAttribute("estadistica", urls);
-        } else {
-
-            // actualizamos claves e incrementamos
-            urls = (HashMap<String, Integer>) contexto.getAttribute("estadistica");
-            
-            if (urls.get(peticion.getRequestURL().toString()) == null) {
-
-                urls.put(peticion.getRequestURL().toString(), 1);
-            } else {
-                urls.put(peticion.getRequestURL().toString(), urls.get(peticion.getRequestURL().toString()) + 1);
-            }
-           // contexto.setAttribute("cliente", peticion.getHeader("User-Agent"));         
-            
-            //ip
-            String ipAdd = null; // IP del cliente
-            ipAdd = request.getRemoteAddr();
-            
-            
-            EstadisticaControllerImpl estadisticasController = new EstadisticaControllerImpl();
-            estadisticasController.crearEstadistica(ipAdd,peticion.getHeader("User-Agent"),peticion.getRequestURL().toString());          
-            
-            
-        }
+        EstadisticaControllerImpl estadisticasController = new EstadisticaControllerImpl();
+        estadisticasController.crearEstadistica(ipAdd, peticion.getHeader("User-Agent"), peticion.getRequestURL().toString());
 
         chain.doFilter(request, response);
     }
