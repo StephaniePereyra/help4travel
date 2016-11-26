@@ -21,6 +21,7 @@ public class UsuarioControllerImpl implements UsuarioController {
 
     @Jeringa(value = "usuarioservice")
     UsuarioServiceImpl usuarioService;
+
     public UsuarioControllerImpl() {
         try {
             JeringaInjector.getInstance().inyectar(this);
@@ -153,7 +154,7 @@ public class UsuarioControllerImpl implements UsuarioController {
         }
         return false;
     }
-    
+
     @Override
     public boolean validarFecha(int dia, int mes, int anio) {
         if (anio > 0 && anio < 2017) {
@@ -205,16 +206,14 @@ public class UsuarioControllerImpl implements UsuarioController {
         }
         return false;
     }
-    
-       @Override
-    public boolean existeCorreo(String correo){
-      return usuarioService.existeCorreo(correo);
-    }
-    
-    
 
     @Override
-    public boolean existeNickName (String nickName) {
+    public boolean existeCorreo(String correo) {
+        return usuarioService.existeCorreo(correo);
+    }
+
+    @Override
+    public boolean existeNickName(String nickName) {
         if (!existeCliente(nickName)) {
             if (!existeProveedor(nickName)) {
                 return false;
@@ -222,5 +221,5 @@ public class UsuarioControllerImpl implements UsuarioController {
         }
         return true;
     }
-    
+
 }

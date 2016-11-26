@@ -7,6 +7,7 @@ package uy.edu.cure.servidor.central.dto;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -20,6 +21,7 @@ public class Reserva {
     private double precio;
     private String estado;
     private Cliente cliente;
+    private List<ValidacionPago> pagos;
     private List<Promocion> promociones;
     private List<Servicio> servicios;
     private List<Integer> cantidadPromociones;
@@ -32,6 +34,23 @@ public class Reserva {
         this.estado = estado;
         this.promociones = promociones;
         this.servicios = servicios;
+        this.pagos = new ArrayList();
+        Iterator<Servicio> iteratorServicios = servicios.iterator();
+        while(iteratorServicios.hasNext()) {
+            Servicio servicioAux = iteratorServicios.next();
+            if(!proveedorInPagos(servicioAux.getProveedor().getNickName())) {
+                ValidacionPago pago = new ValidacionPago(servicioAux.getProveedor().getNickName());
+                setPagos(pago);
+            }
+        }
+        Iterator<Promocion> iteratorPromociones = promociones.iterator();
+        while(iteratorPromociones.hasNext()) {
+            Promocion promocionAux = iteratorPromociones.next();
+            if(!proveedorInPagos(promocionAux.getProveedor().getNickName())) {
+                ValidacionPago pago = new ValidacionPago(promocionAux.getProveedor().getNickName());
+                setPagos(pago);
+            }
+        }
     } 
     
     public Reserva(){
@@ -39,6 +58,7 @@ public class Reserva {
         this.fechaCreacion = new Date();
         this.precio = 0.0;
         this.estado = "creado";
+        this.pagos = new ArrayList();
         this.promociones = new ArrayList<Promocion>();
         this.servicios = new ArrayList<Servicio>();
         this.cantidadPromociones = new ArrayList<Integer>();
@@ -101,6 +121,49 @@ public class Reserva {
         this.cliente = cliente;
     }
     
+    //
+    public List<ValidacionPago> getPagos() {
+        return pagos;
+    }
+
+    public void setPagos(ValidacionPago pago) {
+        pagos.add(pago);
+    }
+    
+    public boolean proveedorInPagos(String nickProveedor) {
+        Iterator<ValidacionPago> iteratorPagos = pagos.iterator();
+        while(iteratorPagos.hasNext()) {
+            ValidacionPago pagoAux = iteratorPagos.next();
+            if(pagoAux.getNickProveedor().equals(nickProveedor)){
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public boolean proveedorIsPago(String nickProveedor) {
+        Iterator<ValidacionPago> iteratorPagos = pagos.iterator();
+        while(iteratorPagos.hasNext()) {
+            ValidacionPago pagoAux = iteratorPagos.next();
+            if(pagoAux.getNickProveedor().equals(nickProveedor) && pagoAux.isPago()){
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public boolean isAllPago() {
+        Iterator<ValidacionPago> iteratorPagos = pagos.iterator();
+        while(iteratorPagos.hasNext()) {
+            ValidacionPago pagoAux = iteratorPagos.next();
+            if(!pagoAux.isPago()){
+                return false;
+            }
+        }
+        return true;
+    }
+    //
+    
     public void setServicio(Servicio servicio) {
         this.servicios.add(servicio);
     }
@@ -124,6 +187,5 @@ public class Reserva {
     public void setCantidadServicios(List<Integer> cantidadServicios) {
         this.cantidadServicios = cantidadServicios;
     }
-    
     
 }

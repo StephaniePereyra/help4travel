@@ -9,6 +9,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -18,6 +19,8 @@ import uy.edu.cure.servidor.central.dto.Promocion;
 import uy.edu.cure.servidor.central.dto.Proveedor;
 import uy.edu.cure.servidor.central.dto.Reserva;
 import uy.edu.cure.servidor.central.dto.Servicio;
+import uy.edu.cure.servidor.central.dto.ValidacionPago;
+import uy.edu.cure.servidor.central.lib.ReservaControllerImpl;
 import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
 import uy.edu.cure.servidor.central.soap.client.ReservaWS;
 import uy.edu.cure.servidor.central.soap.client.ReservaWSImplService;
@@ -28,10 +31,10 @@ import uy.edu.cure.servidor.central.soap.client.UsuarioWSImplService;
  *
  * @author JuanD
  */
-
 @ManagedBean
 @ViewScoped
 public class ProveedorMovil {
+
     @ManagedProperty(value = "#{datosSesion}")
     private DatosSesion datosSesion;
     private UsuarioWSImplService usuarioWSImplService;
@@ -54,7 +57,6 @@ public class ProveedorMovil {
             convertidor = new Converter();
             usuarioWSImplService = new UsuarioWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/UsuarioWSImplService?wsdl"));
             reservaWSImplService = new ReservaWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/ReservaWSImplService?wsdl"));
-
             JeringaInjector.getInstance().inyectar(this);
         } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
             e.printStackTrace();
@@ -66,7 +68,7 @@ public class ProveedorMovil {
         reservas = new ArrayList();
 
     }
-    
+
     @PostConstruct
     public void verServicioPromocion() {
         
@@ -101,23 +103,39 @@ public class ProveedorMovil {
             
             
     }
-    
-    public List<Servicio> obtenerServicios(Reserva reserva){
+
+    public List<Servicio> obtenerServicios(Reserva reserva) {
         List<Servicio> serviciosAux = new ArrayList<Servicio>();
-        for(int i = 0; i < reserva.getServicios().size(); i++){
-            if((reserva.getServicios().get(i).getProveedor().getNickName()).equals(nickName))
-            serviciosAux.add(reserva.getServicios().get(i));
+        for (int i = 0; i < reserva.getServicios().size(); i++) {
+            if ((reserva.getServicios().get(i).getProveedor().getNickName()).equals(nickName)) {
+                serviciosAux.add(reserva.getServicios().get(i));
+            }
         }
         return serviciosAux;
     }
-    
-    public List<Promocion> obtenerPromociones(Reserva reserva){
+
+    public List<Promocion> obtenerPromociones(Reserva reserva) {
         List<Promocion> promocionesAux = new ArrayList<Promocion>();
-        for(int i = 0; i < reserva.getPromociones().size(); i++){
-            if((reserva.getPromociones().get(i).getProveedor().getNickName()).equals(nickName))
-            promocionesAux.add(reserva.getPromociones().get(i));
+        for (int i = 0; i < reserva.getPromociones().size(); i++) {
+            if ((reserva.getPromociones().get(i).getProveedor().getNickName()).equals(nickName)) {
+                promocionesAux.add(reserva.getPromociones().get(i));
+            }
         }
         return promocionesAux;
+    }
+    
+    public void recibePago(Reserva reserva) {
+        ReservaControllerImpl reservaController = new ReservaControllerImpl();
+        Iterator<ValidacionPago> iteratorValidaciones = reserva.getPagos().iterator();
+        while(iteratorValidaciones.hasNext()) {
+            ValidacionPago pagoAux = iteratorValidaciones.next();
+            if(pagoAux.getNickProveedor().equals(nickName)) {
+                pagoAux.setPago(true);
+                if(reserva.isAllPago()) {
+                    reserva.setEstado("Facturada");
+                }
+            }
+        }
     }
 
     public String getNickName() {
@@ -173,8 +191,8 @@ public class ProveedorMovil {
     }
 
     public void setReservas(List<Reserva> reservas) {
-        
-       this.reservas = reservas;
+
+        this.reservas = reservas;
     }
 
     public boolean isVacioReserva() {
@@ -193,6 +211,5 @@ public class ProveedorMovil {
     public void setDatosSesion(DatosSesion datosSesion) {
         this.datosSesion = datosSesion;
     }
-    
-    
+
 }

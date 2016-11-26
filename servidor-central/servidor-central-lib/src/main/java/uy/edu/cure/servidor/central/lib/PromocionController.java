@@ -21,5 +21,7 @@ public interface PromocionController {
     public Promocion obtenerPromocion(String Nombre, String nickNameProveedor);
 
     public List<Promocion> obtenerTodasPromociones();
+    
+    public void vaciarPersistenciaPromociones();
 
 }

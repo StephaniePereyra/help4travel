@@ -229,5 +229,18 @@ public class PromocionControllerImplTest {
         assertEquals(expResult, result);
         instance.obtenerTodasPromociones().clear();
     }
+    
+    /**
+     * Test of vaciarPersistenciaPromociones method, of class PromocionControllerImpl.
+     */
+    @Test
+    public void testVaciarPersistenciaPromociones() {
+        System.out.println("vaciarPersistenciaPromociones");
+        PromocionControllerImpl instance = new PromocionControllerImpl();
+        int expResult = 0;
+        instance.vaciarPersistenciaPromociones();
+        int result = instance.obtenerTodasPromociones().size();
+        assertEquals(expResult, result);
+    }
 
 }

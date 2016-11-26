@@ -251,22 +251,38 @@ public class ReservaControllerImplTest {
     public void testAgregarCarro(){
         System.out.println("agregarCarro");
         boolean expResult,result;
-        
-        List<Integer> cantidadpromociones = new ArrayList<Integer>();        
-        List<Integer> cantidadservicios = new ArrayList<Integer>();
+        UsuarioControllerImpl usuarioController = new UsuarioControllerImpl();
+        usuarioController.crearProveedor("nickname", "nombre", "apellido", "correo@correo", 10, 10, 1999, "Empresa", "linkEmpresa", "imagen", "1234", "1234");
+        ServicioControllerImpl servicioController = new ServicioControllerImpl();
+        PaisControllerImpl paisController = new PaisControllerImpl();
+        paisController.crearPais("pais1");
+        CiudadControllerImpl ciudadController = new CiudadControllerImpl();
+        ciudadController.crearCiudad("ciudad1", "pais1");
+        ciudadController.crearCiudad("ciudad2", "pais1");
+        CategoriaControllerImpl categoriaController = new CategoriaControllerImpl();
+        categoriaController.darAltaCategoria("categoria", "");
+        List<String> categorias = new ArrayList();
+        categorias.add("categoria");
+        List<String> imagenes = new ArrayList();
+        servicioController.crearServicio("servicio1", "descripcion1", 100, "ciudad1", "ciudad2", categorias, imagenes, "nickname");
+        servicioController.crearServicio("servicio2", "descripcion2", 100, "ciudad1", "ciudad2", categorias, imagenes, "nickname");
+        PromocionControllerImpl promocionController = new PromocionControllerImpl();
+        List<String> servicios = new ArrayList();
+        servicios.add("servicio1");
+        promocionController.crearPromocion("promocion1", 10, "nickname", servicios);
+        servicios.add("servicio2");
+        promocionController.crearPromocion("promocion2", 10, "nickname", servicios);
+        List<Integer> cantidadpromociones = new ArrayList();        
+        List<Integer> cantidadservicios = new ArrayList();
         cantidadpromociones.add(2);
         cantidadpromociones.add(1);
         cantidadservicios.add(3);
         cantidadservicios.add(1);
-        Servicio servicio1 = new Servicio();
-        Servicio servicio2 = new Servicio();
-        Promocion promocion1 = new Promocion();
-        Promocion promocion2 = new Promocion();
         Reserva reserva = new Reserva();
-        reserva.setServicio(servicio1);
-        reserva.setServicio(servicio2);
-        reserva.setPromocion(promocion1);
-        reserva.setPromocion(promocion2);
+        reserva.setServicio(servicioController.obtenerServicio("servicio1", "nickname"));
+        reserva.setServicio(servicioController.obtenerServicio("servicio2", "nickname"));
+        reserva.setPromocion(promocionController.obtenerPromocion("promocion1", "nickname"));
+        reserva.setPromocion(promocionController.obtenerPromocion("promocion2", "nickname"));
         reserva.setCantidadPromociones(cantidadpromociones);
         reserva.setCantidadServicios(cantidadservicios);
         int numeroReserva;
@@ -279,6 +295,12 @@ public class ReservaControllerImplTest {
         result = instance.existeReserva(numeroReserva);
         expResult = true;
         assertEquals(expResult, result);
+        paisController.vaciarPersistenciaPais();
+        ciudadController.vaciarPersistenciaCiudad();
+        categoriaController.vaciarPersistenciaCategoria();
+        usuarioController.vaciarPeristenciaP();
+        servicioController.vaciarPersistenciaServicio();
+        promocionController.vaciarPersistenciaPromociones();
         instance.vaciarPersistencia();
     }
 }

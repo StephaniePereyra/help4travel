@@ -19,8 +19,8 @@ public class Cliente extends Usuario {
     private List<Reserva> reservas;
     private Reserva carrito;
     
-    public Cliente(String nickName, String nombre, String apellido, String correo, Date fechanacimiento, String imagenPerfil,String passWord) {
-        super(nickName, nombre, apellido, correo, fechanacimiento,passWord);
+    public Cliente(String nickName, String nombre, String apellido, String correo, Date fechanacimiento, String imagenPerfil, String passWord) {
+        super(nickName, nombre, apellido, correo, fechanacimiento, passWord);
         this.imagenPerfil = imagenPerfil;
         this.reservas = new ArrayList<Reserva>();
         this.carrito = new Reserva();
@@ -55,6 +55,5 @@ public class Cliente extends Usuario {
     public void setCarrito(Reserva carrito) {
         this.carrito = carrito;
     }
-    
     
 }

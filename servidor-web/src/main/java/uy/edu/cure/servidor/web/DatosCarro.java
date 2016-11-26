@@ -50,7 +50,6 @@ public class DatosCarro implements Serializable {
     private UsuarioWS portUsuario;
 
     public DatosCarro() {
-
         servicios = new ArrayList();
         promociones = new ArrayList();
         cantidadServicios = new ArrayList();
@@ -59,7 +58,6 @@ public class DatosCarro implements Serializable {
         Oculta ocultoObj = new Oculta();
         oculto.add(ocultoObj);
         nickSession = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("nickName");
-
         convertidor = new Converter();
         try {
             usuarioWSImplService = new UsuarioWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/UsuarioWSImplService?wsdl"));
@@ -75,7 +73,6 @@ public class DatosCarro implements Serializable {
         for (int i = 0; i < promosCarroAux.size(); i++) {
             promociones.add(convertidor.convertirPromocion(promosCarroAux.get(i)));
         }
-
         int size = portUsuario.obtenerCantServiciosCarroWS(nickSession).size();
         cantidadServicios = portUsuario.obtenerCantServiciosCarroWS(nickSession);
         cantidadPromos = portUsuario.obtenerCantPromosCarroWS(nickSession);
@@ -101,14 +98,12 @@ public class DatosCarro implements Serializable {
     }
 
     public void eliminarServicio(Servicio servicio) {
-
         int index = servicios.indexOf(servicio);
         servicios.remove(servicio);
         totalCarro = totalCarro - (servicio.getPrecio() * portUsuario.obtenerClienteWS(nickSession).getCarrito().getCantidadServicios().get(index));
         portUsuario.setPrecioCarroWS(nickSession, totalCarro);
         portUsuario.eliminarCantidadServicioCarro(nickSession, index);
         portUsuario.eliminarServicioCarroWS(nickSession, servicio.getNombre(), servicio.getProveedor().getNickName());
-
         if (servicios.isEmpty() && promociones.isEmpty()) {
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("CarroEmpty.xhtml");
@@ -116,18 +111,15 @@ public class DatosCarro implements Serializable {
                 Logger.getLogger(DatosCarro.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-
     }
 
     public void eliminarPromo(Promocion promocion) {
-
         int index = promociones.indexOf(promocion);
         promociones.remove(promocion);
         totalCarro = totalCarro - (promocion.getPrecioTotal() * portUsuario.obtenerCarritoClienteWS(nickSession).getCantidadPromociones().get(index));
         portUsuario.setPrecioCarroWS(nickSession, totalCarro);
         portUsuario.eliminarCantidadPromoCarro(nickSession, index);
         portUsuario.eliminarPromoCarroWS(nickSession, index);
-
         if (servicios.isEmpty() && promociones.isEmpty()) {
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("CarroEmpty.xhtml");
@@ -149,7 +141,6 @@ public class DatosCarro implements Serializable {
     }
 
     public String confirmarCarro() {
-
         ReservaWSImplService reservaWSImplService = null;
         try {
             reservaWSImplService = new ReservaWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/ReservaWSImplService?wsdl"));

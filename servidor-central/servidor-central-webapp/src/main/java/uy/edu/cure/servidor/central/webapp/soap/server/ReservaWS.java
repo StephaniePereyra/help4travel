@@ -38,7 +38,7 @@ public interface ReservaWS {
     public Reserva obtenerReservaWS(int numero);
     
     @WebMethod
-    public boolean cambiarEstadoWS(Reserva reserva, String estado);
+    public boolean cambiarEstadoWS(int numero, String estado);
     
     @WebMethod
     public boolean crearReservaWS(List<String> promociones, List<String> servicios, String cliente);

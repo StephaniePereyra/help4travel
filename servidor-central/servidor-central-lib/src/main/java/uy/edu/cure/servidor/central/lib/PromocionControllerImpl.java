@@ -89,5 +89,10 @@ public class PromocionControllerImpl implements PromocionController {
     public List<Promocion> obtenerTodasPromociones() {
         return promocionService.obtenerTodasPromociones();
     }
+    
+    @Override
+    public void vaciarPersistenciaPromociones() {
+        promocionService.obtenerTodasPromociones().clear();
+    }
 
 }

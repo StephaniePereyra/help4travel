@@ -75,8 +75,9 @@ public class ReservaWSImpl implements ReservaWS {
     }
 
     @Override
-    public boolean cambiarEstadoWS(Reserva reserva, String estado) {
+    public boolean cambiarEstadoWS(int numero, String estado) {
         ReservaControllerImpl reservaController = new ReservaControllerImpl();
+        Reserva reserva = reservaController.obtenerReserva(numero);
         return reservaController.cambiarEstado(reserva, estado);
     }
     
