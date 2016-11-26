@@ -3,15 +3,9 @@ package uy.edu.cure.servidor.web;
 import javax.mail.*;
 import javax.mail.internet.*;
 import java.util.*;
-import javax.activation.DataHandler;
-import javax.activation.FileDataSource;
-import javax.annotation.ManagedBean;
-import javax.faces.bean.SessionScoped;
 
-@ManagedBean
-@SessionScoped
 public class EnviadorMail {
-    
+
     final String miCorreo = "progapplabo@gmail.com";
     final String miContraseña = "programaciondeaplicaciones123";
     final String servidorSMTP = "smtp.gmail.com";
@@ -20,7 +14,7 @@ public class EnviadorMail {
     String asunto = null;
     String cuerpo = null;
 
-    public EnviadorMail (String mailReceptor, String asunto,
+    public EnviadorMail(String mailReceptor, String asunto,
             String cuerpo) {
         this.mailReceptor = mailReceptor;
         this.asunto = asunto;
@@ -38,8 +32,6 @@ public class EnviadorMail {
         props.put("mail.smtp.socketFactory.fallback", "false");
 
         SecurityManager security = System.getSecurityManager();
-        
- 
 
         try {
             Authenticator auth = new autentificadorSMTP();
@@ -49,7 +41,6 @@ public class EnviadorMail {
             MimeMessage msg = new MimeMessage(session);
             msg.setText(cuerpo);
             msg.setSubject(asunto);
-            
             msg.setFrom(new InternetAddress(miCorreo));
             msg.addRecipient(Message.RecipientType.TO, new InternetAddress(
                     mailReceptor));
@@ -61,15 +52,15 @@ public class EnviadorMail {
     }
 
     private class autentificadorSMTP extends javax.mail.Authenticator {
+
         public PasswordAuthentication getPasswordAuthentication() {
             return new PasswordAuthentication(miCorreo, miContraseña);
         }
     }
-    
-   
-	public static void main(String[] args) {
-         //   String[] files = {"C:\\Users\\SCN\\Pictures\\txt.txt"};
-         EnviadorMail EnviadorMail = new EnviadorMail("naturamarley@gmail.com","Help4Traveling 26/10/2016", "Estimado cliente1 su compra a sido facturada con exito");
-            
-   }
+
+    public static void main(String[] args) {
+        //   String[] files = {"C:\\Users\\SCN\\Pictures\\txt.txt"};
+        EnviadorMail EnviadorMail = new EnviadorMail("naturamarley@gmail.com", "Help4Traveling 26/10/2016", "Estimado cliente1 su compra a sido facturada con exito");
+
+    }
 }
