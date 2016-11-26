@@ -12,6 +12,8 @@
 
         <link rel="stylesheet" href="css/bootstrap.min.css"/>
         <link rel="stylesheet" href="css/estilos.css"/>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     </h:head>
 
     <h:body>
@@ -44,7 +46,8 @@
                             <li><h:link value="SignUp" rendered="#{!datosSesion.loged}" outcome="AltaCliente.xhtmll"></h:link></li>                                                   
                         </ul>
 
-                        <h:form class="navbar-form navbar-right" role="search">
+                       </div>
+                    <h:form class="navbar-form navbar-right" role="search" rendered="#{datosSesion.tipo !='Proveedor'}">
                             <div class="form-group">
                                 <h:inputText class="form-control" id="promoServicio" value="#{logicaBuscador.wanted}" ></h:inputText>  
                             </div>
@@ -52,7 +55,7 @@
                                              image="images/search.png"></h:commandButton>   
                         </h:form>     
 
-                    </div>
+                    
                 </div>
             </nav>
         </header>           
