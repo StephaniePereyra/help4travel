@@ -124,18 +124,8 @@ public class ProveedorMovil {
         return promocionesAux;
     }
     
-    public void recibePago(Reserva reserva) {
-        ReservaControllerImpl reservaController = new ReservaControllerImpl();
-        Iterator<ValidacionPago> iteratorValidaciones = reserva.getPagos().iterator();
-        while(iteratorValidaciones.hasNext()) {
-            ValidacionPago pagoAux = iteratorValidaciones.next();
-            if(pagoAux.getNickProveedor().equals(nickName)) {
-                pagoAux.setPago(true);
-                if(reserva.isAllPago()) {
-                    reserva.setEstado("Facturada");
-                }
-            }
-        }
+    public void recibePago(int numeroReserva) {
+        portReserva.recibirPagoWS(numeroReserva, nickName);
     }
 
     public String getNickName() {

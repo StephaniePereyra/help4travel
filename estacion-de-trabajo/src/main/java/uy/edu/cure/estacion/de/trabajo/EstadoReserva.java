@@ -227,7 +227,7 @@ public class EstadoReserva extends javax.swing.JFrame {
 
     private void pagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pagarActionPerformed
 if (!listaReservas.getSelectedValuesList().isEmpty()) {
-            portReserva.cambiarEstadoWS(portReserva.obtenerReservaWS(numeroReservaAux), "Paga");
+            portReserva.cambiarEstadoWS(portReserva.obtenerReservaWS(numeroReservaAux).getNumero(), "Paga");
             JOptionPane.showMessageDialog(null, "Paga");
         } else {
             JOptionPane.showMessageDialog(null, "Error: seleccione una reserva");
@@ -261,7 +261,7 @@ if (!listaReservas.getSelectedValuesList().isEmpty()) {
 
     private void facturarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_facturarActionPerformed
         if (!listaReservas.getSelectedValuesList().isEmpty()) {
-            portReserva.cambiarEstadoWS(portReserva.obtenerReservaWS(numeroReservaAux), "Facturada");
+            portReserva.cambiarEstadoWS(portReserva.obtenerReservaWS(numeroReservaAux).getNumero(), "Facturada");
             JOptionPane.showMessageDialog(null, "Facturada");
 
         } else {
@@ -272,7 +272,7 @@ if (!listaReservas.getSelectedValuesList().isEmpty()) {
 
     private void cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarActionPerformed
         if (!listaReservas.getSelectedValuesList().isEmpty()) {
-            portReserva.cambiarEstadoWS(portReserva.obtenerReservaWS(numeroReservaAux), "Cancelada");
+            portReserva.cambiarEstadoWS(portReserva.obtenerReservaWS(numeroReservaAux).getNumero(), "Cancelada");
             JOptionPane.showMessageDialog(null, "Cancelada");
 
         } else {

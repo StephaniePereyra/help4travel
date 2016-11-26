@@ -38,12 +38,14 @@ public interface ReservaWS {
     public Reserva obtenerReservaWS(int numero);
     
     @WebMethod
-    public boolean cambiarEstadoWS(int numero, String estado);
+    public void cambiarEstadoWS(int numero, String estado);
     
     @WebMethod
     public boolean crearReservaWS(List<String> promociones, List<String> servicios, String cliente);
     
-    
     @WebMethod
     public List<Reserva> obtenerResevasProveedor(String nickNameProveedor);
+    
+    @WebMethod
+    public void recibirPagoWS (int numeroReserva, String nickProveedor);
 }

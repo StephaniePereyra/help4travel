@@ -70,7 +70,7 @@
                                         <outputText> <b>Precio total:</b> #{promocion.precioTotal * verReserva.cantidadPromo(promocion)}</outputText><br></br>
                                         <h2>----------------------------------------------------</h2>
                                     </c:forEach>
-                                    <h:outputText value="Estado: #{verReserva.getEstado()}" rendered="#{verReserva.nroReserva != null}"/><br/>
+                                    <h:outputText value="Estado: #{verReserva.estado}" rendered="#{verReserva.nroReserva != null}"/><br/>
                                     <h:commandLink action="#{verReserva.actionCancelarReserva()}" rendered="#{verReserva.nroReserva != null}"><h:graphicImage value="images/cancel.png" width="42" height="42"></h:graphicImage></h:commandLink>
                                   
                                     </h:form>

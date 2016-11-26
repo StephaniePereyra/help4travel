@@ -131,16 +131,17 @@ public class ReservaControllerImpl implements ReservaController {
         List<Servicio> servicios = new ArrayList<Servicio>();
         List<Integer> numeroPromocion = new ArrayList<Integer>();
         List<Integer> numeroServidor = new ArrayList<Integer>();
+        
         for (posicionPromocion = 0; posicionPromocion < cliente.getCarrito().getPromociones().size(); posicionPromocion++) {
             promociones.add(cliente.getCarrito().getPromociones().get(posicionPromocion));
-            if (reserva.proveedorInPagos(cliente.getCarrito().getPromociones().get(posicionPromocion).getProveedor().getNickName())) {
+            if (!reserva.proveedorInPagos(cliente.getCarrito().getPromociones().get(posicionPromocion).getProveedor().getNickName())) {
                 ValidacionPago pago = new ValidacionPago(cliente.getCarrito().getPromociones().get(posicionPromocion).getProveedor().getNickName());
                 reserva.setPagos(pago);
             }
         }
         for (posicionServicio = 0; posicionServicio < cliente.getCarrito().getServicios().size(); posicionServicio++) {
             servicios.add(cliente.getCarrito().getServicios().get(posicionServicio));
-            if (reserva.proveedorInPagos(cliente.getCarrito().getServicios().get(posicionServicio).getProveedor().getNickName())) {
+            if (!reserva.proveedorInPagos(cliente.getCarrito().getServicios().get(posicionServicio).getProveedor().getNickName())) {
                 ValidacionPago pago = new ValidacionPago(cliente.getCarrito().getServicios().get(posicionServicio).getProveedor().getNickName());
                 reserva.setPagos(pago);
             }

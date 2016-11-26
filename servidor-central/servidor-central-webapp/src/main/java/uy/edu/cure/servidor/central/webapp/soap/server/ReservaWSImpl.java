@@ -6,12 +6,14 @@
 package uy.edu.cure.servidor.central.webapp.soap.server;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.jws.WebService;
 import uy.edu.cure.servidor.central.dto.Cliente;
 import uy.edu.cure.servidor.central.dto.Promocion;
 import uy.edu.cure.servidor.central.dto.Reserva;
 import uy.edu.cure.servidor.central.dto.Servicio;
+import uy.edu.cure.servidor.central.dto.ValidacionPago;
 import uy.edu.cure.servidor.central.lib.PromocionControllerImpl;
 import uy.edu.cure.servidor.central.lib.ReservaControllerImpl;
 import uy.edu.cure.servidor.central.lib.ServicioControllerImpl;
@@ -75,10 +77,9 @@ public class ReservaWSImpl implements ReservaWS {
     }
 
     @Override
-    public boolean cambiarEstadoWS(int numero, String estado) {
+    public void cambiarEstadoWS(int numero, String estado) {
         ReservaControllerImpl reservaController = new ReservaControllerImpl();
-        Reserva reserva = reservaController.obtenerReserva(numero);
-        return reservaController.cambiarEstado(reserva, estado);
+       reservaController.obtenerReserva(numero).setEstado(estado);
     }
     
     @Override
@@ -147,5 +148,21 @@ public class ReservaWSImpl implements ReservaWS {
         }
         
         return reservas;
+    }
+
+    @Override
+    public void recibirPagoWS(int numeroReserva, String nickProveedor) {   
+        ReservaControllerImpl reservaController = new ReservaControllerImpl();
+        Reserva reserva = reservaController.obtenerReserva(numeroReserva);
+        Iterator<ValidacionPago> iteratorValidaciones = reserva.getPagos().iterator();
+        while(iteratorValidaciones.hasNext()) {
+            ValidacionPago pagoAux = iteratorValidaciones.next();
+            if(pagoAux.getNickProveedor().equals(nickProveedor)) {
+                pagoAux.setPago(true);
+                if(reserva.isAllPago()) {
+                    reserva.setEstado("Facturada");
+                }
+            }
+        }
     }
 }

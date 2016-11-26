@@ -35,6 +35,7 @@ public class VerReserva {
     private DatosSesion datosSesion;
     private String nombre;
     private String proveedor;
+    private String estado;
     private List<Reserva> reservas = new ArrayList<>();
     private List<Servicio> servicios = new ArrayList<>();
     private List<Promocion> promociones = new ArrayList<>();
@@ -71,6 +72,7 @@ public class VerReserva {
                 cantReservas.add(reservas.get(i).getNumero());
             }
         }
+        
     }
 
     public void serviciosPromos() {
@@ -114,18 +116,6 @@ public class VerReserva {
 
     public void setDatosSesion(DatosSesion datosSesion) {
         this.datosSesion = datosSesion;
-    }
-
-    public String getEstado() {
-        String estado = "";
-        Iterator<Reserva> iteratorReserva = reservas.iterator();
-        while (iteratorReserva.hasNext()) {
-            Reserva reservaAux = iteratorReserva.next();
-            if (reservaAux.getNumero() == nroReserva) {
-                estado = reservaAux.getEstado();
-            }
-        }
-        return estado;
     }
 
     public String getNombre() {
@@ -192,13 +182,23 @@ public class VerReserva {
         this.cantServicios = cantServicios;
     }
 
-    public void actionCancelarReserva() {
-        Iterator<Reserva> iteratorReserva = reservas.iterator();
+    public String getEstado() {
+        List<uy.edu.cure.servidor.central.soap.client.Reserva> reservasAux = portReserva.obtenerTodasReservasWS();
+        Iterator<uy.edu.cure.servidor.central.soap.client.Reserva> iteratorReserva = reservasAux.iterator();
         while (iteratorReserva.hasNext()) {
-            Reserva reservaAux = iteratorReserva.next();
+            uy.edu.cure.servidor.central.soap.client.Reserva reservaAux = iteratorReserva.next();
             if (reservaAux.getNumero() == nroReserva) {
-                reservaAux.setEstado("Cancelada");
+                this.setEstado(reservaAux.getEstado());
             }
         }
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public void actionCancelarReserva() {
+        portReserva.cambiarEstadoWS(nroReserva, "Cancelada");
     }
 }
