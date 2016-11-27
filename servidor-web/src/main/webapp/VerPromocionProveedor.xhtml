@@ -8,29 +8,37 @@
     <head>
 
         <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
-       <link rel="stylesheet" href="css/bootstrap.min.css"/>
-	<link rel="stylesheet" href="css/estilos.css"/>
+        <link rel="stylesheet" href="css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="css/estilos.css"/>
     </head>
     <body>
         <div id="site"> 
             <ui:composition template="commonLayout.xhtml"> 
                 <ui:define name="content">
-                    <div  align="center"><h2><b>Promociones del Proveedor</b></h2></div>
-                    <h:form>
-                        <ui:repeat value="#{proveedorMovil.promociones}" var="item">  
-                            <h:commandLink
-                                action="#{verInfoPromocion.getThatPromo()}" value="#{item.nombre}" style="font-size:160%;" > 
-                                <f:param name="nombrePromocion" value="#{item.nombre}" >
-                                </f:param> <f:param name="proveedorPromocion" value="#{item.proveedor.getNickName()}" ></f:param> 
-                            </h:commandLink>  <br/>
-                        </ui:repeat>
-                     <h:outputText value="No dispone de Promociones creados." 
-                                   rendered="#{proveedorMovil.vacioPromocion}" style="font-size:160%;"></h:outputText>
-                    </h:form>  
+                    <div class="container">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <div  align="center"><h2><b>Promociones del Proveedor #{proveedorMovil.nickName}</b></h2></div>
+                            </div>
+                            <h:form>
+                                <ui:repeat value="#{proveedorMovil.promociones}" var="item">
+                                    <div class="panel-footer">
+                                        <h:commandLink
+                                            action="#{verInfoPromocion.getThatPromo()}" value="#{item.nombre}" style="font-size:140%;" > 
+                                            <f:param name="nombrePromocion" value="#{item.nombre}" >
+                                            </f:param> <f:param name="proveedorPromocion" value="#{item.proveedor.getNickName()}" ></f:param> 
+                                        </h:commandLink>  <br/>
+                                    </div>
+                                </ui:repeat>
+                                <h:outputText value="No dispone de Promociones creados." 
+                                              rendered="#{proveedorMovil.vacioPromocion}" style="font-size:140%;"></h:outputText>
+                            </h:form>
+                        </div>
+                    </div>
                 </ui:define>
             </ui:composition> 
         </div>
 
-        
+
     </body>
 </html>

@@ -15,18 +15,26 @@
         <div id="site"> 
             <ui:composition template="commonLayout.xhtml"> 
                 <ui:define name="content">
-                    <div  align="center"><h2><b>Servicios del Proveedor</b></h2></div>
+                    <div class="container">
+                        <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <div  align="center"><h2><b>Servicios del Proveedor #{proveedorMovil.nickName}</b></h2></div>
+                        </div>    
                     <h:form>
-                        <ui:repeat value="#{proveedorMovil.servicios}" var="item">  
-                            <h:commandLink
-                                action="#{verInfoServicio.getThatService()}" value="#{item.nombre}" style="font-size:160%;" > 
-                                <f:param name="nombreServicio" value="#{item.nombre}" >
-                                </f:param> <f:param name="proveedorServicio" value="#{item.proveedor.getNickName()}" ></f:param> 
-                            </h:commandLink>  <br/>
-                        </ui:repeat>
+                        <ui:repeat value="#{proveedorMovil.servicios}" var="item"> 
+                            <div class="panel-footer">
+                                <h:commandLink
+                                    action="#{verInfoServicio.getThatService()}" value="#{item.nombre}" style="font-size:140%;" > 
+                                    <f:param name="nombreServicio" value="#{item.nombre}" >
+                                    </f:param> <f:param name="proveedorServicio" value="#{item.proveedor.getNickName()}" ></f:param> 
+                                </h:commandLink>  <br/>
+                            </div>
+                        </ui:repeat> 
                         <h:outputText value="No dispone de Servicios creados." 
-                                   rendered="#{proveedorMovil.vacioServicio}" style="font-size:160%;"></h:outputText>
-                    </h:form>  
+                                   rendered="#{proveedorMovil.vacioServicio}" style="font-size:140%;"></h:outputText>
+                    </h:form>
+                        </div>
+                    </div>
                 </ui:define>
             </ui:composition> 
         </div>
