@@ -20,6 +20,7 @@ public class ApiManager extends Application {
 
 	public ApiManager() {
             singletons.add(new ObtenerTodasCategorias());
+           // singletons.add(new TestRestController());
 	}
 
 	@Override

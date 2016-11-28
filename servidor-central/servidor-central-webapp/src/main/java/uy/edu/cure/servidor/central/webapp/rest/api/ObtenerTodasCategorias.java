@@ -5,6 +5,7 @@
  */
 package uy.edu.cure.servidor.central.webapp.rest.api;
 
+import entities.NewClass;
 import java.util.List;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -25,6 +26,7 @@ public class ObtenerTodasCategorias {
     @Path("traer")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getTodas(){
+        NewClass.main();
         CategoriaControllerImpl categoriaController = new CategoriaControllerImpl();
         DatosRest categoriasAux = new DatosRest();
         categoriasAux.setCategorias(categoriaController.obtenerTodosCategorias());
