@@ -14,14 +14,11 @@
     <body>
             <ui:composition template="commonLayout.xhtml">
                 <ui:define name="content">
-
                     <div id="contenedor">
                         <input id="tab-1" type="radio" name="radio-set" class="tab-selector-1" checked="checked" />
                         <label for="tab-1" class="tab-label-1">Profile</label>
-
                         <input id="tab-2" type="radio" name="radio-set" class="tab-selector-2" />
                         <label for="tab-2" class="tab-label-2">Booking</label>
-
                         <div class="content">
                             <div class="content-1">
                                 <fieldset><div  align="center"><h2><b>PROFILE:</b></h2></div></fieldset>                    
@@ -35,14 +32,10 @@
                                             <b> Correo: #{datosSesion.usuario.correo}</b> <br/>   
                                         </td>
                                         <td><pre>       </pre></td>
-
                                         <td><p><img src="#{datosSesion.usuario.imagenPerfil}" width="175" height="175" ></img></p></td>
                                     </tr>
-
-
                                 </table>
                             </div>
-                            
                             <div class="content-2">
                                 <h:form>
                                     <h1>Reservas</h1>
@@ -70,9 +63,11 @@
                                         <outputText> <b>Precio total:</b> #{promocion.precioTotal * verReserva.cantidadPromo(promocion)}</outputText><br></br>
                                         <h2>----------------------------------------------------</h2>
                                     </c:forEach>
-                                    <h:outputText value="Estado: #{verReserva.estado}" rendered="#{verReserva.nroReserva != null}"/><br/>
-                                    <h:commandLink action="#{verReserva.actionCancelarReserva()}" rendered="#{verReserva.nroReserva != null}"><h:graphicImage value="images/cancel.png" width="42" height="42"></h:graphicImage></h:commandLink>
-                                  
+                                    <c:if test="#{verReserva.nroReserva != null}">
+                                        <h:outputText value="Estado: #{verReserva.estado}"/> <br/>
+                                        <h:commandLink action="#{verReserva.actionCancelarReserva()}" rendered="#{verReserva.estado == 'Registrada'}"><h:graphicImage value="images/cancel.png" width="42" height="42"></h:graphicImage></h:commandLink> <br/>
+                                        <h:commandLink action="#{verReserva.acticonPagarReserva()}" rendered="#{verReserva.estado == 'Registrada'}"><h:graphicImage value="images/money_icon1.png" width="70" height="42"></h:graphicImage></h:commandLink>
+                                    </c:if>
                                     </h:form>
                             </div>    
                         </div>

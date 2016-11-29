@@ -42,11 +42,12 @@ public class ReservaWSImpl implements ReservaWS {
         reservasAux = reservacontroller.obtenerTodasReservas();
         return reservasAux;
     }
-     @Override
+
+    @Override
     public List<Reserva> obteneReservasClienteWS(String nikc) {
         ReservaControllerImpl reservaController = new ReservaControllerImpl();
         List<Reserva> reservas = new ArrayList<>();
-         for (int i = 0; i < reservaController.obtenerTodasReservas().size(); i++) {
+        for (int i = 0; i < reservaController.obtenerTodasReservas().size(); i++) {
             if ((reservaController.obtenerTodasReservas().get(i).getCliente().getNickName()).equals(nikc)) {
                 reservas.add(reservaController.obtenerTodasReservas().get(i));
             }
@@ -79,9 +80,9 @@ public class ReservaWSImpl implements ReservaWS {
     @Override
     public void cambiarEstadoWS(int numero, String estado) {
         ReservaControllerImpl reservaController = new ReservaControllerImpl();
-       reservaController.obtenerReserva(numero).setEstado(estado);
+        reservaController.obtenerReserva(numero).setEstado(estado);
     }
-    
+
     @Override
     public boolean crearReservaWS(List<String> promociones, List<String> servicios, String cliente) {
         String Separador = " // ";
@@ -92,14 +93,11 @@ public class ReservaWSImpl implements ReservaWS {
         List<Promocion> promocionesAux = new ArrayList();
         Cliente clienteAux;
         boolean respuesta;
-
         UsuarioControllerImpl usuarioController = new UsuarioControllerImpl();
         ServicioControllerImpl servicioController = new ServicioControllerImpl();
         PromocionControllerImpl promocionController = new PromocionControllerImpl();
         ReservaControllerImpl reservaController = new ReservaControllerImpl();
-
         clienteAux = usuarioController.obtenerCliente(cliente);
-
         for (int i = 0; i < servicios.size(); i++) {
             String aux = servicios.get(i);
             String[] arrayServicioAux = aux.split(Separador);
@@ -107,7 +105,6 @@ public class ReservaWSImpl implements ReservaWS {
             proveedorAux = arrayServicioAux[1];
             serviciosAux.add(servicioController.obtenerServicio(servicioAux, proveedorAux));
         }
-
         for (int i = 0; i < promociones.size(); i++) {
             String aux = promociones.get(i);
             String[] arrayPromocionAux = aux.split(Separador);
@@ -115,51 +112,45 @@ public class ReservaWSImpl implements ReservaWS {
             proveedorAux = arrayPromocionAux[1];
             promocionesAux.add(promocionController.obtenerPromocion(promocionAux, proveedorAux));
         }
-        
         respuesta = reservaController.crearReserva(promocionesAux, serviciosAux, clienteAux);
-
         return respuesta;
     }
 
-    
     @Override
-    public List<Reserva> obtenerResevasProveedor(String nickNameProveedor){
+    public List<Reserva> obtenerResevasProveedor(String nickNameProveedor) {
         ReservaControllerImpl reservaController = new ReservaControllerImpl();
         List<Reserva> todasReservas = new ArrayList<Reserva>();
         List<Reserva> reservas = new ArrayList<Reserva>();
         todasReservas = reservaController.obtenerTodasReservas();
-        
         for (int i = 0; i < todasReservas.size(); i++) {
-            for(int x = 0; x < todasReservas.get(i).getServicios().size(); x++){
+            for (int x = 0; x < todasReservas.get(i).getServicios().size(); x++) {
                 if ((todasReservas.get(i).getServicios().get(x).getProveedor().getNickName()).equals(nickNameProveedor)) {
-                    if(!reservas.contains(todasReservas.get(i))){
+                    if (!reservas.contains(todasReservas.get(i))) {
                         reservas.add(reservaController.obtenerTodasReservas().get(i));
                     }
                 }
             }
-            
-            for(int y = 0; y < todasReservas.get(i).getPromociones().size(); y++){
-                if((todasReservas.get(i).getPromociones().get(y).getProveedor().getNickName()).equals(nickNameProveedor)){
-                    if(!reservas.contains(todasReservas.get(i))){
+            for (int y = 0; y < todasReservas.get(i).getPromociones().size(); y++) {
+                if ((todasReservas.get(i).getPromociones().get(y).getProveedor().getNickName()).equals(nickNameProveedor)) {
+                    if (!reservas.contains(todasReservas.get(i))) {
                         reservas.add(reservaController.obtenerTodasReservas().get(i));
                     }
                 }
             }
         }
-        
         return reservas;
     }
 
     @Override
-    public void recibirPagoWS(int numeroReserva, String nickProveedor) {   
+    public void recibirPagoWS(int numeroReserva, String nickProveedor) {
         ReservaControllerImpl reservaController = new ReservaControllerImpl();
         Reserva reserva = reservaController.obtenerReserva(numeroReserva);
         Iterator<ValidacionPago> iteratorValidaciones = reserva.getPagos().iterator();
-        while(iteratorValidaciones.hasNext()) {
+        while (iteratorValidaciones.hasNext()) {
             ValidacionPago pagoAux = iteratorValidaciones.next();
-            if(pagoAux.getNickProveedor().equals(nickProveedor)) {
+            if (pagoAux.getNickProveedor().equals(nickProveedor)) {
                 pagoAux.setPago(true);
-                if(reserva.isAllPago()) {
+                if (reserva.isAllPago()) {
                     reserva.setEstado("Facturada");
                 }
             }

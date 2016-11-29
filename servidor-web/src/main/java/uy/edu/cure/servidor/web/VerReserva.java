@@ -5,7 +5,6 @@
  */
 package uy.edu.cure.servidor.web;
 
-import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -47,7 +46,6 @@ public class VerReserva {
     private ReservaWS portReserva;
 
     public VerReserva() {
-      
     }
 
     @PostConstruct
@@ -62,17 +60,14 @@ public class VerReserva {
         }
         portReserva = reservaWSImplService.getReservaWSImplPort();
         List<uy.edu.cure.servidor.central.soap.client.Reserva> auxiliar = portReserva.obteneReservasClienteWS(nombre);
-
         for (int i = 0; i < auxiliar.size(); i++) {
             reservas.add(i, convertidor.convertirReserva(auxiliar.get(i)));
         }
-
         if (!reservas.isEmpty()) {
             for (int i = 0; i < reservas.size(); i++) {
                 cantReservas.add(reservas.get(i).getNumero());
             }
         }
-        
     }
 
     public void serviciosPromos() {
@@ -84,16 +79,13 @@ public class VerReserva {
             Logger.getLogger(DatosProveedor.class.getName()).log(Level.SEVERE, null, ex);
         }
         portReserva = reservaWSImplService.getReservaWSImplPort();
-
         if (nroReserva != null) {
             for (int i = 0; i < portReserva.obtenerServiciosReservaWS(nroReserva).size(); i++) {
                 servicios.add(convertidor.convertirServicio(portReserva.obtenerServiciosReservaWS(nroReserva).get(i)));
             }
-
             for (int i = 0; i < portReserva.obtenerPromocionesReservaWS(nroReserva).size(); i++) {
                 promociones.add(convertidor.convertirPromocion(portReserva.obtenerPromocionesReservaWS(nroReserva).get(i)));
             }
-
             if (!servicios.isEmpty()) {
                 cantServicios = portReserva.obtenerReservaWS(nroReserva).getCantidadServicios();
             }
@@ -201,4 +193,9 @@ public class VerReserva {
     public void actionCancelarReserva() {
         portReserva.cambiarEstadoWS(nroReserva, "Cancelada");
     }
+
+    public void acticonPagarReserva() {
+        portReserva.cambiarEstadoWS(nroReserva, "Pagada");
+    }
+
 }
