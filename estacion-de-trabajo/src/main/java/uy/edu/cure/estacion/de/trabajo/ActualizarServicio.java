@@ -587,7 +587,7 @@ public class ActualizarServicio extends javax.swing.JFrame {
             if (!textFieldDescripcion.getText().isEmpty()) {
                 //int indiceServicio = listServicios.getSelectedIndex();
                 String nuevaDescripcion = textFieldDescripcion.getText();
-                portServicio.obtenerServicioWS(servicioAux, proveedorAux).setDescripcion(nuevaDescripcion);
+                portServicio.editarDescripcion(servicioAux, proveedorAux, nuevaDescripcion);
                 //portServicio.obtenerTodosServiciosWS().get(indiceServicio).setDescripcion(nuevaDescripcion);
                 labelDescripcion.setText("Descripcion: " + nuevaDescripcion);
             } else {

@@ -5,13 +5,17 @@
  */
 package uy.edu.cure.servidor.central.webapp.soap.server;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import uy.edu.cure.servidor.central.dto.Categoria;
+import uy.edu.cure.servidor.central.dto.Ciudad;
 import uy.edu.cure.servidor.central.dto.Servicio;
+import uy.edu.cure.servidor.central.lib.CategoriaControllerImpl;
 import uy.edu.cure.servidor.central.lib.ServicioControllerImpl;
+import uy.edu.cure.servidor.central.lib.CiudadControllerImpl;
 
 /**
  *
@@ -54,16 +58,63 @@ public class ServicioWSImpl implements ServicioWS {
 
     @Override
     public List<Categoria> obtenerCategoriasServicioWS(String nombreServicio, String nickProveedor) {
-        ServicioControllerImpl serviciocontroller = new ServicioControllerImpl();     
+        ServicioControllerImpl serviciocontroller = new ServicioControllerImpl();
         List<Categoria> categoriasAux;
         categoriasAux = serviciocontroller.obtenerServicio(nombreServicio, nickProveedor).getCategorias();
         return categoriasAux;
     }
-    
+
     @Override
-    public String verificarPrecio(String precio){
+    public String verificarPrecio(String precio) {
         ServicioControllerImpl servicioController = new ServicioControllerImpl();
         return servicioController.verificarPrecio(precio);
     }
 
+    @Override
+    public void editarDescripcion(String servicio, String proveedor, String descripcion) {
+        ServicioControllerImpl servicioController = new ServicioControllerImpl();
+        servicioController.obtenerServicio(servicio, proveedor).setDescripcion(descripcion);
+
+    }
+
+    @Override
+    public void editarPrecio(String servicio, String proveedor, double precio) {
+        ServicioControllerImpl servicioController = new ServicioControllerImpl();
+        servicioController.obtenerServicio(servicio, proveedor).setPrecio(precio);
+
+    }
+
+    @Override
+    public void editarCiudadOrigen(String servicio, String proveedor, String ciudad) {
+        ServicioControllerImpl servicioController = new ServicioControllerImpl();
+        CiudadControllerImpl ciudadController = new CiudadControllerImpl();
+        Ciudad ciudadAux = ciudadController.obtenerCiudad(ciudad);
+        servicioController.obtenerServicio(servicio, proveedor).setOrigen(ciudadAux);
+
+    }
+
+    @Override
+    public void editarCiudadDestino(String servicio, String proveedor, String ciudad) {
+        ServicioControllerImpl servicioController = new ServicioControllerImpl();
+        CiudadControllerImpl ciudadController = new CiudadControllerImpl();
+        Ciudad ciudadAux = ciudadController.obtenerCiudad(ciudad);
+        servicioController.obtenerServicio(servicio, proveedor).setDestino(ciudadAux);
+
+    }
+
+    @Override
+    public void editarCategorias(String servicio, String proveedor, List<String> categorias) {
+        ServicioControllerImpl servicioController = new ServicioControllerImpl();
+        CategoriaControllerImpl categoriaController = new CategoriaControllerImpl();
+        Categoria categoriaAux;
+        servicioController.obtenerServicio(servicio, proveedor).getCategorias().clear();
+        for (int i = 0; i < categorias.size(); i++) {
+            categoriaAux = categoriaController.obtenerCategoria(categorias.get(i));
+            servicioController.obtenerServicio(servicio, proveedor).setCategorias(categoriaAux);
+        }
+
+
+    }
+
+    List<String> imagenes;
 }

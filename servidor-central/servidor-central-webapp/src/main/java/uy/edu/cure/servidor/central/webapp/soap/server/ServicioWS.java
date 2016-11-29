@@ -35,4 +35,19 @@ public interface ServicioWS {
     
     @WebMethod
     public String verificarPrecio(String precio);
+    
+    @WebMethod
+    public void editarDescripcion(String servicio, String proveedor, String descripcion);
+    
+    @WebMethod
+    public void editarPrecio(String servicio, String proveedor, double precio);
+    
+    @WebMethod
+    public void editarCiudadOrigen(String servicio, String proveedor, String ciudad);
+    
+    @WebMethod
+    public void editarCiudadDestino(String servicio, String proveedor, String ciudad);
+    
+    @WebMethod
+    public void editarCategorias(String servicio, String proveedor, List<String> categorias);
 }
