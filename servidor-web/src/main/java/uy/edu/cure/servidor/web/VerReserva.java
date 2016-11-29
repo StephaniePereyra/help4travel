@@ -53,6 +53,9 @@ public class VerReserva {
         setNombre(datosSesion.getNickName());
         convertidor = new Converter();
         reservas = new ArrayList<>();
+        //
+        cantReservas.clear();
+        //
         try {
             reservaWSImplService = new ReservaWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/ReservaWSImplService?wsdl"));
         } catch (MalformedURLException ex) {
@@ -73,6 +76,11 @@ public class VerReserva {
     public void serviciosPromos() {
         convertidor = new Converter();
         reservas = new ArrayList<>();
+        //
+        servicios.clear();
+        promociones.clear();
+        cantServicios.clear();
+        //
         try {
             reservaWSImplService = new ReservaWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/ReservaWSImplService?wsdl"));
         } catch (MalformedURLException ex) {

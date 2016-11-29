@@ -56,8 +56,8 @@
                                     </div>
                                 </h:form>
                                 
-                            <h:form rendered="#{item.estado != 'Cancelada' or item.proveedorIsPago(nickProveedor)}">
-                                <h:commandButton action="#{proveedorMovil.recibePago(item.numero)}" value="Pagado"></h:commandButton>
+                            <h:form rendered="#{item.estado == 'Pagada' and not item.proveedorIsPago(proveedorMovil.nickName)}">
+                                <h:commandButton action="#{proveedorMovil.recibePago(item.numero)}" value="Confirmar"></h:commandButton>
                             </h:form>
                         </div>
                             
