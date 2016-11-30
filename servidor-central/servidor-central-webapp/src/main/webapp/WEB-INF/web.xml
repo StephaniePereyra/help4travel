@@ -44,6 +44,21 @@
         <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
+    <servlet>
+        <servlet-name>RankigWSImplService</servlet-name>
+        <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet>
+        <servlet-name>EstadisticasWSImplService</servlet-name>
+        <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet>
+        <servlet-name>FacturaWSImplService</servlet-name>
+        <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UsuarioWSImplService</servlet-name>
         <url-pattern>/UsuarioWSImplService</url-pattern>
@@ -75,6 +90,18 @@
     <servlet-mapping>
         <servlet-name>HelloWS</servlet-name>
         <url-pattern>/HelloWS</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RankigWSImplService</servlet-name>
+        <url-pattern>/RankigWSImplService</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EstadisticasWSImplService</servlet-name>
+        <url-pattern>/EstadisticasWSImplService</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FacturaWSImplService</servlet-name>
+        <url-pattern>/FacturaWSImplService</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>

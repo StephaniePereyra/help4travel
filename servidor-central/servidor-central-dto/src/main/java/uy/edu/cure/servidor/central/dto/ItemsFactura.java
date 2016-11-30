@@ -6,6 +6,7 @@
 package uy.edu.cure.servidor.central.dto;
 
 import com.sun.istack.NotNull;
+import java.util.UUID;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -40,7 +41,7 @@ public class ItemsFactura {
     private String tipoItem;
     
     public ItemsFactura (){
-        
+     
     }
 
     public String getNombreItem() {

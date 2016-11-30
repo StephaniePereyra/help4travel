@@ -113,6 +113,7 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>jaxws-maven-plugin</artifactId>
                 <version>2.4.1</version>
+                
                 <executions>
                     <execution>
                         <id>generate-wsdl</id>
@@ -225,7 +226,49 @@
                                 <wsdllFile>CategoriaWSImpl.wsdl</wsdllFile>
                             </wsdlFiles>
                         </configuration>
-                    </execution>  
+                    </execution>
+                    <execution>
+                        <id>generate-wsdl-nineth</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>wsgen</goal>
+                        </goals>
+                        <configuration>
+                            <sei>uy.edu.cure.servidor.central.webapp.soap.server.RankigWSImpl</sei>
+                            <genWsdl>true</genWsdl>
+                            <wsdlFiles>
+                                <wsdllFile>RankigWSImpl.wsdl</wsdllFile>
+                            </wsdlFiles>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-wsdl-tenth</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>wsgen</goal>
+                        </goals>
+                        <configuration>
+                            <sei>uy.edu.cure.servidor.central.webapp.soap.server.EstadisticasWSImpl</sei>
+                            <genWsdl>true</genWsdl>
+                            <wsdlFiles>
+                                <wsdllFile>Estadisticas.wsdl</wsdllFile>
+                            </wsdlFiles>
+                        </configuration>
+                    </execution>
+                     <execution>
+                        <id>generate-wsdl-eleventh</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>wsgen</goal>
+                        </goals>
+                        <configuration>
+                            <sei>uy.edu.cure.servidor.central.webapp.soap.server.FacturaWSImpl</sei>
+                            <genWsdl>true</genWsdl>
+                            <wsdlFiles>
+                                <wsdllFile>Factura.wsdl</wsdllFile>
+                            </wsdlFiles>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
         </plugins>

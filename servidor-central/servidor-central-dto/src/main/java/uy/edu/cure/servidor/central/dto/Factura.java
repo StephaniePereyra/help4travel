@@ -5,7 +5,10 @@
  */
 package uy.edu.cure.servidor.central.dto;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.sun.istack.NotNull;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Entity;
@@ -17,6 +20,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -25,6 +29,7 @@ import javax.persistence.Table;
 @Entity
 @Table (name = "facturas")
 @NamedQueries(value = { @NamedQuery(name = "getFacturaXnumeroReserva", query = "select f from Factura f where numeroReserva = :numeroReserva") })
+@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
 public class Factura {
 
 @Id
@@ -43,7 +48,7 @@ private int numeroReserva;
 private List<ItemsFactura> items;
 
 public Factura (){
-    fecha = new Date(); 
+    fecha = new Date();
 }
 
     public int getId() {
@@ -77,7 +82,7 @@ public Factura (){
     public void setNumeroReserva(int numeroReserva) {
         this.numeroReserva = numeroReserva;
     }
-
+    
     public List<ItemsFactura> getItems() {
         return items;
     }

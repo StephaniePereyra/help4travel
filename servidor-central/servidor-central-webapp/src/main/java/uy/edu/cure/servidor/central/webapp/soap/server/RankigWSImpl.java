@@ -16,6 +16,7 @@ import uy.edu.cure.servidor.central.lib.RankingServiceImpl;
  * @author juan
  */
 @WebService(endpointInterface = "uy.edu.cure.servidor.central.webapp.soap.server.RankingWS")
+
 public class RankigWSImpl implements RankingWS{
 
     @Override

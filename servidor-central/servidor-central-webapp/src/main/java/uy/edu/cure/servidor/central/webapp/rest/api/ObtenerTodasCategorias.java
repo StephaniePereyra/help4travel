@@ -12,7 +12,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import uy.edu.cure.servidor.central.dto.Categoria;
 import uy.edu.cure.servidor.central.dto.DatosRest;
 import uy.edu.cure.servidor.central.lib.CategoriaControllerImpl;
 
@@ -26,7 +25,6 @@ public class ObtenerTodasCategorias {
     @Path("traer")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getTodas(){
-        NewClass.main();
         CategoriaControllerImpl categoriaController = new CategoriaControllerImpl();
         DatosRest categoriasAux = new DatosRest();
         categoriasAux.setCategorias(categoriaController.obtenerTodosCategorias());

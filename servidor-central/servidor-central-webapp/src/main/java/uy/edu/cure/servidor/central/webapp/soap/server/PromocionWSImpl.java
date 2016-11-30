@@ -7,8 +7,6 @@ package uy.edu.cure.servidor.central.webapp.soap.server;
 
 import java.util.List;
 import javax.jws.WebService;
-import javax.jws.WebMethod;
-import javax.jws.WebParam;
 import uy.edu.cure.servidor.central.dto.Promocion;
 import uy.edu.cure.servidor.central.dto.Servicio;
 import uy.edu.cure.servidor.central.lib.PromocionControllerImpl;

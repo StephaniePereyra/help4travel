@@ -14,6 +14,7 @@ import uy.edu.cure.servidor.central.dto.Ranking;
  *
  * @author juan
  */
+
 @WebService
 public interface RankingWS {
     

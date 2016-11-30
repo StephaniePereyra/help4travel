@@ -15,7 +15,7 @@ import uy.edu.cure.servidor.central.lib.EstadisticaServiceImpl;
  *
  * @author juan
  */
-@WebService(endpointInterface = "uy.edu.cure.servidor.central.webapp.soap.server.EstadistiasWS")
+@WebService(endpointInterface = "uy.edu.cure.servidor.central.webapp.soap.server.EstadisticasWS")
 public class EstadisticasWSImpl implements EstadisticasWS{
 
     @Override

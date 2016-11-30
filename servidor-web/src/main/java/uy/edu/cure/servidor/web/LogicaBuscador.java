@@ -5,6 +5,11 @@
  */
 package uy.edu.cure.servidor.web;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -17,12 +22,16 @@ import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import uy.edu.cure.servidor.central.dto.Categoria;
+import uy.edu.cure.servidor.central.dto.Factura;
 import uy.edu.cure.servidor.central.dto.Promocion;
 import uy.edu.cure.servidor.central.dto.Servicio;
 import uy.edu.cure.servidor.central.soap.client.CategoriaWS;
 import uy.edu.cure.servidor.central.soap.client.CategoriaWSImplService;
 import uy.edu.cure.servidor.central.soap.client.CiudadWS;
 import uy.edu.cure.servidor.central.soap.client.CiudadWSImplService;
+import uy.edu.cure.servidor.central.soap.client.FacturaWS;
+import uy.edu.cure.servidor.central.soap.client.FacturaWSImplService;
+import uy.edu.cure.servidor.central.soap.client.ItemsFactura;
 import uy.edu.cure.servidor.central.soap.client.PaisWS;
 import uy.edu.cure.servidor.central.soap.client.PaisWSImplService;
 import uy.edu.cure.servidor.central.soap.client.PromocionWS;
@@ -31,6 +40,10 @@ import uy.edu.cure.servidor.central.soap.client.ServicioWS;
 import uy.edu.cure.servidor.central.soap.client.ServicioWSImplService;
 import uy.edu.cure.servidor.central.soap.client.UsuarioWS;
 import uy.edu.cure.servidor.central.soap.client.UsuarioWSImplService;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.HttpClientBuilder;
 
 /**
  *
@@ -174,6 +187,64 @@ public class LogicaBuscador {
     
     public void niceHarcoding() {
         
+//Prueba jpa-----------------------------------------------------------------------------------------------
+        
+        FacturaWSImplService facturaWSImplService = null;
+    
+        try {
+            facturaWSImplService = new FacturaWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/FacturaWSImplService?wsdl"));
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(LogicaBuscador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        FacturaWS portFactura = facturaWSImplService.getFacturaWSImplPort();
+        
+        ItemsFactura item0 = new ItemsFactura();
+        ItemsFactura item1= new ItemsFactura();
+        ItemsFactura item2= new ItemsFactura();
+        List<ItemsFactura> items = new ArrayList();
+        
+        item0.setNombreItem("Hotel0");
+        item0.setNickProveedor("Proveedor0");
+        item0.setCantidadItem(1);
+        item0.setTipoItem("servicio");
+                
+        item1.setNombreItem("Hotel1");
+        item1.setNickProveedor("Proveedor1");
+        item1.setCantidadItem(2);
+        item1.setTipoItem("servicio");
+                
+        item2.setNombreItem("Hotel2");
+        item2.setNickProveedor("Proveedor2");
+        item2.setCantidadItem(3);
+        item2.setTipoItem("promocion");
+        
+        items.add(item0);
+        items.add(item1);
+        items.add(item2);
+        
+        portFactura.persistirFactura("ClienteX", 1, items);
+        
+        //Se realiza la query usar debugg para ver contenido
+        Factura facturaAux;
+        String url;
+        url = "http://localhost:8080/servidor-central-webapp/rest/api/ObtenerFactura/traer/1";
+        HttpClient client = HttpClientBuilder.create().build();
+        HttpGet request = new HttpGet(url);
+        ObjectMapper mapper = new ObjectMapper();
+        HttpResponse response = null; 
+        String result = null;
+        try {
+            response = client.execute(request);
+            result = getStringFromInputStream(response.getEntity().getContent());
+            facturaAux = mapper.readValue(result, Factura.class);
+        } catch (IOException ex) {
+            Logger.getLogger(LogicaBuscador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        //-------------------------------------------------------------------------------------------
+        //-------------------------------------------------------------------------------------------
+        
         UsuarioWSImplService usuarioWSImplService = null;
         PaisWSImplService paisWSImplService = null;
         CiudadWSImplService ciudadWSImplService = null;
@@ -290,6 +361,34 @@ public class LogicaBuscador {
         portPromocion.crearPromocionWS("Vuelo+Auto", 25, "Proveedor3", imagenes);
         imagenes.clear();imagenes.add("Sky");imagenes.add("Sky4");
         portPromocion.crearPromocionWS("TwoViajes", 10, "Proveedor4", imagenes);
+    }
+    private static String getStringFromInputStream(InputStream is) {
+
+        BufferedReader br = null;
+        StringBuilder sb = new StringBuilder();
+
+        String line;
+        try {
+
+            br = new BufferedReader(new InputStreamReader(is));
+            while ((line = br.readLine()) != null) {
+                sb.append(line);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return sb.toString();
+
     }
 
 }
