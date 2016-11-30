@@ -9,70 +9,87 @@
     <head>
         <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
         <link rel="stylesheet" href="css/bootstrap.min.css"/>
-	<link rel="stylesheet" href="css/estilo.css"/>
+        <link rel="stylesheet" href="css/estilo.css"/>
     </head>
     <body>
-            <ui:composition template="commonLayout.xhtml">
-                <ui:define name="content">
-                    <div id="contenedor">
-                        <input id="tab-1" type="radio" name="radio-set" class="tab-selector-1" checked="checked" />
-                        <label for="tab-1" class="tab-label-1">Profile</label>
-                        <input id="tab-2" type="radio" name="radio-set" class="tab-selector-2" />
-                        <label for="tab-2" class="tab-label-2">Booking</label>
-                        <div class="content">
-                            <div class="content-1">
-                                <fieldset><div  align="center"><h2><b>PROFILE:</b></h2></div></fieldset>                    
-                                <br/><br/>
-                                <table>
-                                    <tr>
-                                        <td><b> NickName: #{datosSesion.usuario.nickName}</b><br/>
-                                            <b> Nombre: #{datosSesion.usuario.nombre}</b> <br/>
-                                            <b> Apellido: #{datosSesion.usuario.apellido}</b> <br/>
-                                            <b> Fecha Nacimiento: #{datosSesion.usuario.fechanacimiento.date} / #{datosSesion.usuario.fechanacimiento.month} / #{datosSesion.usuario.fechanacimiento.year} </b> <br/>
-                                            <b> Correo: #{datosSesion.usuario.correo}</b> <br/>   
-                                        </td>
-                                        <td><pre>       </pre></td>
-                                        <td><p><img src="#{datosSesion.usuario.imagenPerfil}" width="175" height="175" ></img></p></td>
-                                    </tr>
+        <ui:composition template="commonLayout.xhtml">
+            <ui:define name="content">
+                <div class="container">
+                <ul class="nav nav-tabs">
+                    <li ><a data-toggle="tab" href="#home">Profile</a></li>
+                    <li><a data-toggle="tab" href="#menu1">Booking</a></li>
+                </ul>
+
+                <div class="tab-content">
+                    <div id="home" class="tab-pane fade in active">
+                        <h3>Profile</h3>
+                        <table> 
+                                    <tr> 
+                                        <td><b> NickName: #{datosSesion.usuario.nickName}</b><br/> 
+                                            <b> Nombre: #{datosSesion.usuario.nombre}</b> <br/> 
+                                            <b> Apellido: #{datosSesion.usuario.apellido}</b> <br/> 
+                                            <b> Fecha Nacimiento: #{datosSesion.usuario.fechanacimiento.date} / #{datosSesion.usuario.fechanacimiento.month - 1} / #{datosSesion.usuario.fechanacimiento.year - 1900} </b> <br/> 
+                                            <b> Correo: #{datosSesion.usuario.correo}</b> <br/>    
+                                        </td> 
+                                        <td>&nbsp; &nbsp;</td> 
+                                        <td><p><img src="#{datosSesion.usuario.imagenPerfil}" width="175" height="175" ></img></p></td> 
+                                    </tr> 
                                 </table>
-                            </div>
-                            <div class="content-2">
-                                <h:form>
-                                    <h1>Reservas</h1>
-                                    <h:selectOneMenu value="#{verReserva.nroReserva}" style="width: 42;height: 42">
-                                        <f:selectItems value="#{verReserva.cantReservas}" var="nroReserva" itemValue="#{nroReserva}" itemLabel="#{nroReserva}"/>                                 
-                                    </h:selectOneMenu>
-                                    <h:commandLink action="#{verReserva.serviciosPromos()}"><h:graphicImage value="images/show.png" width="32" height="32"></h:graphicImage></h:commandLink><br/>
-                                    <div>Servicios</div> 
-                                    <c:forEach items="#{verReserva.servicios}" var="servicio">
-                                        <outputText> <b>Nombre:</b> #{servicio.nombre}</outputText><br></br>
-                                        <outputText> <b>Proveedor:</b> #{servicio.proveedor.getNickName()}</outputText><br></br>
-                                        <outputText> <b>Precio unidad:</b> #{servicio.precio}</outputText><br></br>
-                                        <outputText> <b>Descripcion:</b> #{servicio.descripcion}</outputText><br/> 
-                                        <outputText> <b>Cantidad:</b> #{verReserva.cantidadServ(servicio)}</outputText><br></br>
-                                        <outputText> <b>Precio total:</b> #{servicio.precio * verReserva.cantidadServ(servicio)}</outputText><br></br>
-                                        <h2>----------------------------------------------------</h2>
-                                    </c:forEach>
-                                    <br></br><br></br>
-                                    <div>Promociones</div>
-                                    <c:forEach items="#{verReserva.promociones}" var="promocion">
-                                        <outputText> <b>Nombre:</b> #{promocion.nombre}</outputText><br/>
-                                        <outputText> <b>Proveedor:</b> #{promocion.proveedor.nickName}</outputText><br/>
-                                        <outputText> <b>Precio unidad:</b> #{promocion.precioTotal}</outputText><br/>
-                                        <outputText> <b>Cantidad:</b> #{verReserva.cantidadPromo(promocion)}</outputText><br></br>
-                                        <outputText> <b>Precio total:</b> #{promocion.precioTotal * verReserva.cantidadPromo(promocion)}</outputText><br></br>
-                                        <h2>----------------------------------------------------</h2>
-                                    </c:forEach>
-                                    <c:if test="#{verReserva.nroReserva != null}">
-                                        <h:outputText value="Estado: #{verReserva.estado}"/> <br/>
-                                        <h:commandLink action="#{verReserva.actionCancelarReserva()}" rendered="#{verReserva.estado == 'Registrada'}"><h:graphicImage value="images/cancel.png" width="42" height="42"></h:graphicImage></h:commandLink> <br/>
-                                        <h:commandLink action="#{verReserva.acticonPagarReserva()}" rendered="#{verReserva.estado == 'Registrada'}"><h:graphicImage value="images/money_icon1.png" width="70" height="42"></h:graphicImage></h:commandLink>
-                                    </c:if>
-                                    </h:form>
-                            </div>    
-                        </div>
                     </div>
-                </ui:define>
-            </ui:composition>
+                    <div id="menu1" class="tab-pane fade">
+                        <h3>Booking</h3>
+                        <h:form> 
+                                    <h1>Reservas</h1> 
+                                    <h:selectOneMenu value="#{verReserva.nroReserva}" style="width: 42;height: 42"> 
+                                        <f:selectItems value="#{verReserva.cantReservas}" var="nroReserva" itemValue="#{nroReserva}" itemLabel="#{nroReserva}"/>                                  
+                                    </h:selectOneMenu> 
+                                    <h:commandLink action="#{verReserva.serviciosPromos()}"><h:graphicImage value="images/show.png" width="32" height="32"></h:graphicImage></h:commandLink><br/> 
+                                    <div class="panel panel-primary">
+                                        <div class="panel-heading">
+                                    <div>Servicios</div> 
+                                    </div>
+                                        <div class="panel-body">
+                                            
+                                    <c:forEach items="#{verReserva.servicios}" var="servicio"> 
+                                        <div class="panel-footer">
+                                        <outputText> <b>Nombre:</b> #{servicio.nombre}</outputText><br></br> 
+                                        <outputText> <b>Proveedor:</b> #{servicio.proveedor.getNickName()}</outputText><br></br> 
+                                        <outputText> <b>Precio unidad:</b> #{servicio.precio}</outputText><br></br> 
+                                        <outputText> <b>Descripcion:</b> #{servicio.descripcion}</outputText><br/>  
+                                        <outputText> <b>Cantidad:</b> #{verReserva.cantidadServ(servicio)}</outputText><br></br> 
+                                        <outputText> <b>Precio total:</b> #{servicio.precio * verReserva.cantidadServ(servicio)}</outputText> <br></br> 
+                                        </div>
+                                    </c:forEach>
+                                        
+                                            </div>
+                                        </div>
+                                     
+                                    <div class="panel panel-primary">
+                                        <div class="panel-heading">
+                                    <div>Promociones</div> 
+                                    </div> 
+                                        <div class="panel-body">
+                                    <c:forEach items="#{verReserva.promociones}" var="promocion">
+                                        <div class="panel-footer">
+                                            <outputText> <b>Nombre:</b> #{promocion.nombre}</outputText><br/> 
+                                            <outputText> <b>Proveedor:</b> #{promocion.proveedor.nickName}</outputText><br/> 
+                                            <outputText> <b>Precio unidad:</b> #{promocion.precioTotal}</outputText><br/> 
+                                            <outputText> <b>Cantidad:</b> #{verReserva.cantidadPromo(promocion)}</outputText><br></br> 
+                                            <outputText> <b>Precio total:</b> #{promocion.precioTotal * verReserva.cantidadPromo(promocion)}</outputText>  
+                                        </div>
+                                    </c:forEach>
+                                    </div>
+                                        </div>
+                                    <c:if test="#{verReserva.nroReserva != null}"> 
+                                        <h:outputText value="Estado: #{verReserva.estado}"/> <br/> 
+                                        <h:commandLink action="#{verReserva.actionCancelarReserva()}" rendered="#{verReserva.estado == 'Registrada'}"><h:graphicImage value="images/cancel.png" width="42" height="42"></h:graphicImage></h:commandLink> <br/> 
+                                        <h:commandLink action="#{verReserva.acticonPagarReserva()}" rendered="#{verReserva.estado == 'Registrada'}"><h:graphicImage value="images/money_icon1.png" width="70" height="42"></h:graphicImage></h:commandLink> 
+                                    </c:if> 
+                                    </h:form> 
+                    </div>
+                </div>
+                </div>
+            </ui:define>
+        </ui:composition>
     </body>
 </html>
