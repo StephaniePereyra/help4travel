@@ -29,9 +29,8 @@
                             Fecha: #{item.fechaCreacion.day + 20}/#{item.fechaCreacion.month + 1}/#{item.fechaCreacion.year + 1900} <br></br>
                             Estado: #{item.estado} <br></br>
                             Cliente: #{item.cliente.nickName} <br></br>
-                            Precio Total: #{item.precio} <br></br> <br></br>
-                            Servicios<br></br>
-                           
+                            Precio Total: #{item.precio} <br></br> 
+                            <h3>Servicios</h3>
                                 <h:form>
                                     <div class="panel-footer">
                                     <ui:repeat value="#{proveedorMovil.obtenerServicios(item)}" var="itemServicio">  
@@ -40,10 +39,14 @@
                                         <f:param name="nombreServicio" value="#{itemServicio.nombre}" >
                                         </f:param> <f:param name="proveedorServicio" value="#{proveedorMovil.nickName}" ></f:param> 
                                     </h:commandLink>  <br/>
+                                    Precio unitario: #{itemServicio.precio} <br/>
+                                    Cantidad: #{proveedorMovil.cantidadServicio(item,itemServicio)} <br/>
+                                    Precio total del Servicio: #{itemServicio.precio * proveedorMovil.cantidadServicio(item,itemServicio)}<br/>
+                                    <br/>
                                     </ui:repeat>
                                     </div>
                                 </h:form>
-                            Promociones<br></br>
+                            <h3>Promociones</h3>
                                 <h:form>
                                     <div class="panel-footer">
                                     <ui:repeat value="#{proveedorMovil.obtenerPromociones(item)}" var="itemPromocion">  
@@ -52,6 +55,9 @@
                                         <f:param name="nombrePromocion" value="#{itemPromocion.nombre}" >
                                         </f:param> <f:param name="proveedorPromocion" value="#{proveedorMovil.nickName}" ></f:param> 
                                     </h:commandLink>  <br/>
+                                    Precio unitario: #{itemPromocion.precioTotal} <br/>
+                                    Cantidad: #{proveedorMovil.cantidadPromocion(item,itemPromocion)} <br/>
+                                    Precio total del Servicio: #{itemPromocion.precioTotal * proveedorMovil.cantidadPromocion(item,itemPromocion)}<br/>
                                     </ui:repeat>
                                     </div>
                                 </h:form>

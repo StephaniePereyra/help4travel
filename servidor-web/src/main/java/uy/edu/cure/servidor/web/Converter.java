@@ -182,6 +182,8 @@ public class Converter {
         reservaAuxliar.setPrecio(reserva.getPrecio());
         reservaAuxliar.setEstado(reserva.getEstado());
         
+        reservaAuxliar.setCantidadServicios(reserva.getCantidadServicios());
+        reservaAuxliar.setCantidadPromociones(reserva.getCantidadPromociones());
             reservaAuxliar.setCliente(this.convertirCliente(reserva.getCliente()));
         
         if(reserva.getFechaCreacion() != null){

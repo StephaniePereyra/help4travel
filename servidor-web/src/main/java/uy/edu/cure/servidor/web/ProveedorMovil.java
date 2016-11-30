@@ -52,6 +52,7 @@ public class ProveedorMovil {
     private boolean vacioReserva;
     
     
+    
     public ProveedorMovil() throws MalformedURLException {
         try {
             convertidor = new Converter();
@@ -122,6 +123,20 @@ public class ProveedorMovil {
             }
         }
         return promocionesAux;
+    }
+    
+    public int cantidadServicio(Reserva reserva,Servicio servicio){
+        int cantidad = 1;
+        int posicion = reserva.getServicios().indexOf(servicio);
+        cantidad = reserva.getCantidadServicios().get(posicion);
+        return cantidad;
+    }
+    
+    public int cantidadPromocion(Reserva reserva,Promocion promocion){
+        int cantidad = 1;
+        int posicion = reserva.getPromociones().indexOf(promocion);
+        cantidad = reserva.getCantidadPromociones().get(posicion);
+        return cantidad;
     }
     
     public void recibePago(int numeroReserva) {
