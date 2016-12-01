@@ -114,14 +114,14 @@ public class FiltroEstadiscticas implements Filter {
 
         HistorialWSImplService historialWSImplService = null;
         HistorialWS portHistorial;
-
+    /*
         try {
             historialWSImplService = new HistorialWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/HistorialWSImpl?wsdl"));
         } catch (MalformedURLException ex) {
         }
         portHistorial = historialWSImplService.getHistorialWSImplPort();
         portHistorial.crearHistorial(ipAdd, peticion.getHeader("User-Agent"), peticion.getRequestURL().toString());
-
+    */
         chain.doFilter(request, response);
     }
 
