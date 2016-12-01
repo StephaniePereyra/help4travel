@@ -10,7 +10,6 @@ import javax.jws.WebService;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.persistence.Query;
 import uy.edu.cure.servidor.central.dto.Factura;
 import uy.edu.cure.servidor.central.dto.ItemsFactura;
 

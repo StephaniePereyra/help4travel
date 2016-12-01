@@ -14,7 +14,7 @@ import uy.edu.cure.servidor.central.dto.Historial;
 public class HistorialControllerImpl implements HistorialController {
 
     @Override
-    public void crearEstadistica(String ipAdd, String userAgent, String url) {
+    public Historial crearEstadistica(String ipAdd, String userAgent, String url) {
 
         String browserDetails = userAgent;
         String user = userAgent.toLowerCase();
@@ -64,8 +64,7 @@ public class HistorialControllerImpl implements HistorialController {
         }
         
         Historial estadistica = new Historial(ipAdd, os, url, browser);
-        HistorialServiceImpl Historialervice = new HistorialServiceImpl();
-        Historialervice.guardadEstadistica(estadistica);
+        return estadistica;
     }
 
 }

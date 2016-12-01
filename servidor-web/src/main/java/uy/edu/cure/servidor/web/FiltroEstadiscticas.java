@@ -11,8 +11,6 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -114,14 +112,14 @@ public class FiltroEstadiscticas implements Filter {
 
         HistorialWSImplService historialWSImplService = null;
         HistorialWS portHistorial;
-    /*
+    
         try {
-            historialWSImplService = new HistorialWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/HistorialWSImpl?wsdl"));
+            historialWSImplService = new HistorialWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/HistorialWSImplService?wsdl"));
         } catch (MalformedURLException ex) {
         }
         portHistorial = historialWSImplService.getHistorialWSImplPort();
         portHistorial.crearHistorial(ipAdd, peticion.getHeader("User-Agent"), peticion.getRequestURL().toString());
-    */
+    
         chain.doFilter(request, response);
     }
 
