@@ -4,7 +4,6 @@ package uy.edu.cure.servidor.central.webapp.soap.server;
 import java.util.List;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
-import uy.edu.cure.servidor.central.dto.Factura;
 import uy.edu.cure.servidor.central.dto.ItemsFactura;
 
 /*

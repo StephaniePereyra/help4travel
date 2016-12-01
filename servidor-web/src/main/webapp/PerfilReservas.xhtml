@@ -85,7 +85,14 @@
                                         <h:commandLink action="#{verReserva.actionCancelarReserva()}" rendered="#{verReserva.estado == 'Registrada'}"><h:graphicImage value="images/cancel.png" width="42" height="42"></h:graphicImage></h:commandLink> <br/> 
                                         <h:commandLink action="#{verReserva.acticonPagarReserva()}" rendered="#{verReserva.estado == 'Registrada'}"><h:graphicImage value="images/money_icon1.png" width="70" height="42"></h:graphicImage></h:commandLink> 
                                     </c:if> 
-                                    </h:form> 
+                                    </h:form>
+                        <h:form>
+                            <c:if test="#{verReserva.nroReserva != null}">
+                            <c:if test="#{verReserva.estado == 'Facturada'}">
+                                <a href="#{datosCliente.actionPDF(verReserva.nroReserva)}" dowload = "FacturaH4T.pdf">Descarga</a>
+                            </c:if>
+                            </c:if>
+                        </h:form>
                     </div>
                 </div>
                 </div>

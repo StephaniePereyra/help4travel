@@ -9,19 +9,22 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import uy.edu.cure.servidor.central.dto.Factura;
 import uy.edu.cure.servidor.central.dto.Promocion;
 import uy.edu.cure.servidor.central.dto.Proveedor;
 import uy.edu.cure.servidor.central.dto.Reserva;
 import uy.edu.cure.servidor.central.dto.Servicio;
-import uy.edu.cure.servidor.central.dto.ValidacionPago;
-import uy.edu.cure.servidor.central.lib.ReservaControllerImpl;
 import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
+import uy.edu.cure.servidor.central.soap.client.FacturaWS;
+import uy.edu.cure.servidor.central.soap.client.FacturaWSImplService;
+import uy.edu.cure.servidor.central.soap.client.ItemsFactura;
 import uy.edu.cure.servidor.central.soap.client.ReservaWS;
 import uy.edu.cure.servidor.central.soap.client.ReservaWSImplService;
 import uy.edu.cure.servidor.central.soap.client.UsuarioWS;
@@ -141,6 +144,40 @@ public class ProveedorMovil {
     
     public void recibePago(int numeroReserva) {
         portReserva.recibirPagoWS(numeroReserva, nickName);
+        if(portReserva.obtenerReservaWS(numeroReserva).getEstado().equals("Facturada")){
+        
+        FacturaWSImplService facturaWSImplService = null;
+        try {
+            facturaWSImplService = new FacturaWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/FacturaWSImplService?wsdl"));
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(ProveedorMovil.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        FacturaWS portFactura = facturaWSImplService.getFacturaWSImplPort();
+        
+        List<ItemsFactura> items = new ArrayList();
+        Factura facturaAuxiliar = new Factura();
+        List<uy.edu.cure.servidor.central.soap.client.Servicio> serviciosReserva = portReserva.obtenerServiciosReservaWS(numeroReserva); 
+        List<uy.edu.cure.servidor.central.soap.client.Promocion> promocionesReserva = portReserva.obtenerPromocionesReservaWS(numeroReserva);
+        
+        for(int i=0;i<serviciosReserva.size();i++){
+            ItemsFactura item = new ItemsFactura();
+            item.setCantidadItem(portReserva.obtenerReservaWS(numeroReserva).getCantidadServicios().get(i));
+            item.setNickProveedor(serviciosReserva.get(i).getProveedor().getNickName());
+            item.setNombreItem(serviciosReserva.get(i).getNombre());
+            item.setTipoItem("servicio");
+            items.add(item);
+        }
+        for(int u=0;u<promocionesReserva.size();u++){
+            ItemsFactura item = new ItemsFactura();
+            item.setCantidadItem(portReserva.obtenerReservaWS(numeroReserva).getCantidadPromociones().get(u));
+            item.setNickProveedor(promocionesReserva.get(u).getProveedor().getNickName());
+            item.setNombreItem(promocionesReserva.get(u).getNombre());
+            item.setTipoItem("promocion");
+            items.add(item);
+        }
+        portFactura.persistirFactura(portReserva.obtenerReservaWS(numeroReserva).getCliente().getNickName(), numeroReserva, items);
+        }
     }
 
     public String getNickName() {

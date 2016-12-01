@@ -5,10 +5,18 @@
  */
 package uy.edu.cure.servidor.web;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -20,6 +28,11 @@ import java.util.logging.Logger;
 import javax.servlet.http.Part;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.HttpClientBuilder;
+import uy.edu.cure.servidor.central.dto.Factura;
 import uy.edu.cure.servidor.central.soap.client.UsuarioWS;
 import uy.edu.cure.servidor.central.soap.client.UsuarioWSImplService;
 
@@ -249,4 +262,59 @@ public class DatosCliente {
         }
     }
 
+    public String actionPDF(Integer nroReserva) throws IOException, DocumentException{
+        Factura facturaAux;
+        String url;
+        String numeroReserva = nroReserva.toString();
+        
+        url = "http://localhost:8080/servidor-central-webapp/rest/api/ObtenerFactura/traer/"+numeroReserva;
+        HttpClient client = HttpClientBuilder.create().build();
+        HttpGet request = new HttpGet(url);
+        ObjectMapper mapper = new ObjectMapper();
+        HttpResponse response = null; 
+        String result = null;
+            response = client.execute(request);
+            result = getStringFromInputStream(response.getEntity().getContent());
+            facturaAux = mapper.readValue(result, Factura.class);
+        
+        Document documento = new Document();
+        Date date = new Date();
+        FileOutputStream rutaPDF = null;
+        
+            rutaPDF = new FileOutputStream( "/home/guido/help4travel/servidor-web/src/main/webapp/pdf/" + date.getTime() + ".pdf" );
+            PdfWriter.getInstance(documento, rutaPDF);
+            documento.open();
+            documento.add(new Paragraph("asdasda"));
+            documento.close();
+            String ruta = "pdf/" + date.getTime() + ".pdf";
+            return ruta;
+    }
+        private static String getStringFromInputStream(InputStream is) {
+
+        BufferedReader br = null;
+        StringBuilder sb = new StringBuilder();
+
+        String line;
+        try {
+
+            br = new BufferedReader(new InputStreamReader(is));
+            while ((line = br.readLine()) != null) {
+                sb.append(line);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return sb.toString();
+
+    }
 }

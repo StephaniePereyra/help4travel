@@ -187,61 +187,11 @@ public class LogicaBuscador {
     
     public void niceHarcoding() {
         
-//Prueba jpa-----------------------------------------------------------------------------------------------
-        
-        FacturaWSImplService facturaWSImplService = null;
-    
-        try {
-            facturaWSImplService = new FacturaWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/FacturaWSImplService?wsdl"));
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(LogicaBuscador.class.getName()).log(Level.SEVERE, null, ex);
-        }
 
-        FacturaWS portFactura = facturaWSImplService.getFacturaWSImplPort();
-        
-        ItemsFactura item0 = new ItemsFactura();
-        ItemsFactura item1= new ItemsFactura();
-        ItemsFactura item2= new ItemsFactura();
-        List<ItemsFactura> items = new ArrayList();
-        
-        item0.setNombreItem("Hotel0");
-        item0.setNickProveedor("Proveedor0");
-        item0.setCantidadItem(1);
-        item0.setTipoItem("servicio");
-                
-        item1.setNombreItem("Hotel1");
-        item1.setNickProveedor("Proveedor1");
-        item1.setCantidadItem(2);
-        item1.setTipoItem("servicio");
-                
-        item2.setNombreItem("Hotel2");
-        item2.setNickProveedor("Proveedor2");
-        item2.setCantidadItem(3);
-        item2.setTipoItem("promocion");
-        
-        items.add(item0);
-        items.add(item1);
-        items.add(item2);
-        
-        portFactura.persistirFactura("ClienteX", 1, items);
-        
+        /*
         //Se realiza la query usar debugg para ver contenido
-        Factura facturaAux;
-        String url;
-        url = "http://localhost:8080/servidor-central-webapp/rest/api/ObtenerFactura/traer/1";
-        HttpClient client = HttpClientBuilder.create().build();
-        HttpGet request = new HttpGet(url);
-        ObjectMapper mapper = new ObjectMapper();
-        HttpResponse response = null; 
-        String result = null;
-        try {
-            response = client.execute(request);
-            result = getStringFromInputStream(response.getEntity().getContent());
-            facturaAux = mapper.readValue(result, Factura.class);
-        } catch (IOException ex) {
-            Logger.getLogger(LogicaBuscador.class.getName()).log(Level.SEVERE, null, ex);
-        }
         
+        */
         //-------------------------------------------------------------------------------------------
         //-------------------------------------------------------------------------------------------
         
@@ -286,7 +236,7 @@ public class LogicaBuscador {
         portCiudad.crearCiudadWS("Rocha", "Uruguay");
         // -- Clientes --
 
-        portUsuario.crearClienteWS("Cliente1", "nombre1", "apellido1", "correo@correo1", 10, 10, 1995, "images/perfil/default.png", "password1", "password1");
+        portUsuario.crearClienteWS("Cliente1", "nombre1", "apellido1", "grupoReZarpado@gmail.com", 10, 10, 1995, "images/perfil/default.png", "password1", "password1");
         portUsuario.crearClienteWS("Cliente2", "nombre2", "apellido2", "correo@correo2", 29, 2, 1996, "images/perfil/default.png", "password2", "password2");    
         
         // -- Proveedores --
@@ -361,34 +311,6 @@ public class LogicaBuscador {
         portPromocion.crearPromocionWS("Vuelo+Auto", 25, "Proveedor3", imagenes);
         imagenes.clear();imagenes.add("Sky");imagenes.add("Sky4");
         portPromocion.crearPromocionWS("TwoViajes", 10, "Proveedor4", imagenes);
-    }
-    private static String getStringFromInputStream(InputStream is) {
-
-        BufferedReader br = null;
-        StringBuilder sb = new StringBuilder();
-
-        String line;
-        try {
-
-            br = new BufferedReader(new InputStreamReader(is));
-            while ((line = br.readLine()) != null) {
-                sb.append(line);
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (br != null) {
-                try {
-                    br.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        return sb.toString();
-
     }
 
 }
