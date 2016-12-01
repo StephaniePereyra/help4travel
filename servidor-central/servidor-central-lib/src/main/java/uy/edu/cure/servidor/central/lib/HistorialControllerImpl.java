@@ -5,13 +5,13 @@
  */
 package uy.edu.cure.servidor.central.lib;
 
-import uy.edu.cure.servidor.central.dto.Estadisticas;
+import uy.edu.cure.servidor.central.dto.Historial;
 
 /**
  *
  * @author juan
  */
-public class EstadisticaControllerImpl implements EstadisticasController {
+public class HistorialControllerImpl implements HistorialController {
 
     @Override
     public void crearEstadistica(String ipAdd, String userAgent, String url) {
@@ -63,9 +63,9 @@ public class EstadisticaControllerImpl implements EstadisticasController {
             browser = "UnKnown, More-Info: " + userAgent;
         }
         
-        Estadisticas estadistica = new Estadisticas(ipAdd, os, url, browser);
-        EstadisticaServiceImpl estadisticaService = new EstadisticaServiceImpl();
-        estadisticaService.guardadEstadistica(estadistica);
+        Historial estadistica = new Historial(ipAdd, os, url, browser);
+        HistorialServiceImpl Historialervice = new HistorialServiceImpl();
+        Historialervice.guardadEstadistica(estadistica);
     }
 
 }

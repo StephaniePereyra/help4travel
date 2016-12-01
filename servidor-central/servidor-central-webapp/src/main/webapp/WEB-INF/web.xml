@@ -50,7 +50,7 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet>
-        <servlet-name>EstadisticasWSImplService</servlet-name>
+        <servlet-name>HistorialWSImplService</servlet-name>
         <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
@@ -96,8 +96,8 @@
         <url-pattern>/RankigWSImplService</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>EstadisticasWSImplService</servlet-name>
-        <url-pattern>/EstadisticasWSImplService</url-pattern>
+        <servlet-name>HistorialWSImplService</servlet-name>
+        <url-pattern>/HistorialWSImplService</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>FacturaWSImplService</servlet-name>

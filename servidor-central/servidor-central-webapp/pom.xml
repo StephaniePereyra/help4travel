@@ -248,10 +248,10 @@
                             <goal>wsgen</goal>
                         </goals>
                         <configuration>
-                            <sei>uy.edu.cure.servidor.central.webapp.soap.server.EstadisticasWSImpl</sei>
+                            <sei>uy.edu.cure.servidor.central.webapp.soap.server.HistorialWSImpl</sei>
                             <genWsdl>true</genWsdl>
                             <wsdlFiles>
-                                <wsdllFile>Estadisticas.wsdl</wsdllFile>
+                                <wsdllFile>Historial.wsdl</wsdllFile>
                             </wsdlFiles>
                         </configuration>
                     </execution>

@@ -5,12 +5,15 @@
  */
 package uy.edu.cure.servidor.central.lib;
 
+
+import uy.edu.cure.servidor.central.dto.Historial;
+
 /**
  *
  * @author juan
  */
-public interface EstadisticasController {
+public interface Historialervice {
     
-    void crearEstadistica (String ipAdd, String userAgent, String url);
+    boolean guardadEstadistica (Historial estadistica);
     
 }

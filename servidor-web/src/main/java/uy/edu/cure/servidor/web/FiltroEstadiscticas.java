@@ -9,17 +9,20 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.HashMap;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
-import uy.edu.cure.servidor.central.lib.EstadisticaControllerImpl;
+import uy.edu.cure.servidor.central.soap.client.HistorialWS;
+import uy.edu.cure.servidor.central.soap.client.HistorialWSImplService;
 
 /**
  *
@@ -109,8 +112,15 @@ public class FiltroEstadiscticas implements Filter {
         String ipAdd = null; // IP del cliente
         ipAdd = request.getRemoteAddr();
 
-        EstadisticaControllerImpl estadisticasController = new EstadisticaControllerImpl();
-        estadisticasController.crearEstadistica(ipAdd, peticion.getHeader("User-Agent"), peticion.getRequestURL().toString());
+        HistorialWSImplService historialWSImplService = null;
+        HistorialWS portHistorial;
+
+        try {
+            historialWSImplService = new HistorialWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/HistorialWSImpl?wsdl"));
+        } catch (MalformedURLException ex) {
+        }
+        portHistorial = historialWSImplService.getHistorialWSImplPort();
+        portHistorial.crearHistorial(ipAdd, peticion.getHeader("User-Agent"), peticion.getRequestURL().toString());
 
         chain.doFilter(request, response);
     }

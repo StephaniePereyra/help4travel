@@ -9,6 +9,6 @@
   <endpoint implementation="uy.edu.cure.servidor.central.webapp.soap.server.CiudadWSImpl" name="CiudadWSImplService" url-pattern="/soap/CiudadWSImplService"/>
   <endpoint implementation="uy.edu.cure.servidor.central.webapp.soap.server.CategoriaWSImpl" name="CategoriaWSImplService" url-pattern="/soap/CategoriaWSImplService"/>
   <endpoint implementation="uy.edu.cure.servidor.central.webapp.soap.server.RankigWSImpl" name="RankigWSImplService" url-pattern="/soap/RankigWSImplService"/>
-  <endpoint implementation="uy.edu.cure.servidor.central.webapp.soap.server.EstadisticasWSImpl" name="EstadisticasWSImplService" url-pattern="/soap/EstadisticasWSImplService"/>
+  <endpoint implementation="uy.edu.cure.servidor.central.webapp.soap.server.HistorialWSImpl" name="HistorialWSImplService" url-pattern="/soap/HistorialWSImplService"/>
   <endpoint implementation="uy.edu.cure.servidor.central.webapp.soap.server.FacturaWSImpl" name="FacturaWSImplService" url-pattern="/soap/FacturaWSImplService"/>
 </endpoints>

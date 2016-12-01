@@ -8,17 +8,15 @@ package uy.edu.cure.servidor.central.webapp.soap.server;
 import java.util.List;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
-import uy.edu.cure.servidor.central.dto.Estadisticas;
+import uy.edu.cure.servidor.central.dto.Historial;
 
 /**
  *
  * @author juan
  */
 @WebService
-public interface EstadisticasWS {
+public interface HistorialWS {
     
-    @WebMethod public void crearEstadistica (String ipAdd, String userAgent, String url);
+    @WebMethod public void crearHistorial(String ipAdd, String userAgent, String url);
         
-    @WebMethod public List<Estadisticas> obtenerTodosEstadisticas();
-    
 }
