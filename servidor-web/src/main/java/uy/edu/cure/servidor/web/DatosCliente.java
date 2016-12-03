@@ -12,7 +12,6 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,6 +32,10 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClientBuilder;
 import uy.edu.cure.servidor.central.dto.Factura;
+import uy.edu.cure.servidor.central.dto.Promocion;
+import uy.edu.cure.servidor.central.dto.Reserva;
+import uy.edu.cure.servidor.central.dto.Servicio;
+import uy.edu.cure.servidor.central.soap.client.ReservaWS;
 import uy.edu.cure.servidor.central.soap.client.UsuarioWS;
 import uy.edu.cure.servidor.central.soap.client.UsuarioWSImplService;
 
@@ -43,7 +46,6 @@ import uy.edu.cure.servidor.central.soap.client.UsuarioWSImplService;
 @ManagedBean
 @ViewScoped
 public class DatosCliente {
-
     private MensajeDatosUsuario datosusuarioMnsj = new MensajeDatosUsuario();
     private String nickName, nombre, apellido, correo, ruta, passWord, passWordConfirm, mensaje, mensajeDefault = "*No pueden existir campos vacios*";
     private int dia, mes, anio;
@@ -52,16 +54,16 @@ public class DatosCliente {
     private Part imagen;
     private UsuarioWSImplService usuarioWSImplService;
     private UsuarioWS port;
-    
+    private ReservaWS portReserva;
+    private Converter convertidor;
+
     public DatosCliente() {
-        
         try {
             usuarioWSImplService = new UsuarioWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/UsuarioWSImplService?wsdl"));
         } catch (MalformedURLException ex) {
             Logger.getLogger(VerReserva.class.getName()).log(Level.SEVERE, null, ex);
         }
-         port = usuarioWSImplService.getUsuarioWSImplPort();
-
+        port = usuarioWSImplService.getUsuarioWSImplPort();
         dias = new ArrayList();
         meses = new ArrayList();
         anios = new ArrayList();
@@ -226,17 +228,14 @@ public class DatosCliente {
         String rutaUp = "";
         int resultado;
         mostrarMensaje = true;
-
         if (imagen == null) {
             rutaUp = "images/perfil/default.png";
             resultado = port.crearClienteWS(nickName, nombre, apellido, correo, dia, mes, anio, rutaUp, passWord, passWordConfirm);
         } else {
-
             String tipo = imagen.getContentType();
             String formato1 = "image/png";
             String formato2 = "image/jpeg";
             String formato3 = "image/jpg";
-
             if (!formato1.equals(tipo) && !formato2.equals(tipo) && !formato3.equals(tipo)) {
                 resultado = 6;
             } else {
@@ -254,7 +253,6 @@ public class DatosCliente {
                 resultado = port.crearClienteWS(nickName, nombre, apellido, correo, dia, mes, anio, rutaUp, passWord, passWordConfirm);
             }
         }
-
         if (nickName.equals("") || nombre.equals("") || apellido.equals("") || correo.equals("")) {
             mensaje = mensajeDefault;
         } else {
@@ -262,46 +260,70 @@ public class DatosCliente {
         }
     }
 
-    public String actionPDF(Integer nroReserva) throws IOException, DocumentException{
+    public String actionPDF(Integer nroReserva) throws IOException, DocumentException {
         Factura facturaAux;
         String url;
         String numeroReserva = nroReserva.toString();
-        
-        url = "http://localhost:8080/servidor-central-webapp/rest/api/ObtenerFactura/traer/"+numeroReserva;
+        //
+        url = "http://localhost:8080/servidor-central-webapp/rest/api/ObtenerFactura/traer/" + numeroReserva;
         HttpClient client = HttpClientBuilder.create().build();
         HttpGet request = new HttpGet(url);
         ObjectMapper mapper = new ObjectMapper();
-        HttpResponse response = null; 
+        HttpResponse response = null;
         String result = null;
-            response = client.execute(request);
-            result = getStringFromInputStream(response.getEntity().getContent());
-            facturaAux = mapper.readValue(result, Factura.class);
-        
+        response = client.execute(request);
+        result = getStringFromInputStream(response.getEntity().getContent());
+        facturaAux = mapper.readValue(result, Factura.class);
+        //
+        Reserva reserva = convertidor.convertirReserva(portReserva.obtenerReservaWS(nroReserva));
+        //
         Document documento = new Document();
         Date date = new Date();
         FileOutputStream rutaPDF = null;
-        
-            rutaPDF = new FileOutputStream( "/home/guido/help4travel/servidor-web/src/main/webapp/pdf/" + date.getTime() + ".pdf" );
-            PdfWriter.getInstance(documento, rutaPDF);
-            documento.open();
-            documento.add(new Paragraph("asdasda"));
-            documento.close();
-            String ruta = "pdf/" + date.getTime() + ".pdf";
-            return ruta;
+        rutaPDF = new FileOutputStream("/home/guido/help4travel/servidor-web/src/main/webapp/pdf/" + date.getTime() + ".pdf");
+        PdfWriter.getInstance(documento, rutaPDF);
+        documento.open();
+        documento.add(new Paragraph("Su compra ha sido facturada con exito"));
+        documento.add(new Paragraph("Detalle de su compra"));
+        if (reserva.getServicios().isEmpty()) {
+            documento.add(new Paragraph("-No tiene servicios contratados"));
+        } else {
+            documento.add(new Paragraph("-Servicios:"));
+            for (int i = 0; i < reserva.getServicios().size(); i++) {
+                Servicio servicio = reserva.getServicios().get(i);
+                int cantidad = reserva.getCantidadServicios().get(i);
+                documento.add(new Paragraph("Nombre: " + servicio.getNombre() + " -Cantidad: " + cantidad + " -Precio: $"
+                        + servicio.getPrecio() * cantidad + " -Proveedor: " + servicio.getProveedor().getNickName()));
+            }
+        }
+        if (reserva.getPromociones().isEmpty()) {
+            documento.add(new Paragraph("-No tiene promociones contratadas"));
+        } else {
+            documento.add(new Paragraph("-Promociones:"));
+            for (int i = 0; i < reserva.getPromociones().size(); i++) {
+                Promocion promocion = reserva.getPromociones().get(i);
+                int cantidad = reserva.getCantidadPromociones().get(i);
+                documento.add(new Paragraph("Nombre: " + promocion.getNombre() + " -Cantidad: " + cantidad + " -Precio: $"
+                        + promocion.getPrecioTotal() * cantidad + " -Proveedor: " + promocion.getProveedor().getNickName()));
+            }
+        }
+        documento.add(new Paragraph("Precio total: " + reserva.getPrecio()));
+        documento.add(new Paragraph("Gracias por su preferencia"));
+        documento.add(new Paragraph("Saludos les envia el equipo de Help4Travel"));
+        documento.close();
+        String ruta = "pdf/" + date.getTime() + ".pdf";
+        return ruta;
     }
-        private static String getStringFromInputStream(InputStream is) {
 
+    private static String getStringFromInputStream(InputStream is) {
         BufferedReader br = null;
         StringBuilder sb = new StringBuilder();
-
         String line;
         try {
-
             br = new BufferedReader(new InputStreamReader(is));
             while ((line = br.readLine()) != null) {
                 sb.append(line);
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -313,8 +335,6 @@ public class DatosCliente {
                 }
             }
         }
-
         return sb.toString();
-
     }
 }

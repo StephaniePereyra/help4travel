@@ -53,9 +53,7 @@ public class ProveedorMovil {
     private boolean vacioServicio;
     private boolean vacioPromocion;
     private boolean vacioReserva;
-    
-    
-    
+
     public ProveedorMovil() throws MalformedURLException {
         try {
             convertidor = new Converter();
@@ -75,37 +73,35 @@ public class ProveedorMovil {
 
     @PostConstruct
     public void verServicioPromocion() {
-        
-            setNickName(datosSesion.getNickName());
-            proveedor = convertidor.convertirProveedor(portUsuario.obtenerProveedorWS(nickName));
-            this.servicios = proveedor.getServicios();
-            
-            List<uy.edu.cure.servidor.central.soap.client.Promocion> auxiliar = portUsuario.obtenerPormoProveedor(nickName);
-            
-            for(int i=0;i<auxiliar.size();i++){
-                promociones.add(convertidor.convertirPromocion(auxiliar.get(i)));
-            }
-            
-            List<uy.edu.cure.servidor.central.soap.client.Reserva> auxReservas = portReserva.obtenerResevasProveedor(nickName);
-            
-            for(int i=0;i<auxReservas.size();i++){
-                reservas.add(convertidor.convertirReserva(auxReservas.get(i)));
-            }
-            
-            
-            if(servicios.isEmpty()){
-                vacioServicio = true;
-            }
-            
-            if(promociones.isEmpty()){
-                vacioPromocion = true;
-            }
-            
-            if(reservas.isEmpty()){
-                vacioReserva = true;
-            }
-            
-            
+
+        setNickName(datosSesion.getNickName());
+        proveedor = convertidor.convertirProveedor(portUsuario.obtenerProveedorWS(nickName));
+        this.servicios = proveedor.getServicios();
+
+        List<uy.edu.cure.servidor.central.soap.client.Promocion> auxiliar = portUsuario.obtenerPormoProveedor(nickName);
+
+        for (int i = 0; i < auxiliar.size(); i++) {
+            promociones.add(convertidor.convertirPromocion(auxiliar.get(i)));
+        }
+
+        List<uy.edu.cure.servidor.central.soap.client.Reserva> auxReservas = portReserva.obtenerResevasProveedor(nickName);
+
+        for (int i = 0; i < auxReservas.size(); i++) {
+            reservas.add(convertidor.convertirReserva(auxReservas.get(i)));
+        }
+
+        if (servicios.isEmpty()) {
+            vacioServicio = true;
+        }
+
+        if (promociones.isEmpty()) {
+            vacioPromocion = true;
+        }
+
+        if (reservas.isEmpty()) {
+            vacioReserva = true;
+        }
+
     }
 
     public List<Servicio> obtenerServicios(Reserva reserva) {
@@ -127,56 +123,85 @@ public class ProveedorMovil {
         }
         return promocionesAux;
     }
-    
-    public int cantidadServicio(Reserva reserva,Servicio servicio){
+
+    public int cantidadServicio(Reserva reserva, Servicio servicio) {
         int cantidad = 1;
         int posicion = reserva.getServicios().indexOf(servicio);
         cantidad = reserva.getCantidadServicios().get(posicion);
         return cantidad;
     }
-    
-    public int cantidadPromocion(Reserva reserva,Promocion promocion){
+
+    public int cantidadPromocion(Reserva reserva, Promocion promocion) {
         int cantidad = 1;
         int posicion = reserva.getPromociones().indexOf(promocion);
         cantidad = reserva.getCantidadPromociones().get(posicion);
         return cantidad;
     }
-    
+
     public void recibePago(int numeroReserva) {
         portReserva.recibirPagoWS(numeroReserva, nickName);
-        if(portReserva.obtenerReservaWS(numeroReserva).getEstado().equals("Facturada")){
-        
-        FacturaWSImplService facturaWSImplService = null;
-        try {
-            facturaWSImplService = new FacturaWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/FacturaWSImplService?wsdl"));
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(ProveedorMovil.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        if (portReserva.obtenerReservaWS(numeroReserva).getEstado().equals("Facturada")) {
+            FacturaWSImplService facturaWSImplService = null;
+            try {
+                facturaWSImplService = new FacturaWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/FacturaWSImplService?wsdl"));
+            } catch (MalformedURLException ex) {
+                Logger.getLogger(ProveedorMovil.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            FacturaWS portFactura = facturaWSImplService.getFacturaWSImplPort();
+            List<ItemsFactura> items = new ArrayList();
+            Factura facturaAuxiliar = new Factura();
+            List<uy.edu.cure.servidor.central.soap.client.Servicio> serviciosReserva = portReserva.obtenerServiciosReservaWS(numeroReserva);
+            List<uy.edu.cure.servidor.central.soap.client.Promocion> promocionesReserva = portReserva.obtenerPromocionesReservaWS(numeroReserva);
 
-        FacturaWS portFactura = facturaWSImplService.getFacturaWSImplPort();
-        
-        List<ItemsFactura> items = new ArrayList();
-        Factura facturaAuxiliar = new Factura();
-        List<uy.edu.cure.servidor.central.soap.client.Servicio> serviciosReserva = portReserva.obtenerServiciosReservaWS(numeroReserva); 
-        List<uy.edu.cure.servidor.central.soap.client.Promocion> promocionesReserva = portReserva.obtenerPromocionesReservaWS(numeroReserva);
-        
-        for(int i=0;i<serviciosReserva.size();i++){
-            ItemsFactura item = new ItemsFactura();
-            item.setCantidadItem(portReserva.obtenerReservaWS(numeroReserva).getCantidadServicios().get(i));
-            item.setNickProveedor(serviciosReserva.get(i).getProveedor().getNickName());
-            item.setNombreItem(serviciosReserva.get(i).getNombre());
-            item.setTipoItem("servicio");
-            items.add(item);
-        }
-        for(int u=0;u<promocionesReserva.size();u++){
-            ItemsFactura item = new ItemsFactura();
-            item.setCantidadItem(portReserva.obtenerReservaWS(numeroReserva).getCantidadPromociones().get(u));
-            item.setNickProveedor(promocionesReserva.get(u).getProveedor().getNickName());
-            item.setNombreItem(promocionesReserva.get(u).getNombre());
-            item.setTipoItem("promocion");
-            items.add(item);
-        }
-        portFactura.persistirFactura(portReserva.obtenerReservaWS(numeroReserva).getCliente().getNickName(), numeroReserva, items);
+            for (int i = 0; i < serviciosReserva.size(); i++) {
+                ItemsFactura item = new ItemsFactura();
+                item.setCantidadItem(portReserva.obtenerReservaWS(numeroReserva).getCantidadServicios().get(i));
+                item.setNickProveedor(serviciosReserva.get(i).getProveedor().getNickName());
+                item.setNombreItem(serviciosReserva.get(i).getNombre());
+                item.setTipoItem("servicio");
+                items.add(item);
+            }
+            for (int u = 0; u < promocionesReserva.size(); u++) {
+                ItemsFactura item = new ItemsFactura();
+                item.setCantidadItem(portReserva.obtenerReservaWS(numeroReserva).getCantidadPromociones().get(u));
+                item.setNickProveedor(promocionesReserva.get(u).getProveedor().getNickName());
+                item.setNombreItem(promocionesReserva.get(u).getNombre());
+                item.setTipoItem("promocion");
+                items.add(item);
+            }
+            portFactura.persistirFactura(portReserva.obtenerReservaWS(numeroReserva).getCliente().getNickName(), numeroReserva, items);
+            //
+            Reserva reserva = convertidor.convertirReserva(portReserva.obtenerReservaWS(numeroReserva));
+            String correo = reserva.getCliente().getCorreo();
+            String asunto = "H4T su compra ha sido facturada con exito";
+            String cuerpo = "Estimado " + reserva.getCliente().getNickName() + " su compra ha sido realizada con exito. \n---Detalles de su compra:\n";
+            if (reserva.getServicios().isEmpty()) {
+                cuerpo = cuerpo + "-No tiene servicios contratados\n";
+            } else {
+                cuerpo = cuerpo + "-Servicios:\n";
+                for (int i = 0; i < reserva.getServicios().size(); i++) {
+                    Servicio servicio = reserva.getServicios().get(i);
+                    int cantidad = reserva.getCantidadServicios().get(i);
+                    cuerpo = cuerpo + "Nombre: " + servicio.getNombre() + " -Cantidad: " + cantidad + " -Precio: $"
+                            + servicio.getPrecio() * cantidad + " -Proveedor: " + servicio.getProveedor().getNickName() + "\n";
+                }
+            }
+            if (reserva.getPromociones().isEmpty()) {
+                cuerpo = cuerpo + "-No tiene promociones contratadas\n";
+            } else {
+                cuerpo = cuerpo + "-Promociones:\n";
+                for (int i = 0; i < reserva.getPromociones().size(); i++) {
+                    Promocion promocion = reserva.getPromociones().get(i);
+                    int cantidad = reserva.getCantidadPromociones().get(i);
+                    cuerpo = cuerpo + "Nombre: " + promocion.getNombre() + " -Cantidad: " + cantidad + " -Precio: $"
+                            + promocion.getPrecioTotal() * cantidad + " -Proveedor: " + promocion.getProveedor().getNickName() + "\n";
+                }
+            }
+            cuerpo = cuerpo + "Precio total: " + reserva.getPrecio() + "\n";
+            cuerpo = cuerpo + "Gracias por su preferencia\n";
+            cuerpo = cuerpo + "Saludos les envia el equipo de Help4Travel\n";
+            EnviadorMail enviadorMail = new EnviadorMail(correo, asunto, cuerpo);
+            //
         }
     }
 
@@ -245,7 +270,6 @@ public class ProveedorMovil {
         this.vacioReserva = vacioReserva;
     }
 
-    
     public DatosSesion getDatosSesion() {
         return datosSesion;
     }

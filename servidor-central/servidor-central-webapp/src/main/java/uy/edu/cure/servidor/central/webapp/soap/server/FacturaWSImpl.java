@@ -20,22 +20,18 @@ import uy.edu.cure.servidor.central.dto.ItemsFactura;
 @WebService(endpointInterface = "uy.edu.cure.servidor.central.webapp.soap.server.FacturaWS")
 public class FacturaWSImpl implements FacturaWS {
 
-
     @Override
     public void persistirFactura(String nickNameCliente, int numeroReservaCliente, List<ItemsFactura> items) {
-
         Factura nuevaFactura = new Factura();
         nuevaFactura.setNickCliente(nickNameCliente);
-        nuevaFactura.setNumeroReserva(numeroReservaCliente);      
-
+        nuevaFactura.setNumeroReserva(numeroReservaCliente);
         try {
             EntityManagerFactory emf;
             emf = Persistence.createEntityManagerFactory("jpaDS");
             EntityManager em = (EntityManager) emf.createEntityManager();
-            
+
             //Comienza transaccion
             em.getTransaction().begin();
-            
             //Persisto los items
             for (int i = 0; i < items.size(); i++) {
                 ItemsFactura item = new ItemsFactura();
@@ -45,24 +41,15 @@ public class FacturaWSImpl implements FacturaWS {
                 em.persist(item);
             }
             //Termino persistir los items
-            
+
             //Persistir la Factura
             nuevaFactura.setItems(items);
             em.persist(nuevaFactura);
             //Fin persistir factura
             em.getTransaction().commit();
             //Fin Transaccion
-
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 }
-
-
-
-                
-                
-  
-    
