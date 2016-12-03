@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
@@ -25,6 +26,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import static jdk.nashorn.tools.ShellFunctions.input;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -58,6 +60,8 @@ public class VerInfoServicio extends javax.swing.JFrame {
     private String proveedorAux;
     private String servicioAux;
 
+    private Properties progappProperties;
+    private InputStream input = null;
     private List<JLabel> imagenes;
 
     private Converter convertidor;
@@ -79,7 +83,7 @@ public class VerInfoServicio extends javax.swing.JFrame {
         listProveedores.setVisible(false);
         DefaultTreeModel model = (DefaultTreeModel) treeCategorias.getModel();
         DefaultMutableTreeNode root = (DefaultMutableTreeNode) model.getRoot();
-        
+
         setLocationRelativeTo(null);
         convertidor = new Converter();
 
@@ -89,6 +93,14 @@ public class VerInfoServicio extends javax.swing.JFrame {
             Logger.getLogger(AltaCategoria.class.getName()).log(Level.SEVERE, null, ex);
         }
         portCategoria = categoriaWSImplService.getCategoriaWSImplPort();
+
+        this.progappProperties = new Properties();
+        input = this.getClass().getClassLoader().getResourceAsStream("progapp.properties");
+        try {
+            progappProperties.load(input);
+        } catch (IOException ex) {
+            Logger.getLogger(VerInfoServicio.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         DatosRest categoriasAux = null;
 
@@ -391,7 +403,8 @@ public class VerInfoServicio extends javax.swing.JFrame {
         //labelServicioCategorias.setText(categorias);
         //Imagenes del servicio
         for (int i = 0; i < portServicio.obtenerImagenesServicioWS(servicioAux, proveedorAux).size(); i++) {
-            ImageIcon imageIcon = new ImageIcon(portServicio.obtenerImagenesServicioWS(servicioAux, proveedorAux).get(i));
+            String ruta = progappProperties.getProperty("ruta.imagenes") + portServicio.obtenerImagenesServicioWS(servicioAux, proveedorAux).get(i);
+            ImageIcon imageIcon = new ImageIcon(ruta);
             Image image = imageIcon.getImage();
             Image imageFinal = image.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH);
             ImageIcon imageIconFinal = new ImageIcon(imageFinal);

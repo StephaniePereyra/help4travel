@@ -26,7 +26,7 @@ import uy.edu.cure.servidor.central.soap.client.UsuarioWSImplService;
 public class AltaCliente extends javax.swing.JFrame {
 
     private FileNameExtensionFilter filtro;
-    private String rutaImagen;
+    //private String rutaImagen;
     private String rutaArchivo;
     private String validez;
     private int dia, mes, anio;
@@ -36,6 +36,8 @@ public class AltaCliente extends javax.swing.JFrame {
     private UsuarioWSImplService usuarioWSImplService;
     private UsuarioWS portUsuario;
 
+    private String ruta;
+    private String rutaWS;
 
     /**
      * Creates new form AltaCliente
@@ -50,11 +52,13 @@ public class AltaCliente extends javax.swing.JFrame {
         portUsuario = usuarioWSImplService.getUsuarioWSImplPort();
         //Filtro para FileChooser
         filtro = new FileNameExtensionFilter("Formato Imagen", "png", "jpg");
-        rutaImagen = "";
+        //rutaImagen = "";
         rutaArchivo = "";
+        ruta = "";
+        rutaWS = "";
         validez = "";
         setLocationRelativeTo(null);
-        
+
     }
 
     /**
@@ -391,7 +395,7 @@ public class AltaCliente extends javax.swing.JFrame {
             dia = Integer.parseInt(DiaForm.getText());
             mes = Integer.parseInt(MesForm.getText());
             anio = Integer.parseInt(AñioForm.getText());
-            int resultado = portUsuario.crearClienteWS(UserNameForm.getText(), NombreForm.getText(), ApellidoForm.getText(), CorreoForm.getText(), dia, mes, anio, rutaImagen, textFieldPassword.getText(), textFieldPasswordConfirm.getText());
+            int resultado = portUsuario.crearClienteWS(UserNameForm.getText(), NombreForm.getText(), ApellidoForm.getText(), CorreoForm.getText(), dia, mes, anio, rutaWS, textFieldPassword.getText(), textFieldPasswordConfirm.getText());
             switch (resultado) {
                 case -1:
                     javax.swing.JOptionPane.showMessageDialog(null, "Cliente dado de alta", "Alta cliente", 1);
@@ -413,7 +417,7 @@ public class AltaCliente extends javax.swing.JFrame {
                     break;
             }
         }
-        
+
     }//GEN-LAST:event_BotonCrearActionPerformed
 
 
@@ -426,18 +430,21 @@ public class AltaCliente extends javax.swing.JFrame {
             rutaArchivo = selectorImagen.getSelectedFile().toString();
             Date d = new Date();
             String nombreImagen = Long.toString(d.getTime());
-            String ruta = progappProperties.getProperty("ruta.imagenes");
-            ruta = ruta + nombreImagen + ".png";
-            rutaImagen = "imeges/perfil/"+nombreImagen+".png";
-            File destino = new File(ruta);
-            File JFile = new File(rutaArchivo);
 
+            rutaWS = progappProperties.getProperty("ruta.imagenes.perfil");
+
+            rutaWS = rutaWS + nombreImagen + ".png";
+            ruta = progappProperties.getProperty("ruta.imagenes");
+            File imagenCliente = new File(ruta + rutaWS);
+            File JFile = new File(selectorImagen.getSelectedFile().toString());
+            
             try {
-                Files.copy(JFile.toPath(), destino.toPath());
+                Files.copy(JFile.toPath(), imagenCliente.toPath());
             } catch (IOException ex) {
-                Logger.getLogger(AltaCliente.class.getName()).log(Level.SEVERE, null, ex);
+                //Logger.getLogger(AltaCliente.class.getName()).log(Level.SEVERE, null, ex);
             }
 
+      
             ImageIcon iconoPerfil = new ImageIcon(JFile.getAbsolutePath());
             Image imagenPerfil = iconoPerfil.getImage();
             Image nuevaPerfil = imagenPerfil.getScaledInstance(155, 175, java.awt.Image.SCALE_SMOOTH);
@@ -471,7 +478,7 @@ public class AltaCliente extends javax.swing.JFrame {
         WarningCorreo.setText("");
         WarningFecha.setText("");
         PreviewImagen.setIcon(null);
-        
+
     }//GEN-LAST:event_BotonResetActionPerformed
 
     private void AñioFormKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_AñioFormKeyTyped

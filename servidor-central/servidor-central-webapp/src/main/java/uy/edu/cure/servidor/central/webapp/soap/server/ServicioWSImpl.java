@@ -97,8 +97,12 @@ public class ServicioWSImpl implements ServicioWS {
     public void editarCiudadDestino(String servicio, String proveedor, String ciudad) {
         ServicioControllerImpl servicioController = new ServicioControllerImpl();
         CiudadControllerImpl ciudadController = new CiudadControllerImpl();
-        Ciudad ciudadAux = ciudadController.obtenerCiudad(ciudad);
-        servicioController.obtenerServicio(servicio, proveedor).setDestino(ciudadAux);
+        if (ciudad != "<null>") {
+            Ciudad ciudadAux = ciudadController.obtenerCiudad(ciudad);
+            servicioController.obtenerServicio(servicio, proveedor).setDestino(ciudadAux);
+        } else {
+            servicioController.obtenerServicio(servicio, proveedor).setDestino(null);
+        }
 
     }
 
@@ -113,8 +117,16 @@ public class ServicioWSImpl implements ServicioWS {
             servicioController.obtenerServicio(servicio, proveedor).setCategorias(categoriaAux);
         }
 
-
     }
 
-    List<String> imagenes;
+    @Override
+    public void editarImagenes(String servicio, String proveedor, List<String> imagenes) {
+        ServicioControllerImpl servicioController = new ServicioControllerImpl();
+        servicioController.obtenerServicio(servicio, proveedor).getImagenes().clear();
+        for (int i = 0; i < imagenes.size(); i++) {
+            String imagen = imagenes.get(i);
+            servicioController.obtenerServicio(servicio, proveedor).setImagen(imagen);
+        }
+
+    }
 }

@@ -37,6 +37,9 @@ public class AltaProveedor extends javax.swing.JFrame {
     private InputStream input = null;
     private UsuarioWSImplService usuarioWSImplService;
     private UsuarioWS portUsuario;
+    
+    private String ruta;
+    private String rutaWS;
 
     /**
      * Creates new form AltaProveedor
@@ -61,8 +64,10 @@ public class AltaProveedor extends javax.swing.JFrame {
 
         filtro = new FileNameExtensionFilter("Formato Imagen", "png", "jpg");
 
-        rutaImagen = "";
+        //rutaImagen = "";
         rutaArchivo = "";
+        rutaWS = "";
+        validez = "";
         validez = "";
         setLocationRelativeTo(null);
 
@@ -450,7 +455,7 @@ public class AltaProveedor extends javax.swing.JFrame {
             dia = Integer.parseInt(DiaProveedorForm.getText());
             mes = Integer.parseInt(MesProveedorForm.getText());
             anio = Integer.parseInt(AñioProveedorForm.getText());
-            int resultado = portUsuario.crearProeveedorWS(UserNameProveedorForm.getText(), NombreProveedorForm.getText(), ApellidoProveedorForm.getText(), CorreoProveedorForm.getText(), dia, mes, anio, NombreEmpresaProveedorForm.getText(), LinkEmpresaProveedorForm.getText(), rutaImagen, textFieldPassword.getText(), textFieldPasswordConfirm.getText());
+            int resultado = portUsuario.crearProeveedorWS(UserNameProveedorForm.getText(), NombreProveedorForm.getText(), ApellidoProveedorForm.getText(), CorreoProveedorForm.getText(), dia, mes, anio, NombreEmpresaProveedorForm.getText(), LinkEmpresaProveedorForm.getText(), rutaWS, textFieldPassword.getText(), textFieldPasswordConfirm.getText());
             switch (resultado) {
                 case -1:
                     javax.swing.JOptionPane.showMessageDialog(null, "Proveedor dado de alta", "Alta proveedor", 1);
@@ -484,16 +489,20 @@ public class AltaProveedor extends javax.swing.JFrame {
             rutaArchivo = selectorImagen.getSelectedFile().toString();
             Date d = new Date();
             String nombreImagen = Long.toString(d.getTime());
-            String ruta = progappProperties.getProperty("ruta.imagenes");
-            ruta = ruta + nombreImagen + ".png";
-            rutaImagen = ruta;
-            File destino = new File(ruta);
-            File JFile = new File(rutaArchivo);
+            
+            rutaWS = progappProperties.getProperty("ruta.imagenes.providers");
+
+            rutaWS = rutaWS + nombreImagen + ".png";
+            ruta = progappProperties.getProperty("ruta.imagenes");
+            File imagenProveedor = new File(ruta + rutaWS);
+            File JFile = new File(selectorImagen.getSelectedFile().toString());
+            
             try {
-                Files.copy(JFile.toPath(), destino.toPath());
+                Files.copy(JFile.toPath(), imagenProveedor.toPath());
             } catch (IOException ex) {
-                Logger.getLogger(AltaCliente.class.getName()).log(Level.SEVERE, null, ex);
+                //Logger.getLogger(AltaProveedor.class.getName()).log(Level.SEVERE, null, ex);
             }
+            
             ImageIcon iconoPerfil = new ImageIcon(JFile.getAbsolutePath());
             Image imagenPerfil = iconoPerfil.getImage();
             Image nuevaPerfil = imagenPerfil.getScaledInstance(155, 175, java.awt.Image.SCALE_SMOOTH);

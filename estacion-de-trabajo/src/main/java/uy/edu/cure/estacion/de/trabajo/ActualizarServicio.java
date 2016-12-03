@@ -62,6 +62,7 @@ public class ActualizarServicio extends javax.swing.JFrame {
     private List<JLabel> imagenes;
     private Properties progappProperties;
     private InputStream input = null;
+    private String ruta;
 
     private Converter convertidor;
     private String url;
@@ -222,6 +223,7 @@ public class ActualizarServicio extends javax.swing.JFrame {
         labelImage1 = new javax.swing.JLabel();
         labelImage2 = new javax.swing.JLabel();
         labelImage3 = new javax.swing.JLabel();
+        buttonChangeImages = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -348,6 +350,13 @@ public class ActualizarServicio extends javax.swing.JFrame {
         labelImage3.setText("Imagen3");
         labelImage3.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
+        buttonChangeImages.setLabel("Cambiar Imagenes");
+        buttonChangeImages.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonChangeImagesActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -408,8 +417,9 @@ public class ActualizarServicio extends javax.swing.JFrame {
                                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                                 .addComponent(buttonRemoveImage, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                 .addComponent(buttonAddImage, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(buttonChangeCategorias, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE))
-                                            .addComponent(textFieldIndexImage, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addComponent(buttonChangeCategorias, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                            .addComponent(textFieldIndexImage, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(buttonChangeImages, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -448,10 +458,6 @@ public class ActualizarServicio extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(buttonChangeOrigen)
-                        .addGap(69, 69, 69)
-                        .addComponent(buttonChangeCategorias))
-                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -463,20 +469,27 @@ public class ActualizarServicio extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(buttonAddCategoria)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(buttonRemoveCategoria)))))
-                .addGap(17, 17, 17)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(buttonRemoveCategoria)))
+                        .addGap(17, 17, 17))
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(buttonChangeOrigen)
+                        .addGap(69, 69, 69)
+                        .addComponent(buttonChangeCategorias)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(labelImage1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(labelImage2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(labelImage3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(buttonChangeImages)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(buttonAddImage)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(buttonRemoveImage)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(textFieldIndexImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(labelImage1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(labelImage2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(labelImage3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                        .addComponent(textFieldIndexImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(buttonBack, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(labelMessageError, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -556,14 +569,26 @@ public class ActualizarServicio extends javax.swing.JFrame {
             labelDestino.setText("Ciudad de destino: " + portServicio.obtenerServicioWS(servicioAux, proveedorAux).getDestino().getNombre());
         }
 
+        for (int j = 0; j < imagenes.size(); j++) {
+            imagenes.get(j).setIcon(null);
+        }
+
         for (int i = 0; i < portServicio.obtenerImagenesServicioWS(servicioAux, proveedorAux).size(); i++) {
-            ImageIcon imageIcon = new ImageIcon(portServicio.obtenerImagenesServicioWS(servicioAux, proveedorAux).get(i));
+            String ruta = progappProperties.getProperty("ruta.imagenes") + portServicio.obtenerImagenesServicioWS(servicioAux, proveedorAux).get(i);
+            ImageIcon imageIcon = new ImageIcon(ruta);
             Image image = imageIcon.getImage();
             Image imageFinal = image.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH);
             ImageIcon imageIconFinal = new ImageIcon(imageFinal);
             imagenes.get(i).setIcon(imageIconFinal);
         }
 
+        /*for (int i = 0; i < portServicio.obtenerImagenesServicioWS(servicioAux, proveedorAux).size(); i++) {
+            ImageIcon imageIcon = new ImageIcon(portServicio.obtenerImagenesServicioWS(servicioAux, proveedorAux).get(i));
+            Image image = imageIcon.getImage();
+            Image imageFinal = image.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH);
+            ImageIcon imageIconFinal = new ImageIcon(imageFinal);
+            imagenes.get(i).setIcon(imageIconFinal);
+        }*/
 
     }//GEN-LAST:event_listServiciosValueChanged
 
@@ -611,7 +636,8 @@ public class ActualizarServicio extends javax.swing.JFrame {
                 if (validadorPrecio <= 1 && !textFieldPrecio.getText().endsWith(".") && !textFieldPrecio.getText().startsWith(".")) {
                     //int indiceServicio = listServicios.getSelectedIndex();
                     double precioAuxiliar = Double.parseDouble(textFieldPrecio.getText());
-                    portServicio.obtenerServicioWS(servicioAux, proveedorAux).setPrecio(precioAuxiliar);
+                    portServicio.editarPrecio(servicioAux, proveedorAux, precioAuxiliar);
+                    //portServicio.obtenerServicioWS(servicioAux, proveedorAux).setPrecio(precioAuxiliar);
                     //portServicio.obtenerTodosServiciosWS().get(indiceServicio).setPrecio(precioAuxiliar);
                     labelPrecio.setText("Precio: " + String.valueOf(precioAuxiliar));
                 } else {
@@ -632,8 +658,7 @@ public class ActualizarServicio extends javax.swing.JFrame {
                 int indiceServicio = listServicios.getSelectedIndex();
                 String nuevaCiudad = listOrigen.getSelectedValue();
                 if (!nuevaCiudad.equals(portServicio.obtenerTodosServiciosWS().get(indiceServicio).getDestino().getNombre())) {
-                    portServicio.obtenerServicioWS(servicioAux, proveedorAux).setOrigen(portCiudad.obtenerCiudadWS(nuevaCiudad));
-                    //portServicio.obtenerTodosServiciosWS().get(indiceServicio).setOrigen(portCiudad.obtenerCiudadWS(nuevaCiudad));
+                    portServicio.editarCiudadOrigen(servicioAux, proveedorAux, nuevaCiudad);
                     labelOrigen.setText("Ciudad de Origen: " + nuevaCiudad);
                 } else {
                     labelMessageError.setText("Ciudad de origen y destino deben de ser diferentes");
@@ -654,11 +679,13 @@ public class ActualizarServicio extends javax.swing.JFrame {
                 String nuevaCiudad = listDestino.getSelectedValue();
                 if (!nuevaCiudad.equals(portServicio.obtenerTodosServiciosWS().get(indiceServicio).getOrigen().getNombre())) {
                     if (nuevaCiudad.equals("<null>")) {
-                        portServicio.obtenerServicioWS(servicioAux, proveedorAux).setDestino(null);
+                        portServicio.editarCiudadDestino(servicioAux, proveedorAux, "<null>");
+                        //portServicio.obtenerServicioWS(servicioAux, proveedorAux).setDestino(null);
                         //portServicio.obtenerTodosServiciosWS().get(indiceServicio).setDestino(null);
                         labelDestino.setText("Ciudad de Destino: Sin ciudad de destino");
                     } else {
-                        portServicio.obtenerServicioWS(servicioAux, proveedorAux).setDestino(portCiudad.obtenerCiudadWS(nuevaCiudad));
+                        portServicio.editarCiudadDestino(servicioAux, proveedorAux, nuevaCiudad);
+                        //portServicio.obtenerServicioWS(servicioAux, proveedorAux).setDestino(portCiudad.obtenerCiudadWS(nuevaCiudad));
                         //portServicio.obtenerTodosServiciosWS().get(indiceServicio).setDestino(portCiudad.obtenerCiudadWS(nuevaCiudad));
                         labelDestino.setText("Ciudad de Destino: " + nuevaCiudad);
                     }
@@ -677,19 +704,11 @@ public class ActualizarServicio extends javax.swing.JFrame {
         labelMessageError.setText(" ");
         if (listServicios.getSelectedValue() != null) {
             if (listCategorias.getModel().getSize() != 0) {
-                int indiceServicio = listServicios.getSelectedIndex();
-                //portServicio.obtenerTodosServiciosWS().get(indiceServicio).getCategorias().clear();
-                portServicio.obtenerCategoriasServicioWS(servicioAux, proveedorAux).clear();
-                DefaultListModel listaCategorias = (DefaultListModel) listCategorias.getModel();
-                
-                
-                //Necesita un metodo para editar categorias que reciba lista de String
                 List<String> categorias = new ArrayList<String>();
                 for (int i = 0; i < listCategorias.getModel().getSize(); i++) {
                     categorias.add(listCategorias.getModel().getElementAt(i));
-                    //portServicio.obtenerServicioWS(servicioAux, proveedorAux).setCategorias(categorias);
                 }
-                
+                portServicio.editarCategorias(servicioAux, proveedorAux, categorias);
                 
             } else {
                 labelMessageError.setText("Debe elegir una categoria como minimo");
@@ -700,6 +719,37 @@ public class ActualizarServicio extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonChangeCategoriasActionPerformed
 
     private void buttonAddImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddImageActionPerformed
+        labelMessageError.setText(" ");
+        if (rutasImagenes.size() < 3) {
+            JFileChooser selectorImage = new JFileChooser();
+            FileNameExtensionFilter filtro = new FileNameExtensionFilter("Formato imagen", "png", "jpg");
+            selectorImage.setFileFilter(filtro);
+            int opcion = selectorImage.showOpenDialog(this);
+            if (opcion == JFileChooser.APPROVE_OPTION) {
+                Date d = new Date();
+                String nombreImagen = Long.toString(d.getTime());
+                String rutaWS = progappProperties.getProperty("ruta.imagenes.servicio");
+                rutaWS = rutaWS + nombreImagen + ".png";
+                ruta = progappProperties.getProperty("ruta.imagenes");
+                File imagendestino = new File(ruta + rutaWS);
+                File JFile = new File(selectorImage.getSelectedFile().toString());
+                rutasImagenes.add(rutaWS);
+                try {
+                    Files.copy(JFile.toPath(), imagendestino.toPath());
+                } catch (IOException ex) {
+                    Logger.getLogger(AltaServicio.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                for (int i = 0; i < rutasImagenes.size(); i++) {
+                    ImageIcon imageIcon = new ImageIcon(ruta + rutasImagenes.get(i));
+                    Image image = imageIcon.getImage();
+                    Image imageFinal = image.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH);
+                    ImageIcon imageIconFinal = new ImageIcon(imageFinal);
+                    imagenes.get(i).setIcon(imageIconFinal);
+                }
+            }
+        } else {
+            labelMessageError.setText("Se permite un maximo de 3 imagenes");
+        }
         /*  labelMessageError.setText(" ");
         if (listServicios.getSelectedValue() != null) {
             int indiceServicio = listServicios.getSelectedIndex();
@@ -738,6 +788,31 @@ public class ActualizarServicio extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonAddImageActionPerformed
 
     private void buttonRemoveImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRemoveImageActionPerformed
+        labelMessageError.setText(" ");
+        if (!textFieldIndexImage.getText().isEmpty()) {
+            if (!rutasImagenes.isEmpty()) {
+                int indiceImagen = Integer.parseInt(textFieldIndexImage.getText());
+                if (indiceImagen <= rutasImagenes.size() && indiceImagen != 0) {
+                    rutasImagenes.remove(indiceImagen - 1);
+                    for (int i = 0; i < 3; i++) {
+                        imagenes.get(i).setIcon(null);
+                    }
+                    for (int i = 0; i < rutasImagenes.size(); i++) {
+                        ImageIcon imageIcon = new ImageIcon(ruta + rutasImagenes.get(i));
+                        Image image = imageIcon.getImage();
+                        Image imageFinal = image.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH);
+                        ImageIcon imageIconFinal = new ImageIcon(imageFinal);
+                        imagenes.get(i).setIcon(imageIconFinal);
+                    }
+                } else {
+                    labelMessageError.setText("Indice de imagen no valido");
+                }
+            } else {
+                labelMessageError.setText("No hay imagenes para quitar");
+            }
+        } else {
+            labelMessageError.setText("Debe introducir indice de la imagen");
+        }
         /* labelMessageError.setText(" ");
         if (listServicios.getSelectedValue() != null) {
             if (!textFieldIndexImage.getText().isEmpty()) {
@@ -770,6 +845,11 @@ public class ActualizarServicio extends javax.swing.JFrame {
             labelMessageError.setText("Seleccione un servicio");
         }*/
     }//GEN-LAST:event_buttonRemoveImageActionPerformed
+
+    private void buttonChangeImagesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonChangeImagesActionPerformed
+        //Falta crear metodo de edicion de imagenes servicio
+        portServicio.editarImagenes(servicioAux, proveedorAux, rutasImagenes);
+    }//GEN-LAST:event_buttonChangeImagesActionPerformed
 
     /**
      * @param args the command line arguments
@@ -817,6 +897,7 @@ public class ActualizarServicio extends javax.swing.JFrame {
     private javax.swing.JButton buttonChangeCategorias;
     private javax.swing.JButton buttonChangeDescripcion;
     private javax.swing.JButton buttonChangeDestino;
+    private javax.swing.JButton buttonChangeImages;
     private javax.swing.JButton buttonChangeOrigen;
     private javax.swing.JButton buttonChangePrecio;
     private javax.swing.JButton buttonRemoveCategoria;

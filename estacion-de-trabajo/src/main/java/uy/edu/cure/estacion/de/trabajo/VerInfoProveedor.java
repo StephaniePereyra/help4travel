@@ -7,9 +7,12 @@ package uy.edu.cure.estacion.de.trabajo;
 
 import com.sun.org.apache.xerces.internal.util.URI;
 import java.awt.Image;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
@@ -36,6 +39,11 @@ public class VerInfoProveedor extends javax.swing.JFrame {
     private ServicioWS portServicio;
     private PromocionWSImplService promocionWSImplService;
     private PromocionWS portPromocion;
+    
+    //Para cargar imagen
+    private Properties progappProperties;
+    private InputStream input = null;
+    //Para cargar imagen
 
     private String nickAux;
     private String servAux;
@@ -50,6 +58,16 @@ public class VerInfoProveedor extends javax.swing.JFrame {
             //Logger.getLogger(VerInfoProveedor.class.getName()).log(Level.SEVERE, null, ex);
         }
         portUsuario = usuarioWSImplService.getUsuarioWSImplPort();
+        
+        //Para cargar imagen
+        this.progappProperties = new Properties();
+        input = this.getClass().getClassLoader().getResourceAsStream("progapp.properties");
+        try {
+            progappProperties.load(input);
+        } catch (IOException ex) {
+            //Logger.getLogger(VerInfoProveedor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        //Para cargar imagen
 
         setLocationRelativeTo(null);
 
@@ -291,12 +309,18 @@ public class VerInfoProveedor extends javax.swing.JFrame {
         OrigenServicioAllenar.setText("");
         DestinoServicioAllenar.setText("");
 
-        ImageIcon iconoPerfil = new ImageIcon(portUsuario.obtenerProveedorWS(nickAux).getImagenPerfil());
+        //CARGA IMAGEN
+        //Parte de la direccion para encontrar de forma localprogappProperties.getProperty("ruta.imagenes");
+        //Pare de la direccion guardada en el objetoport Usuario.obtenerProveedorWS(nickAux).getImagenPerfil();
+        String ruta = progappProperties.getProperty("ruta.imagenes") + portUsuario.obtenerProveedorWS(nickAux).getImagenPerfil();
+
+        ImageIcon iconoPerfil = new ImageIcon(ruta);
         Image imagenPerfil = iconoPerfil.getImage();
         Image nuevaPerfil = imagenPerfil.getScaledInstance(155, 175, java.awt.Image.SCALE_SMOOTH);
         ImageIcon nuevoIcono = new ImageIcon(nuevaPerfil);
         ImagenPerfil.setIcon(nuevoIcono);
         ImagenPerfil.setSize(155, 175);
+        //CARGA IMAGEN
 
         //Carga la lista de servicios del que proveedor seleccionado.
         DefaultListModel listaservicios = new DefaultListModel();

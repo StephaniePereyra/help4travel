@@ -50,4 +50,7 @@ public interface ServicioWS {
     
     @WebMethod
     public void editarCategorias(String servicio, String proveedor, List<String> categorias);
+    
+    @WebMethod
+    public void editarImagenes(String servicio, String proveedor, List<String> imagenes);
 }

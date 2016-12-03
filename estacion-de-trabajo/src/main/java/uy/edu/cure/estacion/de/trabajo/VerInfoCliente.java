@@ -7,9 +7,12 @@ package uy.edu.cure.estacion.de.trabajo;
 
 import com.sun.org.apache.xerces.internal.util.URI;
 import java.awt.Image;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
@@ -17,15 +20,16 @@ import javax.swing.ImageIcon;
 
 import uy.edu.cure.servidor.central.soap.client.UsuarioWS;
 import uy.edu.cure.servidor.central.soap.client.UsuarioWSImplService;
-import uy.edu.cure.servidor.central.soap.client.ReservaWS;
-import uy.edu.cure.servidor.central.soap.client.ReservaWSImplService;
 
 public class VerInfoCliente extends javax.swing.JFrame {
 
     private UsuarioWSImplService usuarioWSImplService;
     private UsuarioWS portUsuario;
-    private ReservaWSImplService reservaWSImplService;
-    private ReservaWS portReserva;
+
+    //Para cargar imagen
+    private Properties progappProperties;
+    private InputStream input = null;
+    //Para cargar imagen
 
     /**
      * Creates new form VerInfoCliente
@@ -33,13 +37,23 @@ public class VerInfoCliente extends javax.swing.JFrame {
     public VerInfoCliente() {
         initComponents();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        
+
         try {
             usuarioWSImplService = new UsuarioWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/UsuarioWSImplService?wsdl"));
         } catch (MalformedURLException ex) {
             //Logger.getLogger(VerInfoCliente.class.getName()).log(Level.SEVERE, null, ex);
         }
         portUsuario = usuarioWSImplService.getUsuarioWSImplPort();
+
+        //Para cargar imagen
+        this.progappProperties = new Properties();
+        input = this.getClass().getClassLoader().getResourceAsStream("progapp.properties");
+        try {
+            progappProperties.load(input);
+        } catch (IOException ex) {
+            //Logger.getLogger(VerInfoCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        //Para cargar imagen
 
         setLocationRelativeTo(null);
 
@@ -230,14 +244,19 @@ public class VerInfoCliente extends javax.swing.JFrame {
         String mes = Integer.toString(portUsuario.obtenerClienteWS(nickAux).getFechanacimiento().getMonth());
         String anio = Integer.toString(portUsuario.obtenerClienteWS(nickAux).getFechanacimiento().getYear());
         FechaAllenar.setText(dia + "/" + mes + "/" + anio);
-        
-        //Aca modificar para que lebante imagen
-        ImageIcon iconoPerfil = new ImageIcon(portUsuario.obtenerClienteWS(nickAux).getImagenPerfil());
+
+        //CARGA IMAGEN
+        String a =progappProperties.getProperty("ruta.imagenes");
+        String b= portUsuario.obtenerClienteWS(nickAux).getImagenPerfil();
+        String ruta = progappProperties.getProperty("ruta.imagenes") + portUsuario.obtenerClienteWS(nickAux).getImagenPerfil();
+
+        ImageIcon iconoPerfil = new ImageIcon(ruta);
         Image imagenPerfil = iconoPerfil.getImage();
         Image nuevaPerfil = imagenPerfil.getScaledInstance(155, 175, java.awt.Image.SCALE_SMOOTH);
         ImageIcon nuevoIcono = new ImageIcon(nuevaPerfil);
         ImagenPerfil.setIcon(nuevoIcono);
         ImagenPerfil.setSize(155, 175);
+        //CARGA IMAGEN
 
         DefaultListModel listReservas = new DefaultListModel();
         portUsuario.obtenerClienteWS(nickAux);

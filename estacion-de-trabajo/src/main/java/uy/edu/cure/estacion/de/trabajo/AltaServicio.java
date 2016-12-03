@@ -71,6 +71,7 @@ public class AltaServicio extends javax.swing.JFrame {
     private List<JLabel> imagenes;
     private Properties progappProperties;
     private InputStream input = null;
+    private String ruta;
     
     private Converter convertidor;
     private String url;
@@ -524,18 +525,19 @@ public class AltaServicio extends javax.swing.JFrame {
             if (opcion == JFileChooser.APPROVE_OPTION) {
                 Date d = new Date();
                 String nombreImagen = Long.toString(d.getTime());
-                String ruta = progappProperties.getProperty("ruta.imagenes");
-                ruta = ruta + nombreImagen + ".png";
-                File imagendestino = new File(ruta);
+                String rutaWS = progappProperties.getProperty("ruta.imagenes.servicio");
+                rutaWS = rutaWS + nombreImagen + ".png";
+                ruta = progappProperties.getProperty("ruta.imagenes");
+                File imagendestino = new File(ruta+rutaWS);
                 File JFile = new File(selectorImage.getSelectedFile().toString());
-                rutasImagenes.add(ruta);
+                rutasImagenes.add(rutaWS);
                 try {
                     Files.copy(JFile.toPath(), imagendestino.toPath());
                 } catch (IOException ex) {
                     Logger.getLogger(AltaServicio.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 for (int i = 0; i < rutasImagenes.size(); i++) {
-                    ImageIcon imageIcon = new ImageIcon(rutasImagenes.get(i));
+                    ImageIcon imageIcon = new ImageIcon(ruta + rutasImagenes.get(i));
                     Image image = imageIcon.getImage();
                     Image imageFinal = image.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH);
                     ImageIcon imageIconFinal = new ImageIcon(imageFinal);
@@ -565,7 +567,7 @@ public class AltaServicio extends javax.swing.JFrame {
                         imagenes.get(i).setIcon(null);
                     }
                     for (int i = 0; i < rutasImagenes.size(); i++) {
-                        ImageIcon imageIcon = new ImageIcon(rutasImagenes.get(i));
+                        ImageIcon imageIcon = new ImageIcon(ruta + rutasImagenes.get(i));
                         Image image = imageIcon.getImage();
                         Image imageFinal = image.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH);
                         ImageIcon imageIconFinal = new ImageIcon(imageFinal);
