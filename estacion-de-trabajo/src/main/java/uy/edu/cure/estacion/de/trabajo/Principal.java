@@ -115,6 +115,7 @@ public class Principal extends javax.swing.JFrame {
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenuItem12 = new javax.swing.JMenuItem();
+        Historial = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem9 = new javax.swing.JMenuItem();
         jMenuItem10 = new javax.swing.JMenuItem();
@@ -232,6 +233,14 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jMenu2.add(jMenuItem12);
+
+        Historial.setText("Historial");
+        Historial.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                HistorialActionPerformed(evt);
+            }
+        });
+        jMenu2.add(Historial);
 
         jMenuBar1.add(jMenu2);
 
@@ -405,6 +414,10 @@ public class Principal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMenuItem12ActionPerformed
 
+    private void HistorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HistorialActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_HistorialActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -443,6 +456,7 @@ public class Principal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BotonSalir;
     private javax.swing.JDesktopPane ContenedordeForms;
+    private javax.swing.JMenuItem Historial;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
