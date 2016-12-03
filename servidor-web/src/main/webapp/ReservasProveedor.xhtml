@@ -29,7 +29,6 @@
                             Fecha: #{item.fechaCreacion.day + 20}/#{item.fechaCreacion.month + 1}/#{item.fechaCreacion.year + 1900} <br></br>
                             Estado: #{item.estado} <br></br>
                             Cliente: #{item.cliente.nickName} <br></br>
-                            Precio Total: #{item.precio} <br></br> 
                             <h3>Servicios</h3>
                                 <h:form>
                                     <div class="panel-footer">
@@ -61,6 +60,7 @@
                                     </ui:repeat>
                                     </div>
                                 </h:form>
+                            <h3>Precio total de Reserva: #{proveedorMovil.precioReserva()}</h3>
                                 
                             <h:form rendered="#{item.estado == 'Pagada' and not item.proveedorIsPago(proveedorMovil.nickName)}">
                                 <h:commandButton action="#{proveedorMovil.recibePago(item.numero)}" value="Confirmar"></h:commandButton>

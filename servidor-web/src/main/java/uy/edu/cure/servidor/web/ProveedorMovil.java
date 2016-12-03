@@ -53,7 +53,8 @@ public class ProveedorMovil {
     private boolean vacioServicio;
     private boolean vacioPromocion;
     private boolean vacioReserva;
-
+    private double precio = 0;
+    
     public ProveedorMovil() throws MalformedURLException {
         try {
             convertidor = new Converter();
@@ -109,6 +110,7 @@ public class ProveedorMovil {
         for (int i = 0; i < reserva.getServicios().size(); i++) {
             if ((reserva.getServicios().get(i).getProveedor().getNickName()).equals(nickName)) {
                 serviciosAux.add(reserva.getServicios().get(i));
+                precio = precio + reserva.getServicios().get(i).getPrecio() * reserva.getCantidadServicios().get(i);
             }
         }
         return serviciosAux;
@@ -119,6 +121,7 @@ public class ProveedorMovil {
         for (int i = 0; i < reserva.getPromociones().size(); i++) {
             if ((reserva.getPromociones().get(i).getProveedor().getNickName()).equals(nickName)) {
                 promocionesAux.add(reserva.getPromociones().get(i));
+                precio = precio + reserva.getPromociones().get(i).getPrecioTotal() * reserva.getCantidadPromociones().get(i);
             }
         }
         return promocionesAux;
@@ -128,6 +131,7 @@ public class ProveedorMovil {
         int cantidad = 1;
         int posicion = reserva.getServicios().indexOf(servicio);
         cantidad = reserva.getCantidadServicios().get(posicion);
+        
         return cantidad;
     }
 
@@ -137,7 +141,14 @@ public class ProveedorMovil {
         cantidad = reserva.getCantidadPromociones().get(posicion);
         return cantidad;
     }
-
+    
+    public double precioReserva(){
+        double total = 0;
+        total = precio;
+        this.precio = 0.0;
+        return total;
+    }
+    
     public void recibePago(int numeroReserva) {
         portReserva.recibirPagoWS(numeroReserva, nickName);
         if (portReserva.obtenerReservaWS(numeroReserva).getEstado().equals("Facturada")) {
@@ -280,4 +291,13 @@ public class ProveedorMovil {
         this.datosSesion = datosSesion;
     }
 
+    public double getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(double precio) {
+        this.precio = precio;
+    }
+    
+    
 }
