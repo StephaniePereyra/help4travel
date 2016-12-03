@@ -171,27 +171,29 @@ public class ProveedorMovil {
             }
             portFactura.persistirFactura(portReserva.obtenerReservaWS(numeroReserva).getCliente().getNickName(), numeroReserva, items);
             //
-            Reserva reserva = convertidor.convertirReserva(portReserva.obtenerReservaWS(numeroReserva));
+            uy.edu.cure.servidor.central.soap.client.Reserva reserva = portReserva.obtenerReservaWS(numeroReserva);
+            List<uy.edu.cure.servidor.central.soap.client.Servicio> serviciosAux = portReserva.obtenerServiciosReservaWS(numeroReserva);
+            List<uy.edu.cure.servidor.central.soap.client.Promocion> promocionesAux = portReserva.obtenerPromocionesReservaWS(numeroReserva);
             String correo = reserva.getCliente().getCorreo();
             String asunto = "H4T su compra ha sido facturada con exito";
             String cuerpo = "Estimado " + reserva.getCliente().getNickName() + " su compra ha sido realizada con exito. \n---Detalles de su compra:\n";
-            if (reserva.getServicios().isEmpty()) {
+            if (serviciosAux.isEmpty()) {
                 cuerpo = cuerpo + "-No tiene servicios contratados\n";
             } else {
                 cuerpo = cuerpo + "-Servicios:\n";
-                for (int i = 0; i < reserva.getServicios().size(); i++) {
-                    Servicio servicio = reserva.getServicios().get(i);
+                for (int i = 0; i < serviciosAux.size(); i++) {
+                    uy.edu.cure.servidor.central.soap.client.Servicio servicio = serviciosAux.get(i);
                     int cantidad = reserva.getCantidadServicios().get(i);
                     cuerpo = cuerpo + "Nombre: " + servicio.getNombre() + " -Cantidad: " + cantidad + " -Precio: $"
                             + servicio.getPrecio() * cantidad + " -Proveedor: " + servicio.getProveedor().getNickName() + "\n";
                 }
             }
-            if (reserva.getPromociones().isEmpty()) {
+            if (promocionesAux.isEmpty()) {
                 cuerpo = cuerpo + "-No tiene promociones contratadas\n";
             } else {
                 cuerpo = cuerpo + "-Promociones:\n";
-                for (int i = 0; i < reserva.getPromociones().size(); i++) {
-                    Promocion promocion = reserva.getPromociones().get(i);
+                for (int i = 0; i < promocionesAux.size(); i++) {
+                    uy.edu.cure.servidor.central.soap.client.Promocion promocion = promocionesAux.get(i);
                     int cantidad = reserva.getCantidadPromociones().get(i);
                     cuerpo = cuerpo + "Nombre: " + promocion.getNombre() + " -Cantidad: " + cantidad + " -Precio: $"
                             + promocion.getPrecioTotal() * cantidad + " -Proveedor: " + promocion.getProveedor().getNickName() + "\n";

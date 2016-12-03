@@ -275,7 +275,9 @@ public class DatosCliente {
         result = getStringFromInputStream(response.getEntity().getContent());
         facturaAux = mapper.readValue(result, Factura.class);
         //
-        Reserva reserva = convertidor.convertirReserva(portReserva.obtenerReservaWS(nroReserva));
+        uy.edu.cure.servidor.central.soap.client.Reserva reserva = portReserva.obtenerReservaWS(nroReserva);
+        List<uy.edu.cure.servidor.central.soap.client.Servicio> servicios = portReserva.obtenerServiciosReservaWS(nroReserva);
+        List<uy.edu.cure.servidor.central.soap.client.Promocion> promociones = portReserva.obtenerPromocionesReservaWS(nroReserva);
         //
         Document documento = new Document();
         Date date = new Date();
@@ -285,23 +287,23 @@ public class DatosCliente {
         documento.open();
         documento.add(new Paragraph("Su compra ha sido facturada con exito"));
         documento.add(new Paragraph("Detalle de su compra"));
-        if (reserva.getServicios().isEmpty()) {
+        if (servicios.isEmpty()) {
             documento.add(new Paragraph("-No tiene servicios contratados"));
         } else {
             documento.add(new Paragraph("-Servicios:"));
-            for (int i = 0; i < reserva.getServicios().size(); i++) {
-                Servicio servicio = reserva.getServicios().get(i);
+            for (int i = 0; i < servicios.size(); i++) {
+                uy.edu.cure.servidor.central.soap.client.Servicio servicio = servicios.get(i);
                 int cantidad = reserva.getCantidadServicios().get(i);
                 documento.add(new Paragraph("Nombre: " + servicio.getNombre() + " -Cantidad: " + cantidad + " -Precio: $"
                         + servicio.getPrecio() * cantidad + " -Proveedor: " + servicio.getProveedor().getNickName()));
             }
         }
-        if (reserva.getPromociones().isEmpty()) {
+        if (promociones.isEmpty()) {
             documento.add(new Paragraph("-No tiene promociones contratadas"));
         } else {
             documento.add(new Paragraph("-Promociones:"));
-            for (int i = 0; i < reserva.getPromociones().size(); i++) {
-                Promocion promocion = reserva.getPromociones().get(i);
+            for (int i = 0; i < promociones.size(); i++) {
+                uy.edu.cure.servidor.central.soap.client.Promocion promocion = promociones.get(i);
                 int cantidad = reserva.getCantidadPromociones().get(i);
                 documento.add(new Paragraph("Nombre: " + promocion.getNombre() + " -Cantidad: " + cantidad + " -Precio: $"
                         + promocion.getPrecioTotal() * cantidad + " -Proveedor: " + promocion.getProveedor().getNickName()));
