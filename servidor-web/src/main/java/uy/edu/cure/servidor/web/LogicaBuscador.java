@@ -236,7 +236,7 @@ public class LogicaBuscador {
         portCiudad.crearCiudadWS("Rocha", "Uruguay");
         // -- Clientes --
 
-        portUsuario.crearClienteWS("Cliente1", "nombre1", "apellido1", "grupoReZarpado@gmail.com", 10, 10, 1995, "images/perfil/default.png", "password1", "password1");
+        portUsuario.crearClienteWS("Cliente1", "nombre1", "apellido1", "help4travelzarpado@gmail.com", 10, 10, 1995, "images/perfil/default.png", "password1", "password1");
         portUsuario.crearClienteWS("Cliente2", "nombre2", "apellido2", "correo@correo2", 29, 2, 1996, "images/perfil/default.png", "password2", "password2");    
         
         // -- Proveedores --
