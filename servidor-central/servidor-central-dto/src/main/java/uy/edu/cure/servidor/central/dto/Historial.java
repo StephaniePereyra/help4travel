@@ -19,7 +19,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table (name = "historial")
-@NamedQueries(value = { @NamedQuery(name = "getHistorial", query = "select * from Historial") })
+@NamedQueries(value = { @NamedQuery(name = "getHistorial", query = "SELECT h FROM Historial h") })
 public class Historial {
     
     @Id
