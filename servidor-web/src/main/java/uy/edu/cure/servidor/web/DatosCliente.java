@@ -36,6 +36,7 @@ import uy.edu.cure.servidor.central.dto.Promocion;
 import uy.edu.cure.servidor.central.dto.Reserva;
 import uy.edu.cure.servidor.central.dto.Servicio;
 import uy.edu.cure.servidor.central.soap.client.ReservaWS;
+import uy.edu.cure.servidor.central.soap.client.ReservaWSImplService;
 import uy.edu.cure.servidor.central.soap.client.UsuarioWS;
 import uy.edu.cure.servidor.central.soap.client.UsuarioWSImplService;
 
@@ -261,7 +262,7 @@ public class DatosCliente {
     }
 
     public String actionPDF(Integer nroReserva) throws IOException, DocumentException {
-        Factura facturaAux;
+        Factura facturaAux = new Factura();
         String url;
         String numeroReserva = nroReserva.toString();
         //
@@ -275,6 +276,10 @@ public class DatosCliente {
         result = getStringFromInputStream(response.getEntity().getContent());
         facturaAux = mapper.readValue(result, Factura.class);
         //
+        ReservaWSImplService reservaWSImplService = null;
+        reservaWSImplService = new ReservaWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/ReservaWSImplService?wsdl"));
+        portReserva = reservaWSImplService.getReservaWSImplPort();
+        
         uy.edu.cure.servidor.central.soap.client.Reserva reserva = portReserva.obtenerReservaWS(nroReserva);
         List<uy.edu.cure.servidor.central.soap.client.Servicio> servicios = portReserva.obtenerServiciosReservaWS(nroReserva);
         List<uy.edu.cure.servidor.central.soap.client.Promocion> promociones = portReserva.obtenerPromocionesReservaWS(nroReserva);

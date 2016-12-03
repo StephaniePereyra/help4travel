@@ -3,7 +3,6 @@
   <persistence-unit name="jpaDS">
     <class>uy.edu.cure.servidor.central.dto.Factura</class>
     <class>uy.edu.cure.servidor.central.dto.ItemsFactura</class>
-    <class>uy.edu.cure.servidor.central.dto.Historial</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/Help4Travel"/>
