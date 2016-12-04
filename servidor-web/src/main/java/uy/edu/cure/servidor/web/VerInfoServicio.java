@@ -5,7 +5,6 @@
  */
 package uy.edu.cure.servidor.web;
 
-import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -20,8 +19,8 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import uy.edu.cure.servidor.central.dto.Categoria;
 import uy.edu.cure.servidor.central.dto.Servicio;
-import uy.edu.cure.servidor.central.lib.RankigControllerImpl;
-import uy.edu.cure.servidor.central.lib.jeringa.JeringaInjector;
+import uy.edu.cure.servidor.central.soap.client.RankigWSImplService;
+import uy.edu.cure.servidor.central.soap.client.RankingWS;
 import uy.edu.cure.servidor.central.soap.client.ServicioWS;
 import uy.edu.cure.servidor.central.soap.client.ServicioWSImplService;
 
@@ -57,8 +56,18 @@ public class VerInfoServicio {
         Map<String,String> params = facec.getExternalContext().getRequestParameterMap();
         nombre =  params.get("nombreServicio"); 
         proveedor =  params.get("proveedorServicio");
-        RankigControllerImpl rankigController = new RankigControllerImpl();
-        rankigController.rankear(nombre, proveedor);
+        
+        RankigWSImplService rankigWSImplService = null;
+        RankingWS portRank;
+    
+        try {
+            rankigWSImplService = new RankigWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/RankigWSImplService?wsdl"));
+        } catch (MalformedURLException ex) {
+        }
+        portRank = rankigWSImplService.getRankigWSImplPort();
+        portRank.rankear(nombre, proveedor);
+        //RankigControllerImpl rankigController = new RankigControllerImpl();
+        //rankigController.rankear(nombre, proveedor);
         return "InfoServicio";
     }
 
