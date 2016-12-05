@@ -115,10 +115,12 @@ public class Principal extends javax.swing.JFrame {
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenuItem12 = new javax.swing.JMenuItem();
-        Historial = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem9 = new javax.swing.JMenuItem();
         jMenuItem10 = new javax.swing.JMenuItem();
+        jMenu4 = new javax.swing.JMenu();
+        jMenuItem13 = new javax.swing.JMenuItem();
+        jMenuItem14 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -234,14 +236,6 @@ public class Principal extends javax.swing.JFrame {
         });
         jMenu2.add(jMenuItem12);
 
-        Historial.setText("Historial");
-        Historial.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                HistorialActionPerformed(evt);
-            }
-        });
-        jMenu2.add(Historial);
-
         jMenuBar1.add(jMenu2);
 
         jMenu3.setText("Actualizar");
@@ -263,6 +257,26 @@ public class Principal extends javax.swing.JFrame {
         jMenu3.add(jMenuItem10);
 
         jMenuBar1.add(jMenu3);
+
+        jMenu4.setText("Estadisticas");
+
+        jMenuItem13.setText("Historial");
+        jMenuItem13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem13ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem13);
+
+        jMenuItem14.setText("Ranking");
+        jMenuItem14.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem14ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem14);
+
+        jMenuBar1.add(jMenu4);
 
         setJMenuBar(jMenuBar1);
 
@@ -418,6 +432,16 @@ public class Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_HistorialActionPerformed
 
+    private void jMenuItem13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem13ActionPerformed
+        Historial historial = new Historial();
+        historial.setVisible(true);
+    }//GEN-LAST:event_jMenuItem13ActionPerformed
+
+    private void jMenuItem14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem14ActionPerformed
+        Rankig ranking = new Rankig();
+        ranking.setVisible(true);
+    }//GEN-LAST:event_jMenuItem14ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -456,15 +480,17 @@ public class Principal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BotonSalir;
     private javax.swing.JDesktopPane ContenedordeForms;
-    private javax.swing.JMenuItem Historial;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
     private javax.swing.JMenuItem jMenuItem11;
     private javax.swing.JMenuItem jMenuItem12;
+    private javax.swing.JMenuItem jMenuItem13;
+    private javax.swing.JMenuItem jMenuItem14;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
