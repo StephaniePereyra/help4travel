@@ -7,8 +7,14 @@ package uy.edu.cure.estacion.de.trabajo;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
+import javax.swing.RowFilter;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import uy.edu.cure.servidor.central.soap.client.RankigWSImplService;
 import uy.edu.cure.servidor.central.soap.client.RankingWS;
+
 /**
  *
  * @author juan
@@ -19,24 +25,41 @@ public class Rankig extends javax.swing.JFrame {
      * Creates new form Rankig
      */
     public Rankig() {
-        
+
         String ranking = "Proveedor     Servicio        Visitas\n\n";
         RankigWSImplService rankigWSImplService = null;
         RankingWS portRank;
-    
+
         try {
             rankigWSImplService = new RankigWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/RankigWSImplService?wsdl"));
         } catch (MalformedURLException ex) {
         }
         portRank = rankigWSImplService.getRankigWSImplPort();
-        for(int i =0; i< portRank.obtenerRanking().size();i++){
+        for (int i = 0; i < portRank.obtenerRanking().size(); i++) {
             ranking = ranking + portRank.obtenerRanking().get(i).getProveedor() + "     " + portRank.obtenerRanking().get(i).getServicio() + "      " + portRank.obtenerRanking().get(i).getVisitas() + "\n";
-            
-        }      
-        
+
+        }
+
         initComponents();
-        RText.setText(ranking);
-        
+        Object col[] = {"Proveedor", "Servicio", "Visitas"};
+        DefaultTableModel tablemodel = new DefaultTableModel(new Object[0][0], col);
+        List<uy.edu.cure.servidor.central.soap.client.Ranking> Ranking = portRank.obtenerRanking();
+
+        for (int i = 0; i < Ranking.size(); i++) {
+            Object[] objs = new Object[3];
+
+            objs[0] = Ranking.get(i).getProveedor();
+            objs[1] = Ranking.get(i).getServicio();
+            objs[2] = Ranking.get(i).getVisitas();
+
+            tablemodel.addRow(objs);
+        }
+
+        jTable1.setModel(tablemodel);
+
+        TableRowSorter<TableModel> elQueOrdena = new TableRowSorter<TableModel>(tablemodel);
+        jTable1.setRowSorter(elQueOrdena);
+
     }
 
     /**
@@ -48,24 +71,38 @@ public class Rankig extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        RText = new javax.swing.JTextPane();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jScrollPane1.setViewportView(RText);
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(jTable1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 375, Short.MAX_VALUE)
+                .addGap(13, 13, 13))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
+                .addGap(13, 13, 13)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -108,7 +145,7 @@ public class Rankig extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextPane RText;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }
