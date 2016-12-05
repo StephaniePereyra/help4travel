@@ -18,5 +18,7 @@ import uy.edu.cure.servidor.central.dto.Historial;
 public interface HistorialWS {
     
     @WebMethod public void crearHistorial(String ipAdd, String userAgent, String url);
+    
+    @WebMethod public List<Historial> getHistorial();
         
 }

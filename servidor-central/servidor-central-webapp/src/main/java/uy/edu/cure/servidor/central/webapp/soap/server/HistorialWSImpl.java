@@ -5,10 +5,12 @@
  */
 package uy.edu.cure.servidor.central.webapp.soap.server;
 
+import java.util.List;
 import javax.jws.WebService;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import uy.edu.cure.servidor.central.dto.Historial;
 import uy.edu.cure.servidor.central.lib.HistorialControllerImpl;
 
@@ -44,5 +46,25 @@ public class HistorialWSImpl implements HistorialWS {
 
         }
 
+    }
+
+    @Override
+    public List<Historial> getHistorial() {
+    
+            try {
+                EntityManagerFactory emf;
+                emf = Persistence.createEntityManagerFactory("jpaDS");
+                EntityManager em = (EntityManager) emf.createEntityManager();
+
+             
+                em.getTransaction().begin();
+                Query q = em.createNamedQuery("getHistorial"); 
+                return q.getResultList();
+               
+
+            } catch (Exception e) {
+
+            }
+            return null;
     }
 }
