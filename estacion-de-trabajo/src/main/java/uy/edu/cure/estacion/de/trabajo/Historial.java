@@ -7,6 +7,9 @@ package uy.edu.cure.estacion.de.trabajo;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 import uy.edu.cure.servidor.central.soap.client.HistorialWS;
 import uy.edu.cure.servidor.central.soap.client.HistorialWSImplService;
 
@@ -20,10 +23,14 @@ public class Historial extends javax.swing.JFrame {
      * Creates new form Historial
      */
     public Historial() {
-        String historial = "";
+        
+        initComponents();
+        
+        Object col[] = {"IP","Sistema Operativo","URL", "Navegador"};
+        DefaultTableModel tablemodel = new DefaultTableModel(new Object[0][0], col);
         
         HistorialWSImplService historialWSImplService = null;
-        HistorialWS portHistorial;
+        HistorialWS portHistorial = null;
     
         try {
             historialWSImplService = new HistorialWSImplService(new URL("http://localhost:8080/servidor-central-webapp/soap/HistorialWSImplService?wsdl"));
@@ -31,15 +38,19 @@ public class Historial extends javax.swing.JFrame {
         }
         
         portHistorial = historialWSImplService.getHistorialWSImplPort();
-        for(int i = 0; i<portHistorial.getHistorial().size();i++){
-            historial = historial + portHistorial.getHistorial().get(i).getIpAdd() + "      " + 
-                    portHistorial.getHistorial().get(i).getBrowser() + "    " + portHistorial.getHistorial().get(i).getSo() + "     " 
-                    + portHistorial.getHistorial().get(i).getUrl() + "\n";
+        
+        List<uy.edu.cure.servidor.central.soap.client.Historial> historialAux = portHistorial.getHistorial();
+        for(int i = 0; i<historialAux.size();i++){
+            Object[] objs = new Object[4];
+            
+            objs[0] = historialAux.get(i).getIpAdd();
+            objs[1] = historialAux.get(i).getSo();
+            objs[2] = historialAux.get(i).getUrl();
+            objs[3] = historialAux.get(i).getBrowser();
+
+            tablemodel.addRow(objs);
         }
-        
-        
-        initComponents();
-        HText.setText(historial);
+        jTable1.setModel(tablemodel);
     }
 
     /**
@@ -51,26 +62,38 @@ public class Historial extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        HText = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        HText.setText("jTextField1");
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(HText, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(31, 31, 31)
-                .addComponent(HText, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(14, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -113,6 +136,7 @@ public class Historial extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField HText;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }
