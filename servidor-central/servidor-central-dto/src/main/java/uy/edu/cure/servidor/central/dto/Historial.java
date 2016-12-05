@@ -34,7 +34,14 @@ public class Historial {
         this.url = url;
         this.browser = browser;
     }
-
+    
+    public Historial(){
+        this.ipAdd = "";
+        this.so = "";
+        this.url = "";
+        this.browser = ""; 
+    }
+           
     public String getIpAdd() {
         return ipAdd;
     }

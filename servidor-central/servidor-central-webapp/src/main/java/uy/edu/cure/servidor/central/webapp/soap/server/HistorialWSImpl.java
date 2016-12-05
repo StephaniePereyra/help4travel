@@ -58,12 +58,13 @@ public class HistorialWSImpl implements HistorialWS {
 
              
                 em.getTransaction().begin();
-                Query q = em.createNamedQuery("getHistorial"); 
-                return q.getResultList();
-               
+                Query q = em.createNamedQuery("getHistorial");
+                List<Historial> historialesAux;
+                historialesAux = q.getResultList();
+                return historialesAux;
 
             } catch (Exception e) {
-
+                e.printStackTrace();
             }
             return null;
     }
